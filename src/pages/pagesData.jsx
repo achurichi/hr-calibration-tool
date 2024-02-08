@@ -1,6 +1,8 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
+import { PATHS } from "../constants/routes";
+
 import Main from "./Main";
 import MotorCalibration from "./MotorCalibration";
 import Visemes from "./Visemes";
@@ -18,17 +20,17 @@ const pagesData = [
         title: "motor-calibration-redirect",
       },
       {
-        path: "motors",
+        path: PATHS.MOTORS,
         element: <MotorCalibration />,
         title: "motor-calibration",
       },
       {
-        path: "visemes",
+        path: PATHS.VISEMES,
         element: <Visemes />,
         title: "visemes",
       },
       {
-        path: "expressions",
+        path: PATHS.EXPRESSIONS,
         element: <Expressions />,
         title: "expressions",
       },
