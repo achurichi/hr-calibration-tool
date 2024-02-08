@@ -3,11 +3,18 @@ import { Route, Routes } from "react-router-dom";
 import pagesData from "./pagesData";
 
 const Router = () => {
-  const pageRoutes = pagesData.map(({ path, title, element }) => {
-    return <Route key={title} path={`/${path}`} element={element} />;
-  });
+  const getRoutes = (pagesData) => {
+    return pagesData.map(({ path, title, element, routes }) => (
+      <Route
+        children={routes ? getRoutes(routes) : undefined}
+        element={element}
+        key={title}
+        path={`/${path}`}
+      />
+    ));
+  };
 
-  return <Routes>{pageRoutes}</Routes>;
+  return <Routes>{getRoutes(pagesData)}</Routes>;
 };
 
 export default Router;

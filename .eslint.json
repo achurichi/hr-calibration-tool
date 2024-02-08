@@ -16,5 +16,7 @@
     }
   },
   "plugins": ["react", "react-hooks"],
-  "rules": {}
+  "rules": {
+    "no-else-return": "error"
+  }
 }
