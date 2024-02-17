@@ -1,16 +1,34 @@
 import React from "react";
 
-import MotorsFilter from "./MotorsFilter";
-import MotorsTable from "./MotorsTable";
+import { BsPencil } from "react-icons/bs";
+
+import { MOTORS } from "constants/motors";
+
+import ClickableIcon from "components/ClickableIcon";
+import Table from "components/Table";
+import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
 import "./MotorCalibration.scss";
 
+const TABLE_HEADERS = { id: "Id", name: "Name", group: "Group", action: "" };
+
 const MotorCalibration = () => {
+  const rows = MOTORS.map((item) => {
+    return {
+      ...item,
+      action: (
+        <ClickableIcon>
+          <BsPencil />
+        </ClickableIcon>
+      ),
+    };
+  });
+
   return (
     <div className="container">
       <div className="internal-container">
         <MotorsFilter />
-        <MotorsTable />
+        <Table headers={TABLE_HEADERS} hover rows={rows} />
       </div>
     </div>
   );
