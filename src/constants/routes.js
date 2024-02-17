@@ -1,5 +1,6 @@
 export const PATHS = {
-  MOTORS: "motors",
-  VISEMES: "visemes",
-  EXPRESSIONS: "expressions",
+  MOTORS: "/motors",
+  MOTOR_CONFIGURE: "/motors/calibration",
+  VISEMES: "/visemes",
+  EXPRESSIONS: "/expressions",
 };

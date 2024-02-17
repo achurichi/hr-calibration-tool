@@ -1,12 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import { PATHS } from "../constants/routes";
+import { PATHS } from "constants/routes";
 
-import Main from "./Main";
-import MotorCalibration from "./MotorCalibration";
-import Visemes from "./Visemes";
-import Expressions from "./Expressions";
+import Expressions from "pages/Expressions";
+import Main from "pages/Main";
+import MotorCalibration from "pages/MotorCalibration";
+import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration";
+import Visemes from "pages/Visemes";
 
 const pagesData = [
   {
@@ -23,6 +24,11 @@ const pagesData = [
         path: PATHS.MOTORS,
         element: <MotorCalibration />,
         title: "motor-calibration",
+      },
+      {
+        path: PATHS.MOTOR_CONFIGURE,
+        element: <MotorConfiguration />,
+        title: "motor-configure",
       },
       {
         path: PATHS.VISEMES,
