@@ -1,0 +1,14 @@
+.motor-config-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem;
+  max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.motor-select {
+  width: 100%;
+  height: fit-content;
+}

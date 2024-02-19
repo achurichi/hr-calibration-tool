@@ -1,0 +1,15 @@
+.carousel-image {
+  max-width: 25rem;
+}
+
+.slick-slide {
+  margin: 0 1rem;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

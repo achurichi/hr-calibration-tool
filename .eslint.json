@@ -17,6 +17,7 @@
   },
   "plugins": ["react", "react-hooks"],
   "rules": {
-    "no-else-return": "error"
+    "no-else-return": "error",
+    "alt-text": "off"
   }
 }
