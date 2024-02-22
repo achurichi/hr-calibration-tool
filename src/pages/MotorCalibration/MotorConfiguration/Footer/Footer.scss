@@ -1,0 +1,41 @@
+.motor-config-footer {
+  background-color: var(--gray-100);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  white-space: nowrap;
+}
+
+.motor-config-navigation {
+  display: flex;
+  gap: 1rem;
+}
+
+.motor-status {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+
+  .motor-current-position {
+    max-width: 30rem;
+    width: 100%;
+  }
+
+  .motor-load {
+    max-width: 10rem;
+    width: 100%;
+  }
+
+  > *:not(:last-child) {
+    height: 100%;
+    padding-right: 1rem;
+    border-right: 1px solid var(--gray-300);
+  }
+}
+
+.motor-footer-form {
+  display: flex;
+  align-items: center;
+}

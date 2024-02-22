@@ -1,0 +1,15 @@
+.progress-bar-with-label {
+  height: 0.5rem;
+  width: 100%;
+}
+
+.progress-container-bottom {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.progress-value {
+  font-size: 0.75rem;
+  line-height: 0.5rem;
+}

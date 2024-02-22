@@ -12,7 +12,7 @@ const Slider = ({ className }) => {
   return (
     <div className={classNames(className, "slider-container")}>
       <ClickableIcon className="slider-button-container">
-        <BsDashCircleFill color="var(--primary)" />
+        <BsDashCircleFill color="var(--primary)" size={20} />
       </ClickableIcon>
       <RcSlider
         className="rc-slider"
@@ -27,7 +27,7 @@ const Slider = ({ className }) => {
         }}
       />
       <ClickableIcon className="slider-button-container">
-        <BsPlusCircleFill color="var(--primary)" />
+        <BsPlusCircleFill color="var(--primary)" size={20} />
       </ClickableIcon>
     </div>
   );
