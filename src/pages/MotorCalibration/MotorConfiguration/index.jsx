@@ -58,6 +58,7 @@ const MotorConfiguration = () => {
                 description={configuration.description}
                 images={configuration.images}
                 key={configuration.title}
+                title={configuration.title}
               />
             ))}
           </div>

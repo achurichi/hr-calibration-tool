@@ -8,7 +8,7 @@ import ClickableIcon from "components/ClickableIcon";
 import "rc-slider/assets/index.css";
 import "./Slider.scss";
 
-const Slider = ({ className }) => {
+const Slider = ({ className, ...sliderProps }) => {
   return (
     <div className={classNames(className, "slider-container")}>
       <ClickableIcon className="slider-button-container">
@@ -25,6 +25,7 @@ const Slider = ({ className }) => {
           },
           track: { backgroundColor: "var(--primary)" },
         }}
+        {...sliderProps}
       />
       <ClickableIcon className="slider-button-container">
         <BsPlusCircleFill color="var(--primary)" size={20} />
