@@ -1,13 +1,13 @@
-.slider-container {
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.slider-button-container {
+.clickable-button {
   display: flex;
 }
 
-.rc-slider {
+.slider {
   margin: 0 0.75rem;
 }

@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import ReactProgressBar from "react-bootstrap/ProgressBar";
 
-import "./ProgressBar.scss";
+import styles from "./ProgressBar.module.scss";
 
 const ProgressBar = ({
   className,
@@ -15,12 +15,12 @@ const ProgressBar = ({
   return (
     <div className={containerClassName}>
       <div>{topLabel}</div>
-      <div className="progress-container-bottom">
+      <div className={styles["progress-wrapper"]}>
         <ReactProgressBar
-          className={classNames("progress-bar-with-label", className)}
+          className={classNames(styles.progress, className)}
           {...props}
         />
-        {showCurrentValue && <div className="progress-value">2048</div>}
+        {showCurrentValue && <div className={styles.value}>2048</div>}
       </div>
     </div>
   );

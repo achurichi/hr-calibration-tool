@@ -10,7 +10,7 @@ import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 import Table from "components/Table/Table";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
-import "./MotorCalibration.scss";
+import styles from "./MotorCalibration.module.scss";
 
 const TABLE_HEADERS = { id: "Id", name: "Name", group: "Group", action: "" };
 
@@ -29,8 +29,8 @@ const MotorCalibration = () => {
   });
 
   return (
-    <div className="container">
-      <div className="internal-container">
+    <div className={styles.container}>
+      <div className={styles["internal-container"]}>
         <MotorsFilter />
         <Table headers={TABLE_HEADERS} hover rows={rows} />
       </div>

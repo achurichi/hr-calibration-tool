@@ -3,18 +3,18 @@ import Select from "react-select";
 
 import { GROUPS } from "../../constants/motors";
 
-import Searchbar from "../../components/Searchbar/Searchbar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
-import "./MotorsFilter.scss";
+import styles from "./MotorsFilter.module.scss";
 
 const MotorsFilter = () => {
   const options = Object.values(GROUPS).map((g) => ({ value: g, label: g }));
 
   return (
-    <div className="filter">
-      <Searchbar placeholder="Search by Name or Id" />
+    <div className={styles.filter}>
+      <SearchBar placeholder="Search by Name or Id" />
       <Select
-        className="select"
+        className={styles.select}
         isClearable
         options={options}
         placeholder="Group"

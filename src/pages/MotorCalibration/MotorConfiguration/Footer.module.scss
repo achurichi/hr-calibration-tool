@@ -1,4 +1,4 @@
-.motor-config-footer {
+.footer {
   background-color: var(--gray-100);
   display: flex;
   gap: 1rem;
@@ -7,18 +7,18 @@
   white-space: nowrap;
 }
 
-.motor-config-navigation {
+.navigation {
   display: flex;
   gap: 1rem;
 }
 
-.motor-status {
+.status {
   align-items: center;
   display: flex;
   gap: 1rem;
   width: 100%;
 
-  .motor-current-position {
+  .current-position {
     max-width: 30rem;
     width: 100%;
   }
@@ -35,7 +35,7 @@
   }
 }
 
-.motor-footer-form {
+.form {
   display: flex;
   align-items: center;
 }

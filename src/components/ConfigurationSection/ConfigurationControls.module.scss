@@ -1,23 +1,23 @@
-.calibration-slider {
+.slider {
   margin: 0 0.5rem;
 }
 
-.calibration-slider-container {
+.container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.calibration-configuration-container {
+.configuration {
   display: flex;
   justify-content: space-between;
 }
 
-.motor-value-input {
+.value-input {
   width: 5rem;
 }
 
-.calibration-actions-container {
+.actions {
   display: flex;
   gap: 0.75rem;
 }

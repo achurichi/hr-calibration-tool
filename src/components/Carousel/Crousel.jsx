@@ -1,11 +1,11 @@
 import React from "react";
 import Slider from "react-slick";
 
-import "./Carousel.scss";
+import styles from "./Carousel.module.scss";
 
 const Carousel = ({ images }) => {
   if (images.length === 1) {
-    return <img className="carousel-image" src={images[0]} />;
+    return <img className={styles.image} src={images[0]} />;
   }
 
   return (
@@ -18,7 +18,7 @@ const Carousel = ({ images }) => {
       variableWidth
     >
       {images.map((image, index) => (
-        <img className="carousel-image" key={index} src={image} />
+        <img className={styles.image} key={index} src={image} />
       ))}
     </Slider>
   );

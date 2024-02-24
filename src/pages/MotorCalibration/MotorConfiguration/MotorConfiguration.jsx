@@ -7,7 +7,7 @@ import { MOTORS } from "constants/motors";
 import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 
-import "./MotorConfiguration.scss";
+import styles from "./MotorConfiguration.module.scss";
 
 const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
@@ -42,17 +42,17 @@ const MotorConfiguration = () => {
   const [selectedMotor, setSelectedMotor] = useState(MOTOR_OPTIONS[0]);
 
   return (
-    <div className="motor-config-wrapper">
-      <div className="motor-config-container">
-        <div className="motor-config-internal-container">
-          <div className="motor-select-container">
+    <div className={styles.container}>
+      <div className={styles["config-container"]}>
+        <div className={styles["config-internal-container"]}>
+          <div className={styles["select-container"]}>
             <Select
               onChange={setSelectedMotor}
               options={MOTOR_OPTIONS}
               value={selectedMotor}
             />
           </div>
-          <div className="motor-config-sections-container">
+          <div className={styles.configs}>
             {CONFIGURATIONS.map((configuration) => (
               <ConfigurationSection
                 description={configuration.description}

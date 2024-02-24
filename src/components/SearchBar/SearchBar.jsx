@@ -3,17 +3,17 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { BsSearch } from "react-icons/bs";
 
-import "./Searchbar.scss";
+import styles from "./SearchBar.module.scss";
 
-function Searchbar({ placeholder = "Search" }) {
+function SearchBar({ placeholder = "Search" }) {
   return (
     <InputGroup>
       <Form.Control placeholder={placeholder} />
-      <InputGroup.Text className="icon">
+      <InputGroup.Text className={styles.icon}>
         <BsSearch />
       </InputGroup.Text>
     </InputGroup>
   );
 }
 
-export default Searchbar;
+export default SearchBar;

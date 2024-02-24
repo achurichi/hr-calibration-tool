@@ -1,21 +1,21 @@
-.motor-config-wrapper {
+.container {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.motor-config-container {
+.config-container {
   height: 100%;
   overflow-x: hidden;
   padding: 0 2rem 1rem;
 }
 
-.motor-config-internal-container {
+.config-internal-container {
   margin: auto;
   max-width: 60rem;
 }
 
-.motor-select-container {
+.select-container {
   background-color: white;
   height: fit-content;
   padding: 2rem 0 1rem;
@@ -25,7 +25,7 @@
   z-index: 100;
 }
 
-.motor-config-sections-container {
+.configs {
   display: flex;
   flex-direction: column;
   gap: 2rem;

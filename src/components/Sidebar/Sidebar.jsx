@@ -8,7 +8,7 @@ import { GiLips } from "react-icons/gi";
 
 import { PATHS } from "../../constants/routes";
 
-import "./Sidebar.scss";
+import styles from "./Sidebar.module.scss";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -22,36 +22,36 @@ const Sidebar = () => {
   };
 
   return (
-    <Nav className="sidebar" onSelect={(route) => navigate(route)}>
-      <div className="collapse">
+    <Nav className={styles.sidebar} onSelect={(route) => navigate(route)}>
+      <div className={styles.collapse}>
         <BsChevronLeft size={20} />
       </div>
       <Nav.Item
-        className={classNames("item", {
-          selected: selected.motorsCalibration,
+        className={classNames(styles.item, {
+          [styles.selected]: selected.motorsCalibration,
         })}
       >
-        <Nav.Link className="link" eventKey={PATHS.MOTORS}>
+        <Nav.Link className={styles.link} eventKey={PATHS.MOTORS}>
           <BsWrench size={20} />
           Motors calibration
         </Nav.Link>
       </Nav.Item>
       <Nav.Item
-        className={classNames("item", {
-          selected: selected.visemesCalibration,
+        className={classNames(styles.item, {
+          [styles.selected]: selected.visemesCalibration,
         })}
       >
-        <Nav.Link className="link" eventKey={PATHS.VISEMES}>
+        <Nav.Link className={styles.link} eventKey={PATHS.VISEMES}>
           <GiLips size={20} />
           Visemes calibration
         </Nav.Link>
       </Nav.Item>
       <Nav.Item
-        className={classNames("item", {
-          selected: selected.expressionsCalibration,
+        className={classNames(styles.item, {
+          [styles.selected]: selected.expressionsCalibration,
         })}
       >
-        <Nav.Link className="link" eventKey={PATHS.EXPRESSIONS}>
+        <Nav.Link className={styles.link} eventKey={PATHS.EXPRESSIONS}>
           <BsEmojiLaughing size={20} />
           Expressions calibration
         </Nav.Link>

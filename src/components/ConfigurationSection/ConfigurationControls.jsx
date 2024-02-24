@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "components/Button/Button";
 import Slider from "components/Slider/Slider";
 
-import "./ConfigurationControls.scss";
+import styles from "./ConfigurationControls.module.scss";
 
 const DEFAULT_SLIDER_VALUE = 2048;
 
@@ -13,24 +13,24 @@ const CalibrationSlider = () => {
   const [sliderValue, setSliderValue] = useState(DEFAULT_SLIDER_VALUE);
 
   return (
-    <div className="calibration-slider-container">
+    <div className={styles.container}>
       <Slider
-        className="calibration-slider"
+        className={styles.slider}
         defaultValue={DEFAULT_SLIDER_VALUE}
         max={4096}
         min={0}
         onChange={setSliderValue}
       />
-      <div className="calibration-configuration-container">
-        <div className="calibration-actions-container">
+      <div className={styles.configuration}>
+        <div className={styles.actions}>
           <Form.Control
-            className="motor-value-input"
+            className={styles["value-input"]}
             placeholder="Value"
             value={sliderValue}
           />
           <Button>Set</Button>
         </div>
-        <div className="calibration-actions-container">
+        <div className={styles.actions}>
           <Button tooltip="Save value in motor memeory">Save</Button>
           <Button tooltip="Copy current motor position and save in memeory">
             Copy

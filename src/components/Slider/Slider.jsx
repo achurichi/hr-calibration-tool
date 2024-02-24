@@ -6,16 +6,16 @@ import { BsDashCircleFill, BsPlusCircleFill } from "react-icons/bs";
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 
 import "rc-slider/assets/index.css";
-import "./Slider.scss";
+import styles from "./Slider.module.scss";
 
 const Slider = ({ className, ...sliderProps }) => {
   return (
-    <div className={classNames(className, "slider-container")}>
-      <ClickableIcon className="slider-button-container">
+    <div className={classNames(className, styles.container)}>
+      <ClickableIcon className={styles["clickable-button"]}>
         <BsDashCircleFill color="var(--primary)" size={20} />
       </ClickableIcon>
       <RcSlider
-        className="rc-slider"
+        className={styles.slider}
         styles={{
           handle: {
             backgroundColor: "white",
@@ -27,7 +27,7 @@ const Slider = ({ className, ...sliderProps }) => {
         }}
         {...sliderProps}
       />
-      <ClickableIcon className="slider-button-container">
+      <ClickableIcon className={styles["clickable-button"]}>
         <BsPlusCircleFill color="var(--primary)" size={20} />
       </ClickableIcon>
     </div>

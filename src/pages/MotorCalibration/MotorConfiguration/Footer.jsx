@@ -5,13 +5,13 @@ import Form from "react-bootstrap/Form";
 import Button from "components/Button/Button";
 import ProgressBar from "components/ProgressBar/ProgressBar";
 
-import "./Footer.scss";
+import styles from "./Footer.module.scss";
 
 const Footer = () => {
   return (
-    <div className="motor-config-footer">
-      <div className="motor-status">
-        <Form className="motor-footer-form">
+    <div className={styles.footer}>
+      <div className={styles.status}>
+        <Form className={styles.form}>
           <Form.Check
             type="checkbox"
             id="enable-torque"
@@ -19,22 +19,20 @@ const Footer = () => {
           />
         </Form>
         <ProgressBar
-          containerClassName="motor-current-position"
+          containerClassName={styles["current-position"]}
           now={50}
           showCurrentValue
           topLabel="Motor current position"
         />
         <ProgressBar
-          containerClassName="motor-load"
+          containerClassName={styles["motor-load"]}
           now={50}
           topLabel="Motor load"
         />
       </div>
-      <div className="motor-config-navigation">
-        <Button className="motor-config-navigation-button">
-          Previous motor
-        </Button>
-        <Button className="nowrap">Next motor</Button>
+      <div className={styles.navigation}>
+        <Button>Previous motor</Button>
+        <Button>Next motor</Button>
       </div>
     </div>
   );
