@@ -3,7 +3,7 @@ import classNames from "classnames";
 import RcSlider from "rc-slider";
 import { BsDashCircleFill, BsPlusCircleFill } from "react-icons/bs";
 
-import ClickableIcon from "components/ClickableIcon";
+import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 
 import "rc-slider/assets/index.css";
 import "./Slider.scss";

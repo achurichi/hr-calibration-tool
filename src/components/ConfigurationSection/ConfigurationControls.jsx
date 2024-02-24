@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import Form from "react-bootstrap/Form";
 
-import Button from "components/Button";
-import Slider from "components/Slider";
+import Button from "components/Button/Button";
+import Slider from "components/Slider/Slider";
 
 import "./ConfigurationControls.scss";
 

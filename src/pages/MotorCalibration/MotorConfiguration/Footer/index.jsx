@@ -2,8 +2,8 @@ import React from "react";
 
 import Form from "react-bootstrap/Form";
 
-import Button from "components/Button";
-import ProgressBar from "components/ProgressBar";
+import Button from "components/Button/Button";
+import ProgressBar from "components/ProgressBar/ProgressBar";
 
 import "./Footer.scss";
 

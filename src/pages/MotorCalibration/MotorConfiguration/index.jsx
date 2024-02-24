@@ -4,7 +4,7 @@ import Select from "react-select";
 
 import { MOTORS } from "constants/motors";
 
-import ConfigurationSection from "components/ConfigurationSection";
+import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 
 import "./MotorConfiguration.scss";

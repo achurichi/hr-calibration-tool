@@ -6,8 +6,8 @@ import { BsPencil } from "react-icons/bs";
 import { MOTORS } from "constants/motors";
 import { PATHS } from "constants/routes";
 
-import ClickableIcon from "components/ClickableIcon";
-import Table from "components/Table";
+import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import Table from "components/Table/Table";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
 import "./MotorCalibration.scss";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Carousel from "components/Carousel";
+import Carousel from "components/Carousel/Crousel";
 
 import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
 
