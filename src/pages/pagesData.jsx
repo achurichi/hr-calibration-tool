@@ -3,11 +3,11 @@ import { Navigate } from "react-router-dom";
 
 import { PATHS } from "constants/routes";
 
-import Expressions from "pages/Expressions";
+import Expressions from "pages/Expressions/Expressions";
 import Main from "pages/Main";
-import MotorCalibration from "pages/MotorCalibration";
-import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration";
-import Visemes from "pages/Visemes";
+import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
+import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
+import Visemes from "pages/Visemes/Visemes";
 
 const pagesData = [
   {
