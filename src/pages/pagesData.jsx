@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { PATHS } from "constants/routes";
 
 import Expressions from "pages/Expressions/Expressions";
+import ExpressionConfiguration from "pages/Expressions/ExpressionConfiguration/ExpressionConfiguration";
 import Main from "pages/Main";
 import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
 import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
@@ -45,6 +46,11 @@ const pagesData = [
         path: PATHS.EXPRESSIONS,
         element: <Expressions />,
         title: "expressions",
+      },
+      {
+        path: PATHS.EXPRESSION_CONFIGURE,
+        element: <ExpressionConfiguration />,
+        title: "expression-configure",
       },
     ],
   },
