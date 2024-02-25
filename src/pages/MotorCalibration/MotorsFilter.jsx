@@ -1,9 +1,9 @@
 import React from "react";
 import Select from "react-select";
 
-import { GROUPS } from "../../constants/motors";
+import { GROUPS } from "constants/motors";
 
-import SearchBar from "../../components/SearchBar/SearchBar";
+import SearchBar from "components/SearchBar/SearchBar";
 
 import styles from "./MotorsFilter.module.scss";
 

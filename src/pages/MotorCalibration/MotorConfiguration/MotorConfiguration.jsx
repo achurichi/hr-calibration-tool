@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import { MOTORS } from "constants/motors";
 
+import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
 import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 
@@ -59,7 +60,9 @@ const MotorConfiguration = () => {
                 images={configuration.images}
                 key={configuration.title}
                 title={configuration.title}
-              />
+              >
+                <ConfigurationControls />
+              </ConfigurationSection>
             ))}
           </div>
         </div>

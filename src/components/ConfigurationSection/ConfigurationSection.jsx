@@ -1,18 +1,25 @@
 import React from "react";
+import classNames from "classnames";
 
 import Carousel from "components/Carousel/Crousel";
 
-import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
-
 import styles from "./ConfigurationSection.module.scss";
 
-const ConfigurationSection = ({ description, images, title }) => {
+const ConfigurationSection = ({
+  children,
+  className,
+  description,
+  images,
+  title,
+}) => {
   return (
-    <div className={styles.container}>
-      {title && <div className="text-lg">{title}</div>}
-      {description && <div>{description}</div>}
-      {images && <Carousel images={images} />}
-      <ConfigurationControls />
+    <div>
+      <div className={classNames(styles.container, className)}>
+        {title && <div className="text-lg">{title}</div>}
+        {description && <div>{description}</div>}
+        {images && <Carousel images={images} />}
+      </div>
+      {children}
     </div>
   );
 };

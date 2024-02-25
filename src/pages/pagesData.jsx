@@ -8,6 +8,7 @@ import Main from "pages/Main";
 import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
 import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
 import Visemes from "pages/Visemes/Visemes";
+import VisemeConfiguration from "pages/Visemes/VisemeConfiguration/VisemeConfiguration";
 
 const pagesData = [
   {
@@ -34,6 +35,11 @@ const pagesData = [
         path: PATHS.VISEMES,
         element: <Visemes />,
         title: "visemes",
+      },
+      {
+        path: PATHS.VISEME_CONFIGURE,
+        element: <VisemeConfiguration />,
+        title: "viseme-configure",
       },
       {
         path: PATHS.EXPRESSIONS,

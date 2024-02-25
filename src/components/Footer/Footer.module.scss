@@ -1,0 +1,26 @@
+.footer {
+  background-color: var(--gray-100);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  white-space: nowrap;
+}
+
+.navigation {
+  display: flex;
+  gap: 1rem;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+
+  > *:not(:last-child) {
+    height: 100%;
+    padding-right: 1rem;
+    border-right: 1px solid var(--gray-300);
+  }
+}

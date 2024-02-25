@@ -10,18 +10,16 @@ import styles from "./Footer.module.scss";
 const Footer = () => {
   return (
     <FooterComponent
-      primaryButton={{ label: "Next motor" }}
-      secondaryButton={{ label: "Previous motor" }}
+      primaryButton={{ label: "Save" }}
+      secondaryButton={{ label: "Reset" }}
     >
       <Form className={styles.form}>
-        <Form.Check type="checkbox" id="enable-torque" label="Enable torque" />
+        <Form.Check
+          type="checkbox"
+          id="preview-robot"
+          label="Preview on the robot"
+        />
       </Form>
-      <ProgressBar
-        containerClassName={styles["current-position"]}
-        now={50}
-        showCurrentValue
-        topLabel="Motor current position"
-      />
       <ProgressBar
         containerClassName={styles["motor-load"]}
         now={50}
