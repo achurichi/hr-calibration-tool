@@ -1,22 +1,25 @@
 import React from "react";
 import ReactTable from "react-bootstrap/Table";
 
-const Table = ({ headers = {}, rows = {}, ...props }) => {
-  const headerKeys = Object.keys(headers);
-  const headerCells = [];
-  for (const key of headerKeys) {
-    const label = headers[key];
-    headerCells.push(<th key={key}>{label}</th>);
-  }
+const Table = ({ headers = [], rows = [], ...props }) => {
+  const headerKeys = headers.map((header) => header.key);
+  const headerCells = headers.map(({ key, label, ...props }) => {
+    return (
+      <th key={key} {...props}>
+        {label}
+      </th>
+    );
+  });
 
-  const contentRows = [];
-  for (const [rowIndex, item] of rows.entries()) {
-    const cells = [];
-    for (const [cellIndex, key] of headerKeys.entries()) {
-      cells.push(<td key={`row-${rowIndex}-${cellIndex}`}>{item[key]}</td>);
-    }
-    contentRows.push(<tr key={`row-${rowIndex}`}>{cells}</tr>);
-  }
+  const contentRows = rows.map((row, rowIndex) => {
+    return (
+      <tr key={`row-${rowIndex}`}>
+        {headerKeys.map((key, cellIndex) => {
+          return <td key={`row-${rowIndex}-${cellIndex}`}>{row[key]}</td>;
+        })}
+      </tr>
+    );
+  });
 
   return (
     <ReactTable {...props}>

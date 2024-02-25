@@ -3,31 +3,27 @@ import { useNavigate } from "react-router-dom";
 
 import { BsPencil } from "react-icons/bs";
 
-import { MOTORS } from "constants/motors";
-import { PATHS } from "constants/routes";
-
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import SearchBar from "components/SearchBar/SearchBar";
 import Table from "components/Table/Table";
-import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
-import styles from "./MotorCalibration.module.scss";
+import styles from "./AnimationsList.module.scss";
 
 const TABLE_HEADERS = [
   { key: "id", label: "Id", className: styles["id-column"] },
   { key: "name", label: "Name" },
-  { key: "group", label: "Group" },
   { key: "action", label: "", className: styles["action-column"] },
 ];
 
-const MotorCalibration = () => {
+const AnimationsList = ({ animations, actionLink }) => {
   const navigate = useNavigate();
 
-  const rows = MOTORS.map((item) => {
+  const rows = animations.map((item) => {
     return {
       ...item,
       action: (
         <ClickableIcon>
-          <BsPencil onClick={() => navigate(PATHS.MOTOR_CONFIGURE)} />
+          <BsPencil onClick={() => navigate(actionLink)} />
         </ClickableIcon>
       ),
     };
@@ -36,11 +32,11 @@ const MotorCalibration = () => {
   return (
     <div className={styles.container}>
       <div className={styles["internal-container"]}>
-        <MotorsFilter />
+        <SearchBar placeholder="Search by Name or Id" />
         <Table headers={TABLE_HEADERS} hover rows={rows} />
       </div>
     </div>
   );
 };
 
-export default MotorCalibration;
+export default AnimationsList;
