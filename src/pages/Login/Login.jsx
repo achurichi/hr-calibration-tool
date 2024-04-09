@@ -12,6 +12,7 @@ const Login = observer(() => {
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const redirectToMainPage = useCallback(() => {
     if (realmStore.getAuthenticated()) {
@@ -34,7 +35,9 @@ const Login = observer(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await realmStore.init(user, password);
+    setLoading(false);
     redirectToMainPage();
   };
 
@@ -44,29 +47,31 @@ const Login = observer(() => {
         <Form.Group controlId="formBasicUser">
           <Form.Label>User</Form.Label>
           <Form.Control
-            type="user"
-            placeholder="User"
-            value={user}
             onChange={handleUserChange}
+            placeholder="User"
+            type="user"
+            value={user}
           />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
+            autoComplete="on"
             onChange={handlePasswordChange}
+            placeholder="Password"
+            type="password"
+            value={password}
           />
         </Form.Group>
 
         <Button
-          variant="primary"
-          type="submit"
           className={styles["submit-btn"]}
+          disabled={loading}
+          type="submit"
+          variant="primary"
         >
-          Log In
+          {loading ? "Loading..." : "Log In"}
         </Button>
       </Form>
     </Container>
