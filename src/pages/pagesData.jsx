@@ -3,23 +3,24 @@ import { Navigate } from "react-router-dom";
 
 import { PATHS } from "constants/routes";
 
-import Expressions from "pages/Expressions/Expressions";
 import ExpressionConfiguration from "pages/Expressions/ExpressionConfiguration/ExpressionConfiguration";
+import Expressions from "pages/Expressions/Expressions";
+import Login from "pages/Login/Login";
 import Main from "pages/Main";
 import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
 import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
-import Visemes from "pages/Visemes/Visemes";
 import VisemeConfiguration from "pages/Visemes/VisemeConfiguration/VisemeConfiguration";
+import Visemes from "pages/Visemes/Visemes";
 
 const pagesData = [
   {
-    path: "",
+    path: "/",
     element: <Main />,
     title: "main",
     routes: [
       {
         path: "",
-        element: <Navigate to="/motors" />,
+        element: <Navigate to={PATHS.MOTORS} />,
         title: "motor-calibration-redirect",
       },
       {
@@ -53,6 +54,11 @@ const pagesData = [
         title: "expression-configure",
       },
     ],
+  },
+  {
+    path: PATHS.LOGIN,
+    element: <Login />,
+    title: "login",
   },
 ];
 
