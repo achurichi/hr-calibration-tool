@@ -23,9 +23,7 @@ const Sidebar = () => {
 
   return (
     <Nav className={styles.sidebar} onSelect={(route) => navigate(route)}>
-      <div className={styles.collapse}>
-        <BsChevronLeft size={20} />
-      </div>
+      <div className={styles.collapse}>{/* <BsChevronLeft size={20} /> */}</div>
       <Nav.Item
         className={classNames(styles.item, {
           [styles.selected]: selected.motorsCalibration,

@@ -12,17 +12,17 @@
 
 .config-internal-container {
   margin: auto;
-  max-width: 60rem;
+  // max-width: 60rem;
 }
 
 .select-container {
   background-color: white;
-  height: fit-content;
-  padding: 2rem 0 1rem;
-  position: sticky !important;
+  height: 5.25rem;
+  padding-top: 2rem;
+  position: sticky;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 10;
 }
 
 .configs {

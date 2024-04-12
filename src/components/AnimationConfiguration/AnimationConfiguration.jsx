@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Select from "react-select";
 
-import { GROUPS, MOTORS } from "constants/motors";
+import { MOTORS } from "constants/motors";
 
 import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "components/AnimationConfiguration/Footer";
@@ -18,11 +18,6 @@ const SAMPLE_IMAGES = [
   "https://placehold.co/600?text=Reference+image\\n600+x+600",
   "https://placehold.co/600?text=Reference+image\\n600+x+600",
 ];
-
-const GROUPS_OPTIONS = Object.values(GROUPS).map((group) => ({
-  label: group,
-  value: group,
-}));
 
 const MOTORS_NAMES = MOTORS.map((motor) => motor.name);
 
@@ -60,12 +55,6 @@ const AnimationConfiguration = ({ animations }) => {
               description={LOREM_IPSUM}
               images={SAMPLE_IMAGES}
             >
-              <Select
-                className={styles["group-select"]}
-                isClearable
-                options={GROUPS_OPTIONS}
-                placeholder="Group"
-              />
               <div className={styles.controls}>
                 {MOTORS_NAMES.map((name) => (
                   <Slider key={name} name={name} />
