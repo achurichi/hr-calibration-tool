@@ -54,6 +54,18 @@ class RealmStore {
   getMongoDB() {
     return this.mongoDB;
   }
+
+  async callFunction(functionName, ...args) {
+    const { result, error } = await this.app.currentUser.callFunction(
+      functionName,
+      ...args,
+    );
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    return JSON.parse(JSON.stringify(result));
+  }
 }
 
 export default RealmStore;

@@ -5,10 +5,15 @@ import { BsSearch } from "react-icons/bs";
 
 import styles from "./SearchBar.module.scss";
 
-function SearchBar({ placeholder = "Search" }) {
+function SearchBar({ placeholder = "Search", onChange }) {
   return (
     <InputGroup>
-      <Form.Control placeholder={placeholder} />
+      <Form.Control
+        placeholder={placeholder}
+        onChange={({ target }) => {
+          onChange(target.value);
+        }}
+      />
       <InputGroup.Text className={styles.icon}>
         <BsSearch />
       </InputGroup.Text>

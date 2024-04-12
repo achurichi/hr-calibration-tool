@@ -3,7 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import Nav from "react-bootstrap/Nav";
 
-import { BsChevronLeft, BsEmojiLaughing, BsWrench } from "react-icons/bs";
+import {
+  // BsChevronLeft,
+  BsEmojiLaughing,
+  BsWrench,
+} from "react-icons/bs";
 import { GiLips } from "react-icons/gi";
 
 import { PATHS } from "../../constants/routes";

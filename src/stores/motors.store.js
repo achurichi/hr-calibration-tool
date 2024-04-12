@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-import { MONGO_COLLECTIONS } from "constants/collections";
+import { FUNCTIONS } from "constants/mongo";
 
 class MotorsStore {
   rootStore;
@@ -9,12 +9,6 @@ class MotorsStore {
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.rootStore = root;
-  }
-
-  getCollection() {
-    return this.rootStore.realmStore
-      .getMongoDB()
-      .collection(MONGO_COLLECTIONS.motors);
   }
 
   setMotors(motors) {
@@ -28,9 +22,15 @@ class MotorsStore {
     return this.fetchMotors();
   }
 
-  async fetchMotors() {
-    const motors = await this.getCollection().find();
-    this.setMotors(motors);
+  async fetchMotors(groupId, searchString) {
+    const motors = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.MOTORS.GET_ALL,
+      groupId,
+      searchString,
+    );
+    if (motors) {
+      this.setMotors(motors);
+    }
     return motors;
   }
 }

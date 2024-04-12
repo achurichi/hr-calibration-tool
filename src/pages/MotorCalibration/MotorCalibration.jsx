@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsPencil } from "react-icons/bs";
 
+import { FILTER_IDS } from "constants/filters";
 import { PATHS } from "constants/routes";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
@@ -17,24 +18,25 @@ import styles from "./MotorCalibration.module.scss";
 const TABLE_HEADERS = [
   { key: "name", label: "Name", className: styles["id-column"] },
   { key: "description", label: "Description" },
-  { key: "group", label: "Group" },
+  { key: "groupName", label: "Group" },
   { key: "action", label: "", className: styles["action-column"] },
 ];
 
 const MotorCalibration = observer(() => {
-  const { motorsStore } = rootStore;
+  const { filtersStore, motorsStore } = rootStore;
   const navigate = useNavigate();
   const [motors, setMotors] = useState([]);
+  const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
+  const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
 
   useEffect(() => {
     const getMotors = async () => {
-      const motors = await motorsStore.getMotors();
-      setMotors(motors);
+      setMotors(await motorsStore.fetchMotors(selectedGroup?.id, searchFilter));
     };
 
     getMotors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchFilter, selectedGroup]);
 
   const rows = motors.map((item) => {
     return {
