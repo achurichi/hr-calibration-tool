@@ -1,10 +1,13 @@
 import { makeAutoObservable } from "mobx";
+import isEmpty from "lodash/isEmpty";
 
 import { FUNCTIONS } from "constants/mongo";
 
+import Group from "models/groups/Group";
+
 class GroupsStore {
   rootStore;
-  groups = null;
+  groups = [];
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -15,20 +18,22 @@ class GroupsStore {
     this.groups = groups;
   }
 
-  getGroups() {
-    if (this.groups) {
+  async getGroups() {
+    if (!isEmpty(this.groups)) {
       return this.groups;
     }
     return this.fetchGroups();
   }
 
   async fetchGroups() {
-    const groups = await this.rootStore.realmStore.callFunction(
+    let groupsData = await this.rootStore.realmStore.callFunction(
       FUNCTIONS.GROUPS.GET_ALL,
     );
-    if (groups) {
-      this.setGroups(groups);
+    if (!groupsData) {
+      groupsData = [];
     }
+    const groups = groupsData.map((groupData) => new Group(groupData));
+    this.setGroups(groups);
     return groups;
   }
 }

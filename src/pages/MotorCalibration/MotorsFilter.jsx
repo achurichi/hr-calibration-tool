@@ -24,7 +24,7 @@ const MotorsFilter = observer(() => {
   useEffect(() => {
     const getGroups = async () => {
       const groups = await groupsStore.getGroups();
-      setOptions(groups.map(({ _id, name }) => ({ value: _id, label: name })));
+      setOptions(groups.map(({ id, name }) => ({ value: id, label: name })));
     };
 
     getGroups();

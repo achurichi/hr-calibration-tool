@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-class GroupsStore {
+class FiltersStore {
   rootStore;
   filters = new Map();
 
@@ -18,4 +18,4 @@ class GroupsStore {
   }
 }
 
-export default GroupsStore;
+export default FiltersStore;

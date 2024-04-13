@@ -1,46 +1,78 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react";
 
 import Select from "react-select";
-
-import { MOTORS } from "constants/motors";
 
 import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
 import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 
+import rootStore from "stores/root.store";
+
 import styles from "./MotorConfiguration.module.scss";
 
-const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+const MotorConfiguration = observer(() => {
+  const { motorsStore, motorConfigurationStore } = rootStore;
+  const [motorOptions, setMotorOptions] = useState([]);
+  const [selectedMotor, setSelectedMotor] = useState(null);
+  const [configurationData, setConfigurationData] = useState([]);
+  const motorConfig = motorConfigurationStore.getMotorConfig();
 
-const SAMPLE_IMAGES = [
-  "https://placehold.co/600?text=Reference+image\\n600+x+600",
-];
+  useEffect(() => {
+    const getOptions = async () => {
+      const motors = await motorsStore.fetchMotors();
+      const options = motors.map((motor) => ({
+        label: (
+          <div>
+            <strong>{`${motor.name}`}</strong>
+            <span
+              className={styles["motor-description"]}
+            >{` - ${motor.description}`}</span>
+          </div>
+        ),
+        value: motor.id,
+      }));
 
-const CONFIGURATIONS = [
-  {
-    description: LOREM_IPSUM,
-    images: SAMPLE_IMAGES,
-    title: "Neutral position",
-  },
-  {
-    description: LOREM_IPSUM,
-    images: SAMPLE_IMAGES,
-    title: "Minimum position",
-  },
-  {
-    description: LOREM_IPSUM,
-    images: SAMPLE_IMAGES,
-    title: "Maximum position",
-  },
-];
+      setMotorOptions(options);
+      onMotorSelect(options?.[0] || null);
+    };
 
-const MOTOR_OPTIONS = MOTORS.map((motor) => ({
-  label: motor.name,
-  value: motor.name,
-}));
+    getOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-const MotorConfiguration = () => {
-  const [selectedMotor, setSelectedMotor] = useState(MOTOR_OPTIONS[0]);
+  useEffect(() => {
+    if (!motorConfig) {
+      return;
+    }
+
+    setConfigurationData([
+      {
+        description: motorConfig.neutralPosition.description,
+        images: motorConfig.neutralPosition.imageUrls,
+        title: "Neutral position",
+      },
+      {
+        description: motorConfig.minPosition.description,
+        images: motorConfig.minPosition.imageUrls,
+        title: "Minimum position",
+      },
+      {
+        description: motorConfig.maxPosition.description,
+        images: motorConfig.maxPosition.imageUrls,
+        title: "Maximum position",
+      },
+    ]);
+  }, [motorConfig]);
+
+  const onMotorSelect = async (selectedOption) => {
+    setSelectedMotor(selectedOption);
+    motorConfigurationStore.fetchMotor(selectedOption.value);
+  };
+
+  if (!selectedMotor) {
+    return null;
+  }
 
   return (
     <div className={styles.container}>
@@ -48,13 +80,13 @@ const MotorConfiguration = () => {
         <div className={styles["config-internal-container"]}>
           <div className={styles["select-container"]}>
             <Select
-              onChange={setSelectedMotor}
-              options={MOTOR_OPTIONS}
+              onChange={onMotorSelect}
+              options={motorOptions}
               value={selectedMotor}
             />
           </div>
           <div className={styles.configs}>
-            {CONFIGURATIONS.map((configuration) => (
+            {configurationData.map((configuration) => (
               <ConfigurationSection
                 description={configuration.description}
                 images={configuration.images}
@@ -70,6 +102,6 @@ const MotorConfiguration = () => {
       <Footer />
     </div>
   );
-};
+});
 
 export default MotorConfiguration;

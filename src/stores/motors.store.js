@@ -1,10 +1,13 @@
 import { makeAutoObservable } from "mobx";
+import isEmpty from "lodash/isEmpty";
 
 import { FUNCTIONS } from "constants/mongo";
 
+import Motor from "models/motors/Motor";
+
 class MotorsStore {
   rootStore;
-  motors = null;
+  motors = [];
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -15,22 +18,24 @@ class MotorsStore {
     this.motors = motors;
   }
 
-  getMotors() {
-    if (this.motors) {
+  async getMotors() {
+    if (!isEmpty(this.motors)) {
       return this.motors;
     }
     return this.fetchMotors();
   }
 
   async fetchMotors(groupId, searchString) {
-    const motors = await this.rootStore.realmStore.callFunction(
+    let motorsData = await this.rootStore.realmStore.callFunction(
       FUNCTIONS.MOTORS.GET_ALL,
       groupId,
       searchString,
     );
-    if (motors) {
-      this.setMotors(motors);
+    if (!motorsData) {
+      motorsData = [];
     }
+    const motors = motorsData.map((motorData) => new Motor(motorData));
+    this.setMotors(motors);
     return motors;
   }
 }
