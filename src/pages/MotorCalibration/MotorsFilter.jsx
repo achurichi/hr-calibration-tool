@@ -23,7 +23,7 @@ const MotorsFilter = observer(() => {
 
   useEffect(() => {
     const getGroups = async () => {
-      const groups = await groupsStore.getGroups();
+      const groups = await groupsStore.fetchGroups();
       setOptions(groups.map(({ id, name }) => ({ value: id, label: name })));
     };
 

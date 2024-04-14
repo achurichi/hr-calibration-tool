@@ -4,6 +4,7 @@ import GroupsStore from "stores/groups.store";
 import MotorConfigurationStore from "stores/motorConfiguration.store";
 import MotorsStore from "stores/motors.store";
 import RealmStore from "stores/realm.store";
+import UiStore from "stores/ui/ui.store";
 
 class RootStore {
   static instance;
@@ -12,6 +13,7 @@ class RootStore {
   motorConfigurationStore;
   motorsStore;
   realmStore;
+  uiStore;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -21,6 +23,7 @@ class RootStore {
     this.motorConfigurationStore = new MotorConfigurationStore(this);
     this.motorsStore = new MotorsStore(this);
     this.realmStore = new RealmStore(this);
+    this.uiStore = new UiStore(this);
   }
 
   static getInstance() {

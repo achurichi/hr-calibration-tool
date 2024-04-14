@@ -18,11 +18,8 @@ class GroupsStore {
     this.groups = groups;
   }
 
-  async getGroups() {
-    if (!isEmpty(this.groups)) {
-      return this.groups;
-    }
-    return this.fetchGroups();
+  getGroups() {
+    return this.groups;
   }
 
   async fetchGroups() {

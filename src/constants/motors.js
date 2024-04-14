@@ -1,3 +1,10 @@
+export const MOTOR_MIN_VALUE = 0;
+export const MOTOR_MAX_VALUE = 4096;
+
+export const MIN_POSITION_PROP = "minPosition";
+export const MAX_POSITION_PROP = "maxPosition";
+export const NEUTRAL_POSITION_PROP = "neutralPosition";
+
 export const GROUPS = {
   GROUP_1: "Group 1",
   GROUP_2: "Group 2",

@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import isEmpty from "lodash/isEmpty";
 
 import { FUNCTIONS } from "constants/mongo";
 
@@ -18,11 +17,8 @@ class MotorsStore {
     this.motors = motors;
   }
 
-  async getMotors() {
-    if (!isEmpty(this.motors)) {
-      return this.motors;
-    }
-    return this.fetchMotors();
+  getMotors() {
+    return this.motors;
   }
 
   async fetchMotors(groupId, searchString) {

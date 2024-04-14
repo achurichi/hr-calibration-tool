@@ -10,12 +10,20 @@ const Footer = ({ children, primaryButton, secondaryButton }) => {
       <div className={styles.content}>{children}</div>
       <div className={styles.navigation}>
         {secondaryButton && (
-          <Button onClick={secondaryButton.onClick}>
+          <Button
+            disabled={secondaryButton.disabled}
+            onClick={secondaryButton.onClick}
+          >
             {secondaryButton.label}
           </Button>
         )}
         {primaryButton && (
-          <Button onClick={primaryButton.onClick}>{primaryButton.label}</Button>
+          <Button
+            disabled={primaryButton.disabled}
+            onClick={primaryButton.onClick}
+          >
+            {primaryButton.label}
+          </Button>
         )}
       </div>
     </div>

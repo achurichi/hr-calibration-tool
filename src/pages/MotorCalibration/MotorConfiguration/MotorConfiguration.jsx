@@ -1,76 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import isEmpty from "lodash/isEmpty";
 
 import Select from "react-select";
 
-import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
-import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
+import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
 
 import rootStore from "stores/root.store";
 
 import styles from "./MotorConfiguration.module.scss";
 
 const MotorConfiguration = observer(() => {
-  const { motorsStore, motorConfigurationStore } = rootStore;
-  const [motorOptions, setMotorOptions] = useState([]);
-  const [selectedMotor, setSelectedMotor] = useState(null);
-  const [configurationData, setConfigurationData] = useState([]);
+  const { motorConfigurationStore, motorsStore, uiStore } = rootStore;
+  const { motorConfigurationStore: uiMotorConfigurationStore } = uiStore;
+  const [selectOptions, setSelectOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [editableConfig, setEditableConfig] = useState(null);
   const motorConfig = motorConfigurationStore.getMotorConfig();
 
+  // Load options on mount
   useEffect(() => {
-    const getOptions = async () => {
-      const motors = await motorsStore.fetchMotors();
-      const options = motors.map((motor) => ({
+    const updateSelectOptions = async () => {
+      await motorsStore.fetchMotors();
+      const options = uiMotorConfigurationStore.getMotorOptions();
+      const selectOptions = options.map(({ name, description, id }) => ({
         label: (
           <div>
-            <strong>{`${motor.name}`}</strong>
+            <strong>{`${name}`}</strong>
             <span
               className={styles["motor-description"]}
-            >{` - ${motor.description}`}</span>
+            >{` - ${description}`}</span>
           </div>
         ),
-        value: motor.id,
+        value: id,
       }));
+      setSelectOptions(selectOptions);
 
-      setMotorOptions(options);
-      onMotorSelect(options?.[0] || null);
+      const defaultOption = selectOptions?.[0] || null;
+      setSelectedOption(defaultOption);
+      if (defaultOption) {
+        onMotorSelect(defaultOption);
+      }
     };
-
-    getOptions();
+    updateSelectOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Change the selected option when the motor configuration changes
   useEffect(() => {
-    if (!motorConfig) {
+    if (!motorConfig || isEmpty(selectOptions)) {
       return;
     }
 
-    setConfigurationData([
-      {
-        description: motorConfig.neutralPosition.description,
-        images: motorConfig.neutralPosition.imageUrls,
-        title: "Neutral position",
-      },
-      {
-        description: motorConfig.minPosition.description,
-        images: motorConfig.minPosition.imageUrls,
-        title: "Minimum position",
-      },
-      {
-        description: motorConfig.maxPosition.description,
-        images: motorConfig.maxPosition.imageUrls,
-        title: "Maximum position",
-      },
-    ]);
-  }, [motorConfig]);
+    const option = selectOptions.find((o) => o.value === motorConfig.motorId);
+    if (option) {
+      setSelectedOption(option);
+    }
+
+    setEditableConfig(motorConfig);
+  }, [motorConfig, selectOptions, selectedOption]);
 
   const onMotorSelect = async (selectedOption) => {
-    setSelectedMotor(selectedOption);
     motorConfigurationStore.fetchMotor(selectedOption.value);
   };
 
-  if (!selectedMotor) {
+  if (!selectedOption) {
     return null;
   }
 
@@ -81,21 +76,24 @@ const MotorConfiguration = observer(() => {
           <div className={styles["select-container"]}>
             <Select
               onChange={onMotorSelect}
-              options={motorOptions}
-              value={selectedMotor}
+              options={selectOptions}
+              value={selectedOption}
             />
           </div>
           <div className={styles.configs}>
-            {configurationData.map((configuration) => (
-              <ConfigurationSection
-                description={configuration.description}
-                images={configuration.images}
-                key={configuration.title}
-                title={configuration.title}
-              >
-                <ConfigurationControls />
-              </ConfigurationSection>
-            ))}
+            <ConfigurationSections
+              editableConfig={editableConfig}
+              motorConfig={motorConfig}
+              onChange={(prop, value) => {
+                setEditableConfig({
+                  ...editableConfig,
+                  [prop]: {
+                    ...editableConfig[prop],
+                    value,
+                  },
+                });
+              }}
+            />
           </div>
         </div>
       </div>
