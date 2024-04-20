@@ -1,19 +1,15 @@
 {
   "files": {
-    "main.css": "/hr-calibration-tool/static/css/main.69172068.css",
-    "main.js": "/hr-calibration-tool/static/js/main.48f5f26d.js",
+    "main.css": "/hr-calibration-tool/static/css/main.6aa3425c.css",
+    "main.js": "/hr-calibration-tool/static/js/main.bb82060d.js",
     "static/js/592.014949ac.chunk.js": "/hr-calibration-tool/static/js/592.014949ac.chunk.js",
-    "static/media/slick.svg": "/hr-calibration-tool/static/media/slick.2630a3e3eab21c607e21.svg",
-    "static/media/slick.eot": "/hr-calibration-tool/static/media/slick.a4e97f5a2a64f0ab1323.eot",
-    "static/media/slick.ttf": "/hr-calibration-tool/static/media/slick.c94f7671dcc99dce43e2.ttf",
-    "static/media/slick.woff": "/hr-calibration-tool/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/hr-calibration-tool/index.html",
-    "main.69172068.css.map": "/hr-calibration-tool/static/css/main.69172068.css.map",
-    "main.48f5f26d.js.map": "/hr-calibration-tool/static/js/main.48f5f26d.js.map",
+    "main.6aa3425c.css.map": "/hr-calibration-tool/static/css/main.6aa3425c.css.map",
+    "main.bb82060d.js.map": "/hr-calibration-tool/static/js/main.bb82060d.js.map",
     "592.014949ac.chunk.js.map": "/hr-calibration-tool/static/js/592.014949ac.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.69172068.css",
-    "static/js/main.48f5f26d.js"
+    "static/css/main.6aa3425c.css",
+    "static/js/main.bb82060d.js"
   ]
 }
