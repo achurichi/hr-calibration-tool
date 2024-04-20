@@ -40,30 +40,23 @@ const AnimationConfiguration = ({ animations }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles["config-container"]}>
-        <div className={styles["config-internal-container"]}>
-          <div className={styles["select-container"]}>
-            <Select
-              onChange={setSelectedViseme}
-              options={animationOptions}
-              value={selectedViseme}
-            />
-          </div>
-          <div className={styles.configs}>
-            <ConfigurationSection
-              className={styles.sticky}
-              description={LOREM_IPSUM}
-              images={SAMPLE_IMAGES}
-            >
-              <div className={styles.controls}>
-                {MOTORS_NAMES.map((name) => (
-                  <Slider key={name} name={name} />
-                ))}
-              </div>
-            </ConfigurationSection>
-          </div>
+      <Select
+        className={styles.select}
+        onChange={setSelectedViseme}
+        options={animationOptions}
+        value={selectedViseme}
+      />
+      <ConfigurationSection
+        className={styles.description}
+        description={LOREM_IPSUM}
+        images={SAMPLE_IMAGES}
+      >
+        <div className={styles.controls}>
+          {MOTORS_NAMES.map((name) => (
+            <Slider key={name} name={name} />
+          ))}
         </div>
-      </div>
+      </ConfigurationSection>
       <Footer />
     </div>
   );

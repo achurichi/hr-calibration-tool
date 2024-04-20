@@ -2,6 +2,8 @@ import { makeAutoObservable } from "mobx";
 
 import * as Realm from "realm-web";
 
+import { STATUS } from "constants/status";
+
 class RealmStore {
   rootStore;
   authenticated = false;
@@ -56,14 +58,21 @@ class RealmStore {
   }
 
   async callFunction(functionName, ...args) {
+    const statusStore = this.rootStore.statusStore;
+
+    statusStore.setStatus(functionName, STATUS.LOADING);
     const { result, error } = await this.app.currentUser.callFunction(
       functionName,
       ...args,
     );
+
     if (error) {
+      statusStore.setStatus(functionName, STATUS.ERROR);
       console.error(error);
       return null;
     }
+
+    statusStore.setStatus(functionName, STATUS.SUCCESS);
     return JSON.parse(JSON.stringify(result));
   }
 }

@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import isEmpty from "lodash/isEmpty";
 
+import Spinner from "react-bootstrap/Spinner";
 import Select from "react-select";
 
+import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
+
+import { FUNCTIONS } from "constants/mongo";
 
 import rootStore from "stores/root.store";
 
@@ -65,37 +69,38 @@ const MotorConfiguration = observer(() => {
     motorConfigurationStore.fetchMotor(selectedOption.value);
   };
 
-  if (!selectedOption) {
-    return null;
-  }
-
   return (
     <div className={styles.container}>
-      <div className={styles["config-container"]}>
-        <div className={styles["config-internal-container"]}>
-          <div className={styles["select-container"]}>
-            <Select
-              onChange={onMotorSelect}
-              options={selectOptions}
-              value={selectedOption}
-            />
-          </div>
-          <div className={styles.configs}>
-            <ConfigurationSections
-              editableConfig={editableConfig}
-              motorConfig={motorConfig}
-              onChange={(prop, value) => {
-                setEditableConfig({
-                  ...editableConfig,
-                  [prop]: {
-                    ...editableConfig[prop],
-                    value,
-                  },
-                });
-              }}
-            />
-          </div>
-        </div>
+      <Select
+        className={styles.select}
+        onChange={onMotorSelect}
+        options={selectOptions}
+        placeholder="Loading..."
+        value={selectedOption}
+      />
+      <div className={styles.configs}>
+        <RenderWithLoader
+          dependencies={[FUNCTIONS.MOTOR_CONFIGURATIONS.GET_BY_MOTOR_ID]}
+          loadingComponent={
+            <div className={styles["loader-container"]}>
+              <Spinner variant="primary" />
+            </div>
+          }
+        >
+          <ConfigurationSections
+            editableConfig={editableConfig}
+            motorConfig={motorConfig}
+            onChange={(prop, value) => {
+              setEditableConfig({
+                ...editableConfig,
+                [prop]: {
+                  ...editableConfig[prop],
+                  value,
+                },
+              });
+            }}
+          />
+        </RenderWithLoader>
       </div>
       <Footer />
     </div>

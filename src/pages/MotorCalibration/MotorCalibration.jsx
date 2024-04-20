@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useNavigate } from "react-router-dom";
 
+import Spinner from "react-bootstrap/Spinner";
 import { BsPencil } from "react-icons/bs";
 
-import { FILTER_IDS } from "constants/filters";
-import { PATHS } from "constants/routes";
-
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Table from "components/Table/Table";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
+
+import { FILTER_IDS } from "constants/filters";
+import { FUNCTIONS } from "constants/mongo";
+import { PATHS } from "constants/routes";
 
 import rootStore from "stores/root.store";
 
@@ -53,7 +56,16 @@ const MotorCalibration = observer(() => {
     <div className={styles.container}>
       <div className={styles["internal-container"]}>
         <MotorsFilter />
-        <Table headers={TABLE_HEADERS} hover rows={rows} />
+        <RenderWithLoader
+          dependencies={[FUNCTIONS.MOTORS.GET_ALL, FUNCTIONS.GROUPS.GET_ALL]}
+          loadingComponent={
+            <div className={styles["loader-container"]}>
+              <Spinner variant="primary" />
+            </div>
+          }
+        >
+          <Table headers={TABLE_HEADERS} hover rows={rows} />
+        </RenderWithLoader>
       </div>
     </div>
   );

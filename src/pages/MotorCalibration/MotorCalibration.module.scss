@@ -21,3 +21,10 @@
 .action-column {
   width: 1rem;
 }
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: min(15rem, 50%);
+}

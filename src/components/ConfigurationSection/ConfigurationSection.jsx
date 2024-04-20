@@ -13,7 +13,7 @@ const ConfigurationSection = ({
   title,
 }) => {
   return (
-    <div>
+    <>
       <div className={classNames(styles.container, className)}>
         {title && <div className="text-lg">{title}</div>}
         <div className={styles.content}>
@@ -22,7 +22,7 @@ const ConfigurationSection = ({
         </div>
       </div>
       {children}
-    </div>
+    </>
   );
 };
 

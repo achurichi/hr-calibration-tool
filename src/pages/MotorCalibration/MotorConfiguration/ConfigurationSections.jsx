@@ -9,6 +9,8 @@ import {
   getSliderMinValue,
 } from "pages/MotorCalibration/MotorConfiguration/utilities";
 
+import styles from "./ConfigurationSections.module.scss";
+
 const ConfigurationSections = ({ editableConfig, motorConfig, onChange }) => {
   if (!editableConfig) {
     return null;
@@ -16,6 +18,7 @@ const ConfigurationSections = ({ editableConfig, motorConfig, onChange }) => {
 
   return buildConfigurationData(motorConfig).map((config) => (
     <ConfigurationSection
+      className={styles.section}
       description={config.description}
       images={config.images}
       key={config.prop}
