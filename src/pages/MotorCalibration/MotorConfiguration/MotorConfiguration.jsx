@@ -80,7 +80,10 @@ const MotorConfiguration = observer(() => {
       />
       <div className={styles.configs}>
         <RenderWithLoader
-          dependencies={[FUNCTIONS.MOTOR_CONFIGURATIONS.GET_BY_MOTOR_ID]}
+          dependencies={[
+            FUNCTIONS.MOTORS.GET_ALL,
+            FUNCTIONS.MOTOR_CONFIGURATIONS.GET_BY_MOTOR_ID,
+          ]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

@@ -1,30 +1,29 @@
 .sidebar {
+  background-color: var(--indigo-500);
   display: flex;
   flex-direction: column;
-  width: 16rem;
-  min-width: 16rem;
   max-width: 16rem;
-  background-color: var(--indigo-500);
+  min-width: 16rem;
+  transition: all 0.35s ease-out;
 
-  .collapse {
+  &.collapsed {
+    max-width: 4rem;
+    min-width: 4rem;
+  }
+
+  .collapse-button {
     align-items: center;
     display: flex;
     justify-content: flex-end;
-    margin-right: 1rem;
-    margin-top: 1.5rem;
+    margin: 1rem 1rem 1rem auto;
 
     & svg {
       color: white;
-
-      &:hover {
-        cursor: pointer;
-      }
     }
   }
 
   .item {
-    border-radius: 0.5rem;
-    margin: 0.5rem 1rem;
+    width: 100%;
 
     &:hover {
       background-color: var(--indigo-600);
@@ -33,11 +32,35 @@
 
     .link {
       align-items: center;
-      color: white !important;
+      color: white;
       display: flex;
-      gap: 0.5rem;
-      height: 2rem;
-      padding: 1.4rem 0.75rem;
+      height: 3rem;
+
+      &.collapsed {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+
+      .icon {
+        max-width: 20px;
+        min-width: 20px;
+      }
+
+      .text {
+        margin-left: 0.5rem;
+
+        &.collapsed {
+          margin-left: 0;
+          visibility: hidden;
+          width: 0;
+        }
+
+        &:not(.collapsed) {
+          transition: all 0.35s ease-out;
+          transition-delay: 0.35s;
+        }
+      }
     }
   }
 

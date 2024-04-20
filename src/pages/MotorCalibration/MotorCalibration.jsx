@@ -45,8 +45,8 @@ const MotorCalibration = observer(() => {
     return {
       ...item,
       action: (
-        <ClickableIcon>
-          <BsPencil onClick={() => navigate(PATHS.MOTOR_CONFIGURE)} />
+        <ClickableIcon onClick={() => navigate(PATHS.MOTOR_CONFIGURE)}>
+          <BsPencil />
         </ClickableIcon>
       ),
     };
