@@ -8,11 +8,11 @@ const Carousel = ({ images }) => {
 
   return (
     <ImageGallery
-      infinite={false}
       items={items}
       showIndex={images.length > 1}
       showPlayButton={false}
       showThumbnails={false}
+      useBrowserFullscreen={false}
     />
   );
 };
