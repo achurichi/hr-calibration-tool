@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import isEmpty from "lodash/isEmpty";
 
 import { FUNCTIONS } from "constants/mongo";
 
