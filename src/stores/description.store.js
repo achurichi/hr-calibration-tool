@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
+  DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
 } from "constants/descriptions";
@@ -37,7 +38,10 @@ class DescriptionStore {
   getDescriptionItems(itemType) {
     const descriptionType = DESCRIPTION_TYPES_MAP[itemType];
     const description = this.descriptions[descriptionType];
-    return description?.[descriptionType] || []; // these are the items in the description
+    const items = description?.[descriptionType] || []; // these are the items in the description
+    return itemType === DESCRIPTION_ITEM_TYPES.MOTOR
+      ? items
+      : items.filter((i) => i.type === itemType);
   }
 
   getItemById(id, itemType) {
@@ -50,7 +54,7 @@ class DescriptionStore {
       FUNCTIONS[`${type.toUpperCase()}_DESCRIPTIONS`].GET_BY_MODEL_NAME,
       modelName,
     );
-    return this._saveDescription(type, data);
+    this._saveDescription(type, data);
   }
 
   async saveItem(type, modelName, item) {
@@ -59,7 +63,7 @@ class DescriptionStore {
       modelName,
       item,
     );
-    return this._saveDescription(type, data);
+    this._saveDescription(type, data);
   }
 
   async deleteItem(type, modelName, item) {
@@ -68,17 +72,19 @@ class DescriptionStore {
       modelName,
       item,
     );
-    return this._saveDescription(type, data);
+    this._saveDescription(type, data);
   }
 
   _saveDescription(type, data) {
+    if (!data) {
+      return;
+    }
+
     const DescriptionClass =
       type === DESCRIPTION_TYPES.MOTORS
         ? MotorsDescription
         : AnimationsDescription;
-    const description = data ? new DescriptionClass(data) : null;
-    this.setDescription(type, description);
-    return description;
+    this.setDescription(type, new DescriptionClass(data));
   }
 }
 
