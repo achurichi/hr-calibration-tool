@@ -9,13 +9,13 @@ export const FUNCTIONS = {
     GET_ALL: "groups_getAll",
   },
   MOTORS_DESCRIPTIONS: {
-    DELETE_MOTOR: "motorsDescriptions_deleteMotor",
+    DELETE_ITEM: "motorsDescriptions_deleteItem",
     GET_BY_MODEL_NAME: "motorsDescriptions_getByModelName",
-    SAVE_MOTOR: "motorsDescriptions_saveMotor",
+    SAVE_ITEM: "motorsDescriptions_saveItem",
   },
   ANIMATIONS_DESCRIPTIONS: {
-    DELETE_ANIMATION: "animationsDescriptions_deleteAnimation",
+    DELETE_ITEM: "animationsDescriptions_deleteItem",
     GET_BY_MODEL_NAME: "animationsDescriptions_getByModelName",
-    SAVE_ANIMATION: "animationsDescriptions_saveAnimation",
+    SAVE_ITEM: "animationsDescriptions_saveItem",
   },
 };
