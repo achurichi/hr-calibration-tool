@@ -1,3 +1,5 @@
+export const MODEL_NAME = "test-model-name"; //TODO: Change this to the actual model name
+
 export const DESCRIPTION_TYPES = {
   MOTORS: "motors",
   ANIMATIONS: "animations",
