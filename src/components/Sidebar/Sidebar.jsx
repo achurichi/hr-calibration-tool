@@ -54,7 +54,7 @@ const Sidebar = () => {
       Icon: BsPersonCircle,
       name: "Admin",
       route: PATHS.ADMIN,
-      selected: selected.expressionsCalibration,
+      selected: selected.admin,
     },
   ];
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 
 import { BsTrash, BsPlusLg } from "react-icons/bs";
@@ -27,8 +27,8 @@ const ConfigurationBar = observer(() => {
   const editDisabled = uiDescriptionStore.getEditDisabled();
 
   const onAdd = () => {
-    if (!uiDescriptionStore.getIsNewForm()) {
-      uiDescriptionStore.setIsNewForm(true);
+    if (!uiDescriptionStore.getIsNewItem()) {
+      uiDescriptionStore.setIsNewItem(true);
     }
   };
 
@@ -38,8 +38,11 @@ const ConfigurationBar = observer(() => {
       return;
     }
 
-    if (uiDescriptionStore.getIsNewForm()) {
-      uiDescriptionStore.setIsNewForm(false);
+    if (uiDescriptionStore.getIsNewItem()) {
+      uiDescriptionStore.setIsNewItem(false);
+      uiDescriptionStore.setSelectedItem(
+        uiDescriptionStore.getItemOptions()[0],
+      );
       return;
     }
 
@@ -92,7 +95,7 @@ const ConfigurationBar = observer(() => {
       />
       <ClickableIcon
         Icon={BsPlusLg}
-        disabled={editDisabled || uiDescriptionStore.getIsNewForm()}
+        disabled={editDisabled || uiDescriptionStore.getIsNewItem()}
         iconClassName={styles.add}
         onClick={onAdd}
         size={20}

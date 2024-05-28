@@ -1,0 +1,22 @@
+.select-container {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 2rem auto;
+
+  .configuration {
+    width: 20rem;
+  }
+
+  .item {
+    width: 100%;
+  }
+
+  .delete {
+    color: var(--danger);
+  }
+
+  .add {
+    color: var(--success);
+  }
+}

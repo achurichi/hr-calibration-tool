@@ -25,3 +25,8 @@ export const CONFIGURATION_OPTIONS = [
     label: <strong>Expressions</strong>,
   },
 ];
+
+export const NEW_ITEM_OPTION = {
+  value: "__new_item__",
+  label: <strong>New</strong>,
+};
