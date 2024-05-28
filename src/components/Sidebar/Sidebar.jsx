@@ -7,6 +7,7 @@ import {
   BsChevronLeft,
   BsChevronRight,
   BsEmojiLaughing,
+  BsPersonCircle,
   BsWrench,
 } from "react-icons/bs";
 import { GiLips } from "react-icons/gi";
@@ -24,9 +25,10 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const selected = {
-    motorsCalibration: pathname.startsWith("/motors"),
-    visemesCalibration: pathname.startsWith("/visemes"),
-    expressionsCalibration: pathname.startsWith("/expressions"),
+    motorsCalibration: pathname.startsWith(PATHS.MOTORS),
+    visemesCalibration: pathname.startsWith(PATHS.VISEMES),
+    expressionsCalibration: pathname.startsWith(PATHS.EXPRESSIONS),
+    admin: pathname.startsWith(PATHS.ADMIN),
   };
 
   const options = [
@@ -48,6 +50,12 @@ const Sidebar = () => {
       route: PATHS.EXPRESSIONS,
       selected: selected.expressionsCalibration,
     },
+    {
+      Icon: BsPersonCircle,
+      name: "Admin",
+      route: PATHS.ADMIN,
+      selected: selected.expressionsCalibration,
+    },
   ];
 
   return (
@@ -58,12 +66,10 @@ const Sidebar = () => {
       onSelect={(route) => navigate(route)}
     >
       <ClickableIcon
+        Icon={isCollapsed ? BsChevronRight : BsChevronLeft}
         className={styles["collapse-button"]}
         onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        {!isCollapsed && <BsChevronLeft />}
-        {isCollapsed && <BsChevronRight />}
-      </ClickableIcon>
+      />
       {options.map(({ Icon, name, route, selected }) => (
         <Nav.Item
           key={route}

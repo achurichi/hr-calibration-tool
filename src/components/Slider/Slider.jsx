@@ -40,11 +40,12 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
   return (
     <div className={classNames(className, styles.container)}>
       <ClickableIcon
+        Icon={BsDashCircleFill}
         className={styles["clickable-button"]}
+        color="var(--primary)"
         onClick={() => internalOnChange(internalValue - 1)}
-      >
-        <BsDashCircleFill color="var(--primary)" size={20} />
-      </ClickableIcon>
+        size={20}
+      />
       <RcSlider
         className={styles.slider}
         max={max}
@@ -55,11 +56,12 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         {...sliderProps}
       />
       <ClickableIcon
+        Icon={BsPlusCircleFill}
         className={styles["clickable-button"]}
+        color="var(--primary)"
         onClick={() => internalOnChange(internalValue + 1)}
-      >
-        <BsPlusCircleFill color="var(--primary)" size={20} />
-      </ClickableIcon>
+        size={20}
+      />
     </div>
   );
 };

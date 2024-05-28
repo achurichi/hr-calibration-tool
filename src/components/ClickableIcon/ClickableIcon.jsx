@@ -3,10 +3,31 @@ import classNames from "classnames";
 
 import styles from "./ClickableIcon.module.scss";
 
-const ClickableIcon = ({ children, className, onClick = () => {} }) => {
+const ClickableIcon = ({
+  Icon,
+  children,
+  className,
+  disabled = false,
+  iconClassName,
+  onClick = () => {},
+  ...rest
+}) => {
   return (
-    <div className={classNames(className, styles.clickable)} onClick={onClick}>
-      {children}
+    <div
+      className={classNames(className, {
+        [styles.clickable]: !disabled,
+      })}
+      onClick={disabled ? () => {} : onClick}
+    >
+      <Icon
+        className={classNames(
+          {
+            [styles.disabled]: disabled,
+          },
+          iconClassName,
+        )}
+        {...rest}
+      />
     </div>
   );
 };

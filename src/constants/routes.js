@@ -7,5 +7,6 @@ export const PATHS = {
   VISEME_CONFIGURE: "/visemes/configuration",
   EXPRESSIONS: "/expressions",
   EXPRESSION_CONFIGURE: "/expressions/configuration",
+  ADMIN: "/admin",
   LOGIN: "/login",
 };
