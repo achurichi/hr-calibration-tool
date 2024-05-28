@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-import { STATUS } from "constants/status";
+import { STATUS_TYPES } from "constants/status";
 
 class StatusStore {
   rootStore;
@@ -11,13 +11,13 @@ class StatusStore {
     this.rootStore = root;
   }
 
-  setStatus(id, status) {
-    this.status.set(id, status);
+  setStatus(id, type, message = null) {
+    this.status.set(id, { type, message });
   }
 
   getStatus(id) {
     if (!this.status.has(id)) {
-      this.setStatus(id, STATUS.INITIAL);
+      this.setStatus(id, STATUS_TYPES.INITIAL, null);
     }
     return this.status.get(id);
   }
@@ -26,7 +26,7 @@ class StatusStore {
     if (Array.isArray(id)) {
       return id.some((i) => this.isLoading(i));
     }
-    return this.getStatus(id) === STATUS.LOADING;
+    return this.getStatus(id).type === STATUS_TYPES.LOADING;
   }
 }
 

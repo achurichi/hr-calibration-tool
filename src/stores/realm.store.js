@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import * as Realm from "realm-web";
 
-import { STATUS } from "constants/status";
+import { STATUS_TYPES } from "constants/status";
 
 class RealmStore {
   rootStore;
@@ -60,20 +60,29 @@ class RealmStore {
   async callFunction(functionName, ...args) {
     const statusStore = this.rootStore.statusStore;
 
-    statusStore.setStatus(functionName, STATUS.LOADING);
-    const { result, error } = await this.app.currentUser.callFunction(
-      functionName,
-      ...args,
-    );
+    statusStore.setStatus(functionName, STATUS_TYPES.LOADING);
 
-    if (error) {
-      statusStore.setStatus(functionName, STATUS.ERROR);
-      console.error(error);
+    let response;
+    try {
+      response = await this.app.currentUser.callFunction(functionName, ...args);
+    } catch (error) {
+      statusStore.setStatus(
+        functionName,
+        STATUS_TYPES.ERROR,
+        "API connection error",
+      );
       return null;
     }
 
-    statusStore.setStatus(functionName, STATUS.SUCCESS);
-    return JSON.parse(JSON.stringify(result));
+    if (response?.error) {
+      statusStore.setStatus(functionName, STATUS_TYPES.ERROR, response.error);
+      return null;
+    }
+
+    statusStore.setStatus(functionName, STATUS_TYPES.SUCCESS);
+    return response?.result
+      ? JSON.parse(JSON.stringify(response.result))
+      : null;
   }
 }
 
