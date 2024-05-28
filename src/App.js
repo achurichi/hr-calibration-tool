@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Router from "./pages/Router";
 import { observer } from "mobx-react";
+import { ToastContainer } from "react-toastify";
 
 import rootStore from "stores/root.store";
 
@@ -26,9 +27,12 @@ function App() {
   }
 
   return (
-    <BrowserRouter basename={BASE_PATH}>
-      <Router />
-    </BrowserRouter>
+    <>
+      <BrowserRouter basename={BASE_PATH}>
+        <Router />
+      </BrowserRouter>
+      <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
+    </>
   );
 }
 
