@@ -1,21 +1,49 @@
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { Row } from "react-bootstrap";
-import { LongTextField, NumField } from "pages/Admin/CustomFields";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import InputField from "pages/Admin/Forms/InputField";
+
+import styles from "./PositionConfigurationForm.module.scss";
 
 const PositionConfigurationForm = ({ propName, title }) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const defaultValueProp = `${propName}.defaultValue`;
+  const configDescriptionProp = `${propName}.configDescription`;
+
   return (
     <>
-      <div className="mb-2">
+      <div className="mt-2">
         <strong>{title}</strong>
       </div>
-      <Row xs={3}>
-        <NumField name={`${propName}.defaultValue`} />
+      <Row className={styles.row}>
+        <InputField
+          as={Col}
+          controlId={`form-${defaultValueProp}`}
+          controlProps={{
+            type: "number",
+            isInvalid: !!errors[propName]?.defaultValue,
+          }}
+          label="Default Value"
+          registerName={defaultValueProp}
+          registerProps={{
+            required: "Default Value is required",
+            valueAsNumber: true,
+          }}
+          xs="3"
+        />
+        <InputField
+          as={Col}
+          controlId={`form-${configDescriptionProp}`}
+          controlProps={{ as: "textarea" }}
+          label="Configuration Description"
+          registerName={configDescriptionProp}
+          xs="12"
+        />
       </Row>
-      <LongTextField
-        name={`${propName}.configDescription`}
-        label="Configuration Description"
-      />
     </>
   );
 };

@@ -23,7 +23,7 @@ const DataForm = observer(() => {
       Form = AnimationForm;
       break;
     default:
-      return;
+      return null;
   }
 
   return <Form />;

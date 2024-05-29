@@ -1,20 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
+import { useForm, FormProvider } from "react-hook-form";
 
+import Button from "components/Button/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
-import { AutoForm, ErrorsField, SubmitField } from "uniforms-bootstrap5";
 
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
 import useSchema from "pages/Admin/schemas/useSchema";
 
-import { FUNCTIONS } from "constants/mongo";
-
 import rootStore from "stores/root.store";
 
 import { cleanObject } from "utilities/objects";
 
+import { FUNCTIONS } from "constants/mongo";
 import {
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
@@ -31,9 +33,8 @@ const Admin = observer(() => {
   const { descriptionStore, uiStore } = rootStore;
   const { uiDescriptionStore } = uiStore;
   const callWithNotification = useCallWithNotification();
-  const { schema, defaultForm } = useSchema();
-  const formRef = useRef();
-  const [formData, setFormData] = useState({});
+  const { defaultForm } = useSchema();
+  const methods = useForm({ defaultValues: defaultForm });
   const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
   const selectedItem = uiDescriptionStore.getSelectedItem();
 
@@ -44,10 +45,6 @@ const Admin = observer(() => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    setFormData(defaultForm);
-  }, [defaultForm]);
 
   useEffect(() => {
     const configureDescription = async () => {
@@ -81,10 +78,8 @@ const Admin = observer(() => {
       return;
     }
 
-    formRef?.current?.reset();
-
     if (selectedItem.value === NEW_ITEM_OPTION.value) {
-      setFormData(defaultForm);
+      methods.reset(defaultForm);
       return;
     }
 
@@ -92,7 +87,7 @@ const Admin = observer(() => {
       selectedItem.value,
       selectedConfiguration.value,
     );
-    setFormData(item);
+    methods.reset(item);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 
@@ -132,25 +127,24 @@ const Admin = observer(() => {
         }
       >
         {selectedItem && (
-          <AutoForm
-            className={styles["auto-form"]}
-            model={formData}
-            onChangeModel={(model) => setFormData(model)}
-            onSubmit={onSubmit}
-            ref={formRef}
-            schema={schema}
-          >
-            <div className={styles["form-container"]}>
-              <DataForm />
-              <ErrorsField />
-            </div>
-            <div className={styles.footer}>
-              <SubmitField
-                disabled={uiDescriptionStore.getEditDisabled()}
-                value="Save"
-              />
-            </div>
-          </AutoForm>
+          <FormProvider {...methods}>
+            <Form
+              onSubmit={methods.handleSubmit(onSubmit)}
+              className={styles["form-container"]}
+            >
+              <Container className={styles["data-form-container"]}>
+                <DataForm />
+              </Container>
+              <div className={styles.footer}>
+                <Button
+                  disabled={uiDescriptionStore.getEditDisabled()}
+                  type="submit"
+                >
+                  Save
+                </Button>
+              </div>
+            </Form>
+          </FormProvider>
         )}
       </RenderWithLoader>
     </div>
