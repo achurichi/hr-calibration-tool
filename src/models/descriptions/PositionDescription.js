@@ -6,7 +6,7 @@ class PositionDescription {
   constructor(data) {
     this.defaultValue = data.defaultValue;
     this.configDescription = data.configDescription;
-    this.images = data.images;
+    this.images = data.images || [];
   }
 }
 

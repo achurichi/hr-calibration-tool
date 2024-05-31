@@ -18,4 +18,8 @@ export const FUNCTIONS = {
     GET_BY_MODEL_NAME: "animationsDescriptions_getByModelName",
     SAVE_ITEM: "animationsDescriptions_saveItem",
   },
+  IMAGES: {
+    GET_BY_ID: "images_getById",
+    SAVE: "images_save",
+  },
 };
