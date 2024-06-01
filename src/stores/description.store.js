@@ -7,8 +7,8 @@ import {
   DESCRIPTION_TYPES_MAP,
 } from "constants/descriptions";
 
-import AnimationsDescription from "models/motors/AnimationsDescription";
-import MotorsDescription from "models/motors/MotorsDescription";
+import AnimationsDescription from "models/descriptions/AnimationsDescription";
+import MotorsDescription from "models/descriptions/MotorsDescription";
 
 class DescriptionStore {
   rootStore;
@@ -16,6 +16,7 @@ class DescriptionStore {
     motors: null,
     animations: null,
   };
+  referenceImages = new Map();
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -25,6 +26,7 @@ class DescriptionStore {
   clear() {
     this.descriptions.motors = null;
     this.descriptions.animations = null;
+    this.referenceImages.clear();
   }
 
   setDescription(type, description) {
@@ -85,6 +87,38 @@ class DescriptionStore {
         ? MotorsDescription
         : AnimationsDescription;
     this.setDescription(type, new DescriptionClass(data));
+  }
+
+  async getOrFetchImage(id) {
+    if (!this.referenceImages.has(id)) {
+      await this.fetchImage(id);
+    }
+    return this.referenceImages.get(id);
+  }
+
+  async fetchImage(id) {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.IMAGES.GET_BY_ID,
+      id,
+    );
+    this._saveImage(data);
+  }
+
+  async saveImage(base64) {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.IMAGES.SAVE,
+      base64,
+    );
+    return this._saveImage(data);
+  }
+
+  _saveImage(data) {
+    if (!data) {
+      return null;
+    }
+
+    this.referenceImages.set(data._id, data.base64);
+    return data._id;
   }
 }
 

@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import InputField from "pages/Admin/Forms/InputField";
+import ImageFieldArray from "pages/Admin/Forms/ImageFieldArray";
 
 import styles from "./PositionConfigurationForm.module.scss";
 
@@ -13,6 +14,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
   } = useFormContext();
   const defaultValueProp = `${propName}.defaultValue`;
   const configDescriptionProp = `${propName}.configDescription`;
+  const imagesProp = `${propName}.images`;
 
   return (
     <>
@@ -43,6 +45,9 @@ const PositionConfigurationForm = ({ propName, title }) => {
           registerName={configDescriptionProp}
           xs="12"
         />
+        <Col>
+          <ImageFieldArray name={imagesProp} />
+        </Col>
       </Row>
     </>
   );
