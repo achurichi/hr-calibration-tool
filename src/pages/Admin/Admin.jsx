@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
+import { toast } from "react-toastify";
+import cloneDeep from "lodash/cloneDeep";
 
 import Button from "components/Button/Button";
-import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
-import useSchema from "pages/Admin/schemas/useSchema";
+import useDefaultForm from "pages/Admin/Forms/useDefaultForm";
 
 import rootStore from "stores/root.store";
 
-import { cleanObject } from "utilities/objects";
+import { blobUrlToBase64String } from "utils/blob";
+import { cleanObject } from "utils/object";
+import { convertItemToForm } from "pages/Admin/utils";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
@@ -33,7 +36,7 @@ const Admin = observer(() => {
   const { descriptionStore, uiStore } = rootStore;
   const { uiDescriptionStore } = uiStore;
   const callWithNotification = useCallWithNotification();
-  const { defaultForm } = useSchema();
+  const defaultForm = useDefaultForm();
   const methods = useForm({ defaultValues: defaultForm });
   const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
   const selectedItem = uiDescriptionStore.getSelectedItem();
@@ -87,19 +90,71 @@ const Admin = observer(() => {
       selectedItem.value,
       selectedConfiguration.value,
     );
-    methods.reset(item);
+    methods.reset(convertItemToForm(item));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 
+  const uploadImages = async (images) => {
+    const promises = images.map(async (image) => {
+      if (image.fileId) {
+        return image.fileId; // the image is already uploaded
+      }
+      const base64 = await blobUrlToBase64String(image.url);
+      const id = await descriptionStore.saveImage(base64);
+      if (!id) {
+        throw new Error("Failed to save image");
+      }
+      return id;
+    });
+    return await Promise.allSettled(promises);
+  };
+
+  const prepareData = async (data) => {
+    const clonedData = cloneDeep(data); // TODO: don't clone
+    let failed = 0;
+    // TODO: Extend this for animations
+    const positionPromises = [
+      "neutralPosition",
+      "minPosition",
+      "maxPosition",
+    ].map(async (item) => {
+      const imagePromises = await uploadImages(clonedData[item].images);
+      const failedPromises = imagePromises.filter(
+        (p) => p.status === "rejected",
+      );
+      failed += failedPromises.length;
+      clonedData[item].images = imagePromises
+        .filter((p) => p.status === "fulfilled")
+        .map((p) => p.value);
+    });
+
+    await Promise.all(positionPromises);
+    if (failed) {
+      // TODO: delete the images that were saved
+      throw new Error(`Error: ${failed} image(s) couldn't be saved`);
+    }
+
+    return cleanObject(clonedData);
+  };
+
   const onSubmit = async (data) => {
     uiDescriptionStore.setEditDisabled(true);
+
+    let preparedData;
+    try {
+      preparedData = await prepareData(data);
+    } catch (e) {
+      toast.error(e.message);
+      uiDescriptionStore.setEditDisabled(false);
+      return;
+    }
 
     const descriptionType = DESCRIPTION_TYPES_MAP[selectedConfiguration.value];
     const saveFn = async () => {
       await descriptionStore.saveItem(
         descriptionType,
         MODEL_NAME,
-        cleanObject(data),
+        preparedData,
       );
     };
     const fnId =
@@ -132,9 +187,9 @@ const Admin = observer(() => {
               onSubmit={methods.handleSubmit(onSubmit)}
               className={styles["form-container"]}
             >
-              <Container className={styles["data-form-container"]}>
+              <div className={styles["data-form-container"]}>
                 <DataForm />
-              </Container>
+              </div>
               <div className={styles.footer}>
                 <Button
                   disabled={uiDescriptionStore.getEditDisabled()}

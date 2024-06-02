@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { observer } from "mobx-react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 
@@ -23,6 +23,11 @@ const ImageFieldArray = observer(({ name }) => {
     name,
   });
   const [loadingImages, setLoadingImages] = useState(false);
+  const fieldsRef = useRef(fields);
+
+  useEffect(() => {
+    fieldsRef.current = fields;
+  }, [fields]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -31,10 +36,11 @@ const ImageFieldArray = observer(({ name }) => {
         if (!field.fileId || field.base64) {
           return;
         }
-        update(index, {
-          ...field,
-          base64: await descriptionStore.getOrFetchImage(field.fileId),
-        });
+        const base64 = await descriptionStore.getOrFetchImage(field.fileId);
+        // use ref to get the latest state of fields
+        if (fieldsRef.current[index]) {
+          update(index, { ...field, base64 });
+        }
       });
       await Promise.all(promises);
       setLoadingImages(false);
@@ -43,6 +49,7 @@ const ImageFieldArray = observer(({ name }) => {
     if (!loadingImages) {
       loadImages();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields]);
 
   const onAdd = (files) => {
@@ -76,7 +83,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsArrowLeftCircleFill}
                     className={styles["move-left"]}
-                    disabled={isFirst}
+                    disabled={isFirst || loadingImages}
                     iconClassName={styles["move-icon"]}
                     onClick={() => {
                       if (!isFirst) {
@@ -88,7 +95,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsArrowRightCircleFill}
                     className={styles["move-right"]}
-                    disabled={isLast}
+                    disabled={isLast || loadingImages}
                     iconClassName={styles["move-icon"]}
                     onClick={() => {
                       if (!isLast) {
@@ -100,6 +107,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsXCircleFill}
                     className={styles.remove}
+                    disabled={loadingImages}
                     iconClassName={styles["remove-icon"]}
                     onClick={() => remove(index)}
                     size={23}
