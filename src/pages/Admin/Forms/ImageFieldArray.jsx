@@ -24,6 +24,9 @@ const ImageFieldArray = observer(({ name }) => {
   });
   const [loadingImages, setLoadingImages] = useState(false);
   const fieldsRef = useRef(fields);
+  const filedIds = fields
+    .filter((field) => field.fileId)
+    .map((field) => field.fileId);
 
   useEffect(() => {
     fieldsRef.current = fields;
@@ -37,8 +40,8 @@ const ImageFieldArray = observer(({ name }) => {
           return;
         }
         const base64 = await descriptionStore.getOrFetchImage(field.fileId);
-        // use ref to get the latest state of fields
-        if (fieldsRef.current[index]) {
+        // update the field with the image only if the field is still the same
+        if (field.fileId === fieldsRef?.current[index]?.fileId) {
           update(index, { ...field, base64 });
         }
       });
@@ -46,11 +49,9 @@ const ImageFieldArray = observer(({ name }) => {
       setLoadingImages(false);
     };
 
-    if (!loadingImages) {
-      loadImages();
-    }
+    loadImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fields]);
+  }, [JSON.stringify(filedIds)]);
 
   const onAdd = (files) => {
     files.forEach((file) => append({ url: URL.createObjectURL(file) }));

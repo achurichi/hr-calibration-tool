@@ -6,7 +6,7 @@ import {
   DEFAULT_EXPRESSION_FORM,
   DEFAULT_MOTOR_FORM,
   DEFAULT_VISEME_FORM,
-} from "pages/Admin/Forms/defaultForms";
+} from "constants/forms";
 
 const useDefaultForm = () => {
   const { uiStore } = rootStore;

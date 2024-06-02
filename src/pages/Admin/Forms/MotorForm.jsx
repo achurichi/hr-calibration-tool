@@ -4,8 +4,7 @@ import { useFormContext } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import InputField from "pages/Admin/Forms/InputField";
-
-import PositionConfigurationForm from "pages/Admin/PositionConfigurationForm";
+import PositionConfigurationForm from "pages/Admin/Forms/PositionConfigurationForm";
 
 const MotorForm = () => {
   const {

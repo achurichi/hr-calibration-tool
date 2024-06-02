@@ -13,7 +13,7 @@ class AnimationDescription {
     this.name = data.name;
     this.type = data.type;
     this.configDescription = data.configDescription;
-    this.images = data.images;
+    this.images = data.images || [];
     this.motions =
       data.motions?.map((motion) => new MotionDescription(motion)) || [];
   }
