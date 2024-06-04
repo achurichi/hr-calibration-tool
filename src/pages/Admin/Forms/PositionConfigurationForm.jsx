@@ -17,8 +17,8 @@ const PositionConfigurationForm = ({ propName, title }) => {
   const imagesProp = `${propName}.images`;
 
   return (
-    <>
-      <div className="mt-2">
+    <div>
+      <div className="mb-1">
         <strong>{title}</strong>
       </div>
       <Row className={styles.row}>
@@ -49,7 +49,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
           <ImageFieldArray name={imagesProp} />
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 

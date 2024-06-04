@@ -11,21 +11,27 @@ import Spinner from "react-bootstrap/Spinner";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
-import useDefaultForm from "pages/Admin/Forms/useDefaultForm";
+import useDescriptionType from "pages/Admin/useDescriptionType";
 
 import rootStore from "stores/root.store";
 
 import { blobUrlToBase64String } from "utils/blob";
 import { cleanObject } from "utils/object";
-import { convertItemToForm } from "pages/Admin/utils";
+import { prepareForm } from "pages/Admin/utils";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
+  DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
   MODEL_NAME,
   NEW_ITEM_OPTION,
 } from "constants/descriptions";
+import {
+  DEFAULT_EXPRESSION_FORM,
+  DEFAULT_MOTOR_FORM,
+  DEFAULT_VISEME_FORM,
+} from "constants/forms";
 
 import ConfigurationBar from "pages/Admin/ConfigurationBar";
 import DataForm from "pages/Admin/Forms/DataForm";
@@ -36,7 +42,11 @@ const Admin = observer(() => {
   const { descriptionStore, uiStore } = rootStore;
   const { uiDescriptionStore } = uiStore;
   const callWithNotification = useCallWithNotification();
-  const defaultForm = useDefaultForm();
+  const defaultForm = useDescriptionType({
+    [DESCRIPTION_ITEM_TYPES.MOTOR]: DEFAULT_MOTOR_FORM,
+    [DESCRIPTION_ITEM_TYPES.VISEME]: DEFAULT_VISEME_FORM,
+    [DESCRIPTION_ITEM_TYPES.EXPRESSION]: DEFAULT_EXPRESSION_FORM,
+  });
   const methods = useForm({ defaultValues: defaultForm });
   const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
   const selectedItem = uiDescriptionStore.getSelectedItem();
@@ -82,7 +92,7 @@ const Admin = observer(() => {
     }
 
     if (selectedItem.value === NEW_ITEM_OPTION.value) {
-      methods.reset(defaultForm);
+      methods.reset(prepareForm(defaultForm, selectedConfiguration.value));
       return;
     }
 
@@ -90,7 +100,7 @@ const Admin = observer(() => {
       selectedItem.value,
       selectedConfiguration.value,
     );
-    methods.reset(convertItemToForm(item));
+    methods.reset(prepareForm(item, selectedConfiguration.value));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 

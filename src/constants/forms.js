@@ -23,11 +23,19 @@ export const DEFAULT_MOTOR_FORM = {
   },
 };
 
+export const DEFAULT_MOTION_FORM = {
+  name: "",
+  description: "",
+  defaultValue: 0,
+  maxValue: 1,
+  minValue: -1,
+};
+
 const DEFAULT_ANIMATION_FORM = {
   name: "",
   configDescription: "",
   images: [],
-  motions: [],
+  motions: [DEFAULT_MOTION_FORM],
 };
 
 export const DEFAULT_VISEME_FORM = {

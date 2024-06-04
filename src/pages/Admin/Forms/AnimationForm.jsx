@@ -1,19 +1,45 @@
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
-import { TextField } from "pages/Admin/CustomFields";
-
-import { Col, Row } from "react-bootstrap";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import InputField from "pages/Admin/Forms/InputField";
+import ImageFieldArray from "pages/Admin/Forms/ImageFieldArray";
+import MotionFieldArray from "pages/Admin/Forms/MotionFieldArray";
 
 const AnimationForm = () => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <Row>
-      <Col>
-        <TextField name="name" />
-      </Col>
-      <Col>
-        <TextField name="configDescription" label="Configuration Description" />
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <InputField
+          as={Col}
+          controlId="formName"
+          controlProps={{ type: "text", isInvalid: !!errors.name }}
+          label="Name"
+          registerName="name"
+          registerProps={{ required: "Name is required" }}
+        />
+      </Row>
+      <Row>
+        <InputField
+          as={Col}
+          controlId="formConfigDescription"
+          controlProps={{ as: "textarea" }}
+          label="Configuration Description"
+          registerName="configDescription"
+        />
+      </Row>
+      <Row>
+        <ImageFieldArray name="images" />
+      </Row>
+      <Row xs="12">
+        <MotionFieldArray name="motions" />
+      </Row>
+    </>
   );
 };
 
