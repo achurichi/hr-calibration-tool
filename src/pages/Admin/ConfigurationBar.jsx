@@ -92,6 +92,7 @@ const ConfigurationBar = observer(() => {
         iconClassName={styles.delete}
         onClick={onDelete}
         size={20}
+        tooltipProps={{ content: "Delete", id: "delete-icon" }}
       />
       <ClickableIcon
         Icon={BsPlusLg}
@@ -99,6 +100,7 @@ const ConfigurationBar = observer(() => {
         iconClassName={styles.add}
         onClick={onAdd}
         size={20}
+        tooltipProps={{ content: "Create new", id: "add-icon" }}
       />
     </div>
   );
