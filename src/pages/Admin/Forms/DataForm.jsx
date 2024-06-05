@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 
-import useDescriptionType from "pages/Admin/useDescriptionType";
+import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
 
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
