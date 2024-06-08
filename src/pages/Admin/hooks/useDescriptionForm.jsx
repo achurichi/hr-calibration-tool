@@ -6,7 +6,7 @@ import useCallWithNotification from "hooks/useCallWithNotification";
 import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
 
 import { blobUrlToBase64String } from "utils/blob";
-import { cleanObject } from "utils/object";
+import { clean, trimStrings } from "utils/object";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
@@ -17,6 +17,7 @@ import {
 } from "constants/descriptions";
 import {
   DEFAULT_EXPRESSION_FORM,
+  DEFAULT_MOTION_FORM,
   DEFAULT_MOTOR_FORM,
   DEFAULT_VISEME_FORM,
 } from "constants/forms";
@@ -38,22 +39,29 @@ const useDescriptionForm = () => {
       return null;
     }
 
-    // clone deep to avoid editing to the original object
-    const form = cloneDeep(baseForm);
+    // clone deep to avoid editing to the original nested object
+    // use defaultBaseForm because react-hook-form expects a form with all the fields
+    const form = cloneDeep({ ...defaultBaseForm, ...baseForm });
 
     // need to convert flat arrays to objects because useFieldArray from react-hook-form expects objects
     if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
       ["neutralPosition", "minPosition", "maxPosition"].forEach((position) => {
-        form[position].images = form[position].images.map((fileId) => ({
-          fileId,
+        form[position] = {
+          ...defaultBaseForm[position],
+          ...baseForm[position],
+        };
+        form[position].images = form[position].images.map((id) => ({
+          value: { id },
         }));
       });
     } else if (
       configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
       configurationType === DESCRIPTION_ITEM_TYPES.VISEME
     ) {
-      form.images = form.images.map((fileId) => ({ fileId }));
-      form.motions = form.motions.map((motion) => ({ value: motion }));
+      form.images = form.images.map((id) => ({ value: { id } }));
+      form.motions = form.motions.map((motion) => ({
+        value: { ...DEFAULT_MOTION_FORM, ...motion },
+      }));
     }
 
     return form;
@@ -61,10 +69,10 @@ const useDescriptionForm = () => {
 
   const uploadImages = async (images) => {
     const promises = images.map(async (image) => {
-      if (image.fileId) {
-        return image.fileId; // the image is already uploaded
+      if (image.value.id) {
+        return image.value.id; // the image is already uploaded
       }
-      const base64 = await blobUrlToBase64String(image.url);
+      const base64 = await blobUrlToBase64String(image.value.url);
       const id = await descriptionStore.saveImage(base64);
       if (!id) {
         throw new Error("Failed to save image");
@@ -74,32 +82,46 @@ const useDescriptionForm = () => {
     return await Promise.allSettled(promises);
   };
 
+  const processImages = async (images) => {
+    const imageResults = await uploadImages(images);
+    const ids = imageResults
+      .filter((p) => p.status === "fulfilled")
+      .map((p) => p.value);
+    const failed = imageResults.filter((p) => p.status === "rejected").length;
+    return { ids, failed };
+  };
+
   const prepareFormToUpload = async (data) => {
     const clonedData = cloneDeep(data); // TODO: don't clone
     let failed = 0;
-    // TODO: Extend this for animations
-    const positionPromises = [
-      "neutralPosition",
-      "minPosition",
-      "maxPosition",
-    ].map(async (item) => {
-      const imagePromises = await uploadImages(clonedData[item].images);
-      const failedPromises = imagePromises.filter(
-        (p) => p.status === "rejected",
-      );
-      failed += failedPromises.length;
-      clonedData[item].images = imagePromises
-        .filter((p) => p.status === "fulfilled")
-        .map((p) => p.value);
-    });
 
-    await Promise.all(positionPromises);
+    if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
+      const positionPromises = [
+        "neutralPosition",
+        "minPosition",
+        "maxPosition",
+      ].map(async (item) => {
+        const processedImages = await processImages(clonedData[item].images);
+        clonedData[item].images = processedImages.ids;
+        failed += processedImages.failed;
+      });
+      await Promise.all(positionPromises);
+    } else if (
+      configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
+      configurationType === DESCRIPTION_ITEM_TYPES.VISEME
+    ) {
+      const processedImages = await processImages(clonedData.images);
+      clonedData.images = processedImages.ids;
+      failed += processedImages.failed;
+      clonedData.motions = clonedData.motions.map((motion) => motion.value);
+    }
+
     if (failed) {
       // TODO: delete the images that were saved
       throw new Error(`Error: ${failed} image(s) couldn't be saved`);
     }
 
-    return cleanObject(clonedData);
+    return clean(trimStrings(clonedData));
   };
 
   const submitForm = async (data) => {

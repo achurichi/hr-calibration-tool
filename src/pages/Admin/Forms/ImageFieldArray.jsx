@@ -24,9 +24,9 @@ const ImageFieldArray = observer(({ name }) => {
   });
   const [loadingImages, setLoadingImages] = useState(false);
   const fieldsRef = useRef(fields);
-  const filedIds = fields
-    .filter((field) => field.fileId)
-    .map((field) => field.fileId);
+  const fileIds = fields
+    .filter((field) => field.value.id)
+    .map((field) => field.value.id);
 
   useEffect(() => {
     fieldsRef.current = fields;
@@ -36,13 +36,13 @@ const ImageFieldArray = observer(({ name }) => {
     const loadImages = async () => {
       setLoadingImages(true);
       const promises = fields.map(async (field, index) => {
-        if (!field.fileId || field.base64) {
+        if (!field.value.id || field.value.base64) {
           return;
         }
-        const base64 = await descriptionStore.getOrFetchImage(field.fileId);
+        const base64 = await descriptionStore.getOrFetchImage(field.value.id);
         // update the field with the image only if the field is still the same
-        if (field.fileId === fieldsRef?.current[index]?.fileId) {
-          update(index, { ...field, base64 });
+        if (field.value.id === fieldsRef?.current[index]?.value.id) {
+          update(index, { ...field, value: { ...field.value, base64 } });
         }
       });
       await Promise.all(promises);
@@ -51,10 +51,12 @@ const ImageFieldArray = observer(({ name }) => {
 
     loadImages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(filedIds)]);
+  }, [JSON.stringify(fileIds)]);
 
   const onAdd = (files) => {
-    files.forEach((file) => append({ url: URL.createObjectURL(file) }));
+    files.forEach((file) =>
+      append({ value: { url: URL.createObjectURL(file) } }),
+    );
   };
 
   return (
@@ -62,7 +64,7 @@ const ImageFieldArray = observer(({ name }) => {
       <div className="mb-2">Images</div>
       <div className={styles.container}>
         {fields.map((field, index) => {
-          const url = field.url || field.base64;
+          const url = field.value.url || field.value.base64;
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
           return (
@@ -78,7 +80,7 @@ const ImageFieldArray = observer(({ name }) => {
                     alt="thumbnail"
                     className={styles.thumbnail}
                     src={url}
-                    {...register(`${name}.${index}.url`)}
+                    {...register(`${name}.${index}.value.url`)}
                   />
                   <div className={styles["hover-background"]}></div>
                   <ClickableIcon

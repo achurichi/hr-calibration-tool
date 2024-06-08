@@ -6,7 +6,7 @@
  * @param {Object} obj - The object to be cleaned.
  * @returns {Object} - The cleaned object.
  */
-export const cleanObject = (obj) => {
+export const clean = (obj) => {
   // Helper function to determine if a value is empty
   const isEmpty = (v) => {
     return (
@@ -19,15 +19,15 @@ export const cleanObject = (obj) => {
     );
   };
 
-  const clean = (obj) => {
+  const cleanObject = (obj) => {
     if (Array.isArray(obj)) {
       return obj
-        .map((v) => (typeof v === "object" ? clean(v) : v))
+        .map((v) => (typeof v === "object" ? cleanObject(v) : v))
         .filter((v) => !isEmpty(v));
     } else if (typeof obj === "object" && obj !== null) {
       return Object.fromEntries(
         Object.entries(obj)
-          .map(([k, v]) => [k, typeof v === "object" ? clean(v) : v])
+          .map(([k, v]) => [k, typeof v === "object" ? cleanObject(v) : v])
           .filter(([_, v]) => !isEmpty(v)),
       );
     } else {
@@ -35,5 +35,40 @@ export const cleanObject = (obj) => {
     }
   };
 
-  return clean(obj);
+  return cleanObject(obj);
+};
+
+/**
+ * Trims all string properties in an object.
+ *
+ * @param {Object} obj - The object to be processed.
+ * @returns {Object} - The object with all string properties trimmed.
+ */
+export const trimStrings = (obj) => {
+  const trimStringsInObject = (obj) => {
+    if (Array.isArray(obj)) {
+      return obj.map((v) =>
+        typeof v === "object"
+          ? trimStringsInObject(v)
+          : typeof v === "string"
+            ? v.trim()
+            : v,
+      );
+    } else if (typeof obj === "object" && obj !== null) {
+      return Object.fromEntries(
+        Object.entries(obj).map(([k, v]) => [
+          k,
+          typeof v === "object"
+            ? trimStringsInObject(v)
+            : typeof v === "string"
+              ? v.trim()
+              : v,
+        ]),
+      );
+    } else {
+      return obj;
+    }
+  };
+
+  return trimStringsInObject(obj);
 };

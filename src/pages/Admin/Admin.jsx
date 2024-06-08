@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
+import isEmpty from "lodash/isEmpty";
 
 import Button from "components/Button/Button";
 import Form from "react-bootstrap/Form";
@@ -31,6 +32,7 @@ const Admin = observer(() => {
   const methods = useForm({ defaultValues: defaultForm });
   const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
   const selectedItem = uiDescriptionStore.getSelectedItem();
+  const isDirty = !isEmpty(methods.formState.dirtyFields); // not using isDirty because sometimes it's not updated
 
   useEffect(() => {
     return () => {
@@ -68,11 +70,7 @@ const Admin = observer(() => {
   }, [selectedConfiguration]);
 
   useEffect(() => {
-    if (!selectedItem) {
-      return;
-    }
-
-    if (selectedItem.value === NEW_ITEM_OPTION.value) {
+    if (!selectedItem || selectedItem.value === NEW_ITEM_OPTION.value) {
       methods.reset(defaultForm);
       return;
     }
@@ -81,13 +79,14 @@ const Admin = observer(() => {
       selectedItem.value,
       selectedConfiguration.value,
     );
+    methods.reset(); // reset with no arguments to clean empty fields with spaces
     methods.reset(prepareFormToRender(item));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 
   return (
     <div className={styles.container}>
-      <ConfigurationBar />
+      <ConfigurationBar unsaved={isDirty} />
       <RenderWithLoader
         dependencies={[
           FUNCTIONS.MOTORS_DESCRIPTIONS.GET_BY_MODEL_NAME,

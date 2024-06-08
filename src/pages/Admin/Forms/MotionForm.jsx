@@ -40,8 +40,9 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.minValue`}
           controlProps={{
-            type: "number",
             isInvalid: !!errors[name]?.[index]?.value?.minValue,
+            step: "0.1",
+            type: "number",
           }}
           label="Minimum Value"
           registerProps={{ required: "Minimum Value is required" }}
@@ -52,8 +53,9 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.maxValue`}
           controlProps={{
-            type: "number",
             isInvalid: !!errors[name]?.[index]?.value?.maxValue,
+            step: "0.1",
+            type: "number",
           }}
           label="Maximum Value"
           registerProps={{ required: "Maximum Value is required" }}
@@ -64,8 +66,9 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.defaultValue`}
           controlProps={{
-            type: "number",
             isInvalid: !!errors[name]?.[index]?.value?.defaultValue,
+            step: "0.1",
+            type: "number",
           }}
           label="Default Value"
           registerProps={{ required: "Default Value is required" }}

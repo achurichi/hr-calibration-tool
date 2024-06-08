@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 
 import { BsTrash, BsPlusLg } from "react-icons/bs";
@@ -16,23 +16,67 @@ import {
 } from "constants/descriptions";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 
 import styles from "./ConfigurationBar.module.scss";
 
-const ConfigurationBar = observer(() => {
+const ConfigurationBar = observer(({ unsaved }) => {
   const { descriptionStore, uiStore } = rootStore;
   const callWithNotification = useCallWithNotification();
   const { uiDescriptionStore } = uiStore;
   const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
   const editDisabled = uiDescriptionStore.getEditDisabled();
+  const [confirmationModalConfig, setConfirmationModalConfig] = useState({
+    show: false,
+  });
 
-  const onAdd = () => {
-    if (!uiDescriptionStore.getIsNewItem()) {
-      uiDescriptionStore.setIsNewItem(true);
+  const resetConfirmationModal = () =>
+    setConfirmationModalConfig({ show: false });
+
+  const handleUnsavedChanges = (onConfirmAction) => {
+    if (unsaved) {
+      setConfirmationModalConfig({
+        confirmLabel: "Continue",
+        message:
+          "There are unsaved changes. Are you sure you want to continue?",
+        onCancel: resetConfirmationModal,
+        onConfirm: () => {
+          onConfirmAction();
+          resetConfirmationModal();
+        },
+        show: true,
+        title: "Unsaved Changes",
+      });
+    } else {
+      onConfirmAction();
     }
   };
 
-  const onDelete = async () => {
+  const onDelete = () => {
+    if (uiDescriptionStore.getIsNewItem()) {
+      deleteItem();
+    } else {
+      setConfirmationModalConfig({
+        confirmLabel: "Delete",
+        message: (
+          <div>
+            {"Are you sure you want to delete "}
+            {uiDescriptionStore.getSelectedItem()?.label}
+            {"?"}
+          </div>
+        ),
+        onCancel: resetConfirmationModal,
+        onConfirm: async () => {
+          await deleteItem();
+          resetConfirmationModal();
+        },
+        show: true,
+        title: "Delete Configuration",
+      });
+    }
+  };
+
+  const deleteItem = async () => {
     const selectedItem = uiDescriptionStore.getSelectedItem();
     if (!selectedItem) {
       return;
@@ -73,7 +117,15 @@ const ConfigurationBar = observer(() => {
       <Select
         className={styles.configuration}
         isDisabled={editDisabled}
-        onChange={uiDescriptionStore.setSelectedConfiguration}
+        onChange={(option) => {
+          if (
+            option?.value !== uiDescriptionStore.selectedConfiguration?.value
+          ) {
+            handleUnsavedChanges(() =>
+              uiDescriptionStore.setSelectedConfiguration(option),
+            );
+          }
+        }}
         options={uiDescriptionStore.getConfigurationOptions()}
         value={uiDescriptionStore.getSelectedConfiguration()}
       />
@@ -81,11 +133,16 @@ const ConfigurationBar = observer(() => {
         className={styles.item}
         isClearable
         isDisabled={editDisabled}
-        onChange={uiDescriptionStore.setSelectedItem}
+        onChange={(option) => {
+          if (option?.value !== uiDescriptionStore.selectedItem?.value) {
+            handleUnsavedChanges(() =>
+              uiDescriptionStore.setSelectedItem(option),
+            );
+          }
+        }}
         options={uiDescriptionStore.getItemOptions()}
         value={uiDescriptionStore.getSelectedItem()}
       />
-      {/* TODO: Add confirmation modal on delete */}
       <ClickableIcon
         Icon={BsTrash}
         disabled={editDisabled || !uiDescriptionStore.getSelectedItem()}
@@ -98,10 +155,15 @@ const ConfigurationBar = observer(() => {
         Icon={BsPlusLg}
         disabled={editDisabled || uiDescriptionStore.getIsNewItem()}
         iconClassName={styles.add}
-        onClick={onAdd}
+        onClick={() => {
+          if (!uiDescriptionStore.getIsNewItem()) {
+            handleUnsavedChanges(() => uiDescriptionStore.setIsNewItem(true));
+          }
+        }}
         size={20}
         tooltipProps={{ content: "Create new", id: "add-icon" }}
       />
+      <ConfirmationModal disabled={editDisabled} {...confirmationModalConfig} />
     </div>
   );
 });

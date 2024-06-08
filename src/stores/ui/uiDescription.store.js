@@ -36,6 +36,7 @@ class UiDescriptionStore {
 
   setSelectedConfiguration(configuration) {
     this.selectedConfiguration = configuration;
+    this.setSelectedItem(null);
   }
 
   getSelectedConfiguration() {
