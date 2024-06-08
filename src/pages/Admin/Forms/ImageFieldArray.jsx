@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 
@@ -18,40 +18,22 @@ import styles from "./ImageFieldArray.module.scss";
 const ImageFieldArray = observer(({ name }) => {
   const { descriptionStore } = rootStore;
   const { control, register } = useFormContext();
-  const { fields, append, remove, move, update } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name,
   });
-  const [loadingImages, setLoadingImages] = useState(false);
-  const fieldsRef = useRef(fields);
   const fileIds = fields
     .filter((field) => field.value.id)
     .map((field) => field.value.id);
 
   useEffect(() => {
-    fieldsRef.current = fields;
-  }, [fields]);
-
-  useEffect(() => {
-    const loadImages = async () => {
-      setLoadingImages(true);
-      const promises = fields.map(async (field, index) => {
-        if (!field.value.id || field.value.base64) {
-          return;
-        }
-        const base64 = await descriptionStore.getOrFetchImage(field.value.id);
-        // update the field with the image only if the field is still the same
-        if (field.value.id === fieldsRef?.current[index]?.value.id) {
-          update(index, { ...field, value: { ...field.value, base64 } });
-        }
-      });
-      await Promise.all(promises);
-      setLoadingImages(false);
-    };
-
-    loadImages();
+    fields.forEach((field) => {
+      if (field.value.id) {
+        descriptionStore.fetchImageIfNotPresent(field.value.id);
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(fileIds)]);
+  }, [fileIds]);
 
   const onAdd = (files) => {
     files.forEach((file) =>
@@ -64,7 +46,9 @@ const ImageFieldArray = observer(({ name }) => {
       <div className="mb-2">Images</div>
       <div className={styles.container}>
         {fields.map((field, index) => {
-          const url = field.value.url || field.value.base64;
+          // use referenceImages map directly to trigger re-render when the image is loaded
+          const image = descriptionStore.referenceImages.get(field.value.id);
+          const url = field.value.url || image?.base64;
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
           return (
@@ -86,7 +70,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsArrowLeftCircleFill}
                     className={styles["move-left"]}
-                    disabled={isFirst || loadingImages}
+                    disabled={isFirst}
                     iconClassName={styles["move-icon"]}
                     onClick={() => {
                       if (!isFirst) {
@@ -98,7 +82,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsArrowRightCircleFill}
                     className={styles["move-right"]}
-                    disabled={isLast || loadingImages}
+                    disabled={isLast}
                     iconClassName={styles["move-icon"]}
                     onClick={() => {
                       if (!isLast) {
@@ -110,7 +94,6 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsXCircleFill}
                     className={styles.remove}
-                    disabled={loadingImages}
                     iconClassName={styles["remove-icon"]}
                     onClick={() => remove(index)}
                     size={23}

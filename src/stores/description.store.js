@@ -6,6 +6,7 @@ import {
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
 } from "constants/descriptions";
+import { STATUS_TYPES } from "constants/status";
 
 import AnimationsDescription from "models/descriptions/AnimationsDescription";
 import MotorsDescription from "models/descriptions/MotorsDescription";
@@ -89,11 +90,22 @@ class DescriptionStore {
     this.setDescription(type, new DescriptionClass(data));
   }
 
-  async getOrFetchImage(id) {
+  getImage(id) {
+    this.referenceImages.get(id);
+  }
+
+  setLoadingImage(id) {
+    this.referenceImages.set(id, {
+      base64: null,
+      status: STATUS_TYPES.LOADING,
+    });
+  }
+
+  fetchImageIfNotPresent(id) {
     if (!this.referenceImages.has(id)) {
-      await this.fetchImage(id);
+      this.setLoadingImage(id);
+      this.fetchImage(id);
     }
-    return this.referenceImages.get(id);
   }
 
   async fetchImage(id) {
@@ -117,7 +129,10 @@ class DescriptionStore {
       return null;
     }
 
-    this.referenceImages.set(data._id, data.base64);
+    this.referenceImages.set(data._id, {
+      base64: data.base64 || null,
+      status: data.base64 ? STATUS_TYPES.SUCCESS : STATUS_TYPES.ERROR,
+    });
     return data._id;
   }
 }
