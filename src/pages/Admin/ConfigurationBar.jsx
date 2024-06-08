@@ -58,6 +58,7 @@ const ConfigurationBar = observer(({ unsaved }) => {
     } else {
       setConfirmationModalConfig({
         confirmLabel: "Delete",
+        confirmVariant: "danger",
         message: (
           <div>
             {"Are you sure you want to delete "}

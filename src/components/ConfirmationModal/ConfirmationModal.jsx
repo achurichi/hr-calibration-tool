@@ -6,7 +6,9 @@ import Button from "components/Button/Button";
 
 const ConfirmationModal = ({
   cancelLabel = "Cancel",
+  cancelVariant = "secondary",
   confirmLabel = "Confirm",
+  confirmVariant = "primary",
   disabled,
   message,
   onCancel,
@@ -21,10 +23,14 @@ const ConfirmationModal = ({
       </Modal.Header>
       <Modal.Body>{message}</Modal.Body>
       <Modal.Footer>
-        <Button disabled={disabled} variant="secondary" onClick={onCancel}>
+        <Button disabled={disabled} onClick={onCancel} variant={cancelVariant}>
           {cancelLabel}
         </Button>
-        <Button disabled={disabled} variant="primary" onClick={onConfirm}>
+        <Button
+          disabled={disabled}
+          onClick={onConfirm}
+          variant={confirmVariant}
+        >
           {confirmLabel}
         </Button>
       </Modal.Footer>

@@ -3,13 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import Nav from "react-bootstrap/Nav";
 
-import {
-  BsChevronLeft,
-  BsChevronRight,
-  BsEmojiLaughing,
-  BsPersonCircle,
-  BsWrench,
-} from "react-icons/bs";
+import { BsEmojiLaughing, BsPersonCircle, BsWrench } from "react-icons/bs";
+import { MdOutlineMenu } from "react-icons/md";
 import { GiLips } from "react-icons/gi";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
@@ -22,7 +17,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const selected = {
     motorsCalibration: pathname.startsWith(PATHS.MOTORS),
@@ -65,11 +60,14 @@ const Sidebar = () => {
       })}
       onSelect={(route) => navigate(route)}
     >
-      <ClickableIcon
-        Icon={isCollapsed ? BsChevronRight : BsChevronLeft}
-        className={styles["collapse-button"]}
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      />
+      <div className={styles["collapse-button-container"]}>
+        <ClickableIcon
+          Icon={MdOutlineMenu}
+          className={styles["collapse-button"]}
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          size={18}
+        />
+      </div>
       {options.map(({ Icon, name, route, selected }) => (
         <Nav.Item
           key={route}
