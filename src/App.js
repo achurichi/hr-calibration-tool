@@ -6,8 +6,6 @@ import { ToastContainer } from "react-toastify";
 
 import rootStore from "stores/root.store";
 
-import { BASE_PATH } from "constants/routes";
-
 function App() {
   const { realmStore } = rootStore;
   const [loading, setLoading] = useState(true);
@@ -28,7 +26,7 @@ function App() {
 
   return (
     <>
-      <HashRouter basename={BASE_PATH}>
+      <HashRouter>
         <Router />
       </HashRouter>
       <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
