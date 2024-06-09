@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import Nav from "react-bootstrap/Nav";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import { BsEmojiLaughing, BsPersonCircle, BsWrench } from "react-icons/bs";
 import { MdOutlineMenu } from "react-icons/md";
@@ -9,7 +11,8 @@ import { GiLips } from "react-icons/gi";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 
-import { PATHS } from "../../constants/routes";
+import { DEFAULT_TOOLTIP_DELAY } from "constants/tooltips";
+import { PATHS } from "constants/routes";
 
 import styles from "./Sidebar.module.scss";
 
@@ -47,11 +50,48 @@ const Sidebar = () => {
     },
     {
       Icon: BsPersonCircle,
+      bottom: true,
       name: "Admin",
       route: PATHS.ADMIN,
       selected: selected.admin,
     },
   ];
+  const topOptions = options.filter(({ bottom }) => !bottom);
+  const bottomOptions = options.filter(({ bottom }) => bottom);
+
+  const renderOption = ({ Icon, name, route, selected }) => (
+    <Nav.Item
+      key={route}
+      className={classNames(styles.item, {
+        [styles.selected]: selected,
+      })}
+    >
+      <OverlayTrigger
+        show={isCollapsed ? undefined : false}
+        placement="right"
+        delay={DEFAULT_TOOLTIP_DELAY}
+        overlay={<Tooltip id={`tooltip-${name}`}>{name}</Tooltip>}
+      >
+        <Nav.Link
+          className={classNames(styles.link, {
+            [styles.collapsed]: isCollapsed,
+          })}
+          eventKey={route}
+        >
+          <div className={styles["icon-container"]}>
+            <Icon className={styles.icon} />
+          </div>
+          <div
+            className={classNames(styles.text, {
+              [styles.collapsed]: isCollapsed,
+            })}
+          >
+            {name}
+          </div>
+        </Nav.Link>
+      </OverlayTrigger>
+    </Nav.Item>
+  );
 
   return (
     <Nav
@@ -60,38 +100,18 @@ const Sidebar = () => {
       })}
       onSelect={(route) => navigate(route)}
     >
-      <div className={styles["collapse-button-container"]}>
-        <ClickableIcon
-          Icon={MdOutlineMenu}
-          className={styles["collapse-button"]}
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          size={18}
-        />
+      <div className={styles["top-options"]}>
+        <div className={styles["collapse-button-container"]}>
+          <ClickableIcon
+            Icon={MdOutlineMenu}
+            className={styles["collapse-button"]}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            size={18}
+          />
+        </div>
+        {topOptions.map(renderOption)}
       </div>
-      {options.map(({ Icon, name, route, selected }) => (
-        <Nav.Item
-          key={route}
-          className={classNames(styles.item, {
-            [styles.selected]: selected,
-          })}
-        >
-          <Nav.Link
-            className={classNames(styles.link, {
-              [styles.collapsed]: isCollapsed,
-            })}
-            eventKey={route}
-          >
-            <Icon className={styles.icon} />
-            <div
-              className={classNames(styles.text, {
-                [styles.collapsed]: isCollapsed,
-              })}
-            >
-              {name}
-            </div>
-          </Nav.Link>
-        </Nav.Item>
-      ))}
+      <div>{bottomOptions.map(renderOption)}</div>
     </Nav>
   );
 };
