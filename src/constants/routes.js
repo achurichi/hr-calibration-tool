@@ -1,4 +1,4 @@
-export const BASE_PATH = "/hr-calibration-tool";
+export const BASE_PATH = "/";
 
 export const PATHS = {
   MOTORS: "/motors",
