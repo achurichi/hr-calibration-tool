@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hr-calibration-tool/static/css/main.52b435de.css",
-    "main.js": "/hr-calibration-tool/static/js/main.65d295c9.js",
+    "main.js": "/hr-calibration-tool/static/js/main.686f694f.js",
     "static/js/592.014949ac.chunk.js": "/hr-calibration-tool/static/js/592.014949ac.chunk.js",
     "index.html": "/hr-calibration-tool/index.html",
     "main.52b435de.css.map": "/hr-calibration-tool/static/css/main.52b435de.css.map",
-    "main.65d295c9.js.map": "/hr-calibration-tool/static/js/main.65d295c9.js.map",
+    "main.686f694f.js.map": "/hr-calibration-tool/static/js/main.686f694f.js.map",
     "592.014949ac.chunk.js.map": "/hr-calibration-tool/static/js/592.014949ac.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.52b435de.css",
-    "static/js/main.65d295c9.js"
+    "static/js/main.686f694f.js"
   ]
 }
