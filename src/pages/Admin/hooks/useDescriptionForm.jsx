@@ -67,12 +67,10 @@ const useDescriptionForm = () => {
     return form;
   };
 
-  const showUploadingInfoMessage = (toUpload) => {
-    if (toUpload >= 5) {
-      toast.info(`Uploading ${toUpload} images, this may take a while`, {
-        autoClose: 5000,
-      });
-    }
+  const showUploadingInfoMessage = () => {
+    toast.info(`Uploading images, this may take a while`, {
+      autoClose: 5000,
+    });
   };
 
   const uploadImages = async (images) => {
@@ -113,24 +111,30 @@ const useDescriptionForm = () => {
 
     let failed = 0;
     if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
-      let toUpload = 0;
+      let showInfoMessage = false;
       const positionPromises = [
         "neutralPosition",
         "minPosition",
         "maxPosition",
       ].map(async (item) => {
-        toUpload += clonedData[item].images.length;
+        showInfoMessage =
+          showInfoMessage ||
+          !!clonedData[item].images.some(({ value }) => !value.id);
         const processedImages = await processImages(clonedData[item].images);
         clonedData[item].images = processedImages.ids;
         failed += processedImages.failed;
       });
-      showUploadingInfoMessage(toUpload);
+      if (showInfoMessage) {
+        showUploadingInfoMessage();
+      }
       await Promise.all(positionPromises);
     } else if (
       configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
       configurationType === DESCRIPTION_ITEM_TYPES.VISEME
     ) {
-      showUploadingInfoMessage(clonedData.images.length);
+      if (clonedData.images.some(({ value }) => !value.id)) {
+        showUploadingInfoMessage();
+      }
       const processedImages = await processImages(clonedData.images);
       clonedData.images = processedImages.ids;
       failed += processedImages.failed;

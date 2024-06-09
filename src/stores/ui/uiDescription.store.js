@@ -78,7 +78,7 @@ class UiDescriptionStore {
     if (this.isNewItem && item?.value !== NEW_ITEM_OPTION.value) {
       this.setIsNewItem(false);
     }
-    this.selectedItem = item;
+    this.selectedItem = item || null;
   }
 
   setSelectedItemById(id) {
