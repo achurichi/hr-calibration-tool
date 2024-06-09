@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Router from "./pages/Router";
 import { observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
@@ -28,9 +28,9 @@ function App() {
 
   return (
     <>
-      <BrowserRouter basename={BASE_PATH}>
+      <HashRouter basename={BASE_PATH}>
         <Router />
-      </BrowserRouter>
+      </HashRouter>
       <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
     </>
   );
