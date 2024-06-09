@@ -22,9 +22,7 @@ const AnimationsList = ({ animations, actionLink }) => {
     return {
       ...item,
       action: (
-        <ClickableIcon onClick={() => navigate(actionLink)}>
-          <BsPencil />
-        </ClickableIcon>
+        <ClickableIcon Icon={BsPencil} onClick={() => navigate(actionLink)} />
       ),
     };
   });

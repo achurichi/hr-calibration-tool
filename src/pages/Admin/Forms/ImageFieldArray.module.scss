@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .image-container {
+    position: relative;
+
+    .spinner-container,
+    .thumbnail {
+      border-radius: 0.5rem;
+      height: 10rem;
+      width: 10rem;
+    }
+
+    .spinner-container {
+      align-items: center;
+      background-color: var(--gray-200);
+      display: flex;
+      justify-content: center;
+    }
+
+    .thumbnail {
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .move-left,
+    .move-right,
+    .remove {
+      display: flex;
+      position: absolute;
+    }
+
+    .move-left {
+      bottom: 0.5rem;
+      left: 3.25rem;
+    }
+
+    .move-right {
+      bottom: 0.5rem;
+      right: 3.25rem;
+    }
+
+    .remove {
+      right: 0.5rem;
+      top: 0.5rem;
+    }
+
+    .move-icon,
+    .remove-icon {
+      background: white;
+      border-radius: 1rem;
+    }
+
+    .remove-icon {
+      color: var(--danger);
+    }
+  }
+}

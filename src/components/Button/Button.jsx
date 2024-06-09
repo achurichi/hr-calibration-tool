@@ -3,30 +3,27 @@ import ReactButton from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const DEFAULT_TOOLTIP_DELAY = { show: 250, hide: 400 };
-const DEFAULT_TOOLTIP_PLACEMENT = "top";
+import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
 
 function Button({
   children,
-  tooltip,
-  tooltipDelay = DEFAULT_TOOLTIP_DELAY,
-  tooltipId = "",
-  tooltipPlacement = DEFAULT_TOOLTIP_PLACEMENT,
+  tooltipProps = DEFAULT_TOOLTIP_PROPS,
   ...buttonProps
 }) {
+  const tooltipConfig = { ...DEFAULT_TOOLTIP_PROPS, ...tooltipProps };
   const button = <ReactButton {...buttonProps}>{children}</ReactButton>;
 
-  if (!tooltip) {
+  if (!tooltipConfig.content) {
     return button;
   }
 
   return (
     <OverlayTrigger
-      placement={tooltipPlacement}
-      delay={tooltipDelay}
+      placement={tooltipConfig.placement}
+      delay={tooltipConfig.delay}
       overlay={(props) => (
-        <Tooltip id={tooltipId} {...props}>
-          {tooltip}
+        <Tooltip id={tooltipConfig.id} {...props}>
+          {tooltipConfig.content}
         </Tooltip>
       )}
     >

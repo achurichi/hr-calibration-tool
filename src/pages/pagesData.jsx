@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 
 import { PATHS } from "constants/routes";
 
+import Admin from "pages/Admin/Admin";
 import ExpressionConfiguration from "pages/Expressions/ExpressionConfiguration/ExpressionConfiguration";
 import Expressions from "pages/Expressions/Expressions";
 import Login from "pages/Login/Login";
@@ -52,6 +53,11 @@ const pagesData = [
         path: PATHS.EXPRESSION_CONFIGURE,
         element: <ExpressionConfiguration />,
         title: "expression-configure",
+      },
+      {
+        path: PATHS.ADMIN,
+        element: <Admin />,
+        title: "admin",
       },
     ],
   },

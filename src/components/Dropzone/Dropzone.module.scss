@@ -1,0 +1,19 @@
+.container {
+  align-items: center;
+  background-color: var(--gray-200);
+  border-radius: 0.5rem;
+  border: 0.3rem dashed var(--gray-400);
+  color: var(--gray-500);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+  justify-content: center;
+  min-height: 10rem;
+  padding: 0.5rem;
+  width: 10rem;
+
+  .text {
+    text-align: center;
+  }
+}

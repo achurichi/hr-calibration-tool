@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import DescriptionStore from "stores/description.store";
 import FiltersStore from "stores/filters.store";
 import GroupsStore from "stores/groups.store";
 import MotorConfigurationStore from "stores/motorConfiguration.store";
@@ -20,6 +21,7 @@ class RootStore {
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
 
+    this.descriptionStore = new DescriptionStore(this);
     this.filtersStore = new FiltersStore(this);
     this.groupsStore = new GroupsStore(this);
     this.motorConfigurationStore = new MotorConfigurationStore(this);

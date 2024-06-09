@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .field-container {
+    display: flex;
+    gap: 0.5rem;
+
+    .card {
+      width: 100%;
+
+      .title {
+        background: var(--gray-100);
+        border-bottom: 1px solid var(--gray-300);
+        border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+        display: flex;
+        font-size: 1rem;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+
+        .remove-icon {
+          color: var(--danger);
+        }
+      }
+
+      .body {
+        padding-top: 0;
+      }
+    }
+
+    .move {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+  }
+
+  .add-button {
+    align-items: center;
+    display: flex;
+    gap: 0.25rem;
+  }
+}

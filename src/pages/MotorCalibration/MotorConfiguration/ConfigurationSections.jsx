@@ -7,7 +7,7 @@ import {
   buildConfigurationData,
   getSliderMaxValue,
   getSliderMinValue,
-} from "pages/MotorCalibration/MotorConfiguration/utilities";
+} from "pages/MotorCalibration/MotorConfiguration/utils";
 
 import styles from "./ConfigurationSections.module.scss";
 
