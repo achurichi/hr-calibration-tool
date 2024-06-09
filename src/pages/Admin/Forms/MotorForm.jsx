@@ -20,7 +20,10 @@ const MotorForm = () => {
           controlProps={{ type: "text", isInvalid: !!errors.name }}
           label="Name"
           registerName="name"
-          registerProps={{ required: "Name is required" }}
+          registerProps={{
+            required: "Name is required",
+            validate: (value) => !!value.trim() || "Name is required",
+          }}
           xs="6"
         />
         <InputField

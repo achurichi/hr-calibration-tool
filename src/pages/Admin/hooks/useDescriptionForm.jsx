@@ -67,6 +67,14 @@ const useDescriptionForm = () => {
     return form;
   };
 
+  const showUploadingInfoMessage = (toUpload) => {
+    if (toUpload >= 5) {
+      toast.info(`Uploading ${toUpload} images, this may take a while`, {
+        autoClose: 5000,
+      });
+    }
+  };
+
   const uploadImages = async (images) => {
     const promises = images.map(async (image) => {
       if (image.value.id) {
@@ -92,24 +100,37 @@ const useDescriptionForm = () => {
   };
 
   const prepareFormToUpload = async (data) => {
-    const clonedData = cloneDeep(data); // TODO: don't clone
-    let failed = 0;
+    const clonedData = trimStrings(cloneDeep(data)); // TODO: don't clone
 
+    // check if the name already exists in another item
+    const desriptionItems = uiDescriptionStore.getDescriptionItems();
+    const invalidName = desriptionItems.some(
+      (item) => item.name === clonedData.name && item.id !== clonedData.id,
+    );
+    if (invalidName) {
+      throw new Error("Name already exists");
+    }
+
+    let failed = 0;
     if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
+      let toUpload = 0;
       const positionPromises = [
         "neutralPosition",
         "minPosition",
         "maxPosition",
       ].map(async (item) => {
+        toUpload += clonedData[item].images.length;
         const processedImages = await processImages(clonedData[item].images);
         clonedData[item].images = processedImages.ids;
         failed += processedImages.failed;
       });
+      showUploadingInfoMessage(toUpload);
       await Promise.all(positionPromises);
     } else if (
       configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
       configurationType === DESCRIPTION_ITEM_TYPES.VISEME
     ) {
+      showUploadingInfoMessage(clonedData.images.length);
       const processedImages = await processImages(clonedData.images);
       clonedData.images = processedImages.ids;
       failed += processedImages.failed;
@@ -121,7 +142,7 @@ const useDescriptionForm = () => {
       throw new Error(`Error: ${failed} image(s) couldn't be saved`);
     }
 
-    return clean(trimStrings(clonedData));
+    return clean(clonedData);
   };
 
   const submitForm = async (data) => {
@@ -150,7 +171,7 @@ const useDescriptionForm = () => {
         : FUNCTIONS.ANIMATIONS_DESCRIPTIONS.SAVE_ITEM;
 
     await callWithNotification(saveFn, fnId, "Configuration saved");
-    uiDescriptionStore.setSelectedItemByName(data.name);
+    uiDescriptionStore.setSelectedItemByName(preparedData.name);
     uiDescriptionStore.setEditDisabled(false);
   };
 

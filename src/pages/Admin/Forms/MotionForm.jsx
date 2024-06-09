@@ -22,7 +22,10 @@ const MotionForm = ({ index, name }) => {
             isInvalid: !!errors[name]?.[index]?.value?.name,
           }}
           label="Name"
-          registerProps={{ required: "Name is required" }}
+          registerProps={{
+            required: "Name is required",
+            validate: (value) => !!value.trim() || "Name is required",
+          }}
           registerName={`${motionName}.value.name`}
           xs="6"
         />
@@ -45,7 +48,10 @@ const MotionForm = ({ index, name }) => {
             type: "number",
           }}
           label="Minimum Value"
-          registerProps={{ required: "Minimum Value is required" }}
+          registerProps={{
+            required: "Minimum Value is required",
+            valueAsNumber: true,
+          }}
           registerName={`${motionName}.value.minValue`}
           xs="4"
         />
@@ -58,7 +64,10 @@ const MotionForm = ({ index, name }) => {
             type: "number",
           }}
           label="Maximum Value"
-          registerProps={{ required: "Maximum Value is required" }}
+          registerProps={{
+            required: "Maximum Value is required",
+            valueAsNumber: true,
+          }}
           registerName={`${motionName}.value.maxValue`}
           xs="4"
         />
@@ -71,7 +80,10 @@ const MotionForm = ({ index, name }) => {
             type: "number",
           }}
           label="Default Value"
-          registerProps={{ required: "Default Value is required" }}
+          registerProps={{
+            required: "Default Value is required",
+            valueAsNumber: true,
+          }}
           registerName={`${motionName}.value.defaultValue`}
           xs="4"
         />

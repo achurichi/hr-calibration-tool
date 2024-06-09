@@ -55,7 +55,7 @@ class UiDescriptionStore {
       options.push(NEW_ITEM_OPTION);
     }
 
-    const items = this._getDescriptionItems();
+    const items = this.getDescriptionItems();
     items.forEach((item) => {
       options.push({
         value: item.id,
@@ -66,7 +66,7 @@ class UiDescriptionStore {
     return options;
   }
 
-  _getDescriptionItems() {
+  getDescriptionItems() {
     const configurationType = this.selectedConfiguration?.value;
     return this.descriptionStore.getDescriptionItems(configurationType);
   }
@@ -91,7 +91,7 @@ class UiDescriptionStore {
 
   _setSelectedItemByProp(prop, propValue) {
     // Get the description items
-    const items = this._getDescriptionItems();
+    const items = this.getDescriptionItems();
     if (!items.length) {
       this.setSelectedItem(null);
       return;
