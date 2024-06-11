@@ -1,5 +1,5 @@
 export const MOTOR_MIN_VALUE = 0;
-export const MOTOR_MAX_VALUE = 4096;
+export const MOTOR_MAX_VALUE = 4095;
 
 export const MIN_POSITION_PROP = "minPosition";
 export const MAX_POSITION_PROP = "maxPosition";

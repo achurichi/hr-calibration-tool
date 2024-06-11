@@ -1,7 +1,8 @@
 .container {
+  align-items: center;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  padding-bottom: 1.25rem;
 }
 
 .clickable-button {
@@ -10,4 +11,8 @@
 
 .slider {
   margin: 0 0.75rem;
+}
+
+.limit {
+  user-select: none;
 }

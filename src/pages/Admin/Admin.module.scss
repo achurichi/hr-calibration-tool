@@ -27,6 +27,13 @@
   height: 100%;
   overflow: auto;
   padding: 0rem 2rem 1rem;
+  scrollbar-gutter: stable both-edges;
+
+  .data-form-internal-container {
+    margin: auto;
+    max-width: 60rem;
+    width: 100%;
+  }
 }
 
 .footer {

@@ -105,7 +105,9 @@ const Admin = observer(() => {
               className={styles["form-container"]}
             >
               <div className={styles["data-form-container"]}>
-                <DataForm />
+                <div className={styles["data-form-internal-container"]}>
+                  <DataForm />
+                </div>
               </div>
               <div className={styles.footer}>
                 <Button

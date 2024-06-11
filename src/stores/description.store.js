@@ -30,10 +30,6 @@ class DescriptionStore {
     this.referenceImages.clear();
   }
 
-  setDescription(type, description) {
-    this.descriptions[type] = description;
-  }
-
   getDescription(type) {
     return this.descriptions[type];
   }
@@ -58,6 +54,7 @@ class DescriptionStore {
       modelName,
     );
     this._saveDescription(type, data);
+    return this.descriptions[type];
   }
 
   async saveItem(type, modelName, item) {
@@ -87,7 +84,7 @@ class DescriptionStore {
       type === DESCRIPTION_TYPES.MOTORS
         ? MotorsDescription
         : AnimationsDescription;
-    this.setDescription(type, new DescriptionClass(data));
+    this.descriptions[type] = new DescriptionClass(data);
   }
 
   getImage(id) {

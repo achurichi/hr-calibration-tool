@@ -17,7 +17,7 @@ const Slider = ({ name }) => {
       <SliderComponent
         className={styles.slider}
         defaultValue={DEFAULT_SLIDER_VALUE}
-        max={4096}
+        max={4095}
         min={0}
         onChange={setSliderValue}
       />

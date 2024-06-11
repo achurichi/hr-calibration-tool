@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import debounce from "lodash/debounce";
 import Select from "react-select";
 
 import rootStore from "stores/root.store";
 
+import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 
 import SearchBar from "components/SearchBar/SearchBar";
@@ -12,30 +12,33 @@ import SearchBar from "components/SearchBar/SearchBar";
 import styles from "./MotorsFilter.module.scss";
 
 const MotorsFilter = observer(() => {
-  const { filtersStore, groupsStore } = rootStore;
+  const { descriptionStore, filtersStore } = rootStore;
   const [options, setOptions] = useState([]);
-
-  const setSearchFilter = useRef(
-    debounce((value) => {
-      filtersStore.setFilter(FILTER_IDS.MOTOR_SEARCH, value);
-    }, 400),
-  ).current;
+  const description = descriptionStore.getDescription(DESCRIPTION_TYPES.MOTORS);
 
   useEffect(() => {
-    const getGroups = async () => {
-      const groups = await groupsStore.fetchGroups();
-      setOptions(groups.map(({ id, name }) => ({ value: id, label: name })));
-    };
+    if (!description?.motors) {
+      return;
+    }
 
-    getGroups();
+    const groupOptions = Array.from(
+      new Set(description.motors.map(({ group }) => group)),
+    )
+      .filter(Boolean) // Remove empty groups
+      .map((group) => ({ value: group, label: group }));
+
+    setOptions(groupOptions);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [description]);
 
   return (
     <div className={styles.filter}>
       <SearchBar
-        placeholder="Search by Name or Id"
-        onChange={setSearchFilter}
+        placeholder="Search by Name or Description"
+        onChange={(value) => {
+          filtersStore.setFilter(FILTER_IDS.MOTOR_SEARCH, value);
+        }}
       />
       <Select
         className={styles.select}
@@ -43,10 +46,10 @@ const MotorsFilter = observer(() => {
         options={options}
         placeholder="Group"
         onChange={(selectedOption) => {
-          const selectedGroup = selectedOption
-            ? { id: selectedOption.value, name: selectedOption.label }
-            : null;
-          filtersStore.setFilter(FILTER_IDS.SELECTED_GROUP, selectedGroup);
+          filtersStore.setFilter(
+            FILTER_IDS.SELECTED_GROUP,
+            selectedOption?.value || null,
+          );
         }}
       />
     </div>

@@ -10,6 +10,7 @@ import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Table from "components/Table/Table";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
+import { DESCRIPTION_TYPES, MODEL_NAME } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
@@ -21,12 +22,12 @@ import styles from "./MotorCalibration.module.scss";
 const TABLE_HEADERS = [
   { key: "name", label: "Name", className: styles["id-column"] },
   { key: "description", label: "Description" },
-  { key: "groupName", label: "Group" },
+  { key: "group", label: "Group" },
   { key: "action", label: "", className: styles["action-column"] },
 ];
 
 const MotorCalibration = observer(() => {
-  const { filtersStore, motorsStore } = rootStore;
+  const { descriptionStore, filtersStore } = rootStore;
   const navigate = useNavigate();
   const [motors, setMotors] = useState([]);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
@@ -34,18 +35,50 @@ const MotorCalibration = observer(() => {
 
   useEffect(() => {
     const getMotors = async () => {
-      setMotors(await motorsStore.fetchMotors(selectedGroup?.id, searchFilter));
+      let description = descriptionStore.getDescription(
+        DESCRIPTION_TYPES.MOTORS,
+      );
+      if (!description) {
+        description = await descriptionStore.fetchDescription(
+          DESCRIPTION_TYPES.MOTORS,
+          MODEL_NAME,
+        );
+      }
+      return description?.motors || [];
     };
 
-    getMotors();
+    const updateTable = async () => {
+      let motors = await getMotors();
+      if (searchFilter) {
+        motors = motors.filter(
+          ({ name, description }) =>
+            name.toLowerCase().includes(searchFilter.toLowerCase()) ||
+            description?.toLowerCase().includes(searchFilter.toLowerCase()),
+        );
+      }
+      if (selectedGroup) {
+        motors = motors.filter(({ group }) => group === selectedGroup);
+      }
+      setMotors(motors);
+    };
+
+    updateTable();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilter, selectedGroup]);
 
-  const rows = motors.map((item) => {
+  const rows = motors.map(({ name, description, group }) => {
     return {
-      ...item,
+      name,
+      description: description || (
+        <div className={styles["not-available"]}>No description</div>
+      ),
+      group: group || <div className={styles["not-available"]}>No group</div>,
       action: (
         <ClickableIcon
+          tooltipProps={{
+            content: "Edit configuration",
+          }}
           Icon={BsPencil}
           onClick={() => navigate(PATHS.MOTOR_CONFIGURE)}
         />

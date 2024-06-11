@@ -23,6 +23,17 @@ const sliderStyles = {
   },
 };
 
+const dotStyle = {
+  borderColor: "var(--gray-300)",
+  height: 12,
+  width: 12,
+  bottom: -4,
+};
+
+const activeDotStyle = {
+  borderColor: "var(--primary)",
+};
+
 const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
   const [internalValue, setInternalValue] = useState(value);
 
@@ -47,7 +58,13 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         size={20}
       />
       <RcSlider
+        activeDotStyle={activeDotStyle}
         className={styles.slider}
+        dotStyle={dotStyle}
+        marks={{
+          [min]: <div className={styles.limit}>{min}</div>,
+          [max]: <div className={styles.limit}>{max}</div>,
+        }}
         max={max}
         min={min}
         onChange={internalOnChange}
