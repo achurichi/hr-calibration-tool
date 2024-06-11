@@ -37,7 +37,6 @@ const Admin = observer(() => {
   useEffect(() => {
     return () => {
       uiDescriptionStore.clear();
-      descriptionStore.clear();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

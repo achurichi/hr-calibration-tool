@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import { useNavigate } from "react-router-dom";
 
 import Spinner from "react-bootstrap/Spinner";
-import { BsPencil } from "react-icons/bs";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import EditIconField from "components/Table/EditIconField/EditIconField";
+import EmptyField from "components/Table/EmptyField/EmptyField";
+import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Table from "components/Table/Table";
-import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 
 import { DESCRIPTION_TYPES, MODEL_NAME } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
@@ -28,22 +27,16 @@ const TABLE_HEADERS = [
 
 const MotorCalibration = observer(() => {
   const { descriptionStore, filtersStore } = rootStore;
-  const navigate = useNavigate();
   const [motors, setMotors] = useState([]);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
   const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
 
   useEffect(() => {
     const getMotors = async () => {
-      let description = descriptionStore.getDescription(
+      const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.MOTORS,
+        MODEL_NAME,
       );
-      if (!description) {
-        description = await descriptionStore.fetchDescription(
-          DESCRIPTION_TYPES.MOTORS,
-          MODEL_NAME,
-        );
-      }
       return description?.motors || [];
     };
 
@@ -70,17 +63,12 @@ const MotorCalibration = observer(() => {
   const rows = motors.map(({ name, description, group }) => {
     return {
       name,
-      description: description || (
-        <div className={styles["not-available"]}>No description</div>
-      ),
-      group: group || <div className={styles["not-available"]}>No group</div>,
+      description: description || <EmptyField text="No description" />,
+      group: group || <EmptyField text="No group" />,
       action: (
-        <ClickableIcon
-          tooltipProps={{
-            content: "Edit configuration",
-          }}
-          Icon={BsPencil}
-          onClick={() => navigate(PATHS.MOTOR_CONFIGURE)}
+        <EditIconField
+          redirect={PATHS.MOTOR_CONFIGURE}
+          tooltipContent="Edit configuration"
         />
       ),
     };
@@ -91,7 +79,7 @@ const MotorCalibration = observer(() => {
       <div className={styles["internal-container"]}>
         <MotorsFilter />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.MOTORS.GET_ALL]}
+          dependencies={[FUNCTIONS.MOTORS_DESCRIPTIONS.GET_BY_MODEL_NAME]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

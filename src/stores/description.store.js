@@ -48,6 +48,11 @@ class DescriptionStore {
     return items.find((i) => i.id === id);
   }
 
+  async getOrFetchDescription(type, modelName) {
+    const description = this.descriptions[type];
+    return description || (await this.fetchDescription(type, modelName));
+  }
+
   async fetchDescription(type, modelName) {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${type.toUpperCase()}_DESCRIPTIONS`].GET_BY_MODEL_NAME,

@@ -14,10 +14,13 @@
   width: 100%;
 }
 
-.id-column {
-  width: 8rem;
-}
-
 .action-column {
   width: 1rem;
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
