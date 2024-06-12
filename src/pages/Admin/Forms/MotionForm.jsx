@@ -11,6 +11,10 @@ const MotionForm = ({ index, name }) => {
   } = useFormContext();
   const motionName = `${name}.${index}`;
 
+  const checkIsInvalid = (field) => {
+    return !!errors[name]?.[index]?.value?.[field];
+  };
+
   return (
     <Col>
       <Row className="mb-3">
@@ -19,7 +23,7 @@ const MotionForm = ({ index, name }) => {
           controlId={`${motionName}.value.name`}
           controlProps={{
             type: "text",
-            isInvalid: !!errors[name]?.[index]?.value?.name,
+            isInvalid: checkIsInvalid("name"),
           }}
           label="Name"
           registerProps={{
@@ -32,8 +36,15 @@ const MotionForm = ({ index, name }) => {
         <InputField
           as={Col}
           controlId={`${motionName}.value.description`}
-          controlProps={{ type: "text" }}
+          controlProps={{
+            type: "text",
+            isInvalid: checkIsInvalid("description"),
+          }}
           label="Description"
+          registerProps={{
+            required: "Description is required",
+            validate: (value) => !!value.trim() || "Description is required",
+          }}
           registerName={`${motionName}.value.description`}
           xs="6"
         />
@@ -43,7 +54,7 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.minValue`}
           controlProps={{
-            isInvalid: !!errors[name]?.[index]?.value?.minValue,
+            isInvalid: checkIsInvalid("minValue"),
             step: "0.1",
             type: "number",
           }}
@@ -59,7 +70,7 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.maxValue`}
           controlProps={{
-            isInvalid: !!errors[name]?.[index]?.value?.maxValue,
+            isInvalid: checkIsInvalid("maxValue"),
             step: "0.1",
             type: "number",
           }}
@@ -75,7 +86,7 @@ const MotionForm = ({ index, name }) => {
           as={Col}
           controlId={`${motionName}.value.defaultValue`}
           controlProps={{
-            isInvalid: !!errors[name]?.[index]?.value?.defaultValue,
+            isInvalid: checkIsInvalid("defaultValue"),
             step: "0.1",
             type: "number",
           }}
