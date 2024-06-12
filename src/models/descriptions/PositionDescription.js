@@ -1,11 +1,11 @@
 class PositionDescription {
   defaultValue;
-  configDescription;
+  configInstructions;
   images;
 
   constructor(data) {
     this.defaultValue = data.defaultValue;
-    this.configDescription = data.configDescription;
+    this.configInstructions = data.configInstructions;
     this.images = data.images || [];
   }
 }

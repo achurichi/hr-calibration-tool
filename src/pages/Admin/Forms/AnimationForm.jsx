@@ -30,10 +30,10 @@ const AnimationForm = () => {
       <Row>
         <InputField
           as={Col}
-          controlId="formConfigDescription"
+          controlId="formconfigInstructions"
           controlProps={{ as: "textarea" }}
-          label="Configuration Description"
-          registerName="configDescription"
+          label="Configuration Instructions"
+          registerName="configInstructions"
         />
       </Row>
       <Row>

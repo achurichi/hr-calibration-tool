@@ -4,7 +4,7 @@ class AnimationDescription {
   id;
   name;
   type;
-  configDescription;
+  configInstructions;
   images;
   motions;
 
@@ -12,7 +12,7 @@ class AnimationDescription {
     this.id = data.id;
     this.name = data.name;
     this.type = data.type;
-    this.configDescription = data.configDescription;
+    this.configInstructions = data.configInstructions;
     this.images = data.images || [];
     this.motions =
       data.motions?.map((motion) => new MotionDescription(motion)) || [];

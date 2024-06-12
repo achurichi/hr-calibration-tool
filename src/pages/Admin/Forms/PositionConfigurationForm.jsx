@@ -13,7 +13,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
     formState: { errors },
   } = useFormContext();
   const defaultValueProp = `${propName}.defaultValue`;
-  const configDescriptionProp = `${propName}.configDescription`;
+  const configInstructionsProp = `${propName}.configInstructions`;
   const imagesProp = `${propName}.images`;
 
   return (
@@ -39,10 +39,10 @@ const PositionConfigurationForm = ({ propName, title }) => {
         />
         <InputField
           as={Col}
-          controlId={`form-${configDescriptionProp}`}
+          controlId={`form-${configInstructionsProp}`}
           controlProps={{ as: "textarea" }}
-          label="Configuration Description"
-          registerName={configDescriptionProp}
+          label="Configuration Instructions"
+          registerName={configInstructionsProp}
           xs="12"
         />
         <Col>

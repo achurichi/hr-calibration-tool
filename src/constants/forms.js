@@ -8,17 +8,17 @@ export const DEFAULT_MOTOR_FORM = {
   maxValue: 4095,
   neutralPosition: {
     defaultValue: 2048,
-    configDescription: "",
+    configInstructions: "",
     images: [],
   },
   minPosition: {
     defaultValue: 0,
-    configDescription: "",
+    configInstructions: "",
     images: [],
   },
   maxPosition: {
     defaultValue: 4095,
-    configDescription: "",
+    configInstructions: "",
     images: [],
   },
 };
@@ -33,7 +33,7 @@ export const DEFAULT_MOTION_FORM = {
 
 const DEFAULT_ANIMATION_FORM = {
   name: "",
-  configDescription: "",
+  configInstructions: "",
   images: [],
   motions: [DEFAULT_MOTION_FORM],
 };
