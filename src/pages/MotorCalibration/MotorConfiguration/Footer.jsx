@@ -17,14 +17,14 @@ const Footer = observer(() => {
   return (
     <FooterComponent
       primaryButton={{
+        disabled: motorConfigurationStore.lastMotorSelected(),
         label: "Next motor",
         onClick: motorConfigurationStore.nextMotor,
-        disabled: motorConfigurationStore.lastMotorSelected(),
       }}
       secondaryButton={{
+        disabled: motorConfigurationStore.firstMotorSelected(),
         label: "Previous motor",
         onClick: motorConfigurationStore.prevMotor,
-        disabled: motorConfigurationStore.firstMotorSelected(),
       }}
     >
       <Form className={styles.form}>

@@ -18,9 +18,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
 
   return (
     <div>
-      <div className="mb-1">
-        <strong>{title}</strong>
-      </div>
+      <div className="mt-2 mb-1 text-lg">{title}</div>
       <Row className={styles.row}>
         <InputField
           as={Col}

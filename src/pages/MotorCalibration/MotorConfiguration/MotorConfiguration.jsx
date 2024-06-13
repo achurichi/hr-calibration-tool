@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import isEmpty from "lodash/isEmpty";
 
-import Spinner from "react-bootstrap/Spinner";
 import Select from "react-select";
+import Spinner from "react-bootstrap/Spinner";
 
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
+import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
+import Layout from "components/Layout/Layout";
+import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import { FUNCTIONS } from "constants/mongo";
 
@@ -70,15 +71,16 @@ const MotorConfiguration = observer(() => {
   };
 
   return (
-    <div className={styles.container}>
-      <Select
-        className={styles.select}
-        onChange={onMotorSelect}
-        options={selectOptions}
-        placeholder="Loading..."
-        value={selectedOption}
-      />
-      <div className={styles.configs}>
+    <Layout>
+      <Layout.Topbar>
+        <Select
+          onChange={onMotorSelect}
+          options={selectOptions}
+          placeholder="Loading..."
+          value={selectedOption}
+        />
+      </Layout.Topbar>
+      <Layout.Main>
         <RenderWithLoader
           dependencies={[
             FUNCTIONS.MOTORS.GET_ALL,
@@ -91,6 +93,7 @@ const MotorConfiguration = observer(() => {
           }
         >
           <ConfigurationSections
+            className={styles["configuration-sections"]}
             editableConfig={editableConfig}
             motorConfig={motorConfig}
             onChange={(prop, value) => {
@@ -104,9 +107,11 @@ const MotorConfiguration = observer(() => {
             }}
           />
         </RenderWithLoader>
-      </div>
-      <Footer />
-    </div>
+      </Layout.Main>
+      <Layout.Footer>
+        <Footer />
+      </Layout.Footer>
+    </Layout>
   );
 });
 

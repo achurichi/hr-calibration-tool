@@ -6,9 +6,9 @@ import isEmpty from "lodash/isEmpty";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 
-import Button from "components/Button/Button";
 import ConfigurationBar from "pages/Admin/ConfigurationBar";
 import DataForm from "pages/Admin/Forms/DataForm";
+import Footer from "components/Footer/Footer";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
@@ -109,15 +109,16 @@ const Admin = observer(() => {
           </RenderWithLoader>
         </Layout.Main>
         <Layout.Footer>
-          <Button
-            disabled={uiDescriptionStore.getEditDisabled() || !selectedItem}
-            onClick={() => {
-              const submitFn = methods.handleSubmit(submitForm);
-              submitFn();
+          <Footer
+            primaryButton={{
+              disabled: uiDescriptionStore.getEditDisabled() || !selectedItem,
+              label: "Save",
+              onClick: () => {
+                const submitFn = methods.handleSubmit(submitForm);
+                submitFn();
+              },
             }}
-          >
-            Save
-          </Button>
+          />
         </Layout.Footer>
       </Layout>
     </FormProvider>
