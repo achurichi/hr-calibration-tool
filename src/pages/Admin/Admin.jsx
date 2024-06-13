@@ -3,10 +3,13 @@ import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 
-import Button from "components/Button/Button";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 
+import Button from "components/Button/Button";
+import ConfigurationBar from "pages/Admin/ConfigurationBar";
+import DataForm from "pages/Admin/Forms/DataForm";
+import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
@@ -19,9 +22,6 @@ import {
   MODEL_NAME,
   NEW_ITEM_OPTION,
 } from "constants/descriptions";
-
-import ConfigurationBar from "pages/Admin/ConfigurationBar";
-import DataForm from "pages/Admin/Forms/DataForm";
 
 import styles from "./Admin.module.scss";
 
@@ -84,43 +84,43 @@ const Admin = observer(() => {
   }, [selectedItem]);
 
   return (
-    <div className={styles.container}>
-      <ConfigurationBar unsaved={isDirty} />
-      <RenderWithLoader
-        dependencies={[
-          FUNCTIONS.MOTORS_DESCRIPTIONS.GET_BY_MODEL_NAME,
-          FUNCTIONS.ANIMATIONS_DESCRIPTIONS.GET_BY_MODEL_NAME,
-        ]}
-        loadingComponent={
-          <div className={styles["loader-container"]}>
-            <Spinner variant="primary" />
-          </div>
-        }
-      >
-        {selectedItem && (
-          <FormProvider {...methods}>
-            <Form
-              onSubmit={methods.handleSubmit(submitForm)}
-              className={styles["form-container"]}
-            >
-              <div className={styles["data-form-container"]}>
-                <div className={styles["data-form-internal-container"]}>
-                  <DataForm />
-                </div>
+    <FormProvider {...methods}>
+      <Layout>
+        <Layout.Topbar>
+          <ConfigurationBar unsaved={isDirty} />
+        </Layout.Topbar>
+        <Layout.Main>
+          <RenderWithLoader
+            dependencies={[
+              FUNCTIONS.MOTORS_DESCRIPTIONS.GET_BY_MODEL_NAME,
+              FUNCTIONS.ANIMATIONS_DESCRIPTIONS.GET_BY_MODEL_NAME,
+            ]}
+            loadingComponent={
+              <div className={styles["loader-container"]}>
+                <Spinner variant="primary" />
               </div>
-              <div className={styles.footer}>
-                <Button
-                  disabled={uiDescriptionStore.getEditDisabled()}
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </div>
-            </Form>
-          </FormProvider>
-        )}
-      </RenderWithLoader>
-    </div>
+            }
+          >
+            {selectedItem && (
+              <Form className={styles["form-container"]}>
+                <DataForm />
+              </Form>
+            )}
+          </RenderWithLoader>
+        </Layout.Main>
+        <Layout.Footer>
+          <Button
+            disabled={uiDescriptionStore.getEditDisabled() || !selectedItem}
+            onClick={() => {
+              const submitFn = methods.handleSubmit(submitForm);
+              submitFn();
+            }}
+          >
+            Save
+          </Button>
+        </Layout.Footer>
+      </Layout>
+    </FormProvider>
   );
 });
 

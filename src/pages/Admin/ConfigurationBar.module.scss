@@ -1,29 +1,21 @@
 .select-container {
-  margin: 2rem auto 0;
-  padding: 0 3rem;
-  width: 100%;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
 
-  .select-internal-container {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    margin: auto;
-    max-width: 60rem;
+  .configuration {
+    width: 20rem;
+  }
 
-    .configuration {
-      width: 20rem;
-    }
+  .item {
+    width: 100%;
+  }
 
-    .item {
-      width: 100%;
-    }
+  .delete {
+    color: var(--danger);
+  }
 
-    .delete {
-      color: var(--danger);
-    }
-
-    .add {
-      color: var(--success);
-    }
+  .add {
+    color: var(--success);
   }
 }

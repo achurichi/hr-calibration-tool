@@ -115,61 +115,56 @@ const ConfigurationBar = observer(({ unsaved }) => {
 
   return (
     <div className={styles["select-container"]}>
-      <div className={styles["select-internal-container"]}>
-        <Select
-          className={styles.configuration}
-          isDisabled={editDisabled}
-          onChange={(option) => {
-            if (
-              option?.value !== uiDescriptionStore.selectedConfiguration?.value
-            ) {
-              handleUnsavedChanges(() =>
-                uiDescriptionStore.setSelectedConfiguration(option),
-              );
-            }
-          }}
-          options={uiDescriptionStore.getConfigurationOptions()}
-          value={uiDescriptionStore.getSelectedConfiguration()}
-        />
-        <Select
-          className={styles.item}
-          isClearable
-          isDisabled={editDisabled}
-          onChange={(option) => {
-            if (option?.value !== uiDescriptionStore.selectedItem?.value) {
-              handleUnsavedChanges(() =>
-                uiDescriptionStore.setSelectedItem(option),
-              );
-            }
-          }}
-          options={uiDescriptionStore.getItemOptions()}
-          value={uiDescriptionStore.getSelectedItem()}
-        />
-        <ClickableIcon
-          Icon={BsTrash}
-          disabled={editDisabled || !uiDescriptionStore.getSelectedItem()}
-          iconClassName={styles.delete}
-          onClick={onDelete}
-          size={20}
-          tooltipProps={{ content: "Delete", id: "delete-icon" }}
-        />
-        <ClickableIcon
-          Icon={BsPlusLg}
-          disabled={editDisabled || uiDescriptionStore.getIsNewItem()}
-          iconClassName={styles.add}
-          onClick={() => {
-            if (!uiDescriptionStore.getIsNewItem()) {
-              handleUnsavedChanges(() => uiDescriptionStore.setIsNewItem(true));
-            }
-          }}
-          size={20}
-          tooltipProps={{ content: "Create new", id: "add-icon" }}
-        />
-        <ConfirmationModal
-          disabled={editDisabled}
-          {...confirmationModalConfig}
-        />
-      </div>
+      <Select
+        className={styles.configuration}
+        isDisabled={editDisabled}
+        onChange={(option) => {
+          if (
+            option?.value !== uiDescriptionStore.selectedConfiguration?.value
+          ) {
+            handleUnsavedChanges(() =>
+              uiDescriptionStore.setSelectedConfiguration(option),
+            );
+          }
+        }}
+        options={uiDescriptionStore.getConfigurationOptions()}
+        value={uiDescriptionStore.getSelectedConfiguration()}
+      />
+      <Select
+        className={styles.item}
+        isClearable
+        isDisabled={editDisabled}
+        onChange={(option) => {
+          if (option?.value !== uiDescriptionStore.selectedItem?.value) {
+            handleUnsavedChanges(() =>
+              uiDescriptionStore.setSelectedItem(option),
+            );
+          }
+        }}
+        options={uiDescriptionStore.getItemOptions()}
+        value={uiDescriptionStore.getSelectedItem()}
+      />
+      <ClickableIcon
+        Icon={BsTrash}
+        disabled={editDisabled || !uiDescriptionStore.getSelectedItem()}
+        iconClassName={styles.delete}
+        onClick={onDelete}
+        size={20}
+        tooltipProps={{ content: "Delete", id: "delete-icon" }}
+      />
+      <ClickableIcon
+        Icon={BsPlusLg}
+        disabled={editDisabled || uiDescriptionStore.getIsNewItem()}
+        iconClassName={styles.add}
+        onClick={() => {
+          if (!uiDescriptionStore.getIsNewItem()) {
+            handleUnsavedChanges(() => uiDescriptionStore.setIsNewItem(true));
+          }
+        }}
+        size={20}
+        tooltipProps={{ content: "Create new", id: "add-icon" }}
+      />
+      <ConfirmationModal disabled={editDisabled} {...confirmationModalConfig} />
     </div>
   );
 });

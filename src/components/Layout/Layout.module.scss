@@ -1,0 +1,39 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  .topbar {
+    margin: 1.5rem auto 1rem;
+    padding: 0 3rem;
+    width: 100%;
+
+    .topbar-internal {
+      margin: auto;
+      max-width: 60rem;
+      width: 100%;
+    }
+  }
+
+  .main {
+    height: 100%;
+    overflow: auto;
+    padding: 0rem 2rem;
+    scrollbar-gutter: stable both-edges;
+
+    .main-internal {
+      height: 100%;
+      margin: auto;
+      max-width: 60rem;
+      width: 100%;
+    }
+  }
+
+  .footer {
+    background-color: var(--gray-100);
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem 2rem;
+  }
+}
