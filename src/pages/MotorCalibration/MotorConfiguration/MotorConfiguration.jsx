@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import isEmpty from "lodash/isEmpty";
 
 import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
@@ -10,6 +9,11 @@ import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
+import {
+  DESCRIPTION_ITEM_TYPES,
+  DESCRIPTION_TYPES,
+  MODEL_NAME,
+} from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
 import rootStore from "stores/root.store";
@@ -17,65 +21,74 @@ import rootStore from "stores/root.store";
 import styles from "./MotorConfiguration.module.scss";
 
 const MotorConfiguration = observer(() => {
-  const { motorConfigurationStore, motorsStore, uiStore } = rootStore;
-  const { motorConfigurationStore: uiMotorConfigurationStore } = uiStore;
-  const [selectOptions, setSelectOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [editableConfig, setEditableConfig] = useState(null);
-  const motorConfig = motorConfigurationStore.getMotorConfig();
+  const { descriptionStore, motorsConfigurationStore, uiStore } = rootStore;
+  const { uiMotorsConfigurationStore } = uiStore;
+  const [selectedMotorDescription, setSelectedMotorDescription] =
+    useState(null);
+  const motorsDescription = descriptionStore.getDescriptionItems(
+    DESCRIPTION_ITEM_TYPES.MOTOR,
+  );
+  const selectedOption = uiMotorsConfigurationStore.getSelectedOption();
+  const savedConfiguration =
+    uiMotorsConfigurationStore.getConfigurationForSelectedMotor();
 
   // Load options on mount
   useEffect(() => {
     const updateSelectOptions = async () => {
-      await motorsStore.fetchMotors();
-      const options = uiMotorConfigurationStore.getMotorOptions();
-      const selectOptions = options.map(({ name, description, id }) => ({
+      const description = await descriptionStore.getOrFetchDescription(
+        DESCRIPTION_TYPES.MOTORS,
+        MODEL_NAME,
+      );
+      const motors = description?.motors || [];
+
+      if (!motors.length) {
+        uiMotorsConfigurationStore.setOptions([]);
+        uiMotorsConfigurationStore.setSelectedOption(null);
+        return;
+      }
+
+      const options = motors.map(({ name, description, id }) => ({
         label: (
           <div>
             <strong>{`${name}`}</strong>
-            <span
-              className={styles["motor-description"]}
-            >{` - ${description}`}</span>
+            {description && (
+              <span
+                className={styles["motor-description"]}
+              >{` - ${description}`}</span>
+            )}
           </div>
         ),
         value: id,
       }));
-      setSelectOptions(selectOptions);
 
-      const defaultOption = selectOptions?.[0] || null;
-      setSelectedOption(defaultOption);
-      if (defaultOption) {
-        onMotorSelect(defaultOption);
-      }
+      uiMotorsConfigurationStore.setOptions(options);
+      uiMotorsConfigurationStore.setSelectedOption(options?.[0] || null);
     };
+
+    const fetchConfiguration = async () => {
+      await motorsConfigurationStore.fetchConfig(MODEL_NAME);
+    };
+
     updateSelectOptions();
+    fetchConfiguration();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Change the selected option when the motor configuration changes
   useEffect(() => {
-    if (!motorConfig || isEmpty(selectOptions)) {
-      return;
+    if (selectedOption && motorsDescription) {
+      setSelectedMotorDescription(
+        motorsDescription.find((m) => m.id === selectedOption.value),
+      );
     }
-
-    const option = selectOptions.find((o) => o.value === motorConfig.motorId);
-    if (option) {
-      setSelectedOption(option);
-    }
-
-    setEditableConfig(motorConfig);
-  }, [motorConfig, selectOptions, selectedOption]);
-
-  const onMotorSelect = async (selectedOption) => {
-    motorConfigurationStore.fetchMotor(selectedOption.value);
-  };
+  }, [selectedOption, motorsDescription]);
 
   return (
     <Layout>
       <Layout.Topbar>
         <Select
-          onChange={onMotorSelect}
-          options={selectOptions}
+          className={styles.select}
+          onChange={uiMotorsConfigurationStore.setSelectedOption}
+          options={uiMotorsConfigurationStore.getOptions()}
           placeholder="Loading..."
           value={selectedOption}
         />
@@ -83,8 +96,8 @@ const MotorConfiguration = observer(() => {
       <Layout.Main>
         <RenderWithLoader
           dependencies={[
-            FUNCTIONS.MOTORS.GET_ALL,
-            FUNCTIONS.MOTOR_CONFIGURATIONS.GET_BY_MOTOR_ID,
+            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_NAME,
+            FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
           ]}
           loadingComponent={
             <div className={styles["loader-container"]}>
@@ -94,17 +107,17 @@ const MotorConfiguration = observer(() => {
         >
           <ConfigurationSections
             className={styles["configuration-sections"]}
-            editableConfig={editableConfig}
-            motorConfig={motorConfig}
-            onChange={(prop, value) => {
-              setEditableConfig({
-                ...editableConfig,
-                [prop]: {
-                  ...editableConfig[prop],
-                  value,
-                },
-              });
-            }}
+            configuration={savedConfiguration}
+            description={selectedMotorDescription}
+            // onChange={(prop, value) => {
+            //   setEditableConfig({
+            //     ...editableConfig,
+            //     [prop]: {
+            //       ...editableConfig[prop],
+            //       value,
+            //     },
+            //   });
+            // }}
           />
         </RenderWithLoader>
       </Layout.Main>

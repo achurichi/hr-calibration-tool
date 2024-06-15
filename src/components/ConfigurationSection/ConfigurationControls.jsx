@@ -66,7 +66,7 @@ const CalibrationSlider = ({ defaultValue, max, min, onChange }) => {
         <div className={styles.actions}>
           <Button
             tooltipProps={{
-              content: "Save value in motor memeory",
+              content: "Save value in motor memory",
               id: "save-configuration",
             }}
           >
@@ -74,7 +74,7 @@ const CalibrationSlider = ({ defaultValue, max, min, onChange }) => {
           </Button>
           <Button
             tooltipProps={{
-              content: "Copy motor current position and save in memeory",
+              content: "Copy motor current position and save in memory",
               id: "copy-configuration",
             }}
           >

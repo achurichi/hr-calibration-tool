@@ -1,0 +1,34 @@
+.configuration-section-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  .content {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: auto 15rem;
+  }
+
+  .images {
+    align-items: center;
+    background-color: var(--gray-200);
+    border-radius: 0.5rem;
+    display: flex;
+    height: 15rem;
+    justify-content: center;
+    width: 15rem;
+
+    > :not([class*="fullscreen"]) {
+      .image-gallery-index {
+        border-radius: 0 0.5rem 0 0;
+      }
+
+      img {
+        border-radius: 0.5rem;
+        height: 15rem;
+        width: 15rem;
+      }
+    }
+  }
+}

@@ -5,12 +5,15 @@ export const FUNCTIONS = {
   MOTOR_CONFIGURATIONS: {
     GET_BY_MOTOR_ID: "motorConfigurations_getByMotorId",
   },
-  MOTORS_DESCRIPTIONS: {
+  MOTORS_CONFIGURATION: {
+    GET_BY_MODEL_NAME: "motorsConfiguration_getByModelName",
+  },
+  MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescriptions_deleteItem",
     GET_BY_MODEL_NAME: "motorsDescriptions_getByModelName",
     SAVE_ITEM: "motorsDescriptions_saveItem",
   },
-  ANIMATIONS_DESCRIPTIONS: {
+  ANIMATIONS_DESCRIPTION: {
     DELETE_ITEM: "animationsDescriptions_deleteItem",
     GET_BY_MODEL_NAME: "animationsDescriptions_getByModelName",
     SAVE_ITEM: "animationsDescriptions_saveItem",

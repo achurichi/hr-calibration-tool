@@ -69,7 +69,7 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
       <div className={styles["internal-container"]}>
         <SearchBar placeholder="Search by Name" onChange={setSearchInput} />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.ANIMATIONS_DESCRIPTIONS.GET_BY_MODEL_NAME]}
+          dependencies={[FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

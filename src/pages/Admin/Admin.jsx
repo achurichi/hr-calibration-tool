@@ -51,11 +51,7 @@ const Admin = observer(() => {
 
       const descriptionType =
         DESCRIPTION_TYPES_MAP[selectedConfiguration.value];
-      const description = descriptionStore.getDescription(descriptionType);
-
-      if (!description) {
-        await descriptionStore.fetchDescription(descriptionType, MODEL_NAME);
-      }
+      await descriptionStore.getOrFetchDescription(descriptionType, MODEL_NAME);
 
       uiDescriptionStore.setSelectedItem(
         uiDescriptionStore.getItemOptions()[0],
@@ -92,8 +88,8 @@ const Admin = observer(() => {
         <Layout.Main>
           <RenderWithLoader
             dependencies={[
-              FUNCTIONS.MOTORS_DESCRIPTIONS.GET_BY_MODEL_NAME,
-              FUNCTIONS.ANIMATIONS_DESCRIPTIONS.GET_BY_MODEL_NAME,
+              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
+              FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME,
             ]}
             loadingComponent={
               <div className={styles["loader-container"]}>

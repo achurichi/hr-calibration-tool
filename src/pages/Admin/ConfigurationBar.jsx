@@ -101,8 +101,8 @@ const ConfigurationBar = observer(({ unsaved }) => {
     };
     const fnId =
       descriptionType === DESCRIPTION_TYPES.MOTORS
-        ? FUNCTIONS.MOTORS_DESCRIPTIONS.DELETE_ITEM
-        : FUNCTIONS.ANIMATIONS_DESCRIPTIONS.DELETE_ITEM;
+        ? FUNCTIONS.MOTORS_DESCRIPTION.DELETE_ITEM
+        : FUNCTIONS.ANIMATIONS_DESCRIPTION.DELETE_ITEM;
 
     uiDescriptionStore.setEditDisabled(true);
     await callWithNotification(deleteFn, fnId, "Configuration deleted");

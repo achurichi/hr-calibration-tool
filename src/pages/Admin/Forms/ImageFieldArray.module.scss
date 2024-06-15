@@ -4,13 +4,20 @@
   gap: 1rem;
 
   .image-container {
+    align-items: center;
+    background-color: var(--gray-200);
+    border-radius: 0.5rem;
+    display: flex;
+    height: 10rem;
+    justify-content: center;
+    overflow: hidden;
     position: relative;
+    width: 10rem;
 
     .spinner-container,
     .thumbnail {
-      border-radius: 0.5rem;
-      height: 10rem;
-      width: 10rem;
+      max-height: 100%;
+      max-width: 100%;
     }
 
     .spinner-container {

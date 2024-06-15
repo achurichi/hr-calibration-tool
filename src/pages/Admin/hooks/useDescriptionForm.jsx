@@ -171,8 +171,8 @@ const useDescriptionForm = () => {
     };
     const fnId =
       descriptionType === DESCRIPTION_TYPES.MOTORS
-        ? FUNCTIONS.MOTORS_DESCRIPTIONS.SAVE_ITEM
-        : FUNCTIONS.ANIMATIONS_DESCRIPTIONS.SAVE_ITEM;
+        ? FUNCTIONS.MOTORS_DESCRIPTION.SAVE_ITEM
+        : FUNCTIONS.ANIMATIONS_DESCRIPTION.SAVE_ITEM;
 
     await callWithNotification(saveFn, fnId, "Configuration saved");
     uiDescriptionStore.setSelectedItemByName(preparedData.name);

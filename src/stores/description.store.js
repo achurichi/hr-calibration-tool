@@ -55,7 +55,7 @@ class DescriptionStore {
 
   async fetchDescription(type, modelName) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTIONS`].GET_BY_MODEL_NAME,
+      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_MODEL_NAME,
       modelName,
     );
     this._saveDescription(type, data);
@@ -64,7 +64,7 @@ class DescriptionStore {
 
   async saveItem(type, modelName, item) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTIONS`].SAVE_ITEM,
+      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].SAVE_ITEM,
       modelName,
       item,
     );
@@ -73,7 +73,7 @@ class DescriptionStore {
 
   async deleteItem(type, modelName, item) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTIONS`].DELETE_ITEM,
+      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].DELETE_ITEM,
       modelName,
       item,
     );
