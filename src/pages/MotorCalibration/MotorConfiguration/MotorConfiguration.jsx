@@ -29,6 +29,7 @@ const MotorConfiguration = observer(() => {
   const methods = useForm(); // maybe need to pass defaultValues once isDirty bug is fixed
   const [isLoading, setIsLoading] = useState(true);
   const [isDirty, setIsDirty] = useState(true);
+  const [defaultValues, setDefaultValues] = useState({});
   const [selectedMotorDescription, setSelectedMotorDescription] =
     useState(null);
   const motorsDescription = descriptionStore.getDescriptionItems(
@@ -39,8 +40,6 @@ const MotorConfiguration = observer(() => {
     uiMotorsConfigurationStore.getConfigurationForSelectedMotor();
   const values = methods.getValues();
   const { isValid } = methods.formState;
-
-  const [defaultValues, setDefaultValues] = useState({});
 
   // comparing manually because methods.formState.isDirty is not working
   // https://github.com/react-hook-form/react-hook-form/issues/12024

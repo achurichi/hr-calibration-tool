@@ -29,13 +29,13 @@ const Footer = observer(() => {
           },
         },
         {
-          disabled: uiMotorsConfigurationStore.firstMotorSelected(),
-          label: "Previous Motor",
+          disabled: uiMotorsConfigurationStore.prevDisabled(),
+          label: "Previous",
           onClick: uiMotorsConfigurationStore.prevMotor,
         },
         {
-          disabled: uiMotorsConfigurationStore.lastMotorSelected(),
-          label: "Next Motor",
+          disabled: uiMotorsConfigurationStore.nextDisabled(),
+          label: "Next",
           onClick: uiMotorsConfigurationStore.nextMotor,
         },
       ]}
