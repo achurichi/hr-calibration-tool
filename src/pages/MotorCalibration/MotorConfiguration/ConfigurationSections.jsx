@@ -1,44 +1,43 @@
 import React from "react";
+import { useFormContext } from "react-hook-form";
 
 import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
 import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
 
-import {
-  buildConfigurationData,
-  getSliderMaxValue,
-  getSliderMinValue,
-} from "pages/MotorCalibration/MotorConfiguration/utils";
+import { positionsFromDescription } from "pages/MotorCalibration/MotorConfiguration/utils";
 
 import styles from "./ConfigurationSections.module.scss";
 
-const ConfigurationSections = ({
-  className,
-  editableConfig,
-  motorConfig,
-  onChange,
-}) => {
-  if (!editableConfig) {
+const ConfigurationSections = ({ className, configuration, description }) => {
+  const { watch } = useFormContext();
+  const neutralPositionValue = watch("neutralPositionValue");
+
+  if (!description) {
     return null;
   }
 
   return (
     <div className={className}>
-      {buildConfigurationData(motorConfig).map((config) => (
-        <ConfigurationSection
-          className={styles.section}
-          description={config.description}
-          images={config.images}
-          key={config.prop}
-          title={config.title}
-        >
-          <ConfigurationControls
-            max={getSliderMaxValue(editableConfig, config.prop)}
-            min={getSliderMinValue(editableConfig, config.prop)}
-            onChange={(value) => onChange(config.prop, value)}
-            defaultValue={motorConfig[config.prop].value}
-          />
-        </ConfigurationSection>
-      ))}
+      {positionsFromDescription(description, neutralPositionValue).map(
+        (position) => (
+          <ConfigurationSection
+            className={styles.section}
+            description={position.configInstructions}
+            images={position.images}
+            key={position.prop}
+            title={position.title}
+          >
+            <ConfigurationControls
+              defaultValue={position.defaultValue}
+              max={position.maxValue}
+              maxAllowed={description.maxValue}
+              min={position.minValue}
+              minAllowed={description.minValue}
+              name={position.prop}
+            />
+          </ConfigurationSection>
+        ),
+      )}
     </div>
   );
 };

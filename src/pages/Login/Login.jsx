@@ -44,7 +44,7 @@ const Login = observer(() => {
   return (
     <Container className={styles.container}>
       <Form onSubmit={handleSubmit} className={styles.form}>
-        <Form.Group controlId="formBasicUser">
+        <Form.Group controlId="formUser">
           <Form.Label>User</Form.Label>
           <Form.Control
             onChange={handleUserChange}
@@ -54,7 +54,7 @@ const Login = observer(() => {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             autoComplete="on"

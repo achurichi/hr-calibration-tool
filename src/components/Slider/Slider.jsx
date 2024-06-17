@@ -34,6 +34,10 @@ const activeDotStyle = {
   borderColor: "var(--primary)",
 };
 
+const markStyle = {
+  pointerEvents: "none",
+};
+
 const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
   const [internalValue, setInternalValue] = useState(value);
 
@@ -62,8 +66,8 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         className={styles.slider}
         dotStyle={dotStyle}
         marks={{
-          [min]: <div className={styles.limit}>{min}</div>,
-          [max]: <div className={styles.limit}>{max}</div>,
+          [min]: { style: markStyle, label: min },
+          [max]: { style: markStyle, label: max },
         }}
         max={max}
         min={min}

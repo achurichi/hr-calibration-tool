@@ -20,7 +20,7 @@ const AnimationForm = () => {
           controlId="formName"
           controlProps={{ type: "text", isInvalid: !!errors.name }}
           label="Name"
-          registerName="name"
+          name="name"
           registerProps={{
             required: "Name is required",
             validate: (value) => !!value.trim() || "Name is required",
@@ -33,7 +33,7 @@ const AnimationForm = () => {
           controlId="formconfigInstructions"
           controlProps={{ as: "textarea" }}
           label="Configuration Instructions"
-          registerName="configInstructions"
+          name="configInstructions"
         />
       </Row>
       <Row>

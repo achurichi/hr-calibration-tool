@@ -1,42 +1,31 @@
-import {
-  MAX_POSITION_PROP,
-  MIN_POSITION_PROP,
-  MOTOR_MAX_VALUE,
-  MOTOR_MIN_VALUE,
-  NEUTRAL_POSITION_PROP,
-} from "constants/motors";
-
-export const buildConfigurationData = (config) => {
+export const positionsFromDescription = (description, neutralPositionValue) => {
   return [
     {
-      description: config.neutralPosition.description,
-      images: config.neutralPosition.imageUrls,
+      configInstructions: description.neutralPosition.configInstructions,
+      defaultValue: description.neutralPosition.defaultValue,
+      images: description.neutralPosition.images,
+      maxValue: description.maxValue,
+      minValue: description.minValue,
+      prop: "neutralPositionValue",
       title: "Neutral position",
-      prop: NEUTRAL_POSITION_PROP,
     },
     {
-      description: config.minPosition.description,
-      images: config.minPosition.imageUrls,
+      configInstructions: description.minPosition.configInstructions,
+      defaultValue: description.minPosition.defaultValue,
+      images: description.minPosition.images,
+      maxValue: neutralPositionValue,
+      minValue: description.minValue,
+      prop: "minPositionValue",
       title: "Minimum position",
-      prop: MIN_POSITION_PROP,
     },
     {
-      description: config.maxPosition.description,
-      images: config.maxPosition.imageUrls,
+      configInstructions: description.maxPosition.configInstructions,
+      defaultValue: description.maxPosition.defaultValue,
+      images: description.maxPosition.images,
+      maxValue: description.maxValue,
+      minValue: neutralPositionValue,
+      prop: "maxPositionValue",
       title: "Maximum position",
-      prop: MAX_POSITION_PROP,
     },
   ];
-};
-
-export const getSliderMaxValue = (config, prop) => {
-  return prop === MIN_POSITION_PROP
-    ? config[NEUTRAL_POSITION_PROP].value
-    : MOTOR_MAX_VALUE;
-};
-
-export const getSliderMinValue = (config, prop) => {
-  return prop === MAX_POSITION_PROP
-    ? config[NEUTRAL_POSITION_PROP].value
-    : MOTOR_MIN_VALUE;
 };

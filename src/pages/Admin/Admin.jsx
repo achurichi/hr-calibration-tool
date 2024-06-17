@@ -106,14 +106,16 @@ const Admin = observer(() => {
         </Layout.Main>
         <Layout.Footer>
           <Footer
-            primaryButton={{
-              disabled: uiDescriptionStore.getEditDisabled() || !selectedItem,
-              label: "Save",
-              onClick: () => {
-                const submitFn = methods.handleSubmit(submitForm);
-                submitFn();
+            buttons={[
+              {
+                disabled: uiDescriptionStore.getEditDisabled() || !selectedItem,
+                label: "Save",
+                onClick: () => {
+                  const submitFn = methods.handleSubmit(submitForm);
+                  submitFn();
+                },
               },
-            }}
+            ]}
           />
         </Layout.Footer>
       </Layout>

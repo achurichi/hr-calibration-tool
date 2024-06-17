@@ -28,7 +28,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
             isInvalid: !!errors[propName]?.defaultValue,
           }}
           label="Default Value"
-          registerName={defaultValueProp}
+          name={defaultValueProp}
           registerProps={{
             required: "Default Value is required",
             valueAsNumber: true,
@@ -40,7 +40,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
           controlId={`form-${configInstructionsProp}`}
           controlProps={{ as: "textarea" }}
           label="Configuration Instructions"
-          registerName={configInstructionsProp}
+          name={configInstructionsProp}
           xs="12"
         />
         <Col>

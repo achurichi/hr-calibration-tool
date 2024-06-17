@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { useForm, FormProvider } from "react-hook-form";
+import isEqual from "lodash/isEqual";
 
+import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
 
@@ -23,6 +26,9 @@ import styles from "./MotorConfiguration.module.scss";
 const MotorConfiguration = observer(() => {
   const { descriptionStore, motorsConfigurationStore, uiStore } = rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
+  const methods = useForm(); // maybe need to pass defaultValues once isDirty bug is fixed
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDirty, setIsDirty] = useState(true);
   const [selectedMotorDescription, setSelectedMotorDescription] =
     useState(null);
   const motorsDescription = descriptionStore.getDescriptionItems(
@@ -31,8 +37,22 @@ const MotorConfiguration = observer(() => {
   const selectedOption = uiMotorsConfigurationStore.getSelectedOption();
   const savedConfiguration =
     uiMotorsConfigurationStore.getConfigurationForSelectedMotor();
+  const values = methods.getValues();
+  const { isValid } = methods.formState;
 
-  // Load options on mount
+  const [defaultValues, setDefaultValues] = useState({});
+
+  // comparing manually because methods.formState.isDirty is not working
+  // https://github.com/react-hook-form/react-hook-form/issues/12024
+  useEffect(() => {
+    setIsDirty(!isEqual(values, defaultValues));
+  }, [values, defaultValues]);
+
+  const submitForm = async (data) => {
+    console.log("submit", data); // TODO: implement submit
+  };
+
+  // load options on mount
   useEffect(() => {
     const updateSelectOptions = async () => {
       const description = await descriptionStore.getOrFetchDescription(
@@ -62,69 +82,103 @@ const MotorConfiguration = observer(() => {
       }));
 
       uiMotorsConfigurationStore.setOptions(options);
-      uiMotorsConfigurationStore.setSelectedOption(options?.[0] || null);
+      uiMotorsConfigurationStore.setSelectedOption(options[0]);
+
+      const motor = motors[0];
+      const formData = {
+        neutralPositionValue: motor.neutralPosition.defaultValue,
+        maxPositionValue: motor.maxPosition.defaultValue,
+        minPositionValue: motor.minPosition.defaultValue,
+      };
+      setDefaultValues(formData);
+      methods.reset(formData);
     };
 
     const fetchConfiguration = async () => {
-      await motorsConfigurationStore.fetchConfig(MODEL_NAME);
+      await motorsConfigurationStore.fetchConfiguration(MODEL_NAME);
     };
 
-    updateSelectOptions();
-    fetchConfiguration();
+    const setup = async () => {
+      setIsLoading(true);
+      await Promise.all([updateSelectOptions(), fetchConfiguration()]);
+      uiMotorsConfigurationStore.setSaveConfiguration(() => {
+        const submitFn = methods.handleSubmit(submitForm);
+        submitFn();
+      });
+      setIsLoading(false);
+    };
+
+    setup();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (selectedOption && motorsDescription) {
-      setSelectedMotorDescription(
-        motorsDescription.find((m) => m.id === selectedOption.value),
+      const description = motorsDescription.find(
+        (m) => m.id === selectedOption.value,
       );
+      setSelectedMotorDescription(description);
+
+      const { neutralPosition, maxPosition, minPosition } = description;
+      methods.reset({
+        neutralPositionValue: neutralPosition.defaultValue,
+        maxPositionValue: maxPosition.defaultValue,
+        minPositionValue: minPosition.defaultValue,
+      });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, motorsDescription]);
 
+  useEffect(() => {
+    let reason = null;
+    if (isLoading) {
+      reason = "Loading...";
+    } else if (!isDirty) {
+      reason = "Set values to enable saving";
+    } else if (!isValid) {
+      reason = "Some fields are invalid";
+    }
+    uiMotorsConfigurationStore.setSaveDisabledReason(reason);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty, isValid, isLoading]);
+
   return (
-    <Layout>
-      <Layout.Topbar>
-        <Select
-          className={styles.select}
-          onChange={uiMotorsConfigurationStore.setSelectedOption}
-          options={uiMotorsConfigurationStore.getOptions()}
-          placeholder="Loading..."
-          value={selectedOption}
-        />
-      </Layout.Topbar>
-      <Layout.Main>
-        <RenderWithLoader
-          dependencies={[
-            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_NAME,
-            FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
-          ]}
-          loadingComponent={
-            <div className={styles["loader-container"]}>
-              <Spinner variant="primary" />
-            </div>
-          }
-        >
-          <ConfigurationSections
-            className={styles["configuration-sections"]}
-            configuration={savedConfiguration}
-            description={selectedMotorDescription}
-            // onChange={(prop, value) => {
-            //   setEditableConfig({
-            //     ...editableConfig,
-            //     [prop]: {
-            //       ...editableConfig[prop],
-            //       value,
-            //     },
-            //   });
-            // }}
+    <FormProvider {...methods}>
+      <Layout>
+        <Layout.Topbar>
+          <Select
+            className={styles.select}
+            onChange={uiMotorsConfigurationStore.setSelectedOption}
+            options={uiMotorsConfigurationStore.getOptions()}
+            placeholder="Loading..."
+            value={selectedOption}
           />
-        </RenderWithLoader>
-      </Layout.Main>
-      <Layout.Footer>
-        <Footer />
-      </Layout.Footer>
-    </Layout>
+        </Layout.Topbar>
+        <Layout.Main>
+          <RenderWithLoader
+            dependencies={[
+              FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_NAME,
+              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
+            ]}
+            loadingComponent={
+              <div className={styles["loader-container"]}>
+                <Spinner variant="primary" />
+              </div>
+            }
+          >
+            <Form className={styles["form-container"]}>
+              <ConfigurationSections
+                configuration={savedConfiguration}
+                description={selectedMotorDescription}
+              />
+            </Form>
+          </RenderWithLoader>
+        </Layout.Main>
+        <Layout.Footer>
+          <Footer />
+        </Layout.Footer>
+      </Layout>
+    </FormProvider>
   );
 });
 

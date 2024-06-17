@@ -20,7 +20,7 @@ const MotionForm = ({ index, name }) => {
       <Row className="mb-3">
         <InputField
           as={Col}
-          controlId={`${motionName}.value.name`}
+          controlId={`form-${motionName}-name`}
           controlProps={{
             type: "text",
             isInvalid: checkIsInvalid("name"),
@@ -30,12 +30,12 @@ const MotionForm = ({ index, name }) => {
             required: "Name is required",
             validate: (value) => !!value.trim() || "Name is required",
           }}
-          registerName={`${motionName}.value.name`}
+          name={`${motionName}.value.name`}
           xs="6"
         />
         <InputField
           as={Col}
-          controlId={`${motionName}.value.description`}
+          controlId={`form-${motionName}-description`}
           controlProps={{
             type: "text",
             isInvalid: checkIsInvalid("description"),
@@ -45,14 +45,14 @@ const MotionForm = ({ index, name }) => {
             required: "Description is required",
             validate: (value) => !!value.trim() || "Description is required",
           }}
-          registerName={`${motionName}.value.description`}
+          name={`${motionName}.value.description`}
           xs="6"
         />
       </Row>
       <Row>
         <InputField
           as={Col}
-          controlId={`${motionName}.value.minValue`}
+          controlId={`form-${motionName}-minValue`}
           controlProps={{
             isInvalid: checkIsInvalid("minValue"),
             step: "0.1",
@@ -63,12 +63,12 @@ const MotionForm = ({ index, name }) => {
             required: "Minimum Value is required",
             valueAsNumber: true,
           }}
-          registerName={`${motionName}.value.minValue`}
+          name={`${motionName}.value.minValue`}
           xs="4"
         />
         <InputField
           as={Col}
-          controlId={`${motionName}.value.maxValue`}
+          controlId={`form-${motionName}-maxValue`}
           controlProps={{
             isInvalid: checkIsInvalid("maxValue"),
             step: "0.1",
@@ -79,12 +79,12 @@ const MotionForm = ({ index, name }) => {
             required: "Maximum Value is required",
             valueAsNumber: true,
           }}
-          registerName={`${motionName}.value.maxValue`}
+          name={`${motionName}.value.maxValue`}
           xs="4"
         />
         <InputField
           as={Col}
-          controlId={`${motionName}.value.defaultValue`}
+          controlId={`form-${motionName}-defaultValue`}
           controlProps={{
             isInvalid: checkIsInvalid("defaultValue"),
             step: "0.1",
@@ -95,7 +95,7 @@ const MotionForm = ({ index, name }) => {
             required: "Default Value is required",
             valueAsNumber: true,
           }}
-          registerName={`${motionName}.value.defaultValue`}
+          name={`${motionName}.value.defaultValue`}
           xs="4"
         />
       </Row>

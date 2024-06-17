@@ -1,23 +1,37 @@
-.slider {
-  margin: 0 0.5rem;
-}
-
 .container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
+.slider {
+  margin: 0 0.5rem;
+}
+
 .configuration {
   display: flex;
   justify-content: space-between;
-}
 
-.value-input {
-  width: 5rem;
+  button {
+    height: fit-content;
+  }
 }
 
 .actions {
   display: flex;
   gap: 0.75rem;
+}
+
+.input {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+}
+
+.feedback {
+  width: max-content;
 }

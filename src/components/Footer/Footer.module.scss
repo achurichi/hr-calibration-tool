@@ -15,10 +15,11 @@
   display: flex;
   gap: 1rem;
   width: 100%;
+}
 
-  > *:not(:last-child) {
-    height: 100%;
-    padding-right: 1rem;
-    border-right: 1px solid var(--gray-300);
-  }
+.content > *:not(:last-child),
+.separator {
+  height: 100%;
+  padding-right: 1rem;
+  border-right: 1px solid var(--gray-300);
 }

@@ -1,17 +1,17 @@
 import { makeAutoObservable } from "mobx";
 import UiDescriptionStore from "stores/ui/uiDescription.store";
-import MotorConfigurationStore from "stores/ui/motorConfiguration.store";
+import UiMotorsConfigurationStore from "stores/ui/uiMotorsConfiguration.store";
 
 class UiStore {
   rootStore;
-  motorConfigurationStore;
+  uiMotorsConfigurationStore;
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
 
     this.rootStore = root;
     this.uiDescriptionStore = new UiDescriptionStore(this);
-    this.motorConfigurationStore = new MotorConfigurationStore(this);
+    this.uiMotorsConfigurationStore = new UiMotorsConfigurationStore(this);
   }
 }
 

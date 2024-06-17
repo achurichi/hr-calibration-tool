@@ -3,29 +3,21 @@ import { useFormContext } from "react-hook-form";
 
 import Form from "react-bootstrap/Form";
 
-const InputField = ({
-  registerName,
-  label,
-  controlProps,
-  registerProps,
-  ...rest
-}) => {
+const InputField = ({ controlProps, label, name, registerProps, ...rest }) => {
   const {
     formState: { errors },
     register,
   } = useFormContext();
 
-  // registerName may be a nested object, so we need to split by dots
-  const error = registerName
-    .split(".")
-    .reduce((obj, key) => obj?.[key], errors);
+  // name prop may come from a nested object, so we need to split by dots
+  const error = name.split(".").reduce((obj, key) => obj?.[key], errors);
 
   return (
     <Form.Group {...rest}>
-      <Form.Label>{label}</Form.Label>
+      {label && <Form.Label>{label}</Form.Label>}
       <Form.Control
         {...controlProps}
-        {...register(registerName, registerProps || {})}
+        {...register(name, registerProps || {})}
       />
       {error && (
         <Form.Control.Feedback type="invalid">

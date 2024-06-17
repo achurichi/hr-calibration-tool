@@ -5,6 +5,8 @@ import Tooltip from "react-bootstrap/Tooltip";
 
 import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
 
+import styles from "./Button.module.scss";
+
 function Button({
   children,
   tooltipProps = DEFAULT_TOOLTIP_PROPS,
@@ -27,7 +29,7 @@ function Button({
         </Tooltip>
       )}
     >
-      {button}
+      <span className={styles["button-container"]}>{button}</span>
     </OverlayTrigger>
   );
 }

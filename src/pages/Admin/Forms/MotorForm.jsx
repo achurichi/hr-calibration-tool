@@ -19,7 +19,7 @@ const MotorForm = () => {
           controlId="formName"
           controlProps={{ type: "text", isInvalid: !!errors.name }}
           label="Name"
-          registerName="name"
+          name="name"
           registerProps={{
             required: "Name is required",
             validate: (value) => !!value.trim() || "Name is required",
@@ -31,7 +31,7 @@ const MotorForm = () => {
           controlId="formGroup"
           controlProps={{ type: "text" }}
           label="Group"
-          registerName="group"
+          name="group"
           xs="6"
         />
       </Row>
@@ -41,7 +41,7 @@ const MotorForm = () => {
           controlId="formDescription"
           controlProps={{ type: "text" }}
           label="Description"
-          registerName="description"
+          name="description"
           xs="6"
         />
         <InputField
@@ -52,7 +52,7 @@ const MotorForm = () => {
             isInvalid: !!errors.minValue,
           }}
           label="Minimum Value"
-          registerName="minValue"
+          name="minValue"
           registerProps={{
             required: "Minimum Value is required",
             valueAsNumber: true,
@@ -67,7 +67,7 @@ const MotorForm = () => {
             isInvalid: !!errors.maxValue,
           }}
           label="Maximum Value"
-          registerName="maxValue"
+          name="maxValue"
           registerProps={{
             required: "Maximum Value is required",
             valueAsNumber: true,

@@ -10,8 +10,8 @@ import styles from "./Footer.module.scss";
 const Footer = () => {
   return (
     <FooterComponent
-      primaryButton={{ label: "Save" }}
-      secondaryButton={{ label: "Reset" }}
+    // primaryButton={{ label: "Save" }}
+    // secondaryButton={{ label: "Reset" }}
     >
       <Form className={styles.form}>
         <Form.Check

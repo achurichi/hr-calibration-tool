@@ -12,20 +12,33 @@ import styles from "./Footer.module.scss";
 
 const Footer = observer(() => {
   const { uiStore } = rootStore;
-  const { motorConfigurationStore } = uiStore;
+  const { uiMotorsConfigurationStore } = uiStore;
+  const saveDisabledReason = uiMotorsConfigurationStore.getSaveDisabledReason();
 
   return (
     <FooterComponent
-      primaryButton={{
-        disabled: motorConfigurationStore.lastMotorSelected(),
-        label: "Next motor",
-        onClick: motorConfigurationStore.nextMotor,
-      }}
-      secondaryButton={{
-        disabled: motorConfigurationStore.firstMotorSelected(),
-        label: "Previous motor",
-        onClick: motorConfigurationStore.prevMotor,
-      }}
+      buttons={[
+        {
+          disabled: saveDisabledReason,
+          label: "Save",
+          onClick: uiMotorsConfigurationStore.saveConfiguration,
+          separator: true,
+          tooltipProps: {
+            content: saveDisabledReason,
+            id: "save-configuration",
+          },
+        },
+        {
+          disabled: uiMotorsConfigurationStore.firstMotorSelected(),
+          label: "Previous Motor",
+          onClick: uiMotorsConfigurationStore.prevMotor,
+        },
+        {
+          disabled: uiMotorsConfigurationStore.lastMotorSelected(),
+          label: "Next Motor",
+          onClick: uiMotorsConfigurationStore.nextMotor,
+        },
+      ]}
     >
       <Form className={styles.form}>
         <Form.Check type="checkbox" id="enable-torque" label="Enable torque" />
