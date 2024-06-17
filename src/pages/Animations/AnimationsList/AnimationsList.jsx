@@ -52,12 +52,12 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput]);
 
-  const rows = animations.map(({ name }) => {
+  const rows = animations.map(({ id, name }) => {
     return {
       name,
       action: (
         <EditIconField
-          redirect={actionLink}
+          redirect={`${actionLink}/${id}`}
           tooltipContent="Edit configuration"
         />
       ),

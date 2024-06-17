@@ -33,6 +33,13 @@ const pagesData = [
         path: PATHS.MOTOR_CONFIGURE,
         element: <MotorConfiguration />,
         title: "motor-configure",
+        routes: [
+          {
+            path: PATHS.MOTOR_CONFIGURE_ID,
+            element: <MotorConfiguration />,
+            title: "motor-configure-id",
+          },
+        ],
       },
       {
         path: PATHS.VISEMES,
@@ -43,6 +50,13 @@ const pagesData = [
         path: PATHS.VISEME_CONFIGURE,
         element: <VisemeConfiguration />,
         title: "viseme-configure",
+        routes: [
+          {
+            path: PATHS.VISEME_CONFIGURE_ID,
+            element: <VisemeConfiguration />,
+            title: "viseme-configure-id",
+          },
+        ],
       },
       {
         path: PATHS.EXPRESSIONS,
@@ -53,6 +67,13 @@ const pagesData = [
         path: PATHS.EXPRESSION_CONFIGURE,
         element: <ExpressionConfiguration />,
         title: "expression-configure",
+        routes: [
+          {
+            path: PATHS.EXPRESSION_CONFIGURE_ID,
+            element: <ExpressionConfiguration />,
+            title: "expression-configure-id",
+          },
+        ],
       },
       {
         path: PATHS.ADMIN,

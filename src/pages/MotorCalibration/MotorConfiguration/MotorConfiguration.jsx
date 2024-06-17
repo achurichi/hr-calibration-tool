@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
 import isEqual from "lodash/isEqual";
@@ -18,6 +19,7 @@ import {
   MODEL_NAME,
 } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
+import { PATHS } from "constants/routes";
 
 import rootStore from "stores/root.store";
 
@@ -26,6 +28,8 @@ import styles from "./MotorConfiguration.module.scss";
 const MotorConfiguration = observer(() => {
   const { descriptionStore, motorsConfigurationStore, uiStore } = rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
+  const navigate = useNavigate();
+  const { motorId } = useParams();
   const methods = useForm(); // maybe need to pass defaultValues once isDirty bug is fixed
   const [isLoading, setIsLoading] = useState(true);
   const [isDirty, setIsDirty] = useState(true);
@@ -80,10 +84,15 @@ const MotorConfiguration = observer(() => {
         value: id,
       }));
 
-      uiMotorsConfigurationStore.setOptions(options);
-      uiMotorsConfigurationStore.setSelectedOption(options[0]);
+      let motorIndex = motors.findIndex((m) => m.id === motorId);
+      if (motorIndex === -1) {
+        motorIndex = 0;
+      }
 
-      const motor = motors[0];
+      uiMotorsConfigurationStore.setOptions(options);
+      uiMotorsConfigurationStore.setSelectedOption(options[motorIndex]);
+
+      const motor = motors[motorIndex];
       const formData = {
         neutralPositionValue: motor.neutralPosition.defaultValue,
         maxPositionValue: motor.maxPosition.defaultValue,
@@ -123,6 +132,10 @@ const MotorConfiguration = observer(() => {
         neutralPositionValue: neutralPosition.defaultValue,
         maxPositionValue: maxPosition.defaultValue,
         minPositionValue: minPosition.defaultValue,
+      });
+
+      navigate(`${PATHS.MOTOR_CONFIGURE}/${selectedOption.value}`, {
+        replace: true,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

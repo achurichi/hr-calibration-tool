@@ -60,14 +60,14 @@ const MotorCalibration = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilter, selectedGroup]);
 
-  const rows = motors.map(({ name, description, group }) => {
+  const rows = motors.map(({ id, name, description, group }) => {
     return {
       name,
       description: description || <EmptyField text="No description" />,
       group: group || <EmptyField text="No group" />,
       action: (
         <EditIconField
-          redirect={PATHS.MOTOR_CONFIGURE}
+          redirect={`${PATHS.MOTOR_CONFIGURE}/${id}`}
           tooltipContent="Edit configuration"
         />
       ),
