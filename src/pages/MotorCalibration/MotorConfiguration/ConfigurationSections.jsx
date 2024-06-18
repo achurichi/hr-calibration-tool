@@ -33,7 +33,11 @@ const ConfigurationSections = observer(
               description={position.configInstructions}
               images={position.images}
               key={position.prop}
-              prop={position.prop}
+              onScreenChange={(isFullscreen) => {
+                uiMotorsConfigurationStore.setFullscreen(
+                  isFullscreen ? position.prop : null,
+                );
+              }}
               title={position.title}
             >
               <ConfigurationControls
