@@ -12,8 +12,9 @@ import rootStore from "stores/root.store";
 import "./ConfigurationSection.scss";
 
 const ConfigurationSection = observer(
-  ({ children, className, description, images, title }) => {
-    const { descriptionStore } = rootStore;
+  ({ children, className, description, images, prop, title }) => {
+    const { descriptionStore, uiStore } = rootStore;
+    const { uiMotorsConfigurationStore } = uiStore;
 
     useEffect(() => {
       images.forEach((id) => {
@@ -41,7 +42,16 @@ const ConfigurationSection = observer(
             {showCarousel && (
               <div className="images">
                 {loadingImages && <Spinner variant="primary" />}
-                {!loadingImages && <Carousel images={imagesBase64} />}
+                {!loadingImages && (
+                  <Carousel
+                    images={imagesBase64}
+                    onScreenChange={(isFullscreen) => {
+                      uiMotorsConfigurationStore.setFullscreen(
+                        isFullscreen ? prop : null,
+                      );
+                    }}
+                  />
+                )}
               </div>
             )}
           </div>

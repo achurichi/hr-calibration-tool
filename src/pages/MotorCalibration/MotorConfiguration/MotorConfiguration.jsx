@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
-import isEqual from "lodash/isEqual";
 
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
@@ -30,10 +29,8 @@ const MotorConfiguration = observer(() => {
   const { uiMotorsConfigurationStore } = uiStore;
   const navigate = useNavigate();
   const { motorId } = useParams();
-  const methods = useForm(); // maybe need to pass defaultValues once isDirty bug is fixed
+  const methods = useForm();
   const [isLoading, setIsLoading] = useState(true);
-  const [isDirty, setIsDirty] = useState(true);
-  const [defaultValues, setDefaultValues] = useState({});
   const [selectedMotorDescription, setSelectedMotorDescription] =
     useState(null);
   const motorsDescription = descriptionStore.getDescriptionItems(
@@ -42,14 +39,7 @@ const MotorConfiguration = observer(() => {
   const selectedOption = uiMotorsConfigurationStore.getSelectedOption();
   const savedConfiguration =
     uiMotorsConfigurationStore.getConfigurationForSelectedMotor();
-  const values = methods.getValues();
-  const { isValid } = methods.formState;
-
-  // comparing manually because methods.formState.isDirty is not working
-  // https://github.com/react-hook-form/react-hook-form/issues/12024
-  useEffect(() => {
-    setIsDirty(!isEqual(values, defaultValues));
-  }, [values, defaultValues]);
+  const { isDirty, isValid } = methods.formState;
 
   const submitForm = async (data) => {
     console.log("submit", data); // TODO: implement submit
@@ -92,14 +82,12 @@ const MotorConfiguration = observer(() => {
       uiMotorsConfigurationStore.setOptions(options);
       uiMotorsConfigurationStore.setSelectedOption(options[motorIndex]);
 
-      const motor = motors[motorIndex];
-      const formData = {
-        neutralPositionValue: motor.neutralPosition.defaultValue,
-        maxPositionValue: motor.maxPosition.defaultValue,
-        minPositionValue: motor.minPosition.defaultValue,
-      };
-      setDefaultValues(formData);
-      methods.reset(formData);
+      const { neutralPosition, maxPosition, minPosition } = motors[motorIndex];
+      methods.reset({
+        neutralPositionValue: neutralPosition.defaultValue,
+        maxPositionValue: maxPosition.defaultValue,
+        minPositionValue: minPosition.defaultValue,
+      });
     };
 
     const fetchConfiguration = async () => {

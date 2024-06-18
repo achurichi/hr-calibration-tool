@@ -4,6 +4,7 @@ class UiMotorsConfigurationStore {
   uiStore;
   options = [];
   selectedOption = null;
+  fullscreen = false;
   saveDisabledReason = null;
   saveConfiguration = () => {};
 
@@ -47,6 +48,14 @@ class UiMotorsConfigurationStore {
         (m) => m.motorId === this.selectedConfiguration.value,
       ) || null
     );
+  }
+
+  setFullscreen(fullscreen) {
+    this.fullscreen = fullscreen;
+  }
+
+  getFullscreen() {
+    return this.fullscreen;
   }
 
   setSaveDisabledReason(saveDisabledReason) {

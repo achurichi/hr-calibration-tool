@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import classNames from "classnames";
 
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -16,6 +17,7 @@ import {
 import styles from "./ConfigurationControls.module.scss";
 
 const ConfigurationControls = ({
+  className,
   defaultValue,
   max,
   maxAllowed,
@@ -51,7 +53,7 @@ const ConfigurationControls = ({
 
   const onSetValue = () => {
     const numValue = inputValue === "" ? null : Number(inputValue);
-    setValue(name, numValue); // always set value to trigger validation
+    setValue(name, numValue, { shouldDirty: true });
     trigger();
     // only update slider if input value is valid
     if (validateRange(inputValue, min, max, minAllowed, maxAllowed) === true) {
@@ -60,7 +62,7 @@ const ConfigurationControls = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={classNames(styles.container, className)}>
       <Slider
         className={styles.slider}
         value={sliderValue}
@@ -69,7 +71,7 @@ const ConfigurationControls = ({
         onChange={(value) => {
           setSliderValue(value);
           setInputValue(value);
-          setValue(name, value);
+          setValue(name, value, { shouldDirty: true });
         }}
         onChangeComplete={() => {
           trigger(); // trigger validation to clear previous errors if any
