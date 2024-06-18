@@ -53,13 +53,13 @@ const Footer = observer(() => {
       </Form>
       <ProgressBar
         containerClassName={styles["current-position"]}
-        now={50}
+        now={0}
         showCurrentValue
         topLabel="Motor current position"
       />
       <ProgressBar
         containerClassName={styles["motor-load"]}
-        now={50}
+        now={0}
         topLabel="Motor load"
       />
     </FooterComponent>

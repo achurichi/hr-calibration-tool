@@ -20,7 +20,7 @@ const ProgressBar = ({
           className={classNames(styles.progress, className)}
           {...props}
         />
-        {showCurrentValue && <div className={styles.value}>2048</div>}
+        {showCurrentValue && <div className={styles.value}>0</div>}
       </div>
     </div>
   );
