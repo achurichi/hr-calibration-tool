@@ -4,9 +4,10 @@ class UiMotorsConfigurationStore {
   uiStore;
   options = [];
   selectedOption = null;
-  fullscreen = false;
   saveDisabledReason = null;
   saveConfiguration = () => {};
+  fullscreen = false;
+  enableTorque = false;
 
   constructor(parent) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -50,14 +51,6 @@ class UiMotorsConfigurationStore {
     );
   }
 
-  setFullscreen(fullscreen) {
-    this.fullscreen = fullscreen;
-  }
-
-  getFullscreen() {
-    return this.fullscreen;
-  }
-
   setSaveDisabledReason(saveDisabledReason) {
     this.saveDisabledReason = saveDisabledReason;
   }
@@ -68,6 +61,22 @@ class UiMotorsConfigurationStore {
 
   setSaveConfiguration(callback) {
     this.saveConfiguration = callback || (() => {});
+  }
+
+  setFullscreen(fullscreen) {
+    this.fullscreen = fullscreen;
+  }
+
+  getFullscreen() {
+    return this.fullscreen;
+  }
+
+  setEnableTorque(enableTorque) {
+    this.enableTorque = enableTorque;
+  }
+
+  getEnableTorque() {
+    return this.enableTorque;
   }
 
   _getCurrentMotorIndex() {

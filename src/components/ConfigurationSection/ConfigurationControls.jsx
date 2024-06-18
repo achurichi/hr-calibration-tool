@@ -19,6 +19,7 @@ import styles from "./ConfigurationControls.module.scss";
 const ConfigurationControls = ({
   className,
   defaultValue,
+  extraButtons,
   max,
   maxAllowed,
   min,
@@ -112,14 +113,12 @@ const ConfigurationControls = ({
             )}
           </Form.Group>
           <Button onClick={onSetValue}>Set</Button>
-          <Button
-            tooltipProps={{
-              content: "Read motor current position",
-              id: "read-configuration",
-            }}
-          >
-            Read
-          </Button>
+          {extraButtons &&
+            extraButtons.map(({ label, ...buttonProps }) => (
+              <Button key={label} {...buttonProps}>
+                {label}
+              </Button>
+            ))}
         </div>
         <div className={styles.actions}></div>
       </div>

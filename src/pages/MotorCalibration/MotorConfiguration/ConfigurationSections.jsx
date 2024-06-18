@@ -18,6 +18,7 @@ const ConfigurationSections = observer(
     const { uiMotorsConfigurationStore } = uiStore;
     const { watch } = useFormContext();
     const neutralPositionValue = watch("neutralPositionValue");
+    const readDisabled = !uiMotorsConfigurationStore.getEnableTorque();
 
     if (!description) {
       return null;
@@ -42,6 +43,19 @@ const ConfigurationSections = observer(
                     position.prop,
                 })}
                 defaultValue={position.defaultValue}
+                extraButtons={[
+                  {
+                    disabled: readDisabled,
+                    label: "Read",
+                    onClick: () => {}, // TODO: implement read motor current position
+                    tooltipProps: {
+                      content: readDisabled
+                        ? "Enable torque to read motor current position"
+                        : "Read motor current position",
+                      id: "read-configuration",
+                    },
+                  },
+                ]}
                 max={position.maxValue}
                 maxAllowed={description.maxValue}
                 min={position.minValue}

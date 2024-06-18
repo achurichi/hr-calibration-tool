@@ -41,7 +41,15 @@ const Footer = observer(() => {
       ]}
     >
       <Form className={styles.form}>
-        <Form.Check type="checkbox" id="enable-torque" label="Enable torque" />
+        <Form.Check
+          disabled={!uiMotorsConfigurationStore.getSelectedOption()}
+          id="enable-torque"
+          label="Enable torque"
+          onChange={({ target }) => {
+            uiMotorsConfigurationStore.setEnableTorque(target.checked);
+          }}
+          type="checkbox"
+        />
       </Form>
       <ProgressBar
         containerClassName={styles["current-position"]}
