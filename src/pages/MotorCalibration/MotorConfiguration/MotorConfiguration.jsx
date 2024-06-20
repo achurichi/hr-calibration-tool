@@ -46,11 +46,16 @@ const MotorConfiguration = observer(() => {
   const { isDirty, isValid } = methods.formState;
 
   const submitForm = async (data) => {
-    callWithNotification(
+    const result = await callWithNotification(
       () => motorsConfigurationStore.saveMotor(MODEL_NAME, ROBOT_NAME, data),
       FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
       "Configuration saved",
     );
+
+    if (result) {
+      // don't need to reset the form just clear the dirty state
+      methods.reset(undefined, { keepValues: true });
+    }
   };
 
   // load options on mount
