@@ -1,8 +1,7 @@
-export const positionsFromDescription = (description, neutralPositionValue) => {
+export const getSectionData = (description, neutralPositionValue) => {
   return [
     {
       configInstructions: description.neutralPosition.configInstructions,
-      defaultValue: description.neutralPosition.defaultValue,
       images: description.neutralPosition.images,
       maxValue: description.maxValue,
       minValue: description.minValue,
@@ -11,7 +10,6 @@ export const positionsFromDescription = (description, neutralPositionValue) => {
     },
     {
       configInstructions: description.minPosition.configInstructions,
-      defaultValue: description.minPosition.defaultValue,
       images: description.minPosition.images,
       maxValue: neutralPositionValue,
       minValue: description.minValue,
@@ -20,7 +18,6 @@ export const positionsFromDescription = (description, neutralPositionValue) => {
     },
     {
       configInstructions: description.maxPosition.configInstructions,
-      defaultValue: description.maxPosition.defaultValue,
       images: description.maxPosition.images,
       maxValue: description.maxValue,
       minValue: neutralPositionValue,

@@ -10,7 +10,6 @@ import Slider from "components/Slider/Slider";
 
 import {
   getLimitValue,
-  minMaxBetweenRange,
   validateRange,
 } from "components/ConfigurationSection/utils";
 
@@ -18,7 +17,7 @@ import styles from "./ConfigurationControls.module.scss";
 
 const ConfigurationControls = ({
   className,
-  defaultValue,
+  configurationId,
   extraButtons,
   max,
   maxAllowed,
@@ -31,35 +30,24 @@ const ConfigurationControls = ({
     formState: { errors },
     setValue,
     trigger,
+    watch,
   } = useFormContext();
-  const [sliderValue, setSliderValue] = useState(defaultValue);
-  const [inputValue, setInputValue] = useState(defaultValue);
+  const [sliderValue, setSliderValue] = useState(0);
+  const [inputValue, setInputValue] = useState(0);
+  const value = watch(name);
 
   useEffect(() => {
-    setSliderValue(defaultValue);
-  }, [defaultValue]);
-
-  useEffect(() => {
-    // if min-max range is invalid, don't update slider value
-    if (!minMaxBetweenRange(min, max, minAllowed, maxAllowed)) {
-      return;
+    if (validateRange(value, min, max, minAllowed, maxAllowed) === true) {
+      // only update input and slider if the value is valid
+      setInputValue(value);
+      setSliderValue(value);
     }
-    if (sliderValue < min) {
-      setSliderValue(min);
-    } else if (sliderValue > max) {
-      setSliderValue(max);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [max, min]);
+  }, [value, configurationId, min, max, minAllowed, maxAllowed]);
 
   const onSetValue = () => {
     const numValue = inputValue === "" ? null : Number(inputValue);
     setValue(name, numValue, { shouldDirty: true });
     trigger();
-    // only update slider if input value is valid
-    if (validateRange(inputValue, min, max, minAllowed, maxAllowed) === true) {
-      setSliderValue(numValue);
-    }
   };
 
   return (

@@ -6,7 +6,8 @@ export const FUNCTIONS = {
     GET_BY_MOTOR_ID: "motorConfigurations_getByMotorId",
   },
   MOTORS_CONFIGURATION: {
-    GET_BY_MODEL_NAME: "motorsConfiguration_getByModelName",
+    GET_BY_MODEL_ROBOT_NAME: "motorsConfiguration_getByModelRobotName",
+    SAVE_MOTOR: "motorsConfiguration_saveMotor",
   },
   MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescriptions_deleteItem",

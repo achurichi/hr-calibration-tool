@@ -34,23 +34,6 @@ class UiMotorsConfigurationStore {
     return this.selectedOption;
   }
 
-  getConfigurationForSelectedMotor() {
-    if (!this.selectedConfiguration?.value) {
-      return null;
-    }
-
-    const config = this.motorsConfigurationStore.getConfiguration();
-    if (!config) {
-      return null;
-    }
-
-    return (
-      config.motors.find(
-        (m) => m.motorId === this.selectedConfiguration.value,
-      ) || null
-    );
-  }
-
   setSaveDisabledReason(saveDisabledReason) {
     this.saveDisabledReason = saveDisabledReason;
   }

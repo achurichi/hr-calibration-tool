@@ -6,12 +6,14 @@ import Form from "react-bootstrap/Form";
 import FooterComponent from "components/Footer/Footer";
 import ProgressBar from "components/ProgressBar/ProgressBar";
 
+import { FUNCTIONS } from "constants/mongo";
+
 import rootStore from "stores/root.store";
 
 import styles from "./Footer.module.scss";
 
 const Footer = observer(() => {
-  const { uiStore } = rootStore;
+  const { statusStore, uiStore } = rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
   const saveDisabledReason = uiMotorsConfigurationStore.getSaveDisabledReason();
 
@@ -19,7 +21,9 @@ const Footer = observer(() => {
     <FooterComponent
       buttons={[
         {
-          disabled: saveDisabledReason,
+          disabled:
+            saveDisabledReason ||
+            statusStore.isLoading(FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR),
           label: "Save",
           onClick: uiMotorsConfigurationStore.saveConfiguration,
           separator: true,

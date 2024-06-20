@@ -1,4 +1,14 @@
 /**
+ * Checks if a value is numeric. Works for both strings and numbers.
+ *
+ * @param {*} value - The value to be checked for being numeric.
+ * @returns {boolean} - Returns `true` if the value is numeric, `false` otherwise.
+ */
+export const isNumeric = (value) => {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+};
+
+/**
  * Checks if a value is within a specified range.
  *
  * @param {number} value - The value to check.
@@ -19,7 +29,7 @@ const valueBetweenRange = (value, minAllowed, maxAllowed) => {
  * @param {number} maxAllowed - The maximum allowed value.
  * @returns {boolean} True if both min and max are within the range, false otherwise.
  */
-export const minMaxBetweenRange = (min, max, minAllowed, maxAllowed) => {
+const minMaxBetweenRange = (min, max, minAllowed, maxAllowed) => {
   return (
     valueBetweenRange(min, minAllowed, maxAllowed) &&
     valueBetweenRange(max, minAllowed, maxAllowed)
@@ -52,17 +62,20 @@ export const getLimitValue = (value, minAllowed, maxAllowed) => {
  * @returns {string|boolean} Error message if validation fails, otherwise true.
  */
 export const validateRange = (value, min, max, minAllowed, maxAllowed) => {
-  if (value === "") {
+  if (
+    value === null ||
+    value === undefined ||
+    (typeof value === "string" && value.trim() === "")
+  ) {
     return "Value is required";
   }
-  const numValue = Number(value);
-  if (Number.isNaN(numValue)) {
+  if (!isNumeric(value)) {
     return "Value must be a number";
   }
   if (!minMaxBetweenRange(min, max, minAllowed, maxAllowed)) {
     return "Invalid range";
   }
-  if (!valueBetweenRange(numValue, min, max)) {
+  if (!valueBetweenRange(Number(value), min, max)) {
     return `Value must be between ${min} and ${max}`;
   }
   return true;

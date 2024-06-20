@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
 
+import useCallWithNotification from "hooks/useCallWithNotification";
+
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
@@ -16,6 +18,7 @@ import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
   MODEL_NAME,
+  ROBOT_NAME,
 } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
@@ -27,6 +30,7 @@ import styles from "./MotorConfiguration.module.scss";
 const MotorConfiguration = observer(() => {
   const { descriptionStore, motorsConfigurationStore, uiStore } = rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
+  const callWithNotification = useCallWithNotification();
   const navigate = useNavigate();
   const { motorId } = useParams();
   const methods = useForm();
@@ -37,17 +41,19 @@ const MotorConfiguration = observer(() => {
     DESCRIPTION_ITEM_TYPES.MOTOR,
   );
   const selectedOption = uiMotorsConfigurationStore.getSelectedOption();
-  const savedConfiguration =
-    uiMotorsConfigurationStore.getConfigurationForSelectedMotor();
   const { isDirty, isValid } = methods.formState;
 
   const submitForm = async (data) => {
-    console.log("submit", data); // TODO: implement submit
+    callWithNotification(
+      () => motorsConfigurationStore.saveMotor(MODEL_NAME, ROBOT_NAME, data),
+      FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+      "Configuration saved",
+    );
   };
 
   // load options on mount
   useEffect(() => {
-    const updateSelectOptions = async () => {
+    const loadOptions = async () => {
       const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.MOTORS,
         MODEL_NAME,
@@ -59,6 +65,8 @@ const MotorConfiguration = observer(() => {
         uiMotorsConfigurationStore.setSelectedOption(null);
         return;
       }
+
+      await motorsConfigurationStore.fetchConfiguration(MODEL_NAME, ROBOT_NAME);
 
       const options = motors.map(({ name, description, id }) => ({
         label: (
@@ -81,22 +89,11 @@ const MotorConfiguration = observer(() => {
 
       uiMotorsConfigurationStore.setOptions(options);
       uiMotorsConfigurationStore.setSelectedOption(options[motorIndex]);
-
-      const { neutralPosition, maxPosition, minPosition } = motors[motorIndex];
-      methods.reset({
-        neutralPositionValue: neutralPosition.defaultValue,
-        maxPositionValue: maxPosition.defaultValue,
-        minPositionValue: minPosition.defaultValue,
-      });
-    };
-
-    const fetchConfiguration = async () => {
-      await motorsConfigurationStore.fetchConfiguration(MODEL_NAME);
     };
 
     const setup = async () => {
       setIsLoading(true);
-      await Promise.all([updateSelectOptions(), fetchConfiguration()]);
+      await loadOptions();
       uiMotorsConfigurationStore.setSaveConfiguration(() => {
         const submitFn = methods.handleSubmit(submitForm);
         submitFn();
@@ -115,12 +112,21 @@ const MotorConfiguration = observer(() => {
       );
       setSelectedMotorDescription(description);
 
-      const { neutralPosition, maxPosition, minPosition } = description;
-      methods.reset({
-        neutralPositionValue: neutralPosition.defaultValue,
-        maxPositionValue: maxPosition.defaultValue,
-        minPositionValue: minPosition.defaultValue,
-      });
+      const configuredMotor = motorsConfigurationStore.getMotor(description.id);
+
+      if (configuredMotor) {
+        // if the class object is passed the form is not reset properly
+        methods.reset({ ...configuredMotor });
+      } else {
+        const { neutralPosition, maxPosition, minPosition } = description;
+        methods.reset({
+          motorId: description.id,
+          motorName: description.name,
+          neutralPositionValue: neutralPosition.defaultValue,
+          maxPositionValue: maxPosition.defaultValue,
+          minPositionValue: minPosition.defaultValue,
+        });
+      }
 
       navigate(`${PATHS.MOTOR_CONFIGURE}/${selectedOption.value}`, {
         replace: true,
@@ -157,7 +163,7 @@ const MotorConfiguration = observer(() => {
         <Layout.Main>
           <RenderWithLoader
             dependencies={[
-              FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_NAME,
+              FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
               FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
             ]}
             loadingComponent={
@@ -167,10 +173,7 @@ const MotorConfiguration = observer(() => {
             }
           >
             <Form className={styles["form-container"]}>
-              <ConfigurationSections
-                configuration={savedConfiguration}
-                description={selectedMotorDescription}
-              />
+              <ConfigurationSections description={selectedMotorDescription} />
             </Form>
           </RenderWithLoader>
         </Layout.Main>

@@ -17,11 +17,30 @@ class MotorsConfigurationStore {
     return this.configuration;
   }
 
-  async fetchConfiguration(modelName) {
+  getMotor(id) {
+    return this.configuration?.motors?.find((m) => m.motorId === id);
+  }
+
+  async fetchConfiguration(modelName, robotName) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_NAME,
+      FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
       modelName,
+      robotName,
     );
+    return this._saveConfiguration(data);
+  }
+
+  async saveMotor(modelName, robotName, configuration) {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+      modelName,
+      robotName,
+      configuration,
+    );
+    return this._saveConfiguration(data);
+  }
+
+  _saveConfiguration(data) {
     this.configuration = data ? new MotorsConfiguration(data) : null;
     return this.configuration;
   }

@@ -1,4 +1,5 @@
-export const MODEL_NAME = "test-model-name"; //TODO: Change this to the actual model name
+export const MODEL_NAME = "test-model-name"; // TODO: Get the model name from ros ws
+export const ROBOT_NAME = "test-robot-name"; // TODO: Get the robot name from ros ws
 
 export const DESCRIPTION_TYPES = {
   MOTORS: "motors",
