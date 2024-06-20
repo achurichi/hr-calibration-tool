@@ -16,14 +16,15 @@ const Footer = observer(() => {
   const { statusStore, uiStore } = rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
   const saveDisabledReason = uiMotorsConfigurationStore.getSaveDisabledReason();
+  const saving = statusStore.isLoading(
+    FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+  );
 
   return (
     <FooterComponent
       buttons={[
         {
-          disabled:
-            saveDisabledReason ||
-            statusStore.isLoading(FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR),
+          disabled: saveDisabledReason || saving,
           label: "Save",
           onClick: uiMotorsConfigurationStore.saveConfiguration,
           separator: true,
@@ -33,20 +34,28 @@ const Footer = observer(() => {
           },
         },
         {
-          disabled: uiMotorsConfigurationStore.prevDisabled(),
+          disabled: uiMotorsConfigurationStore.prevDisabled() || saving,
           label: "Previous",
-          onClick: uiMotorsConfigurationStore.prevMotor,
+          onClick: () => {
+            uiMotorsConfigurationStore.confirmIfDirty(() =>
+              uiMotorsConfigurationStore.prevMotor(),
+            );
+          },
         },
         {
-          disabled: uiMotorsConfigurationStore.nextDisabled(),
+          disabled: uiMotorsConfigurationStore.nextDisabled() || saving,
           label: "Next",
-          onClick: uiMotorsConfigurationStore.nextMotor,
+          onClick: () => {
+            uiMotorsConfigurationStore.confirmIfDirty(() =>
+              uiMotorsConfigurationStore.nextMotor(),
+            );
+          },
         },
       ]}
     >
       <Form className={styles.form}>
         <Form.Check
-          disabled={!uiMotorsConfigurationStore.getSelectedOption()}
+          disabled={!uiMotorsConfigurationStore.getSelectedOption() || saving}
           id="enable-torque"
           label="Enable torque"
           onChange={({ target }) => {

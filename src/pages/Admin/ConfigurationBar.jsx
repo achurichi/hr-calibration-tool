@@ -14,6 +14,7 @@ import {
   DESCRIPTION_TYPES_MAP,
   MODEL_NAME,
 } from "constants/descriptions";
+import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
@@ -36,16 +37,12 @@ const ConfigurationBar = observer(({ unsaved }) => {
   const handleUnsavedChanges = (onConfirmAction) => {
     if (unsaved) {
       setConfirmationModalConfig({
-        confirmLabel: "Continue",
-        message:
-          "There are unsaved changes. Are you sure you want to continue?",
+        ...UNSAVED_CHANGES_MODAL,
         onCancel: resetConfirmationModal,
         onConfirm: () => {
           onConfirmAction();
           resetConfirmationModal();
         },
-        show: true,
-        title: "Unsaved Changes",
       });
     } else {
       onConfirmAction();
@@ -57,8 +54,7 @@ const ConfigurationBar = observer(({ unsaved }) => {
       deleteItem();
     } else {
       setConfirmationModalConfig({
-        confirmLabel: "Delete",
-        confirmVariant: "danger",
+        ...DELETE_MODAL,
         message: (
           <div>
             {"Are you sure you want to delete "}
@@ -71,7 +67,6 @@ const ConfigurationBar = observer(({ unsaved }) => {
           await deleteItem();
           resetConfirmationModal();
         },
-        show: true,
         title: "Delete Configuration",
       });
     }

@@ -1,5 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
+import { UNSAVED_CHANGES_MODAL } from "constants/modals";
+
 class UiMotorsConfigurationStore {
   uiStore;
   options = [];
@@ -8,6 +10,8 @@ class UiMotorsConfigurationStore {
   saveConfiguration = () => {};
   fullscreen = false;
   enableTorque = false;
+  unsavedModalConfig = { show: false };
+  dirtyForm = false;
 
   constructor(parent) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -61,6 +65,33 @@ class UiMotorsConfigurationStore {
   getEnableTorque() {
     return this.enableTorque;
   }
+
+  getUnsavedModalConfig() {
+    return this.unsavedModalConfig;
+  }
+
+  setDirtyForm(dirtyForm) {
+    this.dirtyForm = dirtyForm;
+  }
+
+  _resetUnsavedModalConfig() {
+    this.unsavedModalConfig = { show: false };
+  }
+
+  confirmIfDirty = (onConfirm) => {
+    if (this.dirtyForm) {
+      this.unsavedModalConfig = {
+        ...UNSAVED_CHANGES_MODAL,
+        onCancel: this._resetUnsavedModalConfig,
+        onConfirm: () => {
+          onConfirm();
+          this._resetUnsavedModalConfig();
+        },
+      };
+    } else {
+      onConfirm();
+    }
+  };
 
   _getCurrentMotorIndex() {
     return !this.options.length || !this.selectedOption

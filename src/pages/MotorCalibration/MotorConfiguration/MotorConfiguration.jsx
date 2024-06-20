@@ -10,6 +10,7 @@ import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
 
 import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
+import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
@@ -28,7 +29,8 @@ import rootStore from "stores/root.store";
 import styles from "./MotorConfiguration.module.scss";
 
 const MotorConfiguration = observer(() => {
-  const { descriptionStore, motorsConfigurationStore, uiStore } = rootStore;
+  const { descriptionStore, motorsConfigurationStore, statusStore, uiStore } =
+    rootStore;
   const { uiMotorsConfigurationStore } = uiStore;
   const callWithNotification = useCallWithNotification();
   const navigate = useNavigate();
@@ -148,40 +150,57 @@ const MotorConfiguration = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty, isValid, isLoading]);
 
+  useEffect(() => {
+    uiMotorsConfigurationStore.setDirtyForm(isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirty]);
+
   return (
-    <FormProvider {...methods}>
-      <Layout>
-        <Layout.Topbar>
-          <Select
-            className={styles.select}
-            onChange={uiMotorsConfigurationStore.setSelectedOption}
-            options={uiMotorsConfigurationStore.getOptions()}
-            placeholder="Loading..."
-            value={selectedOption}
-          />
-        </Layout.Topbar>
-        <Layout.Main>
-          <RenderWithLoader
-            dependencies={[
-              FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
-              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
-            ]}
-            loadingComponent={
-              <div className={styles["loader-container"]}>
-                <Spinner variant="primary" />
-              </div>
-            }
-          >
-            <Form className={styles["form-container"]}>
-              <ConfigurationSections description={selectedMotorDescription} />
-            </Form>
-          </RenderWithLoader>
-        </Layout.Main>
-        <Layout.Footer>
-          <Footer />
-        </Layout.Footer>
-      </Layout>
-    </FormProvider>
+    <>
+      <FormProvider {...methods}>
+        <Layout>
+          <Layout.Topbar>
+            <Select
+              className={styles.select}
+              isDisabled={statusStore.isLoading(
+                FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+              )}
+              onChange={(option) => {
+                uiMotorsConfigurationStore.confirmIfDirty(() =>
+                  uiMotorsConfigurationStore.setSelectedOption(option),
+                );
+              }}
+              options={uiMotorsConfigurationStore.getOptions()}
+              placeholder="Loading..."
+              value={selectedOption}
+            />
+          </Layout.Topbar>
+          <Layout.Main>
+            <RenderWithLoader
+              dependencies={[
+                FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
+                FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
+              ]}
+              loadingComponent={
+                <div className={styles["loader-container"]}>
+                  <Spinner variant="primary" />
+                </div>
+              }
+            >
+              <Form className={styles["form-container"]}>
+                <ConfigurationSections description={selectedMotorDescription} />
+              </Form>
+            </RenderWithLoader>
+          </Layout.Main>
+          <Layout.Footer>
+            <Footer />
+          </Layout.Footer>
+        </Layout>
+      </FormProvider>
+      <ConfirmationModal
+        {...uiMotorsConfigurationStore.getUnsavedModalConfig()}
+      />
+    </>
   );
 });
 
