@@ -17,7 +17,7 @@ const Footer = observer(() => {
   const { uiConfigurationStore } = uiStore;
   const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
   const saving = statusStore.isLoading(
-    FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+    FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM,
   );
 
   return (

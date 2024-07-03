@@ -47,8 +47,8 @@ const MotorConfiguration = observer(() => {
 
   const submitForm = async (data) => {
     const result = await callWithNotification(
-      () => configurationStore.saveMotor(MODEL_NAME, ROBOT_NAME, data),
-      FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+      () => configurationStore.saveItem(MODEL_NAME, ROBOT_NAME, data),
+      FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM,
       "Configuration saved",
     );
 
@@ -73,7 +73,11 @@ const MotorConfiguration = observer(() => {
         return;
       }
 
-      await configurationStore.fetchConfiguration(MODEL_NAME, ROBOT_NAME);
+      await configurationStore.fetchConfiguration(
+        DESCRIPTION_TYPES.MOTORS,
+        MODEL_NAME,
+        ROBOT_NAME,
+      );
 
       const options = motors.map(({ name, description, id }) => ({
         label: (
@@ -111,6 +115,7 @@ const MotorConfiguration = observer(() => {
     setup();
 
     return () => {
+      configurationStore.clear();
       uiConfigurationStore.clear();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +128,7 @@ const MotorConfiguration = observer(() => {
       );
       setSelectedMotorDescription(description);
 
-      const configuredMotor = configurationStore.getMotor(description.id);
+      const configuredMotor = configurationStore.getItem(description.id);
 
       if (configuredMotor) {
         // if the class object is passed the form is not reset properly
@@ -172,7 +177,7 @@ const MotorConfiguration = observer(() => {
             <Select
               className={styles.select}
               isDisabled={statusStore.isLoading(
-                FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+                FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM,
               )}
               onChange={(option) => {
                 uiConfigurationStore.confirmIfDirty(() =>

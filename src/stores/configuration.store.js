@@ -1,47 +1,68 @@
 import { makeAutoObservable } from "mobx";
 
+import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
+import AnimationsConfiguration from "models/configurations/AnimationsConfiguration";
 import MotorsConfiguration from "models/configurations/MotorsConfiguration";
 
 class ConfigurationStore {
   rootStore;
   configuration = null;
+  type = null;
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.rootStore = root;
   }
 
-  getConfiguration() {
-    return this.configuration;
+  clear() {
+    this.configuration = null;
+    this.type = null;
   }
 
-  getMotor(id) {
-    return this.configuration?.motors?.find((m) => m.motorId === id);
+  getItem(id) {
+    if (!this.type) {
+      return undefined;
+    }
+    if (this.type === DESCRIPTION_TYPES.MOTORS) {
+      return this.configuration?.motors?.find((m) => m.motorId === id);
+    }
+    return this.configuration?.animations?.find((a) => a.animationId === id);
   }
 
-  async fetchConfiguration(modelName, robotName) {
+  async fetchConfiguration(type, modelName, robotName) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
+      FUNCTIONS[`${type.toUpperCase()}_CONFIGURATION`].GET_BY_MODEL_ROBOT_NAME,
       modelName,
       robotName,
     );
-    return this._saveConfiguration(data);
+    return this._saveConfiguration(type, data);
   }
 
-  async saveMotor(modelName, robotName, configuration) {
+  async saveItem(modelName, robotName, itemConfiguration) {
+    if (!this.type) {
+      return null;
+    }
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
+      FUNCTIONS[`${this.type.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
       modelName,
       robotName,
-      configuration,
+      itemConfiguration,
     );
-    return this._saveConfiguration(data);
+    return this._saveConfiguration(this.type, data);
   }
 
-  _saveConfiguration(data) {
-    this.configuration = data ? new MotorsConfiguration(data) : null;
+  _saveConfiguration(type, data) {
+    if (!type || !data) {
+      return null;
+    }
+
+    this.configuration =
+      type === DESCRIPTION_TYPES.MOTORS
+        ? new MotorsConfiguration(data)
+        : new AnimationsConfiguration(data);
+    this.type = type;
     return this.configuration;
   }
 }
