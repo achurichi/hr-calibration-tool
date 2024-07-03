@@ -29,7 +29,7 @@ import rootStore from "stores/root.store";
 import styles from "./MotorConfiguration.module.scss";
 
 const MotorConfiguration = observer(() => {
-  const { descriptionStore, motorsConfigurationStore, statusStore, uiStore } =
+  const { configurationStore, descriptionStore, statusStore, uiStore } =
     rootStore;
   const { uiConfigurationStore } = uiStore;
   const callWithNotification = useCallWithNotification();
@@ -47,7 +47,7 @@ const MotorConfiguration = observer(() => {
 
   const submitForm = async (data) => {
     const result = await callWithNotification(
-      () => motorsConfigurationStore.saveMotor(MODEL_NAME, ROBOT_NAME, data),
+      () => configurationStore.saveMotor(MODEL_NAME, ROBOT_NAME, data),
       FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
       "Configuration saved",
     );
@@ -73,7 +73,7 @@ const MotorConfiguration = observer(() => {
         return;
       }
 
-      await motorsConfigurationStore.fetchConfiguration(MODEL_NAME, ROBOT_NAME);
+      await configurationStore.fetchConfiguration(MODEL_NAME, ROBOT_NAME);
 
       const options = motors.map(({ name, description, id }) => ({
         label: (
@@ -109,6 +109,10 @@ const MotorConfiguration = observer(() => {
     };
 
     setup();
+
+    return () => {
+      uiConfigurationStore.clear();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -119,7 +123,7 @@ const MotorConfiguration = observer(() => {
       );
       setSelectedMotorDescription(description);
 
-      const configuredMotor = motorsConfigurationStore.getMotor(description.id);
+      const configuredMotor = configurationStore.getMotor(description.id);
 
       if (configuredMotor) {
         // if the class object is passed the form is not reset properly

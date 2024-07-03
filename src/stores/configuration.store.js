@@ -4,7 +4,7 @@ import { FUNCTIONS } from "constants/mongo";
 
 import MotorsConfiguration from "models/configurations/MotorsConfiguration";
 
-class MotorsConfigurationStore {
+class ConfigurationStore {
   rootStore;
   configuration = null;
 
@@ -46,4 +46,4 @@ class MotorsConfigurationStore {
   }
 }
 
-export default MotorsConfigurationStore;
+export default ConfigurationStore;

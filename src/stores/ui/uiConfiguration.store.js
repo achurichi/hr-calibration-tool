@@ -18,6 +18,17 @@ class UiConfigurationStore {
     this.uiStore = parent;
   }
 
+  clear() {
+    this.options = [];
+    this.selectedOption = null;
+    this.saveDisabledReason = null;
+    this.saveConfiguration = () => {};
+    this.fullscreen = false;
+    this.enableTorque = false;
+    this.unsavedModalConfig = { show: false };
+    this.dirtyForm = false;
+  }
+
   setOptions(options) {
     this.options = options;
   }
