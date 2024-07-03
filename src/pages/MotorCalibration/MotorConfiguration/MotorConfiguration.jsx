@@ -31,7 +31,7 @@ import styles from "./MotorConfiguration.module.scss";
 const MotorConfiguration = observer(() => {
   const { descriptionStore, motorsConfigurationStore, statusStore, uiStore } =
     rootStore;
-  const { uiMotorsConfigurationStore } = uiStore;
+  const { uiConfigurationStore } = uiStore;
   const callWithNotification = useCallWithNotification();
   const navigate = useNavigate();
   const { motorId } = useParams();
@@ -42,7 +42,7 @@ const MotorConfiguration = observer(() => {
   const motorsDescription = descriptionStore.getDescriptionItems(
     DESCRIPTION_ITEM_TYPES.MOTOR,
   );
-  const selectedOption = uiMotorsConfigurationStore.getSelectedOption();
+  const selectedOption = uiConfigurationStore.getSelectedOption();
   const { isDirty, isValid } = methods.formState;
 
   const submitForm = async (data) => {
@@ -68,8 +68,8 @@ const MotorConfiguration = observer(() => {
       const motors = description?.motors || [];
 
       if (!motors.length) {
-        uiMotorsConfigurationStore.setOptions([]);
-        uiMotorsConfigurationStore.setSelectedOption(null);
+        uiConfigurationStore.setOptions([]);
+        uiConfigurationStore.setSelectedOption(null);
         return;
       }
 
@@ -94,14 +94,14 @@ const MotorConfiguration = observer(() => {
         motorIndex = 0;
       }
 
-      uiMotorsConfigurationStore.setOptions(options);
-      uiMotorsConfigurationStore.setSelectedOption(options[motorIndex]);
+      uiConfigurationStore.setOptions(options);
+      uiConfigurationStore.setSelectedOption(options[motorIndex]);
     };
 
     const setup = async () => {
       setIsLoading(true);
       await loadOptions();
-      uiMotorsConfigurationStore.setSaveConfiguration(() => {
+      uiConfigurationStore.setSaveConfiguration(() => {
         const submitFn = methods.handleSubmit(submitForm);
         submitFn();
       });
@@ -151,12 +151,12 @@ const MotorConfiguration = observer(() => {
     } else if (!isValid) {
       reason = "Some fields are invalid";
     }
-    uiMotorsConfigurationStore.setSaveDisabledReason(reason);
+    uiConfigurationStore.setSaveDisabledReason(reason);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty, isValid, isLoading]);
 
   useEffect(() => {
-    uiMotorsConfigurationStore.setDirtyForm(isDirty);
+    uiConfigurationStore.setDirtyForm(isDirty);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirty]);
 
@@ -171,11 +171,11 @@ const MotorConfiguration = observer(() => {
                 FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
               )}
               onChange={(option) => {
-                uiMotorsConfigurationStore.confirmIfDirty(() =>
-                  uiMotorsConfigurationStore.setSelectedOption(option),
+                uiConfigurationStore.confirmIfDirty(() =>
+                  uiConfigurationStore.setSelectedOption(option),
                 );
               }}
-              options={uiMotorsConfigurationStore.getOptions()}
+              options={uiConfigurationStore.getOptions()}
               placeholder="Loading..."
               value={selectedOption}
             />
@@ -202,9 +202,7 @@ const MotorConfiguration = observer(() => {
           </Layout.Footer>
         </Layout>
       </FormProvider>
-      <ConfirmationModal
-        {...uiMotorsConfigurationStore.getUnsavedModalConfig()}
-      />
+      <ConfirmationModal {...uiConfigurationStore.getUnsavedModalConfig()} />
     </>
   );
 });

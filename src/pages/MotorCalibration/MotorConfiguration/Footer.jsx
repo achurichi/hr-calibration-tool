@@ -14,8 +14,8 @@ import styles from "./Footer.module.scss";
 
 const Footer = observer(() => {
   const { statusStore, uiStore } = rootStore;
-  const { uiMotorsConfigurationStore } = uiStore;
-  const saveDisabledReason = uiMotorsConfigurationStore.getSaveDisabledReason();
+  const { uiConfigurationStore } = uiStore;
+  const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
   const saving = statusStore.isLoading(
     FUNCTIONS.MOTORS_CONFIGURATION.SAVE_MOTOR,
   );
@@ -26,7 +26,7 @@ const Footer = observer(() => {
         {
           disabled: saveDisabledReason || saving,
           label: "Save",
-          onClick: uiMotorsConfigurationStore.saveConfiguration,
+          onClick: uiConfigurationStore.saveConfiguration,
           separator: true,
           tooltipProps: {
             content: saveDisabledReason,
@@ -34,20 +34,20 @@ const Footer = observer(() => {
           },
         },
         {
-          disabled: uiMotorsConfigurationStore.prevDisabled() || saving,
+          disabled: uiConfigurationStore.prevDisabled() || saving,
           label: "Previous",
           onClick: () => {
-            uiMotorsConfigurationStore.confirmIfDirty(() =>
-              uiMotorsConfigurationStore.prevMotor(),
+            uiConfigurationStore.confirmIfDirty(() =>
+              uiConfigurationStore.prevItem(),
             );
           },
         },
         {
-          disabled: uiMotorsConfigurationStore.nextDisabled() || saving,
+          disabled: uiConfigurationStore.nextDisabled() || saving,
           label: "Next",
           onClick: () => {
-            uiMotorsConfigurationStore.confirmIfDirty(() =>
-              uiMotorsConfigurationStore.nextMotor(),
+            uiConfigurationStore.confirmIfDirty(() =>
+              uiConfigurationStore.nextItem(),
             );
           },
         },
@@ -55,11 +55,11 @@ const Footer = observer(() => {
     >
       <Form className={styles.form}>
         <Form.Check
-          disabled={!uiMotorsConfigurationStore.getSelectedOption() || saving}
+          disabled={!uiConfigurationStore.getSelectedOption() || saving}
           id="enable-torque"
           label="Enable torque"
           onChange={({ target }) => {
-            uiMotorsConfigurationStore.setEnableTorque(target.checked);
+            uiConfigurationStore.setEnableTorque(target.checked);
           }}
           type="checkbox"
         />

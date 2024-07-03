@@ -14,10 +14,10 @@ import styles from "./ConfigurationSections.module.scss";
 
 const ConfigurationSections = observer(({ className, description }) => {
   const { uiStore } = rootStore;
-  const { uiMotorsConfigurationStore } = uiStore;
+  const { uiConfigurationStore } = uiStore;
   const { watch } = useFormContext();
   const neutralPositionValue = watch("neutralPositionValue");
-  const readDisabled = !uiMotorsConfigurationStore.getEnableTorque();
+  const readDisabled = !uiConfigurationStore.getEnableTorque();
 
   if (!description) {
     return null;
@@ -32,7 +32,7 @@ const ConfigurationSections = observer(({ className, description }) => {
           images={position.images}
           key={position.prop}
           onScreenChange={(isFullscreen) => {
-            uiMotorsConfigurationStore.setFullscreen(
+            uiConfigurationStore.setFullscreen(
               isFullscreen ? position.prop : null,
             );
           }}
@@ -41,7 +41,7 @@ const ConfigurationSections = observer(({ className, description }) => {
           <ConfigurationControls
             className={classNames({
               [styles.fullscreen]:
-                uiMotorsConfigurationStore.getFullscreen() === position.prop,
+                uiConfigurationStore.getFullscreen() === position.prop,
             })}
             configurationId={description.id}
             extraButtons={[

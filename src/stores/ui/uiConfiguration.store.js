@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import { UNSAVED_CHANGES_MODAL } from "constants/modals";
 
-class UiMotorsConfigurationStore {
+class UiConfigurationStore {
   uiStore;
   options = [];
   selectedOption = null;
@@ -16,10 +16,6 @@ class UiMotorsConfigurationStore {
   constructor(parent) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.uiStore = parent;
-  }
-
-  get motorsConfigurationStore() {
-    return this.uiStore.rootStore.motorsConfigurationStore;
   }
 
   setOptions(options) {
@@ -93,14 +89,14 @@ class UiMotorsConfigurationStore {
     }
   };
 
-  _getCurrentMotorIndex() {
+  _getCurrentItemIndex() {
     return !this.options.length || !this.selectedOption
       ? -1
       : this.options.findIndex((m) => m.value === this.selectedOption.value);
   }
 
-  changeMotor(step) {
-    const currentIndex = this._getCurrentMotorIndex();
+  _changeItem(step) {
+    const currentIndex = this._getCurrentItemIndex();
 
     if (
       currentIndex === -1 ||
@@ -113,23 +109,23 @@ class UiMotorsConfigurationStore {
     this.selectedOption = this.options[currentIndex + step];
   }
 
-  prevMotor() {
-    this.changeMotor(-1);
+  prevItem() {
+    this._changeItem(-1);
   }
 
-  nextMotor() {
-    this.changeMotor(1);
+  nextItem() {
+    this._changeItem(1);
   }
 
   prevDisabled() {
-    const currentIndex = this._getCurrentMotorIndex();
+    const currentIndex = this._getCurrentItemIndex();
     return currentIndex === -1 || currentIndex === 0;
   }
 
   nextDisabled() {
-    const currentIndex = this._getCurrentMotorIndex();
+    const currentIndex = this._getCurrentItemIndex();
     return currentIndex === -1 || currentIndex === this.options.length - 1;
   }
 }
 
-export default UiMotorsConfigurationStore;
+export default UiConfigurationStore;
