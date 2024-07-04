@@ -33,6 +33,10 @@ const useDescriptionForm = () => {
   });
   const configurationType =
     uiDescriptionStore.getSelectedConfiguration()?.value;
+  const isMotorDescription = configurationType === DESCRIPTION_ITEM_TYPES.MOTOR;
+  const isAnimationDescription =
+    configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
+    configurationType === DESCRIPTION_ITEM_TYPES.VISEME;
 
   const prepareFormToRender = (baseForm) => {
     if (!baseForm) {
@@ -44,7 +48,7 @@ const useDescriptionForm = () => {
     const form = cloneDeep({ ...defaultBaseForm, ...baseForm });
 
     // need to convert flat arrays to objects because useFieldArray from react-hook-form expects objects
-    if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
+    if (isMotorDescription) {
       ["neutralPosition", "minPosition", "maxPosition"].forEach((position) => {
         form[position] = {
           ...defaultBaseForm[position],
@@ -54,10 +58,7 @@ const useDescriptionForm = () => {
           value: { id },
         }));
       });
-    } else if (
-      configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
-      configurationType === DESCRIPTION_ITEM_TYPES.VISEME
-    ) {
+    } else if (isAnimationDescription) {
       form.images = form.images.map((id) => ({ value: { id } }));
       form.motions = form.motions.map((motion) => ({
         value: { ...DEFAULT_MOTION_FORM, ...motion },
@@ -109,8 +110,24 @@ const useDescriptionForm = () => {
       throw new Error("Name already exists");
     }
 
+    if (isAnimationDescription && clonedData?.motions?.length) {
+      // check that the motion names are unique
+      const motionNames = clonedData.motions.map((m) => m.value.name);
+      if (new Set(motionNames).size !== motionNames.length) {
+        throw new Error("Motion names must be unique");
+      }
+
+      // check that the motion descriptions are unique
+      const motionDescriptions = clonedData.motions.map(
+        (m) => m.value.description,
+      );
+      if (new Set(motionDescriptions).size !== motionDescriptions.length) {
+        throw new Error("Motion descriptions must be unique");
+      }
+    }
+
     let failed = 0;
-    if (configurationType === DESCRIPTION_ITEM_TYPES.MOTOR) {
+    if (isMotorDescription) {
       let showInfoMessage = false;
       const positionPromises = [
         "neutralPosition",
@@ -128,10 +145,7 @@ const useDescriptionForm = () => {
         showUploadingInfoMessage();
       }
       await Promise.all(positionPromises);
-    } else if (
-      configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
-      configurationType === DESCRIPTION_ITEM_TYPES.VISEME
-    ) {
+    } else if (isAnimationDescription) {
       if (clonedData.images.some(({ value }) => !value.id)) {
         showUploadingInfoMessage();
       }

@@ -35,7 +35,11 @@ const activeDotStyle = {
 };
 
 const markStyle = {
+  MozUserSelect: "none",
+  WebkitUserSelect: "none",
+  msUserSelect: "none",
   pointerEvents: "none",
+  userSelect: "none",
 };
 
 const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
@@ -53,7 +57,7 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
   };
 
   return (
-    <div className={classNames(className, styles.container)}>
+    <div className={classNames(styles.container, className)}>
       <ClickableIcon
         Icon={BsDashCircleFill}
         className={styles["clickable-button"]}
