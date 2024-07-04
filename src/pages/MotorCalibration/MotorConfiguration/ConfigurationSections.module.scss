@@ -1,4 +1,10 @@
-.section:not(:first-child) {
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.instructions:not(:first-child) {
   margin-top: 1.5rem;
 }
 

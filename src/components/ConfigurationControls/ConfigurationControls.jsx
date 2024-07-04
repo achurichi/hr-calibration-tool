@@ -11,7 +11,7 @@ import Slider from "components/Slider/Slider";
 import {
   getLimitValue,
   validateRange,
-} from "components/ConfigurationSection/utils";
+} from "components/ConfigurationControls/utils";
 
 import styles from "./ConfigurationControls.module.scss";
 

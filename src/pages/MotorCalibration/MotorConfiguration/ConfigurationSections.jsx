@@ -3,8 +3,8 @@ import { useFormContext } from "react-hook-form";
 import { observer } from "mobx-react";
 import classNames from "classnames";
 
-import ConfigurationControls from "components/ConfigurationSection/ConfigurationControls";
-import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
+import ConfigurationControls from "components/ConfigurationControls/ConfigurationControls";
+import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
 
 import { getSectionData } from "pages/MotorCalibration/MotorConfiguration/utils";
 
@@ -12,7 +12,7 @@ import rootStore from "stores/root.store";
 
 import styles from "./ConfigurationSections.module.scss";
 
-const ConfigurationSections = observer(({ className, description }) => {
+const ConfigurationSections = observer(({ description }) => {
   const { uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { watch } = useFormContext();
@@ -24,20 +24,20 @@ const ConfigurationSections = observer(({ className, description }) => {
   }
 
   return (
-    <div className={className}>
+    <div className={styles.container}>
       {getSectionData(description, neutralPositionValue).map((position) => (
-        <ConfigurationSection
-          className={styles.section}
-          description={position.configInstructions}
-          images={position.images}
-          key={position.prop}
-          onScreenChange={(isFullscreen) => {
-            uiConfigurationStore.setFullscreen(
-              isFullscreen ? position.prop : null,
-            );
-          }}
-          title={position.title}
-        >
+        <div key={position.prop}>
+          <ConfigurationInstructions
+            className={styles.instructions}
+            description={position.configInstructions}
+            images={position.images}
+            onScreenChange={(isFullscreen) => {
+              uiConfigurationStore.setFullscreen(
+                isFullscreen ? position.prop : null,
+              );
+            }}
+            title={position.title}
+          />
           <ConfigurationControls
             className={classNames({
               [styles.fullscreen]:
@@ -63,7 +63,7 @@ const ConfigurationSections = observer(({ className, description }) => {
             minAllowed={description.minValue}
             name={position.prop}
           />
-        </ConfigurationSection>
+        </div>
       ))}
     </div>
   );

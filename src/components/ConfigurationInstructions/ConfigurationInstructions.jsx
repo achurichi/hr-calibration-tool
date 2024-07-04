@@ -9,10 +9,10 @@ import Carousel from "components/Carousel/Carousel";
 import rootStore from "stores/root.store";
 
 // not using scss modules because we want to target the fullscreen carousel class
-import "./ConfigurationSection.scss";
+import "./ConfigurationInstructions.scss";
 
-const ConfigurationSection = observer(
-  ({ children, className, description, images, onScreenChange, title }) => {
+const ConfigurationInstructions = observer(
+  ({ className, description, images, onScreenChange, title }) => {
     const { descriptionStore } = rootStore;
 
     useEffect(() => {
@@ -31,30 +31,30 @@ const ConfigurationSection = observer(
     const loadingImages = images.length !== imagesBase64.length;
 
     return (
-      <>
-        <div
-          className={classNames("configuration-section-container", className)}
-        >
-          {title && <div className="text-lg">{title}</div>}
-          <div className="content">
-            <div className="description">{description}</div>
-            {showCarousel && (
-              <div className="images">
-                {loadingImages && <Spinner variant="primary" />}
-                {!loadingImages && (
-                  <Carousel
-                    images={imagesBase64}
-                    onScreenChange={onScreenChange}
-                  />
-                )}
-              </div>
-            )}
-          </div>
+      <div
+        className={classNames(
+          "configuration-instructions-container",
+          className,
+        )}
+      >
+        {title && <div className="text-lg">{title}</div>}
+        <div className="content">
+          <div className="description">{description}</div>
+          {showCarousel && (
+            <div className="images">
+              {loadingImages && <Spinner variant="primary" />}
+              {!loadingImages && (
+                <Carousel
+                  images={imagesBase64}
+                  onScreenChange={onScreenChange}
+                />
+              )}
+            </div>
+          )}
         </div>
-        {children}
-      </>
+      </div>
     );
   },
 );
 
-export default ConfigurationSection;
+export default ConfigurationInstructions;
