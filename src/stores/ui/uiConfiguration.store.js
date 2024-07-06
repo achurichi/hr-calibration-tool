@@ -45,10 +45,6 @@ class UiConfigurationStore {
     return this.selectedOption;
   }
 
-  setSaveDisabledReason(saveDisabledReason) {
-    this.saveDisabledReason = saveDisabledReason;
-  }
-
   getSaveDisabledReason() {
     return this.saveDisabledReason;
   }
@@ -136,6 +132,18 @@ class UiConfigurationStore {
   nextDisabled() {
     const currentIndex = this._getCurrentItemIndex();
     return currentIndex === -1 || currentIndex === this.options.length - 1;
+  }
+
+  checkSaveDisabled(isLoading, isDirty, isValid) {
+    let reason = null;
+    if (isLoading) {
+      reason = "Loading...";
+    } else if (!isDirty) {
+      reason = "Edit values to enable saving";
+    } else if (!isValid) {
+      reason = "Some fields are invalid";
+    }
+    this.saveDisabledReason = reason;
   }
 }
 

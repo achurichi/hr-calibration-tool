@@ -1,11 +1,13 @@
 import React from "react";
 
-import { EXPRESSIONS } from "constants/expressions";
+import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
 import AnimationConfiguration from "components/AnimationConfiguration/AnimationConfiguration";
 
 const ExpressionConfiguration = () => {
-  return <AnimationConfiguration animations={EXPRESSIONS} />;
+  return (
+    <AnimationConfiguration animationType={DESCRIPTION_ITEM_TYPES.EXPRESSION} />
+  );
 };
 
 export default ExpressionConfiguration;

@@ -1,65 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
+import { observer } from "mobx-react";
+import { useForm, FormProvider } from "react-hook-form";
 
+import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
+
+import Form from "react-bootstrap/Form";
 import Select from "react-select";
+import Spinner from "react-bootstrap/Spinner";
 
-import { MOTORS } from "constants/motors";
-
-import ConfigurationSection from "components/ConfigurationSection/ConfigurationSection";
+import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
+import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import Footer from "components/AnimationConfiguration/Footer";
-import Slider from "components/AnimationConfiguration/Slider";
+import Layout from "components/Layout/Layout";
+import MotionsControls from "components/AnimationConfiguration/MotionsControls";
+import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
-import styles from "./AnimationConfiguration.module.scss";
+import { DESCRIPTION_TYPES } from "constants/descriptions";
+import { FUNCTIONS } from "constants/mongo";
 
-const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
+import rootStore from "stores/root.store";
 
-const SAMPLE_IMAGES = [
-  "https://placehold.co/600?text=Reference+image\\n600+x+600",
-  "https://placehold.co/600?text=Reference+image\\n600+x+600",
-  "https://placehold.co/600?text=Reference+image\\n600+x+600",
-  "https://placehold.co/600?text=Reference+image\\n600+x+600",
-];
+// not using modules because we want to target the fullscreen carousel class
+import "./AnimationConfiguration.scss";
 
-const MOTORS_NAMES = MOTORS.map((motor) => motor.name);
-
-const AnimationConfiguration = ({ animations }) => {
-  const [selectedViseme, setSelectedViseme] = useState(null);
-
-  const animationOptions = animations.map((animation) => ({
-    label: animation.name,
-    value: animation.name,
-  }));
-
-  useEffect(() => {
-    if (animations) {
-      setSelectedViseme({
-        label: animations[0].name,
-        value: animations[0].name,
-      });
-    }
-  }, [animations]);
+const AnimationConfiguration = observer(({ animationType }) => {
+  const { statusStore, uiStore } = rootStore;
+  const { uiConfigurationStore } = uiStore;
+  const { animationId } = useParams();
+  const methods = useForm();
+  const selectedAnimationDescription = useConfigurationFormSetup(
+    DESCRIPTION_TYPES.ANIMATIONS,
+    animationType,
+    animationId,
+    methods,
+  );
+  const selectedOption = uiConfigurationStore.getSelectedOption();
 
   return (
-    <div className={styles.container}>
-      <Select
-        className={styles.select}
-        onChange={setSelectedViseme}
-        options={animationOptions}
-        value={selectedViseme}
-      />
-      <ConfigurationSection
-        className={styles.description}
-        description={LOREM_IPSUM}
-        images={SAMPLE_IMAGES}
-      >
-        <div className={styles.controls}>
-          {MOTORS_NAMES.map((name) => (
-            <Slider key={name} name={name} />
-          ))}
-        </div>
-      </ConfigurationSection>
-      <Footer />
-    </div>
+    <>
+      <FormProvider {...methods}>
+        <Layout>
+          <Layout.Topbar>
+            <Select
+              className={"animation-configuration-select"}
+              isDisabled={statusStore.isLoading(
+                FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
+              )}
+              onChange={(option) => {
+                uiConfigurationStore.confirmIfDirty(() =>
+                  uiConfigurationStore.setSelectedOption(option),
+                );
+              }}
+              options={uiConfigurationStore.getOptions()}
+              placeholder="Loading..."
+              value={selectedOption}
+            />
+            {!!selectedAnimationDescription && (
+              <ConfigurationInstructions
+                className={"animation-configuration-instructions"}
+                description={selectedAnimationDescription.configInstructions}
+                images={selectedAnimationDescription.images}
+                onScreenChange={uiConfigurationStore.setFullscreen}
+              />
+            )}
+          </Layout.Topbar>
+          <Layout.Main>
+            <RenderWithLoader
+              dependencies={[
+                FUNCTIONS.ANIMATIONS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
+                FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME,
+              ]}
+              loadingComponent={
+                <div className={"animation-configuration-loader-container"}>
+                  <Spinner variant="primary" />
+                </div>
+              }
+            >
+              <Form>
+                <MotionsControls description={selectedAnimationDescription} />
+              </Form>
+            </RenderWithLoader>
+          </Layout.Main>
+          <Layout.Footer>
+            <Footer />
+          </Layout.Footer>
+        </Layout>
+      </FormProvider>
+      <ConfirmationModal {...uiConfigurationStore.getUnsavedModalConfig()} />
+    </>
   );
-};
+});
 
 export default AnimationConfiguration;

@@ -1,11 +1,13 @@
 import React from "react";
 
-import { VISEMES } from "constants/visemes";
+import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
 import AnimationConfiguration from "components/AnimationConfiguration/AnimationConfiguration";
 
 const VisemeConfiguration = () => {
-  return <AnimationConfiguration animations={VISEMES} />;
+  return (
+    <AnimationConfiguration animationType={DESCRIPTION_ITEM_TYPES.VISEME} />
+  );
 };
 
 export default VisemeConfiguration;
