@@ -1,0 +1,27 @@
+$modal-offset: 8.5rem;
+
+.motor-configuration-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .fullscreen-controls {
+    background: white;
+    bottom: 0;
+    display: flex;
+    height: $modal-offset;
+    left: 0;
+    padding: 1.25rem 1rem 0;
+    position: absolute;
+    width: 100%;
+    z-index: 5;
+  }
+
+  .image-carousel.fullscreen-modal {
+    height: calc(100% - $modal-offset);
+
+    img {
+      max-height: calc(100vh - $modal-offset);
+    }
+  }
+}

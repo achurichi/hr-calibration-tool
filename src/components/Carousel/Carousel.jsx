@@ -1,7 +1,7 @@
 import React from "react";
 import ImageGallery from "react-image-gallery";
 
-// not using scss modules because we want to target the nav arrows
+// not using modules because we want to be able to target the nav arrows and image-carousel classes
 import "./Carousel.scss";
 
 const Carousel = ({ images, onScreenChange }) => {

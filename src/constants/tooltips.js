@@ -1,8 +1,8 @@
-export const DEFAULT_TOOLTIP_DELAY = { show: 250, hide: 400 };
+export const DEFAULT_TOOLTIP_DELAY = { show: 100, hide: 150 };
 
 export const DEFAULT_TOOLTIP_PROPS = {
-  content: "",
+  content: null,
   delay: DEFAULT_TOOLTIP_DELAY,
-  id: "",
+  id: null,
   placement: "top",
 };

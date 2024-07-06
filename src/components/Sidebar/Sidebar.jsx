@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import Nav from "react-bootstrap/Nav";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 
 import { BsEmojiLaughing, BsPersonCircle, BsWrench } from "react-icons/bs";
 import { MdOutlineMenu } from "react-icons/md";
 import { GiLips } from "react-icons/gi";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import Tooltip from "components/Tooltip/Tooltip";
 
-import { DEFAULT_TOOLTIP_DELAY } from "constants/tooltips";
 import { PATHS } from "constants/routes";
 
 import styles from "./Sidebar.module.scss";
@@ -66,11 +64,11 @@ const Sidebar = () => {
         [styles.selected]: selected,
       })}
     >
-      <OverlayTrigger
-        show={isCollapsed ? undefined : false}
+      <Tooltip
+        content={name}
+        id={`tooltip-${name}`}
         placement="right"
-        delay={DEFAULT_TOOLTIP_DELAY}
-        overlay={<Tooltip id={`tooltip-${name}`}>{name}</Tooltip>}
+        show={isCollapsed ? undefined : false}
       >
         <Nav.Link
           className={classNames(styles.link, {
@@ -89,7 +87,7 @@ const Sidebar = () => {
             {name}
           </div>
         </Nav.Link>
-      </OverlayTrigger>
+      </Tooltip>
     </Nav.Item>
   );
 

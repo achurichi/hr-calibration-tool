@@ -1,5 +1,4 @@
 $image-size: 15rem;
-$modal-offset: 8.5rem;
 
 .configuration-instructions-container {
   display: flex;
@@ -22,20 +21,7 @@ $modal-offset: 8.5rem;
     justify-content: center;
     width: $image-size;
 
-    > [class*="fullscreen-modal"] {
-      height: calc(100% - $modal-offset);
-
-      .image-gallery-content {
-        top: calc(50% - $modal-offset / 2);
-        transform: translateY(calc(-50% + $modal-offset / 2));
-      }
-
-      img {
-        max-height: calc(100vh - $modal-offset);
-      }
-    }
-
-    > :not([class*="fullscreen-modal"]) {
+    .image-carousel:not(.fullscreen-modal) {
       .image-gallery-index {
         border-radius: 0 0.5rem 0 0;
       }

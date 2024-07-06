@@ -1,11 +1,9 @@
 import React from "react";
 import ReactButton from "react-bootstrap/Button";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+
+import Tooltip from "components/Tooltip/Tooltip";
 
 import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
-
-import styles from "./Button.module.scss";
 
 function Button({
   children,
@@ -13,24 +11,17 @@ function Button({
   ...buttonProps
 }) {
   const tooltipConfig = { ...DEFAULT_TOOLTIP_PROPS, ...tooltipProps };
-  const button = <ReactButton {...buttonProps}>{children}</ReactButton>;
-
-  if (!tooltipConfig.content) {
-    return button;
-  }
 
   return (
-    <OverlayTrigger
-      placement={tooltipConfig.placement}
+    <Tooltip
+      content={tooltipConfig.content}
       delay={tooltipConfig.delay}
-      overlay={(props) => (
-        <Tooltip id={tooltipConfig.id} {...props}>
-          {tooltipConfig.content}
-        </Tooltip>
-      )}
+      id={tooltipConfig.id}
+      placement={tooltipConfig.placement}
+      wrap
     >
-      <span className={styles["button-container"]}>{button}</span>
-    </OverlayTrigger>
+      <ReactButton {...buttonProps}>{children}</ReactButton>
+    </Tooltip>
   );
 }
 

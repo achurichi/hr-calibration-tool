@@ -3,6 +3,8 @@ import classNames from "classnames";
 import RcSlider from "rc-slider";
 import { BsDashCircleFill, BsPlusCircleFill } from "react-icons/bs";
 
+import { countDecimals } from "utils/numbers";
+
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 
 import "rc-slider/assets/index.css";
@@ -42,7 +44,15 @@ const markStyle = {
   userSelect: "none",
 };
 
-const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
+const Slider = ({
+  className,
+  max,
+  min,
+  onChange,
+  step = 1,
+  value,
+  ...sliderProps
+}) => {
   const [internalValue, setInternalValue] = useState(value);
 
   useEffect(() => {
@@ -50,9 +60,10 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
   }, [value]);
 
   const internalOnChange = (value) => {
-    if (value >= min && value <= max) {
-      setInternalValue(value);
-      onChange(value);
+    let parsedValue = Number(value.toFixed(countDecimals(step))); // to avoid floating point issues
+    if (parsedValue >= min && parsedValue <= max) {
+      setInternalValue(parsedValue);
+      onChange(parsedValue);
     }
   };
 
@@ -62,7 +73,7 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         Icon={BsDashCircleFill}
         className={styles["clickable-button"]}
         color="var(--primary)"
-        onClick={() => internalOnChange(internalValue - 1)}
+        onClick={() => internalOnChange(internalValue - step)}
         size={20}
       />
       <RcSlider
@@ -76,6 +87,7 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         max={max}
         min={min}
         onChange={internalOnChange}
+        step={step}
         styles={sliderStyles}
         value={internalValue}
         {...sliderProps}
@@ -84,7 +96,7 @@ const Slider = ({ className, max, min, value, onChange, ...sliderProps }) => {
         Icon={BsPlusCircleFill}
         className={styles["clickable-button"]}
         color="var(--primary)"
-        onClick={() => internalOnChange(internalValue + 1)}
+        onClick={() => internalOnChange(internalValue + step)}
         size={20}
       />
     </div>

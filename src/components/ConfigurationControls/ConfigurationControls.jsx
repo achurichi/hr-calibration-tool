@@ -4,14 +4,17 @@ import classNames from "classnames";
 
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 import Button from "components/Button/Button";
 import Slider from "components/Slider/Slider";
+import Tooltip from "components/Tooltip/Tooltip";
 
 import {
   getLimitValue,
   validateRange,
 } from "components/ConfigurationControls/utils";
+import { getError } from "utils/forms";
 
 import styles from "./ConfigurationControls.module.scss";
 
@@ -19,11 +22,14 @@ const ConfigurationControls = ({
   className,
   configurationId,
   extraButtons,
+  inline = false,
   max,
   maxAllowed,
   min,
   minAllowed,
   name,
+  step = 1,
+  title,
 }) => {
   const {
     control,
@@ -35,6 +41,7 @@ const ConfigurationControls = ({
   const [sliderValue, setSliderValue] = useState(0);
   const [inputValue, setInputValue] = useState(0);
   const value = watch(name);
+  const error = getError(name, errors);
 
   useEffect(() => {
     if (validateRange(value, min, max, minAllowed, maxAllowed) === true) {
@@ -51,9 +58,26 @@ const ConfigurationControls = ({
   };
 
   return (
-    <div className={classNames(styles.container, className)}>
+    <div
+      className={classNames(
+        styles.container,
+        { [styles["container-inline"]]: inline },
+        className,
+      )}
+    >
+      {title && (
+        <div
+          className={classNames(styles.title, {
+            [styles["title-inline"]]: inline,
+          })}
+        >
+          {title}
+        </div>
+      )}
       <Slider
-        className={styles.slider}
+        className={classNames(styles.slider, {
+          [styles["slider-inline"]]: inline,
+        })}
         value={sliderValue}
         max={getLimitValue(max, minAllowed, maxAllowed)}
         min={getLimitValue(min, minAllowed, maxAllowed)}
@@ -65,27 +89,37 @@ const ConfigurationControls = ({
         onChangeComplete={() => {
           trigger(); // trigger validation to clear previous errors if any
         }}
+        step={step}
       />
       <div className={styles.configuration}>
-        <div className={styles.actions}>
-          <Form.Group as={Col} controlId={`form-${name}`} xs="5">
+        <Form.Group
+          as={Col}
+          className={styles["form-group"]}
+          controlId={`form-${name}`}
+        >
+          <InputGroup className={styles["input-group"]}>
             <Controller
               control={control}
               name={name}
               render={({ field: { ref } }) => (
-                <Form.Control
-                  className={styles.input}
-                  isInvalid={!!errors[name]}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      onSetValue();
-                    }
-                  }}
-                  ref={ref}
-                  type="number"
-                  value={inputValue}
-                />
+                <Tooltip
+                  content={inline && error?.message}
+                  id={`tooltip-input-${name}`}
+                >
+                  <Form.Control
+                    className={styles.input}
+                    isInvalid={!!error}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        onSetValue();
+                      }
+                    }}
+                    ref={ref}
+                    type="number"
+                    value={inputValue}
+                  />
+                </Tooltip>
               )}
               rules={{
                 required: "Value is required",
@@ -94,21 +128,20 @@ const ConfigurationControls = ({
                 valueAsNumber: true,
               }}
             />
-            {errors[name] && (
-              <Form.Control.Feedback className={styles.feedback} type="invalid">
-                {errors[name]?.message}
-              </Form.Control.Feedback>
-            )}
-          </Form.Group>
-          <Button onClick={onSetValue}>Set</Button>
+            <Button onClick={onSetValue}>Set</Button>
+          </InputGroup>
           {extraButtons &&
             extraButtons.map(({ label, ...buttonProps }) => (
               <Button key={label} {...buttonProps}>
                 {label}
               </Button>
             ))}
-        </div>
-        <div className={styles.actions}></div>
+        </Form.Group>
+        {!!error?.message && !inline && (
+          <div className={classNames("text-danger", styles.feedback)}>
+            {error.message}
+          </div>
+        )}
       </div>
     </div>
   );

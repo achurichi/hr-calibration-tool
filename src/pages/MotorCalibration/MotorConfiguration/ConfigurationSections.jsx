@@ -10,7 +10,8 @@ import { getSectionData } from "pages/MotorCalibration/MotorConfiguration/utils"
 
 import rootStore from "stores/root.store";
 
-import styles from "./ConfigurationSections.module.scss";
+// not using modules because we want to target the fullscreen carousel class
+import "./ConfigurationSections.scss";
 
 const ConfigurationSections = observer(({ description }) => {
   const { uiStore } = rootStore;
@@ -24,11 +25,10 @@ const ConfigurationSections = observer(({ description }) => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="motor-configuration-sections">
       {getSectionData(description, neutralPositionValue).map((position) => (
         <div key={position.prop}>
           <ConfigurationInstructions
-            className={styles.instructions}
             description={position.configInstructions}
             images={position.images}
             onScreenChange={(isFullscreen) => {
@@ -40,7 +40,7 @@ const ConfigurationSections = observer(({ description }) => {
           />
           <ConfigurationControls
             className={classNames({
-              [styles.fullscreen]:
+              "fullscreen-controls":
                 uiConfigurationStore.getFullscreen() === position.prop,
             })}
             configurationId={description.id}

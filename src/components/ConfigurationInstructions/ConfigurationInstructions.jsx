@@ -8,7 +8,7 @@ import Carousel from "components/Carousel/Carousel";
 
 import rootStore from "stores/root.store";
 
-// not using scss modules because we want to target the fullscreen carousel class
+// not using modules because we want to target the fullscreen carousel class
 import "./ConfigurationInstructions.scss";
 
 const ConfigurationInstructions = observer(

@@ -1,8 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import Tooltip from "components/Tooltip/Tooltip";
 
 import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
 
@@ -38,20 +37,15 @@ const ClickableIcon = ({
       })}
       onClick={disabled ? () => {} : onClick}
     >
-      {!!tooltipConfig.content && (
-        <OverlayTrigger
-          placement={tooltipConfig.placement}
-          delay={tooltipConfig.delay}
-          overlay={(props) => (
-            <Tooltip id={tooltipConfig.id} {...props}>
-              {tooltipConfig.content}
-            </Tooltip>
-          )}
-        >
-          <span>{icon}</span>
-        </OverlayTrigger>
-      )}
-      {!tooltipConfig.content && icon}
+      <Tooltip
+        content={tooltipConfig.content}
+        delay={tooltipConfig.delay}
+        id={tooltipConfig.id}
+        placement={tooltipConfig.placement}
+        wrap
+      >
+        {icon}
+      </Tooltip>
     </div>
   );
 };
