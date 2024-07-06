@@ -54,7 +54,13 @@ class ConfigurationStore {
   }
 
   _saveConfiguration(type, data) {
-    if (!type || !data) {
+    if (!type) {
+      return null;
+    }
+
+    this.type = type;
+
+    if (!data) {
       return null;
     }
 

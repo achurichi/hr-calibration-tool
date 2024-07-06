@@ -5,7 +5,7 @@ import { BsSearch } from "react-icons/bs";
 
 import styles from "./SearchBar.module.scss";
 
-function SearchBar({ placeholder = "Search", onChange }) {
+const SearchBar = ({ placeholder = "Search", onChange }) => {
   return (
     <InputGroup>
       <Form.Control
@@ -19,6 +19,6 @@ function SearchBar({ placeholder = "Search", onChange }) {
       </InputGroup.Text>
     </InputGroup>
   );
-}
+};
 
 export default SearchBar;

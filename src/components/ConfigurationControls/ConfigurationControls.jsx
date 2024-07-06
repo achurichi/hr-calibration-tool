@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import classNames from "classnames";
 
@@ -38,8 +38,11 @@ const ConfigurationControls = ({
     trigger,
     watch,
   } = useFormContext();
+  const enterKeyPressed = useRef(false);
+  const setButtonRef = useRef(null);
   const [sliderValue, setSliderValue] = useState(0);
   const [inputValue, setInputValue] = useState(0);
+  const [showSetButton, setShowSetButton] = useState(false);
   const value = watch(name);
   const error = getError(name, errors);
 
@@ -55,6 +58,7 @@ const ConfigurationControls = ({
     const numValue = inputValue === "" ? null : Number(inputValue);
     setValue(name, numValue, { shouldDirty: true });
     trigger();
+    setShowSetButton(false);
   };
 
   return (
@@ -101,21 +105,38 @@ const ConfigurationControls = ({
             <Controller
               control={control}
               name={name}
-              render={({ field: { ref } }) => (
+              render={({ field }) => (
                 <Tooltip
                   content={inline && error?.message}
                   id={`tooltip-input-${name}`}
                 >
                   <Form.Control
+                    {...field}
                     className={styles.input}
                     isInvalid={!!error}
+                    onBlur={(e) => {
+                      field.onBlur(e);
+                      // if the set button was clicked or enter was pressed, don't reset the value
+                      if (
+                        setButtonRef.current?.contains(e.relatedTarget) ||
+                        enterKeyPressed.current
+                      ) {
+                        enterKeyPressed.current = false;
+                        return;
+                      }
+                      setInputValue(value);
+                      setShowSetButton(false);
+                    }}
                     onChange={(e) => setInputValue(e.target.value)}
+                    onFocus={() => setShowSetButton(true)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         onSetValue();
+                        enterKeyPressed.current = true;
+                        e.target.blur();
                       }
                     }}
-                    ref={ref}
+                    step={step}
                     type="number"
                     value={inputValue}
                   />
@@ -128,7 +149,11 @@ const ConfigurationControls = ({
                 valueAsNumber: true,
               }}
             />
-            <Button onClick={onSetValue}>Set</Button>
+            {showSetButton && (
+              <Button onClick={() => onSetValue()} ref={setButtonRef}>
+                Set
+              </Button>
+            )}
           </InputGroup>
           {extraButtons &&
             extraButtons.map(({ label, ...buttonProps }) => (

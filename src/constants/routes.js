@@ -6,10 +6,10 @@ export const PATHS = {
   MOTOR_CONFIGURE_ID: "/motors/calibration/:motorId",
   VISEMES: "/visemes",
   VISEME_CONFIGURE: "/visemes/configuration",
-  VISEME_CONFIGURE_ID: "/visemes/configuration/:visemeId",
+  VISEME_CONFIGURE_ID: "/visemes/configuration/:animationId",
   EXPRESSIONS: "/expressions",
   EXPRESSION_CONFIGURE: "/expressions/configuration",
-  EXPRESSION_CONFIGURE_ID: "/expressions/configuration/:expressionId",
+  EXPRESSION_CONFIGURE_ID: "/expressions/configuration/:animationId",
   ADMIN: "/admin",
   LOGIN: "/login",
 };
