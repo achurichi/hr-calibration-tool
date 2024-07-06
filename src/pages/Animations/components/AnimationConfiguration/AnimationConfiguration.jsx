@@ -9,9 +9,9 @@ import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
 
+import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
 import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import Footer from "pages/Animations/components/AnimationConfiguration/Footer";
 import Layout from "components/Layout/Layout";
 import MotionsControls from "pages/Animations/components/AnimationConfiguration/MotionsControls";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
@@ -83,7 +83,15 @@ const AnimationConfiguration = observer(({ animationType }) => {
             </RenderWithLoader>
           </Layout.Main>
           <Layout.Footer>
-            <Footer />
+            <ConfigurationFooter
+              checkboxProps={{
+                id: "preview-robot",
+                label: "Preview on the robot",
+                onChange: uiConfigurationStore.setPreviewOnRobot,
+              }}
+              descriptionType={DESCRIPTION_TYPES.ANIMATIONS}
+              showMotorCurrentPositiom={false}
+            />
           </Layout.Footer>
         </Layout>
       </FormProvider>

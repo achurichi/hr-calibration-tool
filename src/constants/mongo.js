@@ -1,7 +1,7 @@
 export const FUNCTIONS = {
   MOTORS_CONFIGURATION: {
     GET_BY_MODEL_ROBOT_NAME: "motorsConfiguration_getByModelRobotName",
-    SAVE_ITEM: "motorsConfiguration_saveMotor",
+    SAVE_ITEM: "motorsConfiguration_saveItem",
   },
   MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescription_deleteItem",

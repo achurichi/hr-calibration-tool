@@ -10,6 +10,7 @@ class UiConfigurationStore {
   saveConfiguration = () => {};
   fullscreen = false;
   enableTorque = false;
+  previewOnRobot = false;
   unsavedModalConfig = { show: false };
   dirtyForm = false;
 
@@ -25,6 +26,7 @@ class UiConfigurationStore {
     this.saveConfiguration = () => {};
     this.fullscreen = false;
     this.enableTorque = false;
+    this.previewOnRobot = false;
     this.unsavedModalConfig = { show: false };
     this.dirtyForm = false;
   }
@@ -67,6 +69,14 @@ class UiConfigurationStore {
 
   getEnableTorque() {
     return this.enableTorque;
+  }
+
+  setPreviewOnRobot(previewOnRobot) {
+    this.previewOnRobot = previewOnRobot;
+  }
+
+  getPreviewOnRobot() {
+    return this.previewOnRobot;
   }
 
   getUnsavedModalConfig() {

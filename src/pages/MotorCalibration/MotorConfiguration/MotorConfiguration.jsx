@@ -9,9 +9,9 @@ import Form from "react-bootstrap/Form";
 import Select from "react-select";
 import Spinner from "react-bootstrap/Spinner";
 
+import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
 import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import Footer from "pages/MotorCalibration/MotorConfiguration/Footer";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
@@ -76,7 +76,15 @@ const MotorConfiguration = observer(() => {
             </RenderWithLoader>
           </Layout.Main>
           <Layout.Footer>
-            <Footer />
+            <ConfigurationFooter
+              checkboxProps={{
+                id: "enable-torque",
+                label: "Enable torque",
+                onChange: uiConfigurationStore.setEnableTorque,
+              }}
+              descriptionType={DESCRIPTION_TYPES.MOTORS}
+              showMotorCurrentPosition
+            />
           </Layout.Footer>
         </Layout>
       </FormProvider>
