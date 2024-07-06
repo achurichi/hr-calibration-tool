@@ -1,3 +1,4 @@
+import { DEFAULT_ADVANCED_FORM } from "constants/forms";
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 
 /**
@@ -28,15 +29,19 @@ export const buildDefaultConfigurationForm = (
   if (descriptionType === DESCRIPTION_TYPES.MOTORS) {
     if (configuredItem) {
       // if the class object is passed the form is not reset properly
-      return { ...configuredItem };
+      return {
+        ...configuredItem,
+        advanced: { ...DEFAULT_ADVANCED_FORM, ...configuredItem.advanced },
+      };
     }
-    const { neutralPosition, maxPosition, minPosition } = description;
+    const { advanced, neutralPosition, maxPosition, minPosition } = description;
     return {
       motorId: description.id,
       motorName: description.name,
       neutralPositionValue: neutralPosition.defaultValue,
       maxPositionValue: maxPosition.defaultValue,
       minPositionValue: minPosition.defaultValue,
+      advanced: { ...DEFAULT_ADVANCED_FORM, ...advanced },
     };
   }
 

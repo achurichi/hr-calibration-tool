@@ -1,3 +1,4 @@
+import Advanced from "../Advanced";
 import PositionDescription from "./PositionDescription";
 
 class MotorDescription {
@@ -10,6 +11,7 @@ class MotorDescription {
   neutralPosition;
   minPosition;
   maxPosition;
+  advanced;
 
   constructor(data) {
     this.id = data.id;
@@ -21,6 +23,7 @@ class MotorDescription {
     this.neutralPosition = new PositionDescription(data.neutralPosition || {});
     this.minPosition = new PositionDescription(data.minPosition || {});
     this.maxPosition = new PositionDescription(data.maxPosition || {});
+    this.advanced = new Advanced(data.advanced || {});
   }
 }
 

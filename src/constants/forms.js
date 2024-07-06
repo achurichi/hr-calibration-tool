@@ -1,5 +1,26 @@
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
+export const DEFAULT_ADVANCED_FORM = {
+  sort_no: "",
+  motor_id: "",
+  hardware: "",
+  transmission: "",
+  speed: "",
+  acceleration: "",
+  torque: "",
+  imax1: "",
+  imax2: "",
+  max1: "",
+  max2: "",
+  lin_max: "",
+  lin_min: "",
+  parser: "",
+  parser_param: "",
+  function: "",
+  other_func: "",
+  topic: "",
+};
+
 export const DEFAULT_MOTOR_FORM = {
   name: "",
   group: "",
@@ -21,6 +42,7 @@ export const DEFAULT_MOTOR_FORM = {
     configInstructions: "",
     images: [],
   },
+  advanced: DEFAULT_ADVANCED_FORM,
 };
 
 export const DEFAULT_MOTION_FORM = {

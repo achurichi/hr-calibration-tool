@@ -1,0 +1,18 @@
+.collapsable {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.content {
+  max-height: 30rem;
+  overflow: hidden;
+  padding-bottom: 0.25rem;
+  row-gap: 0.5rem;
+  transition: all 0.35s ease-out;
+
+  &.collapsed {
+    max-height: 0;
+  }
+}

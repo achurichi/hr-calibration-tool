@@ -3,6 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { observer } from "mobx-react";
 import classNames from "classnames";
 
+import AdvancedForm from "pages/components/Forms/AdvancedForm";
 import ConfigurationControls from "components/ConfigurationControls/ConfigurationControls";
 import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
 
@@ -65,6 +66,7 @@ const ConfigurationSections = observer(({ description }) => {
           />
         </div>
       ))}
+      <AdvancedForm />
     </div>
   );
 });

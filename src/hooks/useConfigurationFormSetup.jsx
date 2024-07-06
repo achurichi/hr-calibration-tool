@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import cloneDeep from "lodash/cloneDeep";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
 
 import { buildDefaultConfigurationForm } from "utils/forms";
+import { clean, trimStrings } from "utils/object";
 
 import {
   DESCRIPTION_ITEM_TYPES,
@@ -32,8 +34,10 @@ const useConfigurationFormSetup = (
   const { isDirty, isValid } = formMethods.formState;
 
   const submitForm = async (data) => {
+    const trimmedData = trimStrings(data);
+    const preparedData = clean(cloneDeep(data));
     const result = await callWithNotification(
-      () => configurationStore.saveItem(MODEL_NAME, ROBOT_NAME, data),
+      () => configurationStore.saveItem(MODEL_NAME, ROBOT_NAME, preparedData),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
         ? FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM
         : FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
@@ -41,7 +45,7 @@ const useConfigurationFormSetup = (
     );
 
     if (result) {
-      formMethods.reset(data);
+      formMethods.reset(trimmedData);
     }
   };
 

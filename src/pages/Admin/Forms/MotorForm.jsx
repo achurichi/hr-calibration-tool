@@ -3,6 +3,8 @@ import { useFormContext } from "react-hook-form";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+
+import AdvancedForm from "pages/components/Forms/AdvancedForm";
 import InputField from "components/FormFields/InputField/InputField";
 import PositionConfigurationForm from "pages/Admin/Forms/PositionConfigurationForm";
 
@@ -87,6 +89,7 @@ const MotorForm = () => {
         title="Maximum Position"
         propName="maxPosition"
       />
+      <AdvancedForm collapsable={false} />
     </>
   );
 };
