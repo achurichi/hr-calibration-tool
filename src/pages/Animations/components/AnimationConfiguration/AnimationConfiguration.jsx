@@ -11,9 +11,9 @@ import Spinner from "react-bootstrap/Spinner";
 
 import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import Footer from "components/AnimationConfiguration/Footer";
+import Footer from "pages/Animations/components/AnimationConfiguration/Footer";
 import Layout from "components/Layout/Layout";
-import MotionsControls from "components/AnimationConfiguration/MotionsControls";
+import MotionsControls from "pages/Animations/components/AnimationConfiguration/MotionsControls";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";

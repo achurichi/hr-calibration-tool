@@ -2,7 +2,7 @@ import React from "react";
 
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
-import AnimationConfiguration from "components/AnimationConfiguration/AnimationConfiguration";
+import AnimationConfiguration from "pages/Animations/components/AnimationConfiguration/AnimationConfiguration";
 
 const ExpressionConfiguration = () => {
   return (

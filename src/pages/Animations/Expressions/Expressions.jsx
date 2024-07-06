@@ -1,6 +1,6 @@
 import React from "react";
 
-import AnimationsList from "pages/Animations/AnimationsList/AnimationsList";
+import AnimationsList from "pages/Animations/components/AnimationsList/AnimationsList";
 
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 import { PATHS } from "constants/routes";
