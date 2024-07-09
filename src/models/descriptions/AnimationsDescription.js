@@ -1,11 +1,11 @@
 import AnimationDescription from "./AnimationDescription";
 
 class AnimationsDescription {
-  modelName;
+  name;
   animations;
 
   constructor(data) {
-    this.modelName = data.modelName;
+    this.name = data.name;
     this.animations =
       data.animations?.map((a) => new AnimationDescription(a)) || [];
   }

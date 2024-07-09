@@ -8,7 +8,7 @@ import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import SearchBar from "components/SearchBar/SearchBar";
 import Table from "components/Table/Table";
 
-import { DESCRIPTION_TYPES, MODEL_NAME } from "constants/descriptions";
+import { DESCRIPTION_NAME, DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
 import rootStore from "stores/root.store";
@@ -29,7 +29,7 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
     const getAnimations = async () => {
       const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.ANIMATIONS,
-        MODEL_NAME,
+        DESCRIPTION_NAME,
       );
       return description?.animations || [];
     };
@@ -69,7 +69,7 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
       <div className={styles["internal-container"]}>
         <SearchBar placeholder="Search by Name" onChange={setSearchInput} />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME]}
+          dependencies={[FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

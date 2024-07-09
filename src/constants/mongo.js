@@ -1,20 +1,22 @@
 export const FUNCTIONS = {
   MOTORS_CONFIGURATION: {
-    GET_BY_MODEL_ROBOT_NAME: "motorsConfiguration_getByModelRobotName",
+    GET_BY_DESCRIPTION_AND_ASSEMBLY:
+      "motorsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "motorsConfiguration_saveItem",
   },
   MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescription_deleteItem",
-    GET_BY_MODEL_NAME: "motorsDescription_getByModelName",
+    GET_BY_NAME: "motorsDescription_getByName",
     SAVE_ITEM: "motorsDescription_saveItem",
   },
   ANIMATIONS_CONFIGURATION: {
-    GET_BY_MODEL_ROBOT_NAME: "animationsConfiguration_getByModelRobotName",
+    GET_BY_DESCRIPTION_AND_ASSEMBLY:
+      "animationsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "animationsConfiguration_saveItem",
   },
   ANIMATIONS_DESCRIPTION: {
     DELETE_ITEM: "animationsDescription_deleteItem",
-    GET_BY_MODEL_NAME: "animationsDescription_getByModelName",
+    GET_BY_NAME: "animationsDescription_getByName",
     SAVE_ITEM: "animationsDescription_saveItem",
   },
   IMAGES: {

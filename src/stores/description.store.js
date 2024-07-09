@@ -48,33 +48,33 @@ class DescriptionStore {
     return items.find((i) => i.id === id);
   }
 
-  async getOrFetchDescription(type, modelName) {
+  async getOrFetchDescription(type, descriptionName) {
     const description = this.descriptions[type];
-    return description || (await this.fetchDescription(type, modelName));
+    return description || (await this.fetchDescription(type, descriptionName));
   }
 
-  async fetchDescription(type, modelName) {
+  async fetchDescription(type, descriptionName) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_MODEL_NAME,
-      modelName,
+      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_NAME,
+      descriptionName,
     );
     this._saveDescription(type, data);
     return this.descriptions[type];
   }
 
-  async saveItem(type, modelName, item) {
+  async saveItem(type, descriptionName, item) {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].SAVE_ITEM,
-      modelName,
+      descriptionName,
       item,
     );
     this._saveDescription(type, data);
   }
 
-  async deleteItem(type, modelName, item) {
+  async deleteItem(type, descriptionName, item) {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].DELETE_ITEM,
-      modelName,
+      descriptionName,
       item,
     );
     this._saveDescription(type, data);

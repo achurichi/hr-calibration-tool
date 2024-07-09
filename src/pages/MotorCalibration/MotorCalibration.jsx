@@ -9,7 +9,7 @@ import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Table from "components/Table/Table";
 
-import { DESCRIPTION_TYPES, MODEL_NAME } from "constants/descriptions";
+import { DESCRIPTION_NAME, DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
@@ -35,7 +35,7 @@ const MotorCalibration = observer(() => {
     const getMotors = async () => {
       const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.MOTORS,
-        MODEL_NAME,
+        DESCRIPTION_NAME,
       );
       return description?.motors || [];
     };
@@ -79,7 +79,7 @@ const MotorCalibration = observer(() => {
       <div className={styles["internal-container"]}>
         <MotorsFilter />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME]}
+          dependencies={[FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

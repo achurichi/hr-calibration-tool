@@ -1,11 +1,11 @@
 import MotorDescription from "./MotorDescription";
 
 class MotorsDescription {
-  modelName;
+  name;
   motors;
 
   constructor(data) {
-    this.modelName = data.modelName;
+    this.name = data.name;
     this.motors = data.motors?.map((m) => new MotorDescription(m)) || [];
   }
 }

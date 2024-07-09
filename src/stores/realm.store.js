@@ -66,11 +66,7 @@ class RealmStore {
     try {
       response = await this.app.currentUser.callFunction(functionName, ...args);
     } catch (error) {
-      statusStore.setStatus(
-        functionName,
-        STATUS_TYPES.ERROR,
-        "API connection error",
-      );
+      statusStore.setStatus(functionName, STATUS_TYPES.ERROR, "API error");
       return null;
     }
 

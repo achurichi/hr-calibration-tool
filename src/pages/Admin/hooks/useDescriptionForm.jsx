@@ -11,9 +11,9 @@ import { clean, trimStrings } from "utils/object";
 import { FUNCTIONS } from "constants/mongo";
 import {
   DESCRIPTION_ITEM_TYPES,
+  DESCRIPTION_NAME,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
-  MODEL_NAME,
 } from "constants/descriptions";
 import {
   DEFAULT_EXPRESSION_FORM,
@@ -179,7 +179,7 @@ const useDescriptionForm = () => {
     const saveFn = async () => {
       await descriptionStore.saveItem(
         descriptionType,
-        MODEL_NAME,
+        DESCRIPTION_NAME,
         preparedData,
       );
     };

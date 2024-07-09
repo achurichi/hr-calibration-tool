@@ -10,9 +10,9 @@ import useCallWithNotification from "hooks/useCallWithNotification";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
+  DESCRIPTION_NAME,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
-  MODEL_NAME,
 } from "constants/descriptions";
 import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
 
@@ -90,7 +90,7 @@ const ConfigurationBar = observer(({ unsaved }) => {
     const deleteFn = async () => {
       await descriptionStore.deleteItem(
         descriptionType,
-        MODEL_NAME,
+        DESCRIPTION_NAME,
         selectedItem.value,
       );
     };

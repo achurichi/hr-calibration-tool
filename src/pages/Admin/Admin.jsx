@@ -18,8 +18,8 @@ import rootStore from "stores/root.store";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
+  DESCRIPTION_NAME,
   DESCRIPTION_TYPES_MAP,
-  MODEL_NAME,
   NEW_ITEM_OPTION,
 } from "constants/descriptions";
 
@@ -51,7 +51,10 @@ const Admin = observer(() => {
 
       const descriptionType =
         DESCRIPTION_TYPES_MAP[selectedConfiguration.value];
-      await descriptionStore.getOrFetchDescription(descriptionType, MODEL_NAME);
+      await descriptionStore.getOrFetchDescription(
+        descriptionType,
+        DESCRIPTION_NAME,
+      );
 
       uiDescriptionStore.setSelectedItem(
         uiDescriptionStore.getItemOptions()[0],
@@ -88,8 +91,8 @@ const Admin = observer(() => {
         <Layout.Main>
           <RenderWithLoader
             dependencies={[
-              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
-              FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME,
+              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
+              FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
             ]}
             loadingComponent={
               <div className={styles["loader-container"]}>

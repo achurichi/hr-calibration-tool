@@ -1,5 +1,5 @@
-export const MODEL_NAME = "test-model-name"; // TODO: Get the model name from ros ws
-export const ROBOT_NAME = "test-robot-name"; // TODO: Get the robot name from ros ws
+export const DESCRIPTION_NAME = "test-description-name"; // TODO: Get from the configuration
+export const ASSEMBLY = "test-assembly-id"; // TODO: Get the assembly id (head or body) from ros ws
 
 export const DESCRIPTION_TYPES = {
   MOTORS: "motors",

@@ -1,14 +1,14 @@
 import MotorConfiguration from "./MotorConfiguration";
 
 class MotorsConfiguration {
-  modelName;
-  robotName;
+  descriptionName;
+  assembly;
   bodyName;
   motors;
 
   constructor(data) {
-    this.modelName = data.modelName;
-    this.robotName = data.robotName;
+    this.descriptionName = data.descriptionName;
+    this.assembly = data.assembly;
     this.bodyName = data.bodyName;
     this.motors = data.motors?.map((m) => new MotorConfiguration(m)) || [];
   }

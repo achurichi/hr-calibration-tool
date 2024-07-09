@@ -9,8 +9,8 @@ import { clean, trimStrings } from "utils/object";
 
 import {
   DESCRIPTION_ITEM_TYPES,
-  MODEL_NAME,
-  ROBOT_NAME,
+  DESCRIPTION_NAME,
+  ASSEMBLY,
 } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
@@ -37,7 +37,8 @@ const useConfigurationFormSetup = (
     const trimmedData = trimStrings(data);
     const preparedData = clean(cloneDeep(data));
     const result = await callWithNotification(
-      () => configurationStore.saveItem(MODEL_NAME, ROBOT_NAME, preparedData),
+      () =>
+        configurationStore.saveItem(DESCRIPTION_NAME, ASSEMBLY, preparedData),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
         ? FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM
         : FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
@@ -52,7 +53,10 @@ const useConfigurationFormSetup = (
   // load options on mount
   useEffect(() => {
     const loadOptions = async () => {
-      await descriptionStore.getOrFetchDescription(descriptionType, MODEL_NAME);
+      await descriptionStore.getOrFetchDescription(
+        descriptionType,
+        DESCRIPTION_NAME,
+      );
       const items = descriptionStore.getDescriptionItems(itemType);
 
       if (!items.length) {
@@ -63,8 +67,8 @@ const useConfigurationFormSetup = (
 
       await configurationStore.fetchConfiguration(
         descriptionType,
-        MODEL_NAME,
-        ROBOT_NAME,
+        DESCRIPTION_NAME,
+        ASSEMBLY,
       );
 
       const options = items.map(({ name, description, id }) => ({

@@ -68,8 +68,9 @@ const AnimationConfiguration = observer(({ animationType }) => {
           <Layout.Main>
             <RenderWithLoader
               dependencies={[
-                FUNCTIONS.ANIMATIONS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
-                FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_MODEL_NAME,
+                FUNCTIONS.ANIMATIONS_CONFIGURATION
+                  .GET_BY_DESCRIPTION_AND_ASSEMBLY,
+                FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
               ]}
               loadingComponent={
                 <div className={"animation-configuration-loader-container"}>

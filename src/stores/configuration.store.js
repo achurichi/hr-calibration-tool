@@ -31,23 +31,24 @@ class ConfigurationStore {
     return this.configuration?.animations?.find((a) => a.animationId === id);
   }
 
-  async fetchConfiguration(type, modelName, robotName) {
+  async fetchConfiguration(type, descriptionName, assembly) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_CONFIGURATION`].GET_BY_MODEL_ROBOT_NAME,
-      modelName,
-      robotName,
+      FUNCTIONS[`${type.toUpperCase()}_CONFIGURATION`]
+        .GET_BY_DESCRIPTION_AND_ASSEMBLY,
+      descriptionName,
+      assembly,
     );
     return this._saveConfiguration(type, data);
   }
 
-  async saveItem(modelName, robotName, itemConfiguration) {
+  async saveItem(descriptionName, assembly, itemConfiguration) {
     if (!this.type) {
       return null;
     }
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${this.type.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
-      modelName,
-      robotName,
+      descriptionName,
+      assembly,
       itemConfiguration,
     );
     return this._saveConfiguration(this.type, data);

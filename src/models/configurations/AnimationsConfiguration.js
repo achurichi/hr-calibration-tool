@@ -1,14 +1,14 @@
 import AnimationConfiguration from "./AnimationConfiguration";
 
 class AnimationsConfiguration {
-  modelName;
-  robotName;
+  descriptionName;
+  assembly;
   bodyName;
   animations;
 
   constructor(data) {
-    this.modelName = data.modelName;
-    this.robotName = data.robotName;
+    this.descriptionName = data.descriptionName;
+    this.assembly = data.assembly;
     this.bodyName = data.bodyName;
     this.animations =
       data.animations?.map((a) => new AnimationConfiguration(a)) || [];

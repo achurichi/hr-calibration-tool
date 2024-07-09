@@ -61,8 +61,8 @@ const MotorConfiguration = observer(() => {
           <Layout.Main>
             <RenderWithLoader
               dependencies={[
-                FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_MODEL_ROBOT_NAME,
-                FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_MODEL_NAME,
+                FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+                FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
               ]}
               loadingComponent={
                 <div className={styles["loader-container"]}>
