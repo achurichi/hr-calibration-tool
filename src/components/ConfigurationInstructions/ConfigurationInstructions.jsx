@@ -37,7 +37,7 @@ const ConfigurationInstructions = observer(
           className,
         )}
       >
-        {title && <div className="text-lg">{title}</div>}
+        {title && <div className="fw-bold">{title}</div>}
         <div className="content">
           <div className="description">{description}</div>
           {showCarousel && (

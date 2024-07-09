@@ -19,15 +19,15 @@ export const DESCRIPTION_TYPES_MAP = {
 };
 
 export const CONFIGURATION_OPTIONS = [
-  { value: DESCRIPTION_ITEM_TYPES.MOTOR, label: <strong>Motors</strong> },
-  { value: DESCRIPTION_ITEM_TYPES.VISEME, label: <strong>Visemes</strong> },
+  { value: DESCRIPTION_ITEM_TYPES.MOTOR, label: "Motors" },
+  { value: DESCRIPTION_ITEM_TYPES.VISEME, label: "Visemes" },
   {
     value: DESCRIPTION_ITEM_TYPES.EXPRESSION,
-    label: <strong>Expressions</strong>,
+    label: "Expressions",
   },
 ];
 
 export const NEW_ITEM_OPTION = {
   value: "__new_item__",
-  label: <strong>New</strong>,
+  label: "New",
 };

@@ -15,7 +15,7 @@ import styles from "./AdvancedForm.module.scss";
 const AdvancedForm = ({ collapsable = true }) => {
   const [collapsed, setCollapsed] = useState(true);
 
-  const title = <div className="mt-2 mb-1 text-lg">Advanced Properties</div>;
+  const title = <div className="mt-2 mb-1 fw-bold">Advanced Properties</div>;
   const header = collapsable ? (
     <div
       className={styles.collapsable}

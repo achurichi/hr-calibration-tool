@@ -72,12 +72,7 @@ const useConfigurationFormSetup = (
       );
 
       const options = items.map(({ name, description, id }) => ({
-        label: (
-          <div>
-            <strong>{`${name}`}</strong>
-            {!!description && <span>{` - ${description}`}</span>}
-          </div>
-        ),
+        label: `${name}${description ? ` - ${description}` : ""}`,
         value: id,
       }));
 

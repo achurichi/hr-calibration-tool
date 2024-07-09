@@ -59,7 +59,7 @@ class UiDescriptionStore {
     items.forEach((item) => {
       options.push({
         value: item.id,
-        label: <strong>{item.name}</strong>,
+        label: item.name,
       });
     });
 
