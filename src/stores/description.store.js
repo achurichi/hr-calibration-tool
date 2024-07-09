@@ -30,8 +30,15 @@ class DescriptionStore {
     this.referenceImages.clear();
   }
 
+  /* Description methods */
+
   getDescription(type) {
     return this.descriptions[type];
+  }
+
+  getDescriptionName() {
+    // if both motors and animations are present, then name should be the same
+    return this.descriptions.motors?.name || this.descriptions.animations?.name;
   }
 
   getDescriptionItems(itemType) {
@@ -46,6 +53,27 @@ class DescriptionStore {
   getItemById(id, itemType) {
     const items = this.getDescriptionItems(itemType);
     return items.find((i) => i.id === id);
+  }
+
+  async fetchDescriptionsNames() {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTIONS_NAMES,
+    );
+    return data || [];
+  }
+
+  async createDescriptions(name) {
+    await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.DESCRIPTIONS.CREATE,
+      name,
+    );
+  }
+
+  async deleteDescriptions(name) {
+    await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.DESCRIPTIONS.DELETE_BY_NAME,
+      name,
+    );
   }
 
   async getOrFetchDescription(type, descriptionName) {
@@ -91,6 +119,8 @@ class DescriptionStore {
         : AnimationsDescription;
     this.descriptions[type] = new DescriptionClass(data);
   }
+
+  /* Image methods */
 
   getImage(id) {
     this.referenceImages.get(id);

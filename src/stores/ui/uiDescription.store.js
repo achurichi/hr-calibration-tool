@@ -26,13 +26,13 @@ class UiDescriptionStore {
     return this.uiStore.rootStore.descriptionStore;
   }
 
-  /* Configuration options */
+  /* Description configuration options (motors, visemes and expressions) */
 
   getConfigurationOptions() {
     return CONFIGURATION_OPTIONS;
   }
 
-  /* Selected configuration */
+  /* Selected description configuration */
 
   setSelectedConfiguration(configuration) {
     this.selectedConfiguration = configuration;

@@ -13,16 +13,22 @@ const useCallWithNotification = () => {
     successMessage,
     errorMessage,
   ) => {
-    const result = await fn();
+    const result = { result: await fn() };
     const status = statusStore.getStatus(statusId);
 
-    if (status.type === STATUS_TYPES.SUCCESS && successMessage) {
-      toast.success(successMessage);
+    if (status.type === STATUS_TYPES.SUCCESS) {
+      result.success = true;
+      if (successMessage) {
+        toast.success(successMessage);
+      }
     } else if (
       status.type === STATUS_TYPES.ERROR &&
       (errorMessage || status.message)
     ) {
-      toast.error(errorMessage || status.message);
+      result.success = false;
+      if (errorMessage || status.message) {
+        toast.error(errorMessage || status.message);
+      }
     }
 
     return result;

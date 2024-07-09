@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -36,7 +36,7 @@ const useConfigurationFormSetup = (
   const submitForm = async (data) => {
     const trimmedData = trimStrings(data);
     const preparedData = clean(cloneDeep(data));
-    const result = await callWithNotification(
+    const { result } = await callWithNotification(
       () =>
         configurationStore.saveItem(DESCRIPTION_NAME, ASSEMBLY, preparedData),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
