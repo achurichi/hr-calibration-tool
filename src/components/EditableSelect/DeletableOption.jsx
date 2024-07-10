@@ -9,12 +9,13 @@ import styles from "./DeletableOption.module.scss";
 
 const DeletableOption = (props) => {
   return (
-    <components.Option {...props}>
-      <div className={styles.label}>
-        <span>{props.children}</span>
+    <components.Option {...props} className={styles.option}>
+      <div className={styles.container}>
+        <span className={styles.label}>{props.children}</span>
         <ClickableIcon
+          className={styles.delete}
           Icon={BsTrash}
-          iconClassName={styles.delete}
+          iconClassName={styles.icon}
           onClick={(e) => {
             e.stopPropagation();
             props.selectProps.onDelete({
@@ -22,7 +23,6 @@ const DeletableOption = (props) => {
               value: props.value,
             });
           }}
-          tooltipProps={{ content: "Delete", id: "delete-icon" }}
         />
       </div>
     </components.Option>

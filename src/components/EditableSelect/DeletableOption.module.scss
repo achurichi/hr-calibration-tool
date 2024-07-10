@@ -1,9 +1,36 @@
-.label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+$danger-background: var(--red-100);
+$danger-border: var(--red-200);
 
-  .delete {
-    color: var(--danger);
+.option {
+  padding: 0 !important;
+
+  &:not(:last-child) {
+    .delete {
+      border-bottom: 1px solid $danger-border;
+    }
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: auto 2rem;
+
+    .label {
+      padding: 0.5rem 0.75rem;
+    }
+
+    .delete {
+      align-items: center;
+      background-color: $danger-background;
+      display: flex;
+      justify-content: center;
+
+      &:hover {
+        background-color: hsl(from $danger-background h s calc(l - 5));
+      }
+
+      .icon {
+        color: var(--danger);
+      }
+    }
   }
 }
