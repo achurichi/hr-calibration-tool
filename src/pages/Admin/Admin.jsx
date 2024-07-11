@@ -17,11 +17,7 @@ import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
 import rootStore from "stores/root.store";
 
 import { FUNCTIONS } from "constants/mongo";
-import {
-  DESCRIPTION_NAME,
-  DESCRIPTION_TYPES_MAP,
-  NEW_ITEM_OPTION,
-} from "constants/descriptions";
+import { DESCRIPTION_TYPES_MAP, NEW_ITEM_OPTION } from "constants/descriptions";
 
 import styles from "./Admin.module.scss";
 
@@ -30,7 +26,10 @@ const Admin = observer(() => {
   const { uiDescriptionStore } = uiStore;
   const { defaultForm, prepareFormToRender, submitForm } = useDescriptionForm();
   const methods = useForm({ defaultValues: defaultForm });
-  const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
+  const selectedDescription =
+    uiDescriptionStore.getSelectedDescriptionOption()?.value;
+  const selectedItemType =
+    uiDescriptionStore.getSelectedItemTypeOption()?.value;
   const selectedItem = uiDescriptionStore.getSelectedItem();
   const isDirty = !isEmpty(methods.formState.dirtyFields); // not using isDirty because sometimes it's not updated
 
@@ -43,17 +42,16 @@ const Admin = observer(() => {
 
   useEffect(() => {
     const configureDescription = async () => {
-      if (!selectedConfiguration) {
+      if (!selectedDescription || !selectedItemType) {
         return;
       }
 
       uiDescriptionStore.setEditDisabled(true);
 
-      const descriptionType =
-        DESCRIPTION_TYPES_MAP[selectedConfiguration.value];
+      const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
       await descriptionStore.getOrFetchDescription(
         descriptionType,
-        DESCRIPTION_NAME,
+        selectedDescription,
       );
 
       uiDescriptionStore.setSelectedItem(
@@ -65,7 +63,7 @@ const Admin = observer(() => {
 
     configureDescription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedConfiguration]);
+  }, [selectedDescription, selectedItemType]);
 
   useEffect(() => {
     if (!selectedItem || selectedItem.value === NEW_ITEM_OPTION.value) {
@@ -75,7 +73,7 @@ const Admin = observer(() => {
 
     const item = descriptionStore.getItemById(
       selectedItem.value,
-      selectedConfiguration.value,
+      selectedItemType,
     );
     methods.reset(); // reset with no arguments to clean empty fields with spaces
     methods.reset(prepareFormToRender(item));

@@ -12,74 +12,48 @@ import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import EditableSelect from "components/EditableSelect/EditableSelect";
 import NewDescriptionModal from "pages/Admin/NewDescriptionModal/NewDescriptionModal";
 
+import { DESCRIPTION_ITEMS_OPTIONS } from "constants/descriptions";
+
 import styles from "./ConfigurationBar.module.scss";
 
 const ConfigurationBar = observer(({ unsaved }) => {
-  const { uiStore } = rootStore;
+  const { descriptionStore, uiStore } = rootStore;
   const {
-    descriptionsNames,
     confirmationModalConfig,
     newDescriptionModalConfig,
-    handleUnsavedChanges,
-    onAddNewDescription,
-    onDeleteDescription,
-    onDeleteItem,
+    descriptionActions,
+    itemTypeActions,
+    itemActions,
   } = useConfigurationBarActions(unsaved);
   const { uiDescriptionStore } = uiStore;
   const editDisabled = uiDescriptionStore.getEditDisabled();
+
+  const descriptionOptions = descriptionStore
+    .getDescriptionNames()
+    .map((name) => ({ label: name, value: name }));
 
   return (
     <div>
       <div className={styles.container}>
         <EditableSelect
           isDisabled={editDisabled}
-          onAdd={onAddNewDescription}
-          onChange={() => {}}
-          onDelete={onDeleteDescription}
-          options={descriptionsNames.map((name) => ({
-            label: name,
-            value: name,
-          }))}
-          value={
-            descriptionsNames.map((name) => ({
-              label: name,
-              value: name,
-            }))[0]
-          }
+          options={descriptionOptions}
+          value={uiDescriptionStore.getSelectedDescriptionOption()}
+          {...descriptionActions}
         />
         <BsChevronRight />
         <Select
           isDisabled={editDisabled}
-          onChange={(option) => {
-            if (
-              option?.value !== uiDescriptionStore.selectedConfiguration?.value
-            ) {
-              handleUnsavedChanges(() =>
-                uiDescriptionStore.setSelectedConfiguration(option),
-              );
-            }
-          }}
-          options={uiDescriptionStore.getConfigurationOptions()}
-          value={uiDescriptionStore.getSelectedConfiguration()}
+          options={DESCRIPTION_ITEMS_OPTIONS}
+          value={uiDescriptionStore.getSelectedItemTypeOption()}
+          {...itemTypeActions}
         />
         <BsChevronRight />
         <EditableSelect
           isDisabled={editDisabled}
-          onAdd={() => {
-            if (!uiDescriptionStore.getIsNewItem()) {
-              handleUnsavedChanges(() => uiDescriptionStore.setIsNewItem(true));
-            }
-          }}
-          onChange={(option) => {
-            if (option?.value !== uiDescriptionStore.selectedItem?.value) {
-              handleUnsavedChanges(() =>
-                uiDescriptionStore.setSelectedItem(option),
-              );
-            }
-          }}
-          onDelete={onDeleteItem}
           options={uiDescriptionStore.getItemOptions()}
           value={uiDescriptionStore.getSelectedItem()}
+          {...itemActions}
         />
       </div>
       <NewDescriptionModal

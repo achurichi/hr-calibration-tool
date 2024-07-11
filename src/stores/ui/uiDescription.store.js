@@ -1,11 +1,15 @@
 import { makeAutoObservable } from "mobx";
 import isEqual from "lodash/isEqual";
 
-import { CONFIGURATION_OPTIONS, NEW_ITEM_OPTION } from "constants/descriptions";
+import {
+  DESCRIPTION_ITEMS_OPTIONS,
+  NEW_ITEM_OPTION,
+} from "constants/descriptions";
 
 class UiDescriptionStore {
   uiStore;
-  selectedConfiguration = CONFIGURATION_OPTIONS[0];
+  selectedDescriptionOption = null;
+  selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
   selectedItem = null;
   isNewItem = false;
   editDisabled = false;
@@ -16,7 +20,8 @@ class UiDescriptionStore {
   }
 
   clear() {
-    this.selectedConfiguration = CONFIGURATION_OPTIONS[0];
+    this.selectedDescriptionOption = null;
+    this.selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
     this.selectedItem = null;
     this.isNewItem = false;
     this.editDisabled = false;
@@ -26,25 +31,25 @@ class UiDescriptionStore {
     return this.uiStore.rootStore.descriptionStore;
   }
 
-  /* Description configuration options (motors, visemes and expressions) */
+  /* Selected description option */
 
-  getConfigurationOptions() {
-    return CONFIGURATION_OPTIONS;
+  setSelectedDescriptionOption(option) {
+    this.selectedDescriptionOption = option;
   }
 
-  /* Selected description configuration */
+  getSelectedDescriptionOption() {
+    return this.selectedDescriptionOption;
+  }
 
-  setSelectedConfiguration(configuration) {
-    this.selectedConfiguration = configuration;
+  /* Selected item type option */
+
+  setSelectedItemTypeOption(option) {
+    this.selectedItemTypeOption = option;
     this.setSelectedItem(null);
   }
 
-  getSelectedConfiguration() {
-    return this.selectedConfiguration;
-  }
-
-  _getSelectedConfigurationType() {
-    return this.selectedConfiguration?.value || null;
+  getSelectedItemTypeOption() {
+    return this.selectedItemTypeOption;
   }
 
   /* Item options */
@@ -67,8 +72,8 @@ class UiDescriptionStore {
   }
 
   getDescriptionItems() {
-    const configurationType = this.selectedConfiguration?.value;
-    return this.descriptionStore.getDescriptionItems(configurationType);
+    const itemType = this.selectedItemTypeOption?.value;
+    return this.descriptionStore.getDescriptionItems(itemType);
   }
 
   /* Selected item */

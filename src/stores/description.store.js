@@ -13,10 +13,15 @@ import MotorsDescription from "models/descriptions/MotorsDescription";
 
 class DescriptionStore {
   rootStore;
+  descriptionNames = [];
   descriptions = {
     motors: null,
     animations: null,
   };
+  // descriptions = {
+  //   motors: new Map(),
+  //   animations: new Map(),
+  // };
   referenceImages = new Map();
 
   constructor(root) {
@@ -25,6 +30,7 @@ class DescriptionStore {
   }
 
   clear() {
+    this.descriptionNames = [];
     this.descriptions.motors = null;
     this.descriptions.animations = null;
     this.referenceImages.clear();
@@ -41,6 +47,14 @@ class DescriptionStore {
     return this.descriptions.motors?.name || this.descriptions.animations?.name;
   }
 
+  getDescriptionNames() {
+    return this.descriptionNames;
+  }
+
+  _setDescriptionNames(descriptionNames) {
+    this.descriptionNames = descriptionNames;
+  }
+
   getDescriptionItems(itemType) {
     const descriptionType = DESCRIPTION_TYPES_MAP[itemType];
     const description = this.descriptions[descriptionType];
@@ -55,11 +69,14 @@ class DescriptionStore {
     return items.find((i) => i.id === id);
   }
 
-  async fetchDescriptionsNames() {
+  async fetchDescriptionNames() {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTIONS_NAMES,
     );
-    return data || [];
+    if (data) {
+      this._setDescriptionNames(data);
+    }
+    return this.descriptionNames;
   }
 
   async createDescriptions(name) {
@@ -78,7 +95,14 @@ class DescriptionStore {
 
   async getOrFetchDescription(type, descriptionName) {
     const description = this.descriptions[type];
-    return description || (await this.fetchDescription(type, descriptionName));
+    if (description?.name && description.name === descriptionName) {
+      return description;
+    }
+    // using this method to avoid clearing images if the description name (motors or animations) didn't change
+    if (this.getDescriptionName() !== descriptionName) {
+      this.referenceImages.clear();
+    }
+    return await this.fetchDescription(type, descriptionName);
   }
 
   async fetchDescription(type, descriptionName) {

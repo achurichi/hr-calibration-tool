@@ -11,7 +11,6 @@ import { clean, trimStrings } from "utils/object";
 import { FUNCTIONS } from "constants/mongo";
 import {
   DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_NAME,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
 } from "constants/descriptions";
@@ -31,12 +30,12 @@ const useDescriptionForm = () => {
     [DESCRIPTION_ITEM_TYPES.VISEME]: DEFAULT_VISEME_FORM,
     [DESCRIPTION_ITEM_TYPES.EXPRESSION]: DEFAULT_EXPRESSION_FORM,
   });
-  const configurationType =
-    uiDescriptionStore.getSelectedConfiguration()?.value;
-  const isMotorDescription = configurationType === DESCRIPTION_ITEM_TYPES.MOTOR;
+  const selectedItemType =
+    uiDescriptionStore.getSelectedItemTypeOption()?.value;
+  const isMotorDescription = selectedItemType === DESCRIPTION_ITEM_TYPES.MOTOR;
   const isAnimationDescription =
-    configurationType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
-    configurationType === DESCRIPTION_ITEM_TYPES.VISEME;
+    selectedItemType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
+    selectedItemType === DESCRIPTION_ITEM_TYPES.VISEME;
 
   const prepareFormToRender = (baseForm) => {
     if (!baseForm) {
@@ -175,11 +174,11 @@ const useDescriptionForm = () => {
       return;
     }
 
-    const descriptionType = DESCRIPTION_TYPES_MAP[configurationType];
+    const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
     const saveFn = async () => {
       await descriptionStore.saveItem(
         descriptionType,
-        DESCRIPTION_NAME,
+        descriptionStore.getDescriptionName(),
         preparedData,
       );
     };

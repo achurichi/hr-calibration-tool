@@ -6,19 +6,20 @@ import useCallWithNotification from "hooks/useCallWithNotification";
 
 import { FUNCTIONS } from "constants/mongo";
 import {
-  DESCRIPTION_NAME,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
 } from "constants/descriptions";
 import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
-import { NEW_ITEM_OPTION } from "constants/descriptions";
+import {
+  DESCRIPTION_ITEMS_OPTIONS,
+  NEW_ITEM_OPTION,
+} from "constants/descriptions";
 
 const useConfigurationBarActions = (unsaved) => {
   const { descriptionStore, uiStore } = rootStore;
   const callWithNotification = useCallWithNotification();
   const { uiDescriptionStore } = uiStore;
-  const selectedConfiguration = uiDescriptionStore.getSelectedConfiguration();
-  const [descriptionsNames, setDescriptionsNames] = useState([]);
+  const selectedItemTypeOption = uiDescriptionStore.getSelectedItemTypeOption();
   const [confirmationModalConfig, setConfirmationModalConfig] = useState({
     show: false,
   });
@@ -26,13 +27,26 @@ const useConfigurationBarActions = (unsaved) => {
     show: false,
   });
 
-  const fetchDescriptionsNames = async () => {
-    const names = await descriptionStore.fetchDescriptionsNames();
-    setDescriptionsNames(names);
+  const fetchDescriptionNames = async () => {
+    const descriptionNames = await descriptionStore.fetchDescriptionNames();
+
+    if (!descriptionNames?.length) {
+      uiDescriptionStore.setSelectedDescriptionOption(null);
+      return;
+    }
+
+    const selectedValue =
+      uiDescriptionStore.getSelectedDescriptionOption()?.value;
+    if (!descriptionNames.includes(selectedValue)) {
+      uiDescriptionStore.setSelectedDescriptionOption({
+        label: descriptionNames[0],
+        value: descriptionNames[0],
+      });
+    }
   };
 
   useEffect(() => {
-    fetchDescriptionsNames();
+    fetchDescriptionNames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,6 +75,118 @@ const useConfigurationBarActions = (unsaved) => {
       });
     } else {
       onConfirmAction();
+    }
+  };
+
+  // Description actions
+
+  const onAddDescription = async () => {
+    setNewDescriptionModalConfig({
+      ...newDescriptionModalConfig,
+      onCancel: resetNewDescriptionModal,
+      onConfirm: addDescription,
+      show: true,
+    });
+  };
+
+  const addDescription = async (name) => {
+    if (!name) {
+      setNewDescriptionError("Name is required");
+      return;
+    }
+
+    const descriptionNames = descriptionStore.getDescriptionNames();
+    if (descriptionNames.includes(name)) {
+      setNewDescriptionError("Name already exists");
+      return;
+    }
+
+    uiDescriptionStore.setEditDisabled(true);
+
+    const { success } = await callWithNotification(
+      () => descriptionStore.createDescriptions(name),
+      FUNCTIONS.DESCRIPTIONS.CREATE,
+      "New description created",
+    );
+
+    if (!success) {
+      uiDescriptionStore.setEditDisabled(false);
+      return;
+    }
+
+    await fetchDescriptionNames();
+    if (!descriptionNames.includes(name)) {
+      uiDescriptionStore.setSelectedDescriptionOption({
+        label: name,
+        value: name,
+      });
+    }
+
+    resetNewDescriptionModal();
+    uiDescriptionStore.setEditDisabled(false);
+  };
+
+  const onChangeDescription = (option) => {
+    if (
+      option?.value !== uiDescriptionStore.getSelectedDescriptionOption()?.value
+    ) {
+      handleUnsavedChanges(() => {
+        uiDescriptionStore.setSelectedDescriptionOption(option);
+        uiDescriptionStore.setSelectedItemTypeOption(
+          DESCRIPTION_ITEMS_OPTIONS[0],
+        );
+      });
+    }
+  };
+
+  const onDeleteDescription = (item) => {
+    setConfirmationModalConfig({
+      ...DELETE_MODAL,
+      message: (
+        <div>
+          Are you sure you want to delete <strong>{item.label}</strong>?
+          <br />
+          This action will remove all associated default values, instructions
+          and images.
+        </div>
+      ),
+      onCancel: resetConfirmationModal,
+      onConfirm: async () => {
+        uiDescriptionStore.setEditDisabled(true);
+        await callWithNotification(
+          () => descriptionStore.deleteDescriptions(item.value),
+          FUNCTIONS.DESCRIPTIONS.DELETE_BY_NAME,
+          "Description deleted",
+        );
+        await fetchDescriptionNames();
+        uiDescriptionStore.setEditDisabled(false);
+        resetConfirmationModal();
+      },
+      title: "Delete Description",
+    });
+  };
+
+  // Item type actions
+
+  const onItemTypeChange = (option) => {
+    if (option?.value !== selectedItemTypeOption?.value) {
+      handleUnsavedChanges(() =>
+        uiDescriptionStore.setSelectedItemTypeOption(option),
+      );
+    }
+  };
+
+  // Item actions
+
+  const onAddItem = () => {
+    if (!uiDescriptionStore.getIsNewItem()) {
+      handleUnsavedChanges(() => uiDescriptionStore.setIsNewItem(true));
+    }
+  };
+
+  const onChangeItem = (option) => {
+    if (option?.value !== uiDescriptionStore.selectedItem?.value) {
+      handleUnsavedChanges(() => uiDescriptionStore.setSelectedItem(option));
     }
   };
 
@@ -95,11 +221,11 @@ const useConfigurationBarActions = (unsaved) => {
       return;
     }
 
-    const descriptionType = DESCRIPTION_TYPES_MAP[selectedConfiguration.value];
+    const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemTypeOption.value];
     const deleteFn = async () => {
       await descriptionStore.deleteItem(
         descriptionType,
-        DESCRIPTION_NAME,
+        descriptionStore.getDescriptionName(),
         item.value,
       );
     };
@@ -124,74 +250,22 @@ const useConfigurationBarActions = (unsaved) => {
     uiDescriptionStore.setSelectedItem(newSelectedItem);
   };
 
-  const onAddNewDescription = async () => {
-    setNewDescriptionModalConfig({
-      ...newDescriptionModalConfig,
-      onCancel: resetNewDescriptionModal,
-      onConfirm: addNewDescription,
-      show: true,
-    });
-  };
-
-  const addNewDescription = async (name) => {
-    if (!name) {
-      setNewDescriptionError("Name is required");
-      return;
-    }
-    if (descriptionsNames.includes(name)) {
-      setNewDescriptionError("Name already exists");
-      return;
-    }
-
-    uiDescriptionStore.setEditDisabled(true);
-    const { success } = await callWithNotification(
-      () => descriptionStore.createDescriptions(name),
-      FUNCTIONS.DESCRIPTIONS.CREATE,
-      "New description created",
-    );
-    await fetchDescriptionsNames();
-    uiDescriptionStore.setEditDisabled(false);
-
-    if (success) {
-      resetNewDescriptionModal();
-    }
-  };
-
-  const onDeleteDescription = (item) => {
-    setConfirmationModalConfig({
-      ...DELETE_MODAL,
-      message: (
-        <div>
-          Are you sure you want to delete <strong>{item.label}</strong>?
-          <br />
-          This action will delete all the default values, instructions and
-          images associated with this description.
-        </div>
-      ),
-      onCancel: resetConfirmationModal,
-      onConfirm: async () => {
-        uiDescriptionStore.setEditDisabled(true);
-        await callWithNotification(
-          () => descriptionStore.deleteDescriptions(item.value),
-          FUNCTIONS.DESCRIPTIONS.DELETE_BY_NAME,
-          "Description deleted",
-        );
-        await fetchDescriptionsNames();
-        uiDescriptionStore.setEditDisabled(false);
-        resetConfirmationModal();
-      },
-      title: "Delete Description",
-    });
-  };
-
   return {
-    descriptionsNames,
     confirmationModalConfig,
     newDescriptionModalConfig,
-    handleUnsavedChanges,
-    onAddNewDescription,
-    onDeleteDescription,
-    onDeleteItem,
+    descriptionActions: {
+      onAdd: onAddDescription,
+      onChange: onChangeDescription,
+      onDelete: onDeleteDescription,
+    },
+    itemTypeActions: {
+      onChange: onItemTypeChange,
+    },
+    itemActions: {
+      onAdd: onAddItem,
+      onChange: onChangeItem,
+      onDelete: onDeleteItem,
+    },
   };
 };
 
