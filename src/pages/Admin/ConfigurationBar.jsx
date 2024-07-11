@@ -52,7 +52,7 @@ const ConfigurationBar = observer(({ unsaved }) => {
         <EditableSelect
           isDisabled={editDisabled}
           options={uiDescriptionStore.getItemOptions()}
-          value={uiDescriptionStore.getSelectedItem()}
+          value={uiDescriptionStore.getSelectedItemOption()}
           {...itemActions}
         />
       </div>

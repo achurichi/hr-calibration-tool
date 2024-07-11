@@ -26,10 +26,8 @@ const Admin = observer(() => {
   const { uiDescriptionStore } = uiStore;
   const { defaultForm, prepareFormToRender, submitForm } = useDescriptionForm();
   const methods = useForm({ defaultValues: defaultForm });
-  const selectedDescription =
-    uiDescriptionStore.getSelectedDescriptionOption()?.value;
-  const selectedItemType =
-    uiDescriptionStore.getSelectedItemTypeOption()?.value;
+  const selectedDescription = uiDescriptionStore.getSelectedDescription();
+  const selectedItemType = uiDescriptionStore.getSelectedItemType();
   const selectedItem = uiDescriptionStore.getSelectedItem();
   const isDirty = !isEmpty(methods.formState.dirtyFields); // not using isDirty because sometimes it's not updated
 
@@ -54,7 +52,7 @@ const Admin = observer(() => {
         selectedDescription,
       );
 
-      uiDescriptionStore.setSelectedItem(
+      uiDescriptionStore.setSelectedItemOption(
         uiDescriptionStore.getItemOptions()[0],
       );
 
@@ -66,15 +64,12 @@ const Admin = observer(() => {
   }, [selectedDescription, selectedItemType]);
 
   useEffect(() => {
-    if (!selectedItem || selectedItem.value === NEW_ITEM_OPTION.value) {
+    if (!selectedItem || selectedItem === NEW_ITEM_OPTION.value) {
       methods.reset(defaultForm);
       return;
     }
 
-    const item = descriptionStore.getItemById(
-      selectedItem.value,
-      selectedItemType,
-    );
+    const item = descriptionStore.getItemById(selectedItem, selectedItemType);
     methods.reset(); // reset with no arguments to clean empty fields with spaces
     methods.reset(prepareFormToRender(item));
     // eslint-disable-next-line react-hooks/exhaustive-deps

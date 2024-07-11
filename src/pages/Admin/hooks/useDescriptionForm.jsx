@@ -188,7 +188,7 @@ const useDescriptionForm = () => {
         : FUNCTIONS.ANIMATIONS_DESCRIPTION.SAVE_ITEM;
 
     await callWithNotification(saveFn, fnId, "Configuration saved");
-    uiDescriptionStore.setSelectedItemByName(preparedData.name);
+    uiDescriptionStore.setSelectedItemOptionByName(preparedData.name);
     uiDescriptionStore.setEditDisabled(false);
   };
 

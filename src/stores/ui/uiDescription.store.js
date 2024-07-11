@@ -10,7 +10,7 @@ class UiDescriptionStore {
   uiStore;
   selectedDescriptionOption = null;
   selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
-  selectedItem = null;
+  selectedItemOption = null;
   isNewItem = false;
   editDisabled = false;
 
@@ -22,7 +22,7 @@ class UiDescriptionStore {
   clear() {
     this.selectedDescriptionOption = null;
     this.selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
-    this.selectedItem = null;
+    this.selectedItemOption = null;
     this.isNewItem = false;
     this.editDisabled = false;
   }
@@ -31,7 +31,7 @@ class UiDescriptionStore {
     return this.uiStore.rootStore.descriptionStore;
   }
 
-  /* Selected description option */
+  /* Selected description */
 
   setSelectedDescriptionOption(option) {
     this.selectedDescriptionOption = option;
@@ -41,15 +41,23 @@ class UiDescriptionStore {
     return this.selectedDescriptionOption;
   }
 
-  /* Selected item type option */
+  getSelectedDescription() {
+    return this.selectedDescriptionOption?.value || null;
+  }
+
+  /* Selected item type */
 
   setSelectedItemTypeOption(option) {
     this.selectedItemTypeOption = option;
-    this.setSelectedItem(null);
+    this.setSelectedItemOption(null);
   }
 
   getSelectedItemTypeOption() {
     return this.selectedItemTypeOption;
+  }
+
+  getSelectedItemType() {
+    return this.selectedItemTypeOption?.value || null;
   }
 
   /* Item options */
@@ -78,45 +86,49 @@ class UiDescriptionStore {
 
   /* Selected item */
 
-  setSelectedItem(item) {
+  setSelectedItemOption(item) {
     // If the there new form in unselected remove it from the list
     if (this.isNewItem && item?.value !== NEW_ITEM_OPTION.value) {
       this.setIsNewItem(false);
     }
-    this.selectedItem = item || null;
+    this.selectedItemOption = item || null;
   }
 
-  setSelectedItemById(id) {
-    this._setSelectedItemByProp("id", id);
+  setSelectedItemOptionById(id) {
+    this._setSelectedItemOptionByProp("id", id);
   }
 
-  setSelectedItemByName(name) {
-    this._setSelectedItemByProp("name", name);
+  setSelectedItemOptionByName(name) {
+    this._setSelectedItemOptionByProp("name", name);
   }
 
-  _setSelectedItemByProp(prop, propValue) {
+  _setSelectedItemOptionByProp(prop, propValue) {
     // Get the description items
     const items = this.getDescriptionItems();
     if (!items.length) {
-      this.setSelectedItem(null);
+      this.setSelectedItemOption(null);
       return;
     }
 
     // Find the item in the array of items based on the prop value
     const item = items.find((item) => item[prop] === propValue);
     if (!item) {
-      this.setSelectedItem(null);
+      this.setSelectedItemOption(null);
       return;
     }
 
     // Find the corresponding option based on item id
     const option =
       this.getItemOptions().find((option) => option.value === item.id) || null;
-    this.setSelectedItem(option);
+    this.setSelectedItemOption(option);
+  }
+
+  getSelectedItemOption() {
+    return this.selectedItemOption;
   }
 
   getSelectedItem() {
-    return this.selectedItem;
+    return this.selectedItemOption?.value || null;
   }
 
   /* New Item */
@@ -124,9 +136,12 @@ class UiDescriptionStore {
   setIsNewItem(isNewItem) {
     this.isNewItem = isNewItem;
     if (isNewItem) {
-      this.setSelectedItem(NEW_ITEM_OPTION);
-    } else if (!isNewItem && isEqual(this.selectedItem, NEW_ITEM_OPTION)) {
-      this.setSelectedItem(null);
+      this.setSelectedItemOption(NEW_ITEM_OPTION);
+    } else if (
+      !isNewItem &&
+      isEqual(this.selectedItemOption, NEW_ITEM_OPTION)
+    ) {
+      this.setSelectedItemOption(null);
     }
   }
 

@@ -19,7 +19,8 @@ const useConfigurationBarActions = (unsaved) => {
   const { descriptionStore, uiStore } = rootStore;
   const callWithNotification = useCallWithNotification();
   const { uiDescriptionStore } = uiStore;
-  const selectedItemTypeOption = uiDescriptionStore.getSelectedItemTypeOption();
+  const selectedItemType = uiDescriptionStore.getSelectedItemType();
+  const selectedItem = uiDescriptionStore.getSelectedItem();
   const [confirmationModalConfig, setConfirmationModalConfig] = useState({
     show: false,
   });
@@ -169,7 +170,7 @@ const useConfigurationBarActions = (unsaved) => {
   // Item type actions
 
   const onItemTypeChange = (option) => {
-    if (option?.value !== selectedItemTypeOption?.value) {
+    if (option?.value !== selectedItemType) {
       handleUnsavedChanges(() =>
         uiDescriptionStore.setSelectedItemTypeOption(option),
       );
@@ -185,8 +186,10 @@ const useConfigurationBarActions = (unsaved) => {
   };
 
   const onChangeItem = (option) => {
-    if (option?.value !== uiDescriptionStore.selectedItem?.value) {
-      handleUnsavedChanges(() => uiDescriptionStore.setSelectedItem(option));
+    if (option?.value !== selectedItem) {
+      handleUnsavedChanges(() =>
+        uiDescriptionStore.setSelectedItemOption(option),
+      );
     }
   };
 
@@ -215,13 +218,13 @@ const useConfigurationBarActions = (unsaved) => {
     // if the element to delete is the new item, we only need to remove it from the store
     if (item.value === NEW_ITEM_OPTION.value) {
       uiDescriptionStore.setIsNewItem(false);
-      uiDescriptionStore.setSelectedItem(
+      uiDescriptionStore.setSelectedItemOption(
         uiDescriptionStore.getItemOptions()[0],
       );
       return;
     }
 
-    const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemTypeOption.value];
+    const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
     const deleteFn = async () => {
       await descriptionStore.deleteItem(
         descriptionType,
@@ -238,16 +241,14 @@ const useConfigurationBarActions = (unsaved) => {
     await callWithNotification(deleteFn, fnId, "Configuration deleted");
     uiDescriptionStore.setEditDisabled(false);
 
-    let newSelectedItem = null;
+    let option = null;
     const options = uiDescriptionStore.getItemOptions();
     if (options?.length) {
-      const selectedItem = uiDescriptionStore.getSelectedItem();
-      newSelectedItem =
-        options.find((option) => option.value === selectedItem?.value) ||
-        options[0];
+      option =
+        options.find((option) => option.value === selectedItem) || options[0];
     }
 
-    uiDescriptionStore.setSelectedItem(newSelectedItem);
+    uiDescriptionStore.setSelectedItemOption(option);
   };
 
   return {
