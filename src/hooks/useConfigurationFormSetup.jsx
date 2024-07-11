@@ -34,9 +34,9 @@ const useConfigurationFormSetup = (
   const { isDirty, isValid } = formMethods.formState;
 
   const submitForm = async (data) => {
-    const trimmedData = trimStrings(data);
+    trimStrings(data);
     const preparedData = clean(cloneDeep(data));
-    const { result } = await callWithNotification(
+    const { success } = await callWithNotification(
       () =>
         configurationStore.saveItem(DESCRIPTION_NAME, ASSEMBLY, preparedData),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
@@ -45,8 +45,8 @@ const useConfigurationFormSetup = (
       "Configuration saved",
     );
 
-    if (result) {
-      formMethods.reset(trimmedData);
+    if (success) {
+      formMethods.reset(data);
     }
   };
 

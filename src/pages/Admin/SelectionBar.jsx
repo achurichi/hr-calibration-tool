@@ -6,7 +6,7 @@ import Select from "react-select";
 
 import rootStore from "stores/root.store";
 
-import useConfigurationBarActions from "pages/Admin/hooks/useConfigurationBarActions";
+import useSelectionBar from "pages/Admin/hooks/useSelectionBar";
 
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import EditableSelect from "components/EditableSelect/EditableSelect";
@@ -14,9 +14,9 @@ import NewDescriptionModal from "pages/Admin/NewDescriptionModal/NewDescriptionM
 
 import { DESCRIPTION_ITEMS_OPTIONS } from "constants/descriptions";
 
-import styles from "./ConfigurationBar.module.scss";
+import styles from "./SelectionBar.module.scss";
 
-const ConfigurationBar = observer(({ unsaved }) => {
+const SelectionBar = observer(({ unsaved }) => {
   const { descriptionStore, uiStore } = rootStore;
   const {
     confirmationModalConfig,
@@ -24,7 +24,7 @@ const ConfigurationBar = observer(({ unsaved }) => {
     descriptionActions,
     itemTypeActions,
     itemActions,
-  } = useConfigurationBarActions(unsaved);
+  } = useSelectionBar(unsaved);
   const { uiDescriptionStore } = uiStore;
   const editDisabled = uiDescriptionStore.getEditDisabled();
 
@@ -65,4 +65,4 @@ const ConfigurationBar = observer(({ unsaved }) => {
   );
 });
 
-export default ConfigurationBar;
+export default SelectionBar;

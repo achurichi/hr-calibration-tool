@@ -42,33 +42,27 @@ export const clean = (obj) => {
  * Trims all string properties in an object.
  *
  * @param {Object} obj - The object to be processed.
- * @returns {Object} - The object with all string properties trimmed.
  */
 export const trimStrings = (obj) => {
   const trimStringsInObject = (obj) => {
     if (Array.isArray(obj)) {
-      return obj.map((v) =>
-        typeof v === "object"
-          ? trimStringsInObject(v)
-          : typeof v === "string"
-            ? v.trim()
-            : v,
-      );
+      for (const [index, value] of obj.entries()) {
+        if (typeof value === "object") {
+          trimStringsInObject(value);
+        } else if (typeof value === "string") {
+          obj[index] = value.trim();
+        }
+      }
     } else if (typeof obj === "object" && obj !== null) {
-      return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [
-          k,
-          typeof v === "object"
-            ? trimStringsInObject(v)
-            : typeof v === "string"
-              ? v.trim()
-              : v,
-        ]),
-      );
-    } else {
-      return obj;
+      for (const [key, value] of Object.entries(obj)) {
+        if (typeof value === "object") {
+          trimStringsInObject(value);
+        } else if (typeof value === "string") {
+          obj[key] = value.trim();
+        }
+      }
     }
   };
 
-  return trimStringsInObject(obj);
+  trimStringsInObject(obj);
 };

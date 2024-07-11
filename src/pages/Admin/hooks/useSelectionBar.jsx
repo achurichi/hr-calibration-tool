@@ -15,10 +15,11 @@ import {
   NEW_ITEM_OPTION,
 } from "constants/descriptions";
 
-const useConfigurationBarActions = (unsaved) => {
+const useSelectionBar = (unsaved) => {
   const { descriptionStore, uiStore } = rootStore;
   const callWithNotification = useCallWithNotification();
   const { uiDescriptionStore } = uiStore;
+  const selectedDescription = uiDescriptionStore.getSelectedDescription();
   const selectedItemType = uiDescriptionStore.getSelectedItemType();
   const selectedItem = uiDescriptionStore.getSelectedItem();
   const [confirmationModalConfig, setConfirmationModalConfig] = useState({
@@ -50,6 +51,31 @@ const useConfigurationBarActions = (unsaved) => {
     fetchDescriptionNames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const configureDescription = async () => {
+      if (!selectedDescription || !selectedItemType) {
+        return;
+      }
+
+      uiDescriptionStore.setEditDisabled(true);
+
+      const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
+      await descriptionStore.getOrFetchDescription(
+        descriptionType,
+        selectedDescription,
+      );
+
+      uiDescriptionStore.setSelectedItemOption(
+        uiDescriptionStore.getItemOptions()[0],
+      );
+
+      uiDescriptionStore.setEditDisabled(false);
+    };
+
+    configureDescription();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDescription, selectedItemType]);
 
   const resetConfirmationModal = () =>
     setConfirmationModalConfig({ show: false });
@@ -209,7 +235,7 @@ const useConfigurationBarActions = (unsaved) => {
           await deleteItem(item);
           resetConfirmationModal();
         },
-        title: "Delete Configuration",
+        title: "Delete Item",
       });
     }
   };
@@ -238,7 +264,7 @@ const useConfigurationBarActions = (unsaved) => {
         : FUNCTIONS.ANIMATIONS_DESCRIPTION.DELETE_ITEM;
 
     uiDescriptionStore.setEditDisabled(true);
-    await callWithNotification(deleteFn, fnId, "Configuration deleted");
+    await callWithNotification(deleteFn, fnId, "Item deleted");
     uiDescriptionStore.setEditDisabled(false);
 
     let option = null;
@@ -270,4 +296,4 @@ const useConfigurationBarActions = (unsaved) => {
   };
 };
 
-export default useConfigurationBarActions;
+export default useSelectionBar;

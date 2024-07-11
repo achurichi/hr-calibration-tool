@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import rootStore from "stores/root.store";
 import { toast } from "react-toastify";
 import cloneDeep from "lodash/cloneDeep";
+import { useForm } from "react-hook-form";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
 import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
@@ -13,6 +15,7 @@ import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
+  NEW_ITEM_OPTION,
 } from "constants/descriptions";
 import {
   DEFAULT_EXPRESSION_FORM,
@@ -24,18 +27,30 @@ import {
 const useDescriptionForm = () => {
   const { descriptionStore, uiStore } = rootStore;
   const { uiDescriptionStore } = uiStore;
+  const methods = useForm();
   const callWithNotification = useCallWithNotification();
   const defaultBaseForm = useDescriptionType({
     [DESCRIPTION_ITEM_TYPES.MOTOR]: DEFAULT_MOTOR_FORM,
     [DESCRIPTION_ITEM_TYPES.VISEME]: DEFAULT_VISEME_FORM,
     [DESCRIPTION_ITEM_TYPES.EXPRESSION]: DEFAULT_EXPRESSION_FORM,
   });
-  const selectedItemType =
-    uiDescriptionStore.getSelectedItemTypeOption()?.value;
+  const selectedItemType = uiDescriptionStore.getSelectedItemType();
+  const selectedItem = uiDescriptionStore.getSelectedItem();
   const isMotorDescription = selectedItemType === DESCRIPTION_ITEM_TYPES.MOTOR;
   const isAnimationDescription =
     selectedItemType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
     selectedItemType === DESCRIPTION_ITEM_TYPES.VISEME;
+
+  useEffect(() => {
+    if (!selectedItem || selectedItem === NEW_ITEM_OPTION.value) {
+      methods.reset(prepareFormToRender(defaultBaseForm));
+      return;
+    }
+
+    const item = descriptionStore.getItemById(selectedItem, selectedItemType);
+    methods.reset(prepareFormToRender(item));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
 
   const prepareFormToRender = (baseForm) => {
     if (!baseForm) {
@@ -98,7 +113,7 @@ const useDescriptionForm = () => {
   };
 
   const prepareFormToUpload = async (data) => {
-    const clonedData = trimStrings(cloneDeep(data)); // TODO: don't clone
+    const clonedData = cloneDeep(data); // TODO: don't clone
 
     // check if the name already exists in another item
     const desriptionItems = uiDescriptionStore.getDescriptionItems();
@@ -165,6 +180,7 @@ const useDescriptionForm = () => {
   const submitForm = async (data) => {
     uiDescriptionStore.setEditDisabled(true);
 
+    trimStrings(data);
     let preparedData;
     try {
       preparedData = await prepareFormToUpload(data);
@@ -187,15 +203,19 @@ const useDescriptionForm = () => {
         ? FUNCTIONS.MOTORS_DESCRIPTION.SAVE_ITEM
         : FUNCTIONS.ANIMATIONS_DESCRIPTION.SAVE_ITEM;
 
-    await callWithNotification(saveFn, fnId, "Configuration saved");
+    const { success } = await callWithNotification(saveFn, fnId, "Item saved");
     uiDescriptionStore.setSelectedItemOptionByName(preparedData.name);
+
+    if (success) {
+      methods.reset(data);
+    }
+
     uiDescriptionStore.setEditDisabled(false);
   };
 
   return {
-    defaultForm: prepareFormToRender(defaultBaseForm),
-    prepareFormToRender,
-    submitForm,
+    methods,
+    submitForm: methods.handleSubmit(submitForm),
   };
 };
 

@@ -12,7 +12,7 @@ class UiDescriptionStore {
   selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
   selectedItemOption = null;
   isNewItem = false;
-  editDisabled = false;
+  editDisabled = true;
 
   constructor(parent) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -24,7 +24,7 @@ class UiDescriptionStore {
     this.selectedItemTypeOption = DESCRIPTION_ITEMS_OPTIONS[0];
     this.selectedItemOption = null;
     this.isNewItem = false;
-    this.editDisabled = false;
+    this.editDisabled = true;
   }
 
   get descriptionStore() {
