@@ -6,6 +6,8 @@ class MotorConfiguration {
   neutralPositionValue;
   minPositionValue;
   maxPositionValue;
+
+  // advanced
   sort_no;
   motor_id;
   hardware;
@@ -22,6 +24,8 @@ class MotorConfiguration {
     this.neutralPositionValue = data.neutralPositionValue;
     this.minPositionValue = data.minPositionValue;
     this.maxPositionValue = data.maxPositionValue;
+
+    // advanced
     this.sort_no = data.sort_no;
     this.motor_id = data.motor_id;
     this.hardware = data.hardware;

@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import InputField from "components/FormFields/InputField/InputField";
+import InputField from "components/FormFields/InputField";
 
 const MotionForm = ({ index, name }) => {
   const {

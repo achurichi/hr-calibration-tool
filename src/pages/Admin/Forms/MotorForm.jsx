@@ -5,7 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
 import AdvancedForm from "pages/components/Forms/AdvancedForm";
-import InputField from "components/FormFields/InputField/InputField";
+import CheckboxField from "components/FormFields/CheckboxField";
+import InputField from "components/FormFields/InputField";
 import PositionConfigurationForm from "pages/Admin/Forms/PositionConfigurationForm";
 
 const MotorForm = () => {
@@ -75,6 +76,16 @@ const MotorForm = () => {
             valueAsNumber: true,
           }}
           xs="3"
+        />
+      </Row>
+      <Row>
+        <CheckboxField
+          as={Col}
+          controlId="formDefaultShow"
+          controlProps={{
+            label: "Show this motor by default for new configurations",
+          }}
+          name="defaultShow"
         />
       </Row>
       <PositionConfigurationForm

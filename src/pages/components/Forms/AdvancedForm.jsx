@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import InputField from "components/FormFields/InputField/InputField";
+import InputField from "components/FormFields/InputField";
 
 import {
   DEFAULT_ADVANCED_FORM,

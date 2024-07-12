@@ -45,6 +45,7 @@ export const DEFAULT_MOTOR_FORM = {
     configInstructions: "",
     images: [],
   },
+  defaultShow: true,
   ...DEFAULT_ADVANCED_FORM,
   mapping: DEFAULT_ADVANCED_MAPPING_FORM,
 };

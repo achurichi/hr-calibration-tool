@@ -11,6 +11,9 @@ class MotorDescription {
   neutralPosition;
   minPosition;
   maxPosition;
+  defaultShow;
+
+  // advanced
   sort_no;
   motor_id;
   hardware;
@@ -31,6 +34,9 @@ class MotorDescription {
     this.neutralPosition = new PositionDescription(data.neutralPosition || {});
     this.minPosition = new PositionDescription(data.minPosition || {});
     this.maxPosition = new PositionDescription(data.maxPosition || {});
+    this.defaultShow = data.defaultShow;
+
+    // advanced
     this.sort_no = data.sort_no;
     this.motor_id = data.motor_id;
     this.hardware = data.hardware;
