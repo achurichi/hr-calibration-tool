@@ -48,6 +48,7 @@ const useDescriptionForm = () => {
     }
 
     const item = descriptionStore.getItemById(selectedItem, selectedItemType);
+    methods.reset(); // reset with no arguments to clear values from previous item
     methods.reset(prepareFormToRender(item));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);

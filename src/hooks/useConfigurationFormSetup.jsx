@@ -117,6 +117,7 @@ const useConfigurationFormSetup = (
       setSelectedItemDescription(description);
 
       const configuredItem = configurationStore.getItem(description.id);
+      formMethods.reset(); // reset with no arguments to clear values from previous item
       formMethods.reset(
         buildDefaultConfigurationForm(
           configuredItem,

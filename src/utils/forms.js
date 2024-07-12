@@ -31,17 +31,22 @@ export const buildDefaultConfigurationForm = (
       // if the class object is passed the form is not reset properly
       return {
         ...configuredItem,
-        advanced: { ...DEFAULT_ADVANCED_FORM, ...configuredItem.advanced },
+        mapping: { ...configuredItem.mapping },
       };
     }
-    const { advanced, neutralPosition, maxPosition, minPosition } = description;
+    const { neutralPosition, maxPosition, minPosition, mapping } = description;
+    const advancedProps = Object.keys(DEFAULT_ADVANCED_FORM).reduce(
+      (acc, key) => ({ ...acc, [key]: description[key] }),
+      {},
+    );
     return {
       motorId: description.id,
       motorName: description.name,
       neutralPositionValue: neutralPosition.defaultValue,
       maxPositionValue: maxPosition.defaultValue,
       minPositionValue: minPosition.defaultValue,
-      advanced: { ...DEFAULT_ADVANCED_FORM, ...advanced },
+      ...advancedProps,
+      mapping: { ...mapping },
     };
   }
 

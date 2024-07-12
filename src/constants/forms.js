@@ -8,6 +8,10 @@ export const DEFAULT_ADVANCED_FORM = {
   speed: "",
   acceleration: "",
   torque: "",
+  topic: "",
+};
+
+export const DEFAULT_ADVANCED_MAPPING_FORM = {
   imax1: "",
   imax2: "",
   max1: "",
@@ -18,7 +22,6 @@ export const DEFAULT_ADVANCED_FORM = {
   parser_param: "",
   function: "",
   other_func: "",
-  topic: "",
 };
 
 export const DEFAULT_MOTOR_FORM = {
@@ -42,7 +45,8 @@ export const DEFAULT_MOTOR_FORM = {
     configInstructions: "",
     images: [],
   },
-  advanced: DEFAULT_ADVANCED_FORM,
+  ...DEFAULT_ADVANCED_FORM,
+  mapping: DEFAULT_ADVANCED_MAPPING_FORM,
 };
 
 export const DEFAULT_MOTION_FORM = {
