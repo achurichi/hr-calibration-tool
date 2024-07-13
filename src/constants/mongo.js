@@ -2,6 +2,8 @@ export const FUNCTIONS = {
   DESCRIPTIONS: {
     CREATE: "descriptions_create",
     DELETE_BY_NAME: "descriptions_deleteByName",
+    GET_DESCRIPTION_NAMES_BY_ASSEMBLY:
+      "descriptions_getDescriptionNamesByAssembly",
     GET_DESCRIPTIONS_NAMES: "descriptions_getDescriptionsNames",
   },
   MOTORS_CONFIGURATION: {

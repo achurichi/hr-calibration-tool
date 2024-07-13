@@ -80,8 +80,10 @@ class UiDescriptionStore {
   }
 
   getDescriptionItems() {
-    const itemType = this.selectedItemTypeOption?.value;
-    return this.descriptionStore.getDescriptionItems(itemType);
+    return this.descriptionStore.getDescriptionItems(
+      this.getSelectedItemType(),
+      this.getSelectedDescription(),
+    );
   }
 
   /* Selected item */

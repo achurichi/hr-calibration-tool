@@ -7,11 +7,7 @@ import useCallWithNotification from "hooks/useCallWithNotification";
 import { buildDefaultConfigurationForm } from "utils/forms";
 import { clean, trimStrings } from "utils/object";
 
-import {
-  DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_NAME,
-  ASSEMBLY,
-} from "constants/descriptions";
+import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
 
@@ -23,22 +19,28 @@ const useConfigurationFormSetup = (
   itemId,
   formMethods,
 ) => {
-  const { configurationStore, descriptionStore, uiStore } = rootStore;
+  const { configurationStore, descriptionStore, robotStore, uiStore } =
+    rootStore;
   const { uiConfigurationStore } = uiStore;
   const callWithNotification = useCallWithNotification();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedItemDescription, setSelectedItemDescription] = useState(null);
-  const itemsDescription = descriptionStore.getDescriptionItems(itemType);
   const selectedOption = uiConfigurationStore.getSelectedOption();
   const { isDirty, isValid } = formMethods.formState;
+  const descriptionName = robotStore.getDescriptionNames()[0];
+  const assemblyId = robotStore.getAssemblyIds()[0];
+  const itemsDescription = descriptionStore.getDescriptionItems(
+    itemType,
+    descriptionName,
+  );
 
   const submitForm = async (data) => {
     trimStrings(data);
     const preparedData = clean(cloneDeep(data));
     const { success } = await callWithNotification(
       () =>
-        configurationStore.saveItem(DESCRIPTION_NAME, ASSEMBLY, preparedData),
+        configurationStore.saveItem(descriptionName, assemblyId, preparedData),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
         ? FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM
         : FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
@@ -55,7 +57,7 @@ const useConfigurationFormSetup = (
     const loadOptions = async () => {
       await descriptionStore.getOrFetchDescription(
         descriptionType,
-        DESCRIPTION_NAME,
+        descriptionName,
       );
       const items = descriptionStore.getDescriptionItems(itemType);
 
@@ -67,8 +69,8 @@ const useConfigurationFormSetup = (
 
       await configurationStore.fetchConfiguration(
         descriptionType,
-        DESCRIPTION_NAME,
-        ASSEMBLY,
+        descriptionName,
+        assemblyId,
       );
 
       const options = items.map(({ name, description, id }) => ({

@@ -1,6 +1,3 @@
-export const DESCRIPTION_NAME = "default"; // TODO: Get from the configuration
-export const ASSEMBLY = "test-assembly-id"; // TODO: Get the assembly id (head or body) from ros ws
-
 export const DESCRIPTION_TYPES = {
   MOTORS: "motors",
   ANIMATIONS: "animations",

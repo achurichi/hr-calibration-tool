@@ -1,4 +1,4 @@
-.collapsable {
+.collapsable-header {
   align-items: center;
   cursor: pointer;
   display: flex;
@@ -9,9 +9,12 @@
   max-height: 40rem;
   overflow: hidden;
   padding-bottom: 0.25rem;
-  padding-left: calc(18px + 0.5rem);
   row-gap: 0.5rem;
   transition: all 0.35s ease-out;
+
+  &.collapsable {
+    padding-left: calc(18px + 0.5rem);
+  }
 
   &.collapsed {
     max-height: 0;

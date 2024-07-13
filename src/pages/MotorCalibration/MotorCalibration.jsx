@@ -9,7 +9,7 @@ import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Table from "components/Table/Table";
 
-import { DESCRIPTION_NAME, DESCRIPTION_TYPES } from "constants/descriptions";
+import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 import { FUNCTIONS } from "constants/mongo";
 import { PATHS } from "constants/routes";
@@ -26,7 +26,7 @@ const TABLE_HEADERS = [
 ];
 
 const MotorCalibration = observer(() => {
-  const { descriptionStore, filtersStore } = rootStore;
+  const { descriptionStore, filtersStore, robotStore } = rootStore;
   const [motors, setMotors] = useState([]);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
   const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
@@ -35,7 +35,7 @@ const MotorCalibration = observer(() => {
     const getMotors = async () => {
       const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.MOTORS,
-        DESCRIPTION_NAME,
+        robotStore.getDescriptionNames()[0],
       );
       return description?.motors || [];
     };

@@ -254,7 +254,7 @@ const useSelectionBar = (unsaved) => {
     const deleteFn = async () => {
       await descriptionStore.deleteItem(
         descriptionType,
-        descriptionStore.getDescriptionName(),
+        uiDescriptionStore.getSelectedDescription(),
         item.value,
       );
     };

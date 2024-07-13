@@ -3,6 +3,7 @@ import DescriptionStore from "stores/description.store";
 import FiltersStore from "stores/filters.store";
 import ConfigurationStore from "stores/configuration.store";
 import RealmStore from "stores/realm.store";
+import RobotStore from "./robot.store";
 import StatusStore from "stores/status.store";
 import UiStore from "stores/ui/ui.store";
 
@@ -11,6 +12,7 @@ class RootStore {
   configurationStore;
   filtersStore;
   realmStore;
+  robotStore;
   statusStore;
   uiStore;
 
@@ -21,6 +23,7 @@ class RootStore {
     this.descriptionStore = new DescriptionStore(this);
     this.filtersStore = new FiltersStore(this);
     this.realmStore = new RealmStore(this);
+    this.robotStore = new RobotStore(this);
     this.statusStore = new StatusStore(this);
     this.uiStore = new UiStore(this);
   }

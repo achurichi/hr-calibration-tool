@@ -8,7 +8,7 @@ import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import SearchBar from "components/SearchBar/SearchBar";
 import Table from "components/Table/Table";
 
-import { DESCRIPTION_NAME, DESCRIPTION_TYPES } from "constants/descriptions";
+import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
 import rootStore from "stores/root.store";
@@ -21,7 +21,7 @@ const TABLE_HEADERS = [
 ];
 
 const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
-  const { descriptionStore } = rootStore;
+  const { descriptionStore, robotStore } = rootStore;
   const [animations, setAnimations] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
@@ -29,7 +29,7 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
     const getAnimations = async () => {
       const description = await descriptionStore.getOrFetchDescription(
         DESCRIPTION_TYPES.ANIMATIONS,
-        DESCRIPTION_NAME,
+        robotStore.getDescriptionNames()[0],
       );
       return description?.animations || [];
     };

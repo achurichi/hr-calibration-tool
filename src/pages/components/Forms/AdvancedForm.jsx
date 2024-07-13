@@ -24,7 +24,7 @@ const AdvancedForm = ({ collapsable = true }) => {
   const title = <div className="mt-2 mb-1 fw-bold">Advanced Properties</div>;
   const header = collapsable ? (
     <div
-      className={styles.collapsable}
+      className={styles["collapsable-header"]}
       onClick={() => setCollapsed(!collapsed)}
     >
       <ClickableIcon Icon={collapsed ? BsChevronDown : BsChevronUp} size={18} />
@@ -39,6 +39,7 @@ const AdvancedForm = ({ collapsable = true }) => {
       {header}
       <Row
         className={classNames(styles.content, {
+          [styles.collapsable]: collapsable,
           [styles.collapsed]: collapsable && collapsed,
         })}
       >

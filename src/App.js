@@ -9,7 +9,7 @@ import rootStore from "stores/root.store";
 import { BASE_PATH } from "constants/routes";
 
 function App() {
-  const { realmStore } = rootStore;
+  const { realmStore, robotStore } = rootStore;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,6 +19,13 @@ function App() {
     };
 
     initRealmStore();
+
+    //TODO: Init websocket to get assembly ids
+
+    robotStore.fetchDescriptionNamesByAssembly([
+      "test_head_assembly",
+      "test_body_assembly",
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

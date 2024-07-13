@@ -15,13 +15,9 @@ class DescriptionStore {
   rootStore;
   descriptionNames = [];
   descriptions = {
-    motors: null,
-    animations: null,
+    motors: new Map(),
+    animations: new Map(),
   };
-  // descriptions = {
-  //   motors: new Map(),
-  //   animations: new Map(),
-  // };
   referenceImages = new Map();
 
   constructor(root) {
@@ -31,20 +27,19 @@ class DescriptionStore {
 
   clear() {
     this.descriptionNames = [];
-    this.descriptions.motors = null;
-    this.descriptions.animations = null;
+    this.descriptions.motors.clear();
+    this.descriptions.animations.clear();
+    this.clearImages();
+  }
+
+  clearImages() {
     this.referenceImages.clear();
   }
 
   /* Description methods */
 
-  getDescription(type) {
-    return this.descriptions[type];
-  }
-
-  getDescriptionName() {
-    // if both motors and animations are present, then name should be the same
-    return this.descriptions.motors?.name || this.descriptions.animations?.name;
+  getDescription(type, name) {
+    return this.descriptions[type]?.get(name);
   }
 
   getDescriptionNames() {
@@ -55,18 +50,26 @@ class DescriptionStore {
     this.descriptionNames = descriptionNames;
   }
 
-  getDescriptionItems(itemType) {
+  getDescriptionItems(itemType, descriptionName) {
     const descriptionType = DESCRIPTION_TYPES_MAP[itemType];
-    const description = this.descriptions[descriptionType];
-    const items = description?.[descriptionType] || []; // these are the items in the description
+    const description = this.getDescription(descriptionType, descriptionName);
+    // inside the description object, there is a property with the same name as the description type (motors or animations) that contains the items
+    const items = description?.[descriptionType] || [];
     return itemType === DESCRIPTION_ITEM_TYPES.MOTOR
       ? items
-      : items.filter((i) => i.type === itemType);
+      : items.filter((i) => i.type === itemType); // filter expressions or visemes
   }
 
   getItemById(id, itemType) {
-    const items = this.getDescriptionItems(itemType);
-    return items.find((i) => i.id === id);
+    let item;
+    for (const descriptionName of this.descriptionNames) {
+      const items = this.getDescriptionItems(itemType, descriptionName);
+      item = items.find((i) => i.id === id);
+      if (item) {
+        return item;
+      }
+    }
+    return undefined;
   }
 
   async fetchDescriptionNames() {
@@ -94,15 +97,8 @@ class DescriptionStore {
   }
 
   async getOrFetchDescription(type, descriptionName) {
-    const description = this.descriptions[type];
-    if (description?.name && description.name === descriptionName) {
-      return description;
-    }
-    // using this method to avoid clearing images if the description name (motors or animations) didn't change
-    if (this.getDescriptionName() !== descriptionName) {
-      this.referenceImages.clear();
-    }
-    return await this.fetchDescription(type, descriptionName);
+    const description = this.getDescription(type, descriptionName);
+    return description || (await this.fetchDescription(type, descriptionName));
   }
 
   async fetchDescription(type, descriptionName) {
@@ -111,7 +107,7 @@ class DescriptionStore {
       descriptionName,
     );
     this._saveDescription(type, data);
-    return this.descriptions[type];
+    return this.getDescription(type, descriptionName);
   }
 
   async saveItem(type, descriptionName, item) {
@@ -137,11 +133,11 @@ class DescriptionStore {
       return;
     }
 
-    const DescriptionClass =
+    const DescriptionsClass =
       type === DESCRIPTION_TYPES.MOTORS
         ? MotorsDescription
         : AnimationsDescription;
-    this.descriptions[type] = new DescriptionClass(data);
+    this.descriptions[type].set(data.name, new DescriptionsClass(data));
   }
 
   /* Image methods */

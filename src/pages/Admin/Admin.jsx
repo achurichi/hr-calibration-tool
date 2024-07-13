@@ -21,7 +21,7 @@ import { FUNCTIONS } from "constants/mongo";
 import styles from "./Admin.module.scss";
 
 const Admin = observer(() => {
-  const { uiStore } = rootStore;
+  const { descriptionStore, uiStore } = rootStore;
   const { uiDescriptionStore } = uiStore;
   const { methods, submitForm } = useDescriptionForm();
   const selectedItem = uiDescriptionStore.getSelectedItem();
@@ -30,6 +30,7 @@ const Admin = observer(() => {
   useEffect(() => {
     return () => {
       uiDescriptionStore.clear();
+      descriptionStore.clearImages();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

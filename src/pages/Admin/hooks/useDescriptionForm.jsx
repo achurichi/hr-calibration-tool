@@ -195,7 +195,7 @@ const useDescriptionForm = () => {
     const saveFn = async () => {
       await descriptionStore.saveItem(
         descriptionType,
-        descriptionStore.getDescriptionName(),
+        uiDescriptionStore.getSelectedDescription(),
         preparedData,
       );
     };
