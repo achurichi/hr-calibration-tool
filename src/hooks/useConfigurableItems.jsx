@@ -8,12 +8,8 @@ const useConfigurableItems = (descriptionType) => {
 
   useEffect(() => {
     const getItems = async () => {
-      const descriptionsPromises = robotStore
-        .getDescriptionNames()
-        .map((name) =>
-          descriptionStore.getOrFetchDescription(descriptionType, name),
-        );
-      const descriptions = await Promise.all(descriptionsPromises);
+      const descriptions =
+        await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
 
       const items = [];
       descriptions.forEach((description) => {

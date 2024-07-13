@@ -28,19 +28,31 @@ const useConfigurationFormSetup = (
   const [selectedItemDescription, setSelectedItemDescription] = useState(null);
   const selectedOption = uiConfigurationStore.getSelectedOption();
   const { isDirty, isValid } = formMethods.formState;
-  const descriptionName = robotStore.getDescriptionNames()[0];
-  const assemblyId = robotStore.getAssemblyIds()[0];
-  const itemsDescription = descriptionStore.getDescriptionItems(
-    itemType,
-    descriptionName,
+  const itemsDescription =
+    descriptionStore.getAssemblyDescriptionItems(itemType);
+  const itemsDescriptionSignature = JSON.stringify(itemsDescription);
+  const configurationKeysSignature = JSON.stringify(
+    configurationStore.getConfigurationKeys(),
   );
 
   const submitForm = async (data) => {
+    // not using itemId because it may be outdated for this function
+    const selectedId = uiConfigurationStore.getSelectedOption().value;
+    const descriptionName = descriptionStore.getDescriptionNameByItemId(
+      selectedId,
+      descriptionType,
+    );
+    const assemblyId = robotStore.getAssemblyByDescriptionName(descriptionName);
     trimStrings(data);
     const preparedData = clean(cloneDeep(data));
     const { success } = await callWithNotification(
       () =>
-        configurationStore.saveItem(descriptionName, assemblyId, preparedData),
+        configurationStore.saveItem(
+          descriptionType,
+          descriptionName,
+          assemblyId,
+          preparedData,
+        ),
       itemType === DESCRIPTION_ITEM_TYPES.MOTOR
         ? FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM
         : FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
@@ -55,11 +67,8 @@ const useConfigurationFormSetup = (
   // load options on mount
   useEffect(() => {
     const loadOptions = async () => {
-      await descriptionStore.getOrFetchDescription(
-        descriptionType,
-        descriptionName,
-      );
-      const items = descriptionStore.getDescriptionItems(itemType);
+      await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
+      const items = descriptionStore.getAssemblyDescriptionItems(itemType);
 
       if (!items.length) {
         uiConfigurationStore.setOptions([]);
@@ -67,18 +76,14 @@ const useConfigurationFormSetup = (
         return;
       }
 
-      await configurationStore.fetchConfiguration(
-        descriptionType,
-        descriptionName,
-        assemblyId,
-      );
+      await configurationStore.fetchAssemblyConfigurations(descriptionType);
 
       const options = items.map(({ name, description, id }) => ({
         label: `${name}${description ? ` - ${description}` : ""}`,
         value: id,
       }));
 
-      let itemIndex = items.findIndex((m) => m.id === itemId);
+      let itemIndex = items.findIndex((i) => i.id === itemId);
       if (itemIndex === -1) {
         itemIndex = 0;
       }
@@ -109,7 +114,7 @@ const useConfigurationFormSetup = (
   useEffect(() => {
     if (selectedOption && itemsDescription) {
       const description = itemsDescription.find(
-        (m) => m.id === selectedOption.value,
+        (i) => i.id === selectedOption.value,
       );
 
       if (!description) {
@@ -141,7 +146,7 @@ const useConfigurationFormSetup = (
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOption, JSON.stringify(itemsDescription)]);
+  }, [selectedOption, itemsDescriptionSignature, configurationKeysSignature]);
 
   useEffect(() => {
     uiConfigurationStore.checkSaveDisabled(isLoading, isDirty, isValid);

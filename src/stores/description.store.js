@@ -60,13 +60,32 @@ class DescriptionStore {
       : items.filter((i) => i.type === itemType); // filter expressions or visemes
   }
 
+  getAssemblyDescriptionItems(itemType) {
+    const items = [];
+    this.rootStore.robotStore.getDescriptionNames().forEach((name) => {
+      items.push(...this.getDescriptionItems(itemType, name));
+    });
+    return items;
+  }
+
   getItemById(id, itemType) {
-    let item;
     for (const descriptionName of this.descriptionNames) {
       const items = this.getDescriptionItems(itemType, descriptionName);
-      item = items.find((i) => i.id === id);
+      const item = items.find((i) => i.id === id);
       if (item) {
         return item;
+      }
+    }
+    return undefined;
+  }
+
+  getDescriptionNameByItemId(id, descriptionType) {
+    const descriptions = this.descriptions[descriptionType];
+    for (const descriptionName of descriptions.keys()) {
+      const items = descriptions.get(descriptionName)[descriptionType];
+      const item = items.find((i) => i.id === id);
+      if (item) {
+        return descriptionName;
       }
     }
     return undefined;
@@ -99,6 +118,13 @@ class DescriptionStore {
   async getOrFetchDescription(type, descriptionName) {
     const description = this.getDescription(type, descriptionName);
     return description || (await this.fetchDescription(type, descriptionName));
+  }
+
+  async getOrFetchAssemblyDescriptions(type) {
+    const descriptionsPromises = this.rootStore.robotStore
+      .getDescriptionNames()
+      .map((name) => this.getOrFetchDescription(type, name));
+    return await Promise.all(descriptionsPromises);
   }
 
   async fetchDescription(type, descriptionName) {

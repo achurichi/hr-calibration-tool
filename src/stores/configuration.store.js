@@ -8,8 +8,7 @@ import MotorsConfiguration from "models/configurations/MotorsConfiguration";
 
 class ConfigurationStore {
   rootStore;
-  configuration = null;
-  type = null;
+  configurations = new Map();
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -17,60 +16,74 @@ class ConfigurationStore {
   }
 
   clear() {
-    this.configuration = null;
-    this.type = null;
+    this.configurations.clear();
+  }
+
+  getConfigurationKeys() {
+    return Array.from(this.configurations.keys());
   }
 
   getItem(id) {
-    if (!this.type) {
-      return undefined;
+    for (const configuration of this.configurations.values()) {
+      let item;
+
+      if (configuration instanceof MotorsConfiguration) {
+        item = configuration.motors?.find((m) => m.motorId === id);
+      } else if (configuration instanceof AnimationsConfiguration) {
+        item = configuration.animations?.find((a) => a.animationId === id);
+      }
+
+      if (item) {
+        return item;
+      }
     }
-    if (this.type === DESCRIPTION_TYPES.MOTORS) {
-      return this.configuration?.motors?.find((m) => m.motorId === id);
-    }
-    return this.configuration?.animations?.find((a) => a.animationId === id);
+
+    return undefined;
   }
 
-  async fetchConfiguration(type, descriptionName, assembly) {
+  async fetchConfiguration(descriptionType, descriptionName, assembly) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_CONFIGURATION`]
+      FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`]
         .GET_BY_DESCRIPTION_AND_ASSEMBLY,
       descriptionName,
       assembly,
     );
-    return this._saveConfiguration(type, data);
+    return this._saveConfiguration(descriptionType, data);
   }
 
-  async saveItem(descriptionName, assembly, itemConfiguration) {
-    if (!this.type) {
-      return null;
-    }
+  async fetchAssemblyConfigurations(descriptionType) {
+    const assemblyEntries = this.rootStore.robotStore.getAssemblyEntries();
+    assemblyEntries.forEach(([assembly, descriptionName]) => {
+      this.fetchConfiguration(descriptionType, descriptionName, assembly);
+    });
+  }
+
+  async saveItem(
+    descriptionType,
+    descriptionName,
+    assembly,
+    itemConfiguration,
+  ) {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${this.type.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
+      FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
       descriptionName,
       assembly,
       itemConfiguration,
     );
-    return this._saveConfiguration(this.type, data);
+    return this._saveConfiguration(descriptionType, data);
   }
 
-  _saveConfiguration(type, data) {
-    if (!type) {
+  _saveConfiguration(descriptionType, data) {
+    if (!descriptionType || !data) {
       return null;
     }
 
-    this.type = type;
-
-    if (!data) {
-      return null;
-    }
-
-    this.configuration =
-      type === DESCRIPTION_TYPES.MOTORS
+    const configuration =
+      descriptionType === DESCRIPTION_TYPES.MOTORS
         ? new MotorsConfiguration(data)
         : new AnimationsConfiguration(data);
-    this.type = type;
-    return this.configuration;
+    this.configurations.set(configuration.descriptionName, configuration);
+    return configuration;
   }
 }
 
