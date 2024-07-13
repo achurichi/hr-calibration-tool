@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import Select from "react-select";
 
-import rootStore from "stores/root.store";
-
-import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 
 import SearchBar from "components/SearchBar/SearchBar";
 
+import rootStore from "stores/root.store";
+
 import styles from "./MotorsFilter.module.scss";
 
-const MotorsFilter = observer(() => {
-  const { descriptionStore, filtersStore } = rootStore;
-  const [options, setOptions] = useState([]);
-  const description = descriptionStore.getDescription(DESCRIPTION_TYPES.MOTORS);
+const MotorsFilter = observer(({ motors }) => {
+  const { filtersStore, robotStore } = rootStore;
+  const [assemblyOptions, setAssemblyOptions] = useState([]);
+  const [groupOptions, setGroupOptions] = useState([]);
 
   useEffect(() => {
-    if (!description?.motors) {
+    if (!motors) {
       return;
     }
 
-    const groupOptions = Array.from(
-      new Set(description.motors.map(({ group }) => group)),
-    )
+    const groupOptions = Array.from(new Set(motors.map(({ group }) => group)))
       .filter(Boolean) // Remove empty groups
       .map((group) => ({ value: group, label: group }));
+    setGroupOptions(groupOptions);
 
-    setOptions(groupOptions);
-
+    const assemblyOptions = robotStore
+      .getAssemblyIds()
+      .map((id) => ({ value: id, label: id }));
+    setAssemblyOptions(assemblyOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [description]);
+  }, [motors]);
 
   return (
     <div className={styles.filter}>
@@ -41,13 +41,23 @@ const MotorsFilter = observer(() => {
         }}
       />
       <Select
-        className={styles.select}
         isClearable
-        options={options}
+        options={groupOptions}
         placeholder="Group"
         onChange={(selectedOption) => {
           filtersStore.setFilter(
             FILTER_IDS.SELECTED_GROUP,
+            selectedOption?.value || null,
+          );
+        }}
+      />
+      <Select
+        isClearable
+        options={assemblyOptions}
+        placeholder="Assembly"
+        onChange={(selectedOption) => {
+          filtersStore.setFilter(
+            FILTER_IDS.SELECTED_ASSEMBLY,
             selectedOption?.value || null,
           );
         }}

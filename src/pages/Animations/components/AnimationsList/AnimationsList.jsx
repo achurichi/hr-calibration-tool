@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
+import useConfigurableItems from "hooks/useConfigurableItems";
+
 import Spinner from "react-bootstrap/Spinner";
 
 import EditIconField from "components/Table/EditIconField/EditIconField";
@@ -11,8 +13,6 @@ import Table from "components/Table/Table";
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
-import rootStore from "stores/root.store";
-
 import styles from "./AnimationsList.module.scss";
 
 const TABLE_HEADERS = [
@@ -21,36 +21,25 @@ const TABLE_HEADERS = [
 ];
 
 const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
-  const { descriptionStore, robotStore } = rootStore;
+  const configurableAnimations = useConfigurableItems(
+    DESCRIPTION_TYPES.ANIMATIONS,
+  );
   const [animations, setAnimations] = useState([]);
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    const getAnimations = async () => {
-      const description = await descriptionStore.getOrFetchDescription(
-        DESCRIPTION_TYPES.ANIMATIONS,
-        robotStore.getDescriptionNames()[0],
+    let animations = configurableAnimations;
+    animations = animations.filter(({ type }) => type === descriptionItemType);
+
+    if (searchInput) {
+      animations = animations.filter(({ name }) =>
+        name.toLowerCase().includes(searchInput.toLowerCase()),
       );
-      return description?.animations || [];
-    };
+    }
 
-    const updateTable = async () => {
-      let animations = await getAnimations();
-      animations = animations.filter(
-        ({ type }) => type === descriptionItemType,
-      );
-      if (searchInput) {
-        animations = animations.filter(({ name }) =>
-          name.toLowerCase().includes(searchInput.toLowerCase()),
-        );
-      }
-      setAnimations(animations);
-    };
-
-    updateTable();
-
+    setAnimations(animations);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchInput]);
+  }, [configurableAnimations, searchInput]);
 
   const rows = animations.map(({ id, name }) => {
     return {

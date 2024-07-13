@@ -1,8 +1,5 @@
 .filter {
-  display: flex;
+  display: grid;
   gap: 1rem;
-
-  .select {
-    width: 20rem;
-  }
+  grid-template-columns: 2fr 1fr 1fr;
 }

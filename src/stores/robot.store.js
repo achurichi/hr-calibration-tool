@@ -23,6 +23,12 @@ class RobotStore {
     return Object.values(this.assemblyDescriptionNameMap);
   }
 
+  getAssemblyByDescriptionName(descriptionName) {
+    return Object.keys(this.assemblyDescriptionNameMap).find(
+      (key) => this.assemblyDescriptionNameMap[key] === descriptionName,
+    );
+  }
+
   _setAssemblyDescriptionNameMap(map) {
     this.assemblyDescriptionNameMap = map;
   }

@@ -13,19 +13,20 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const initRealmStore = async () => {
+    const init = async () => {
       await realmStore.init();
+
+      // TODO: Init websocket and get assembly ids
+
+      await robotStore.fetchDescriptionNamesByAssembly([
+        "test_head_assembly",
+        "test_body_assembly",
+      ]);
+
       setLoading(false);
     };
 
-    initRealmStore();
-
-    //TODO: Init websocket to get assembly ids
-
-    robotStore.fetchDescriptionNamesByAssembly([
-      "test_head_assembly",
-      "test_body_assembly",
-    ]);
+    init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
