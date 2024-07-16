@@ -19,7 +19,6 @@ const ConfigurationSections = observer(({ description }) => {
   const { uiConfigurationStore } = uiStore;
   const { watch } = useFormContext();
   const neutralPositionValue = watch("neutralPositionValue");
-  const readDisabled = !uiConfigurationStore.getEnableTorque();
 
   if (!description) {
     return null;
@@ -47,13 +46,10 @@ const ConfigurationSections = observer(({ description }) => {
             configurationId={description.id}
             extraButtons={[
               {
-                disabled: readDisabled,
                 label: "Read",
-                onClick: () => {}, // TODO: implement read motor current position
+                onClick: () => {}, // TODO: implement read motor current position and disable when the motor is not connected
                 tooltipProps: {
-                  content: readDisabled
-                    ? "Enable torque to read motor current position"
-                    : "Read motor current position",
+                  content: "Read motor current position",
                   id: "read-configuration",
                 },
               },

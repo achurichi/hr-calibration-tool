@@ -13,7 +13,7 @@ import rootStore from "stores/root.store";
 import styles from "./ConfigurationFooter.module.scss";
 
 const ConfigurationFooter = observer(
-  ({ checkboxProps, descriptionType, showMotorCurrentPosition }) => {
+  ({ checkboxProps, descriptionType, showMotorData }) => {
     const { statusStore, uiStore } = rootStore;
     const { uiConfigurationStore } = uiStore;
     const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
@@ -67,19 +67,21 @@ const ConfigurationFooter = observer(
             />
           </Form>
         )}
-        {showMotorCurrentPosition && (
-          <ProgressBar
-            containerClassName={styles["current-position"]}
-            now={0}
-            showCurrentValue
-            topLabel="Motor current position"
-          />
+        {showMotorData && (
+          <>
+            <ProgressBar
+              containerClassName={styles["current-position"]}
+              now={0}
+              showCurrentValue
+              topLabel="Motor current position"
+            />
+            <ProgressBar
+              containerClassName={styles["motor-load"]}
+              now={0}
+              topLabel="Motor load"
+            />
+          </>
         )}
-        <ProgressBar
-          containerClassName={styles["motor-load"]}
-          now={0}
-          topLabel="Motor load"
-        />
       </Footer>
     );
   },

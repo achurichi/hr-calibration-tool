@@ -83,7 +83,7 @@ const MotorConfiguration = observer(() => {
                 onChange: uiConfigurationStore.setEnableTorque,
               }}
               descriptionType={DESCRIPTION_TYPES.MOTORS}
-              showMotorCurrentPosition
+              showMotorData
             />
           </Layout.Footer>
         </Layout>
