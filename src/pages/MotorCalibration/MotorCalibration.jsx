@@ -5,6 +5,7 @@ import useConfigurableItems from "hooks/useConfigurableItems";
 
 import Spinner from "react-bootstrap/Spinner";
 
+import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
 import EditIconField from "components/Table/EditIconField/EditIconField";
 import EmptyField from "components/Table/EmptyField/EmptyField";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
@@ -29,12 +30,13 @@ const TABLE_HEADERS = [
 ];
 
 const MotorCalibration = observer(() => {
-  const { filtersStore } = rootStore;
+  const { filtersStore, robotStore } = rootStore;
   const configurableMotors = useConfigurableItems(DESCRIPTION_TYPES.MOTORS);
   const [motors, setMotors] = useState([]);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
   const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
   const selectedAssembly = filtersStore.getFilter(FILTER_IDS.SELECTED_ASSEMBLY);
+  const missingConfigurations = robotStore.checkMissingConfigurations();
 
   useEffect(() => {
     let motors = configurableMotors;
@@ -58,6 +60,10 @@ const MotorCalibration = observer(() => {
     setMotors(motors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configurableMotors, selectedAssembly, searchFilter, selectedGroup]);
+
+  if (missingConfigurations) {
+    return <CreateConfiguration />;
+  }
 
   const rows = motors.map(({ assembly, description, group, id, name }) => {
     return {

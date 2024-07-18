@@ -73,6 +73,13 @@ class ConfigurationStore {
     return this._saveConfiguration(descriptionType, data);
   }
 
+  async createConfigurations(configurationDescriptionMap) {
+    await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.CONFIGURATIONS.CREATE_MANY,
+      configurationDescriptionMap,
+    );
+  }
+
   _saveConfiguration(descriptionType, data) {
     if (!descriptionType || !data) {
       return null;

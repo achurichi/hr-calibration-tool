@@ -1,4 +1,7 @@
 export const FUNCTIONS = {
+  CONFIGURATIONS: {
+    CREATE_MANY: "configurations_createMany",
+  },
   DESCRIPTIONS: {
     CREATE: "descriptions_create",
     DELETE_BY_NAME: "descriptions_deleteByName",

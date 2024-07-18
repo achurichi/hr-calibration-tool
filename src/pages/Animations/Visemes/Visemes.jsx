@@ -1,13 +1,13 @@
 import React from "react";
 
-import AnimationsList from "pages/Animations/components/AnimationsList/AnimationsList";
+import AnimationCalibration from "pages/Animations/components/AnimationCalibration/AnimationCalibration";
 
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 import { PATHS } from "constants/routes";
 
 const Visemes = () => {
   return (
-    <AnimationsList
+    <AnimationCalibration
       actionLink={PATHS.VISEME_CONFIGURE}
       descriptionItemType={DESCRIPTION_ITEM_TYPES.VISEME}
     />

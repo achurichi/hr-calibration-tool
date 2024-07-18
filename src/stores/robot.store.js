@@ -2,9 +2,14 @@ import { makeAutoObservable } from "mobx";
 
 import { FUNCTIONS } from "constants/mongo";
 
+const DEFAULT_CONFIGURATION = {
+  head: { assembly: null, descriptionName: null },
+  body: { assembly: null, descriptionName: null },
+};
+
 class RobotStore {
   rootStore;
-  assemblyDescriptionNameMap = {};
+  configuration = DEFAULT_CONFIGURATION;
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -12,40 +17,87 @@ class RobotStore {
   }
 
   clear() {
-    this.assemblyDescriptionNameMap = {};
+    this.configuration = DEFAULT_CONFIGURATION;
   }
 
-  getAssemblyIds() {
-    return Object.keys(this.assemblyDescriptionNameMap);
+  getAssemblyIds(filterEmpty = true) {
+    const assemblyIds = [
+      this.configuration.head.assembly,
+      this.configuration.body.assembly,
+    ];
+    return filterEmpty ? assemblyIds.filter(Boolean) : assemblyIds;
   }
 
-  getDescriptionNames() {
-    return Object.values(this.assemblyDescriptionNameMap);
+  getDescriptionNames(filterEmpty = true) {
+    const descriptionNames = [
+      this.configuration.head.descriptionName,
+      this.configuration.body.descriptionName,
+    ];
+    return filterEmpty ? descriptionNames.filter(Boolean) : descriptionNames;
   }
 
-  getAssemblyEntries() {
-    return Object.entries(this.assemblyDescriptionNameMap);
+  getAssemblyEntries(filterEmpty = true) {
+    const entries = Object.values(this.configuration).map((config) => [
+      config.assembly,
+      config.descriptionName,
+    ]);
+    return filterEmpty ? entries.filter(([a, d]) => a && d) : entries;
+  }
+
+  getAssembliesWithoutDescription() {
+    return this.getAssemblyEntries(false)
+      .filter(([assembly, descriptionName]) => assembly && !descriptionName)
+      .map(([assembly, _]) => assembly);
+  }
+
+  checkMissingConfigurations() {
+    return !!this.getAssembliesWithoutDescription().length;
   }
 
   getAssemblyByDescriptionName(descriptionName) {
-    return Object.keys(this.assemblyDescriptionNameMap).find(
-      (key) => this.assemblyDescriptionNameMap[key] === descriptionName,
+    if (!descriptionName) {
+      return undefined;
+    }
+
+    const config = Object.values(this.configuration).find(
+      (c) => c.descriptionName === descriptionName,
     );
+    return config?.assembly;
   }
 
-  _setAssemblyDescriptionNameMap(map) {
-    this.assemblyDescriptionNameMap = map;
+  _setConfiguration(assemblies, descriptionNamesMap) {
+    this.configuration.head = {
+      assembly: assemblies.head || null,
+      descriptionName: descriptionNamesMap?.[assemblies.head] || null,
+    };
+    this.configuration.body = {
+      assembly: assemblies.body || null,
+      descriptionName: descriptionNamesMap?.[assemblies.body] || null,
+    };
   }
 
-  async fetchDescriptionNamesByAssembly(assemblyIds) {
+  async fetchDescriptionNamesByAssembly(assemblies) {
+    if (!assemblies) {
+      // if assemblies are not provided, try to use the current configuration
+      assemblies = {
+        head: this.configuration.head.assembly,
+        body: this.configuration.body.assembly,
+      };
+    }
+
+    const assemblyIds = Object.values(assemblies);
+
+    // if there are no assemblies, return
+    if (assemblyIds.every((value) => !value)) {
+      return;
+    }
+
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES_BY_ASSEMBLY,
       assemblyIds,
     );
 
-    if (data) {
-      this._setAssemblyDescriptionNameMap(data);
-    }
+    this._setConfiguration(assemblies, data);
   }
 }
 

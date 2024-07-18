@@ -1,0 +1,32 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  width: 100%;
+
+  .alert {
+    margin: 1rem 1rem 0;
+  }
+
+  .table {
+    width: 30rem;
+    margin: 1rem;
+
+    tr:not(:has(th)) {
+      border-bottom: transparent;
+    }
+
+    td {
+      vertical-align: middle;
+    }
+
+    .select-column {
+      width: 100%;
+    }
+  }
+
+  .create-button {
+    margin: 0 1rem 1rem;
+  }
+}

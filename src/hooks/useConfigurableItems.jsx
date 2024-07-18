@@ -5,6 +5,7 @@ import rootStore from "stores/root.store";
 const useConfigurableItems = (descriptionType) => {
   const { descriptionStore, robotStore } = rootStore;
   const [items, setItems] = useState([]);
+  const missingConfigurations = robotStore.checkMissingConfigurations();
 
   useEffect(() => {
     const getItems = async () => {
@@ -29,9 +30,11 @@ const useConfigurableItems = (descriptionType) => {
       setItems(items);
     };
 
-    getItems();
+    if (!missingConfigurations) {
+      getItems();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(robotStore.getAssemblyIds())]);
+  }, [missingConfigurations, JSON.stringify(robotStore.getAssemblyIds())]);
 
   return items;
 };

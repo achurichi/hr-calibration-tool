@@ -125,13 +125,12 @@ const useConfigurationFormSetup = (
 
       const configuredItem = configurationStore.getItem(description.id);
       formMethods.reset(); // reset with no arguments to clear values from previous item
-      formMethods.reset(
-        buildDefaultConfigurationForm(
-          configuredItem,
-          description,
-          descriptionType,
-        ),
-      );
+
+      if (configuredItem) {
+        formMethods.reset(
+          buildDefaultConfigurationForm(configuredItem, descriptionType),
+        );
+      }
 
       let path;
       if (itemType === DESCRIPTION_ITEM_TYPES.MOTOR) {

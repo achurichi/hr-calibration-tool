@@ -1,4 +1,3 @@
-import { DEFAULT_ADVANCED_FORM } from "constants/forms";
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 
 /**
@@ -14,57 +13,28 @@ export const getError = (name, errors) => {
 };
 
 /**
- * Builds the default configuration form based on the provided item and description.
+ * Builds the default configuration form based on the provided item.
  *
- * @param {Object} configuredItem - The already configured item, if it exists.
- * @param {Object} description - The description of the item to configure.
+ * @param {Object} configuredItem - The already configured item.
  * @param {string} descriptionType - The type of the description.
  * @returns {Object} The default configuration form.
  */
 export const buildDefaultConfigurationForm = (
   configuredItem,
-  description,
   descriptionType,
 ) => {
   if (descriptionType === DESCRIPTION_TYPES.MOTORS) {
-    if (configuredItem) {
-      // if the class object is passed the form is not reset properly
-      return {
-        ...configuredItem,
-        mapping: { ...configuredItem.mapping },
-      };
-    }
-    const { neutralPosition, maxPosition, minPosition, mapping } = description;
-    const advancedProps = Object.keys(DEFAULT_ADVANCED_FORM).reduce(
-      (acc, key) => ({ ...acc, [key]: description[key] }),
-      {},
-    );
+    // if the class object is passed the form is not reset properly
     return {
-      motorId: description.id,
-      motorName: description.name,
-      neutralPositionValue: neutralPosition.defaultValue,
-      maxPositionValue: maxPosition.defaultValue,
-      minPositionValue: minPosition.defaultValue,
-      ...advancedProps,
-      mapping: { ...mapping },
+      ...configuredItem,
+      mapping: { ...configuredItem.mapping },
     };
   }
 
   // DESCRIPTION_TYPES.ANIMATIONS
-  if (configuredItem) {
-    // if the class object is passed the form is not reset properly
-    return {
-      ...configuredItem,
-      motions: configuredItem.motions.map((m) => ({ ...m })),
-    };
-  }
+  // if the class object is passed the form is not reset properly
   return {
-    animationId: description.id,
-    animationName: description.name,
-    motions: description.motions.map((m) => ({
-      motionId: m.id,
-      motionName: m.name,
-      value: m.defaultValue,
-    })),
+    ...configuredItem,
+    motions: configuredItem.motions.map((m) => ({ ...m })),
   };
 };

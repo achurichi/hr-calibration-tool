@@ -5,6 +5,7 @@ import useConfigurableItems from "hooks/useConfigurableItems";
 
 import Spinner from "react-bootstrap/Spinner";
 
+import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
 import EditIconField from "components/Table/EditIconField/EditIconField";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import SearchBar from "components/SearchBar/SearchBar";
@@ -13,19 +14,23 @@ import Table from "components/Table/Table";
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
 
-import styles from "./AnimationsList.module.scss";
+import rootStore from "stores/root.store";
+
+import styles from "./AnimationCalibration.module.scss";
 
 const TABLE_HEADERS = [
   { key: "name", label: "Name" },
   { key: "action", label: "", className: styles["action-column"] },
 ];
 
-const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
+const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
+  const { robotStore } = rootStore;
   const configurableAnimations = useConfigurableItems(
     DESCRIPTION_TYPES.ANIMATIONS,
   );
   const [animations, setAnimations] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const missingConfigurations = robotStore.checkMissingConfigurations();
 
   useEffect(() => {
     let animations = configurableAnimations;
@@ -53,6 +58,10 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
     };
   });
 
+  if (missingConfigurations) {
+    return <CreateConfiguration />;
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles["internal-container"]}>
@@ -72,4 +81,4 @@ const AnimationsList = observer(({ actionLink, descriptionItemType }) => {
   );
 });
 
-export default AnimationsList;
+export default AnimationCalibration;

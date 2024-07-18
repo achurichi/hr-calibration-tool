@@ -18,10 +18,10 @@ function App() {
 
       // TODO: Init websocket and get assembly ids
 
-      await robotStore.fetchDescriptionNamesByAssembly([
-        "test_head_assembly",
-        "test_body_assembly",
-      ]);
+      await robotStore.fetchDescriptionNamesByAssembly({
+        body: "test_body_assembly",
+        head: "test_head_assembly",
+      });
 
       setLoading(false);
     };
