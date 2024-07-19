@@ -85,7 +85,10 @@ const MotorCalibration = observer(() => {
       <div className={styles["internal-container"]}>
         <MotorsFilter motors={configurableMotors} />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME]}
+          dependencies={[
+            FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
+            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+          ]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

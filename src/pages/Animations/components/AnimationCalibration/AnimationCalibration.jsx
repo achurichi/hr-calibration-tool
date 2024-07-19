@@ -67,7 +67,10 @@ const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
       <div className={styles["internal-container"]}>
         <SearchBar placeholder="Search by Name" onChange={setSearchInput} />
         <RenderWithLoader
-          dependencies={[FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME]}
+          dependencies={[
+            FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
+            FUNCTIONS.ANIMATIONS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+          ]}
           loadingComponent={
             <div className={styles["loader-container"]}>
               <Spinner variant="primary" />

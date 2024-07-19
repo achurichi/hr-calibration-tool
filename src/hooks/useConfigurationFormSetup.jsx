@@ -76,12 +76,22 @@ const useConfigurationFormSetup = (
         return;
       }
 
-      await configurationStore.fetchAssemblyConfigurations(descriptionType);
+      await configurationStore.getOrFetchAssemblyConfigurations(
+        descriptionType,
+      );
 
-      const options = items.map(({ name, description, id }) => ({
-        label: `${name}${description ? ` - ${description}` : ""}`,
-        value: id,
-      }));
+      const options = [];
+      items.forEach(({ name, description, id }) => {
+        // don't add items that don't have a configuration
+        if (!configurationStore.getItem(id)) {
+          return;
+        }
+
+        options.push({
+          label: `${name}${description ? ` - ${description}` : ""}`,
+          value: id,
+        });
+      });
 
       let itemIndex = items.findIndex((i) => i.id === itemId);
       if (itemIndex === -1) {

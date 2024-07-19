@@ -115,6 +115,15 @@ class DescriptionStore {
     );
   }
 
+  async fetchDescription(type, descriptionName) {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_NAME,
+      descriptionName,
+    );
+    this._saveDescription(type, data);
+    return this.getDescription(type, descriptionName);
+  }
+
   async getOrFetchDescription(type, descriptionName) {
     const description = this.getDescription(type, descriptionName);
     return description || (await this.fetchDescription(type, descriptionName));
@@ -125,15 +134,6 @@ class DescriptionStore {
       .getDescriptionNames()
       .map((name) => this.getOrFetchDescription(type, name));
     return await Promise.all(descriptionsPromises);
-  }
-
-  async fetchDescription(type, descriptionName) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_NAME,
-      descriptionName,
-    );
-    this._saveDescription(type, data);
-    return this.getDescription(type, descriptionName);
   }
 
   async saveItem(type, descriptionName, item) {

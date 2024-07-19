@@ -8,7 +8,7 @@ import MotorsConfiguration from "models/configurations/MotorsConfiguration";
 
 class ConfigurationStore {
   rootStore;
-  configurations = new Map();
+  configurations = new Map(); // only stores a map of MotorsConfiguration or AnimationsConfiguration instances, not both because the keys are the description names
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -51,11 +51,31 @@ class ConfigurationStore {
     return this._saveConfiguration(descriptionType, data);
   }
 
-  async fetchAssemblyConfigurations(descriptionType) {
+  async getOrFetchConfiguration(descriptionType, descriptionName, assembly) {
+    const configuration = this.configurations.get(descriptionName);
+    return (
+      configuration ||
+      (await this.fetchConfiguration(
+        descriptionType,
+        descriptionName,
+        assembly,
+      ))
+    );
+  }
+
+  async getOrFetchAssemblyConfigurations(descriptionType, forceFetch = false) {
     const assemblyEntries = this.rootStore.robotStore.getAssemblyEntries();
-    assemblyEntries.forEach(([assembly, descriptionName]) => {
-      this.fetchConfiguration(descriptionType, descriptionName, assembly);
-    });
+    const configurationPromises = assemblyEntries.map(
+      ([assembly, descriptionName]) =>
+        forceFetch
+          ? this.fetchConfiguration(descriptionType, descriptionName, assembly)
+          : this.getOrFetchConfiguration(
+              descriptionType,
+              descriptionName,
+              assembly,
+            ),
+    );
+    return await Promise.all(configurationPromises);
   }
 
   async saveItem(
