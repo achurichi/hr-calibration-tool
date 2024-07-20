@@ -46,7 +46,7 @@ const Admin = observer(() => {
             dependencies={[
               FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
               FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
-              FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTIONS_NAMES,
+              FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES,
             ]}
             loadingComponent={<Spinner className={styles.spinner} />}
           >

@@ -7,7 +7,7 @@ export const FUNCTIONS = {
     DELETE_BY_NAME: "descriptions_deleteByName",
     GET_DESCRIPTION_NAMES_BY_ASSEMBLY:
       "descriptions_getDescriptionNamesByAssembly",
-    GET_DESCRIPTIONS_NAMES: "descriptions_getDescriptionsNames",
+    GET_DESCRIPTION_NAMES: "descriptions_getDescriptionNames",
   },
   MOTORS_CONFIGURATION: {
     ADD_ITEMS: "motorsConfiguration_addItems",

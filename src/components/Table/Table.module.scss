@@ -1,0 +1,9 @@
+.empty {
+  border: 1px solid transparent;
+  pointer-events: none;
+
+  td {
+    color: var(--gray-600);
+    font-style: italic;
+  }
+}

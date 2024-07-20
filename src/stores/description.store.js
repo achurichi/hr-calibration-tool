@@ -93,7 +93,7 @@ class DescriptionStore {
 
   async fetchDescriptionNames() {
     const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTIONS_NAMES,
+      FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES,
     );
     if (data) {
       this._setDescriptionNames(data);
