@@ -5,7 +5,6 @@ import useCallWithNotification from "hooks/useCallWithNotification";
 import useConfigurableItems from "hooks/useConfigurableItems";
 
 import { BsPlusLg, BsTrash } from "react-icons/bs";
-import Spinner from "react-bootstrap/Spinner";
 
 import AddMotorsModal from "pages/MotorCalibration/components/AddMotorsModal/AddMotorsModal";
 import Button from "components/Button/Button";
@@ -16,6 +15,7 @@ import EditIconField from "components/Table/EditIconField/EditIconField";
 import EmptyField from "components/Table/EmptyField/EmptyField";
 import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
+import Spinner from "components/Spinner/Spinner";
 import Table from "components/Table/Table";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
@@ -139,11 +139,7 @@ const MotorCalibration = observer(() => {
             FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
             FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
           ]}
-          loadingComponent={
-            <div className={styles["loader-container"]}>
-              <Spinner variant="primary" />
-            </div>
-          }
+          loadingComponent={<Spinner className={styles.spinner} />}
         >
           <div>
             <Table headers={TABLE_HEADERS} hover rows={rows} />

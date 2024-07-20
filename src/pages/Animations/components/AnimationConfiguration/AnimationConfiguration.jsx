@@ -7,7 +7,6 @@ import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
 
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
-import Spinner from "react-bootstrap/Spinner";
 
 import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
 import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
@@ -15,6 +14,7 @@ import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import Layout from "components/Layout/Layout";
 import MotionsControls from "pages/Animations/components/AnimationConfiguration/MotionsControls";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
+import Spinner from "components/Spinner/Spinner";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
@@ -73,9 +73,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
                 FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
               ]}
               loadingComponent={
-                <div className={"animation-configuration-loader-container"}>
-                  <Spinner variant="primary" />
-                </div>
+                <Spinner className={"animation-configuration-spinner"} />
               }
             >
               <Form>

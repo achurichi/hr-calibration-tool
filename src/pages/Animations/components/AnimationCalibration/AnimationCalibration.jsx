@@ -3,12 +3,11 @@ import { observer } from "mobx-react";
 
 import useConfigurableItems from "hooks/useConfigurableItems";
 
-import Spinner from "react-bootstrap/Spinner";
-
 import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
 import EditIconField from "components/Table/EditIconField/EditIconField";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import SearchBar from "components/SearchBar/SearchBar";
+import Spinner from "components/Spinner/Spinner";
 import Table from "components/Table/Table";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
@@ -71,11 +70,7 @@ const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
             FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
             FUNCTIONS.ANIMATIONS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
           ]}
-          loadingComponent={
-            <div className={styles["loader-container"]}>
-              <Spinner variant="primary" />
-            </div>
-          }
+          loadingComponent={<Spinner className={styles.spinner} />}
         >
           <Table headers={TABLE_HEADERS} hover rows={rows} />
         </RenderWithLoader>

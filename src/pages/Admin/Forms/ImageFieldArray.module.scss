@@ -14,17 +14,14 @@
     position: relative;
     width: 10rem;
 
-    .spinner-container,
+    .spinner,
     .thumbnail {
       max-height: 100%;
       max-width: 100%;
     }
 
-    .spinner-container {
-      align-items: center;
+    .spinner {
       background-color: var(--gray-200);
-      display: flex;
-      justify-content: center;
     }
 
     .thumbnail {

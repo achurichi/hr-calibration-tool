@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import classNames from "classnames";
 
-import Spinner from "react-bootstrap/Spinner";
-
 import Carousel from "components/Carousel/Carousel";
+import Spinner from "components/Spinner/Spinner";
 
 import rootStore from "stores/root.store";
 
@@ -42,7 +41,7 @@ const ConfigurationInstructions = observer(
           <div className="description">{description}</div>
           {showCarousel && (
             <div className="images">
-              {loadingImages && <Spinner variant="primary" />}
+              {loadingImages && <Spinner />}
               {!loadingImages && (
                 <Carousel
                   images={imagesBase64}

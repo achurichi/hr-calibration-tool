@@ -4,6 +4,8 @@ import Router from "./pages/Router";
 import { observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
 
+import Spinner from "components/Spinner/Spinner";
+
 import rootStore from "stores/root.store";
 
 import { BASE_PATH } from "constants/routes";
@@ -31,7 +33,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return null;
+    return <Spinner className="vw-100 vh-100" />;
   }
 
   return (

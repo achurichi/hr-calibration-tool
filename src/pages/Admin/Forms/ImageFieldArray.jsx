@@ -2,16 +2,17 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 
-import rootStore from "stores/root.store";
-
-import Spinner from "react-bootstrap/Spinner";
 import {
   BsArrowLeftCircleFill,
   BsArrowRightCircleFill,
   BsXCircleFill,
 } from "react-icons/bs";
+
 import ClickableIcon from "components/ClickableIcon/ClickableIcon";
 import Dropzone from "components/Dropzone/Dropzone";
+import Spinner from "components/Spinner/Spinner";
+
+import rootStore from "stores/root.store";
 
 import styles from "./ImageFieldArray.module.scss";
 
@@ -53,11 +54,7 @@ const ImageFieldArray = observer(({ name }) => {
           const isLast = index === fields.length - 1;
           return (
             <div className={styles["image-container"]} key={field.id}>
-              {!url && (
-                <div className={styles["spinner-container"]}>
-                  <Spinner variant="primary" />
-                </div>
-              )}
+              {!url && <Spinner className={styles.spinner} />}
               {!!url && (
                 <>
                   <img

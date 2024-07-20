@@ -4,13 +4,13 @@ import { FormProvider } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 
 import Form from "react-bootstrap/Form";
-import Spinner from "react-bootstrap/Spinner";
 
-import SelectionBar from "pages/Admin/SelectionBar";
 import DataForm from "pages/Admin/Forms/DataForm";
 import Footer from "components/Footer/Footer";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
+import SelectionBar from "pages/Admin/SelectionBar";
+import Spinner from "components/Spinner/Spinner";
 
 import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
 
@@ -48,11 +48,7 @@ const Admin = observer(() => {
               FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
               FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTIONS_NAMES,
             ]}
-            loadingComponent={
-              <div className={styles["loader-container"]}>
-                <Spinner variant="primary" />
-              </div>
-            }
+            loadingComponent={<Spinner className={styles.spinner} />}
           >
             {selectedItem && (
               <Form className={styles["form-container"]}>

@@ -7,13 +7,13 @@ import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
 
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
-import Spinner from "react-bootstrap/Spinner";
 
 import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
 import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
 import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import Layout from "components/Layout/Layout";
 import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
+import Spinner from "components/Spinner/Spinner";
 
 import {
   DESCRIPTION_ITEM_TYPES,
@@ -64,11 +64,7 @@ const MotorConfiguration = observer(() => {
                 FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
                 FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
               ]}
-              loadingComponent={
-                <div className={styles["loader-container"]}>
-                  <Spinner variant="primary" />
-                </div>
-              }
+              loadingComponent={<Spinner className={styles.spinner} />}
             >
               <Form className={styles["form-container"]}>
                 <ConfigurationSections description={selectedMotorDescription} />
