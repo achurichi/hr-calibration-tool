@@ -94,7 +94,13 @@ const CreateConfiguration = observer(() => {
         <Alert className={styles.alert} variant="warning">
           Please select a description for every assembly.
         </Alert>
-        <Table className={styles.table} headers={TABLE_HEADERS} rows={rows} />
+        <Table
+          bordered={false}
+          className={styles.table}
+          headers={TABLE_HEADERS}
+          rows={rows}
+          striped={false}
+        />
         <Button
           className={styles["create-button"]}
           disabled={

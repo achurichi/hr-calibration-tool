@@ -1,9 +1,28 @@
-.empty {
-  border: 1px solid transparent;
-  pointer-events: none;
+.border {
+  border-radius: 0.4rem;
+  border: 1px solid var(--gray-300);
+  overflow: auto;
+}
 
-  td {
-    color: var(--gray-600);
-    font-style: italic;
+.table {
+  border: none;
+  margin-bottom: 0;
+
+  th {
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  td,
+  tr {
+    border: none;
+  }
+
+  .empty {
+    pointer-events: none;
+
+    td {
+      color: var(--gray-600);
+      font-style: italic;
+    }
   }
 }

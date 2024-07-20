@@ -1,12 +1,8 @@
 .body {
   overflow-x: auto;
 
-  .table {
-    margin-bottom: 0;
-
-    .checkbox {
-      display: flex;
-      justify-content: center;
-    }
+  .checkbox {
+    display: flex;
+    justify-content: center;
   }
 }

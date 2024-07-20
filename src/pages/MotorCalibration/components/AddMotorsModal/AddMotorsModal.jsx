@@ -69,7 +69,7 @@ const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
         <Modal.Title>Add motors</Modal.Title>
       </Modal.Header>
       <Modal.Body className={styles.body}>
-        <Table className={styles.table} headers={TABLE_HEADERS} rows={rows} />
+        <Table bordered={false} headers={TABLE_HEADERS} rows={rows} />
       </Modal.Body>
       <Modal.Footer>
         <Button disabled={disabled} onClick={onCancel} variant="secondary">

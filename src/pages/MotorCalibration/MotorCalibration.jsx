@@ -141,24 +141,19 @@ const MotorCalibration = observer(() => {
           ]}
           loadingComponent={<Spinner className={styles.spinner} />}
         >
-          <div>
-            <Table headers={TABLE_HEADERS} hover rows={rows} />
-            <div className="d-flex">
-              <Button
-                Icon={BsPlusLg}
-                className={styles["add-button"]}
-                disabled={!addableMotors.length}
-                variant="outline-primary"
-                onClick={() => setShowAddModal(true)}
-                tooltipProps={{
-                  content:
-                    !addableMotors.length && "All motors have been added",
-                }}
-              >
-                Add motors
-              </Button>
-            </div>
-          </div>
+          <Table headers={TABLE_HEADERS} hover rows={rows} />
+          <Button
+            Icon={BsPlusLg}
+            className={styles["add-button"]}
+            disabled={!addableMotors.length}
+            variant="outline-primary"
+            onClick={() => setShowAddModal(true)}
+            tooltipProps={{
+              content: !addableMotors.length && "All motors have been added",
+            }}
+          >
+            Add motors
+          </Button>
         </RenderWithLoader>
         <AddMotorsModal
           disabled={statusStore.isLoading([
