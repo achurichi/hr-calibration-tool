@@ -11,6 +11,7 @@ export const FUNCTIONS = {
   },
   MOTORS_CONFIGURATION: {
     ADD_ITEMS: "motorsConfiguration_addItems",
+    DELETE_ITEM: "motorsConfiguration_deleteItem",
     GET_BY_DESCRIPTION_AND_ASSEMBLY:
       "motorsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "motorsConfiguration_saveItem",

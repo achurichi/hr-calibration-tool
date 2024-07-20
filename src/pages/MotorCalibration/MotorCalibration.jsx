@@ -4,11 +4,13 @@ import { observer } from "mobx-react";
 import useCallWithNotification from "hooks/useCallWithNotification";
 import useConfigurableItems from "hooks/useConfigurableItems";
 
-import { BsPlusLg } from "react-icons/bs";
+import { BsPlusLg, BsTrash } from "react-icons/bs";
 import Spinner from "react-bootstrap/Spinner";
 
-import AddMotorsModal from "pages/MotorCalibration/AddMotorsModal";
+import AddMotorsModal from "pages/MotorCalibration/components/AddMotorsModal/AddMotorsModal";
 import Button from "components/Button/Button";
+import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
 import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
 import EditIconField from "components/Table/EditIconField/EditIconField";
 import EmptyField from "components/Table/EmptyField/EmptyField";
@@ -30,7 +32,7 @@ const TABLE_HEADERS = [
   { key: "description", label: "Description" },
   { key: "group", label: "Group" },
   { key: "assembly", label: "Assembly" },
-  { key: "action", label: "", className: styles["action-column"] },
+  { key: "action", label: "" },
 ];
 
 const MotorCalibration = observer(() => {
@@ -41,6 +43,7 @@ const MotorCalibration = observer(() => {
   const callWithNotification = useCallWithNotification();
   const [motors, setMotors] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [motorToDelete, setMotorToDelete] = useState(null);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
   const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
   const selectedAssembly = filtersStore.getFilter(FILTER_IDS.SELECTED_ASSEMBLY);
@@ -76,11 +79,26 @@ const MotorCalibration = observer(() => {
       "Motors added",
     );
     if (success) {
-      setShowAddModal(false);
-      configurationStore.getOrFetchAssemblyConfigurations(
+      await configurationStore.getOrFetchAssemblyConfigurations(
         DESCRIPTION_TYPES.MOTORS,
         true,
       );
+      setShowAddModal(false);
+    }
+  };
+
+  const onDeleteMotor = async () => {
+    const { success } = await callWithNotification(
+      () =>
+        configurationStore.deleteMotor(
+          motorToDelete.assembly,
+          motorToDelete.id,
+        ),
+      FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
+      "Motor deleted",
+    );
+    if (success) {
+      setMotorToDelete(null);
     }
   };
 
@@ -88,17 +106,26 @@ const MotorCalibration = observer(() => {
     return <CreateConfiguration />;
   }
 
-  const rows = motors.map(({ assembly, description, group, id, name }) => {
+  const rows = motors.map((motor) => {
+    const { assembly, description, group, id, name } = motor;
     return {
       name,
       description: description || <EmptyField text="No description" />,
       group: group || <EmptyField text="No group" />,
       assembly: assembly,
       action: (
-        <EditIconField
-          redirect={`${PATHS.MOTOR_CONFIGURE}/${id}`}
-          tooltipContent="Edit configuration"
-        />
+        <div className={styles["action-container"]}>
+          <EditIconField
+            redirect={`${PATHS.MOTOR_CONFIGURE}/${id}`}
+            tooltipContent="Edit configuration"
+          />
+          <ClickableIcon
+            color="var(--danger)"
+            Icon={BsTrash}
+            onClick={() => setMotorToDelete(motor)}
+            tooltipProps={{ content: "Delete configuration" }}
+          />
+        </div>
       ),
     };
   });
@@ -138,13 +165,31 @@ const MotorCalibration = observer(() => {
           </div>
         </RenderWithLoader>
         <AddMotorsModal
-          disabled={statusStore.isLoading(
+          disabled={statusStore.isLoading([
             FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
-          )}
+            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+          ])}
           motors={addableMotors}
           onCancel={() => setShowAddModal(false)}
           onConfirm={onAddMotors}
           show={showAddModal}
+        />
+        <ConfirmationModal
+          confirmLabel="Delete"
+          confirmVariant="danger"
+          disabled={statusStore.isLoading(
+            FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
+          )}
+          message={
+            <div>
+              {"Are you sure you want to delete the configuration for "}
+              <strong>{motorToDelete?.name}</strong>?
+            </div>
+          }
+          onCancel={() => setMotorToDelete(null)}
+          onConfirm={onDeleteMotor}
+          show={!!motorToDelete}
+          title="Delete configuration"
         />
       </div>
     </div>

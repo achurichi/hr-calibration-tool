@@ -114,6 +114,15 @@ class ConfigurationStore {
     );
   }
 
+  async deleteMotor(assembly, motorId) {
+    const data = await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
+      assembly,
+      motorId,
+    );
+    return this._saveConfiguration(DESCRIPTION_TYPES.MOTORS, data);
+  }
+
   async createConfigurations(configurationDescriptionMap) {
     await this.rootStore.realmStore.callFunction(
       FUNCTIONS.CONFIGURATIONS.CREATE_MANY,

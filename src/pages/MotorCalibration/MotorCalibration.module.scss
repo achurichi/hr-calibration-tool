@@ -18,8 +18,10 @@
   width: 8rem;
 }
 
-.action-column {
-  width: 1rem;
+.action-container {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
 }
 
 .loader-container {

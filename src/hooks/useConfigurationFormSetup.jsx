@@ -93,13 +93,13 @@ const useConfigurationFormSetup = (
         });
       });
 
-      let itemIndex = items.findIndex((i) => i.id === itemId);
-      if (itemIndex === -1) {
-        itemIndex = 0;
+      let optionIndex = options.findIndex((o) => o.value === itemId);
+      if (optionIndex === -1) {
+        optionIndex = 0;
       }
 
       uiConfigurationStore.setOptions(options);
-      uiConfigurationStore.setSelectedOption(options[itemIndex]);
+      uiConfigurationStore.setSelectedOption(options[optionIndex]);
     };
 
     const setup = async () => {
