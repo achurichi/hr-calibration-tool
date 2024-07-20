@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
+import useCallWithNotification from "hooks/useCallWithNotification";
 import useConfigurableItems from "hooks/useConfigurableItems";
 
+import { BsPlusLg } from "react-icons/bs";
 import Spinner from "react-bootstrap/Spinner";
 
+import AddMotorsModal from "pages/MotorCalibration/AddMotorsModal";
+import Button from "components/Button/Button";
 import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
 import EditIconField from "components/Table/EditIconField/EditIconField";
 import EmptyField from "components/Table/EmptyField/EmptyField";
@@ -30,9 +34,13 @@ const TABLE_HEADERS = [
 ];
 
 const MotorCalibration = observer(() => {
-  const { filtersStore, robotStore } = rootStore;
-  const configurableMotors = useConfigurableItems(DESCRIPTION_TYPES.MOTORS);
+  const { configurationStore, filtersStore, robotStore, statusStore } =
+    rootStore;
+  const { configure: configurableMotors, add: addableMotors } =
+    useConfigurableItems(DESCRIPTION_TYPES.MOTORS);
+  const callWithNotification = useCallWithNotification();
   const [motors, setMotors] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
   const searchFilter = filtersStore.getFilter(FILTER_IDS.MOTOR_SEARCH);
   const selectedGroup = filtersStore.getFilter(FILTER_IDS.SELECTED_GROUP);
   const selectedAssembly = filtersStore.getFilter(FILTER_IDS.SELECTED_ASSEMBLY);
@@ -60,6 +68,21 @@ const MotorCalibration = observer(() => {
     setMotors(motors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configurableMotors, selectedAssembly, searchFilter, selectedGroup]);
+
+  const onAddMotors = async (motorsMap) => {
+    const { success } = await callWithNotification(
+      () => configurationStore.addMotors(motorsMap),
+      FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+      "Motors added",
+    );
+    if (success) {
+      setShowAddModal(false);
+      configurationStore.getOrFetchAssemblyConfigurations(
+        DESCRIPTION_TYPES.MOTORS,
+        true,
+      );
+    }
+  };
 
   if (missingConfigurations) {
     return <CreateConfiguration />;
@@ -95,8 +118,34 @@ const MotorCalibration = observer(() => {
             </div>
           }
         >
-          <Table headers={TABLE_HEADERS} hover rows={rows} />
+          <div>
+            <Table headers={TABLE_HEADERS} hover rows={rows} />
+            <div className="d-flex">
+              <Button
+                Icon={BsPlusLg}
+                className={styles["add-button"]}
+                disabled={!addableMotors.length}
+                variant="outline-primary"
+                onClick={() => setShowAddModal(true)}
+                tooltipProps={{
+                  content:
+                    !addableMotors.length && "All motors have been added",
+                }}
+              >
+                Add motors
+              </Button>
+            </div>
+          </div>
         </RenderWithLoader>
+        <AddMotorsModal
+          disabled={statusStore.isLoading(
+            FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+          )}
+          motors={addableMotors}
+          onCancel={() => setShowAddModal(false)}
+          onConfirm={onAddMotors}
+          show={showAddModal}
+        />
       </div>
     </div>
   );

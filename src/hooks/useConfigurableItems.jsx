@@ -4,7 +4,8 @@ import rootStore from "stores/root.store";
 
 const useConfigurableItems = (descriptionType) => {
   const { configurationStore, descriptionStore, robotStore } = rootStore;
-  const [items, setItems] = useState([]);
+  const [descriptions, setDescriptions] = useState([]);
+  const [items, setItems] = useState({ configure: [], add: [] });
   const missingConfigurations = robotStore.checkMissingConfigurations();
 
   useEffect(() => {
@@ -16,28 +17,7 @@ const useConfigurableItems = (descriptionType) => {
         true,
       );
 
-      const items = [];
-      descriptions.forEach((description) => {
-        if (description?.[descriptionType]) {
-          const itemsWithAssembly = [];
-          description[descriptionType].forEach((item) => {
-            // don't add items that don't have a configuration
-            if (!configurationStore.getItem(item.id)) {
-              return;
-            }
-
-            itemsWithAssembly.push({
-              ...item,
-              assembly: robotStore.getAssemblyByDescriptionName(
-                description.name,
-              ),
-            });
-          });
-          items.push(...itemsWithAssembly);
-        }
-      });
-
-      setItems(items);
+      setDescriptions(descriptions);
     };
 
     if (!missingConfigurations) {
@@ -45,6 +25,44 @@ const useConfigurableItems = (descriptionType) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [missingConfigurations, JSON.stringify(robotStore.getAssemblyIds())]);
+
+  useEffect(() => {
+    if (!descriptions.length) {
+      return;
+    }
+
+    const allToConfigure = [];
+    const allToAdd = [];
+
+    descriptions.forEach((description) => {
+      if (!description?.[descriptionType]) {
+        return;
+      }
+
+      const toConfigure = [];
+      const toAdd = [];
+
+      description[descriptionType].forEach((item) => {
+        const itemWithAssembly = {
+          ...item,
+          assembly: robotStore.getAssemblyByDescriptionName(description.name),
+        };
+
+        // if the item is present in the configuration store, it is configurable, otherwise it is an option to add
+        if (configurationStore.getItem(item.id)) {
+          toConfigure.push(itemWithAssembly);
+        } else {
+          toAdd.push(itemWithAssembly);
+        }
+      });
+
+      allToConfigure.push(...toConfigure);
+      allToAdd.push(...toAdd);
+    });
+
+    setItems({ configure: allToConfigure, add: allToAdd });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [descriptions, JSON.stringify(configurationStore.getAllIds())]);
 
   return items;
 };

@@ -69,11 +69,10 @@ const MotionFieldArray = ({ name }) => {
         })}
         <div>
           <Button
-            className={styles["add-button"]}
+            Icon={BsPlusLg}
             onClick={() => append({ value: DEFAULT_MOTION_FORM })}
             variant="outline-primary"
           >
-            <BsPlusLg />
             Add Motion
           </Button>
         </div>

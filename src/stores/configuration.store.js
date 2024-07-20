@@ -41,6 +41,20 @@ class ConfigurationStore {
     return undefined;
   }
 
+  getAllIds() {
+    const ids = [];
+
+    for (const configuration of this.configurations.values()) {
+      if (configuration instanceof MotorsConfiguration) {
+        configuration.motors.forEach((m) => ids.push(m.motorId));
+      } else if (configuration instanceof AnimationsConfiguration) {
+        configuration.animations.forEach((a) => ids.push(a.animationId));
+      }
+    }
+
+    return ids;
+  }
+
   async fetchConfiguration(descriptionType, descriptionName, assembly) {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`]
@@ -91,6 +105,13 @@ class ConfigurationStore {
       itemConfiguration,
     );
     return this._saveConfiguration(descriptionType, data);
+  }
+
+  async addMotors(motorsMap) {
+    await this.rootStore.realmStore.callFunction(
+      FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+      motorsMap,
+    );
   }
 
   async createConfigurations(configurationDescriptionMap) {

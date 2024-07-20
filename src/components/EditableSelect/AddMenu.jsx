@@ -13,6 +13,7 @@ const AddMenu = ({ selectRef, ...props }) => {
       <div>
         <div>{props.children}</div>
         <Button
+          Icon={BsPlusLg}
           className={styles.menu}
           onClick={(e) => {
             selectRef?.current?.blur();
@@ -20,7 +21,7 @@ const AddMenu = ({ selectRef, ...props }) => {
           }}
           variant="outline-primary"
         >
-          <BsPlusLg /> Add
+          Add
         </Button>
       </div>
     </components.Menu>

@@ -15,7 +15,9 @@ $danger-border: var(--red-200);
     grid-template-columns: auto 2rem;
 
     .label {
+      overflow: hidden;
       padding: 0.5rem 0.75rem;
+      text-overflow: ellipsis;
     }
 
     .delete {

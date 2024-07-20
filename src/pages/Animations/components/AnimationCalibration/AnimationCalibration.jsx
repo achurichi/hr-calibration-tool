@@ -25,7 +25,7 @@ const TABLE_HEADERS = [
 
 const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
   const { robotStore } = rootStore;
-  const configurableAnimations = useConfigurableItems(
+  const { configure: configurableAnimations } = useConfigurableItems(
     DESCRIPTION_TYPES.ANIMATIONS,
   );
   const [animations, setAnimations] = useState([]);

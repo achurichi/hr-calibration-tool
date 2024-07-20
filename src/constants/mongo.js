@@ -10,6 +10,7 @@ export const FUNCTIONS = {
     GET_DESCRIPTIONS_NAMES: "descriptions_getDescriptionsNames",
   },
   MOTORS_CONFIGURATION: {
+    ADD_ITEMS: "motorsConfiguration_addItems",
     GET_BY_DESCRIPTION_AND_ASSEMBLY:
       "motorsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "motorsConfiguration_saveItem",
