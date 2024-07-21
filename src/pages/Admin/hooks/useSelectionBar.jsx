@@ -48,7 +48,12 @@ const useSelectionBar = (unsaved) => {
   };
 
   useEffect(() => {
-    fetchDescriptionNames();
+    const fetchAndEnable = async () => {
+      await fetchDescriptionNames();
+      uiDescriptionStore.setEditDisabled(false);
+    };
+
+    fetchAndEnable();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -149,8 +154,9 @@ const useSelectionBar = (unsaved) => {
       });
     }
 
-    resetNewDescriptionModal();
+    uiDescriptionStore.setSelectedItemTypeOption(DESCRIPTION_ITEMS_OPTIONS[0]);
     uiDescriptionStore.setEditDisabled(false);
+    resetNewDescriptionModal();
   };
 
   const onChangeDescription = (option) => {
@@ -186,6 +192,9 @@ const useSelectionBar = (unsaved) => {
           "Description deleted",
         );
         await fetchDescriptionNames();
+        uiDescriptionStore.setSelectedItemTypeOption(
+          DESCRIPTION_ITEMS_OPTIONS[0],
+        );
         uiDescriptionStore.setEditDisabled(false);
         resetConfirmationModal();
       },

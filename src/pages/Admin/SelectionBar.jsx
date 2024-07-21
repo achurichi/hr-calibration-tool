@@ -27,6 +27,7 @@ const SelectionBar = observer(({ unsaved }) => {
   } = useSelectionBar(unsaved);
   const { uiDescriptionStore } = uiStore;
   const editDisabled = uiDescriptionStore.getEditDisabled();
+  const hasSelectedDescription = !!uiDescriptionStore.getSelectedDescription();
 
   const descriptionOptions = descriptionStore
     .getDescriptionNames()
@@ -43,14 +44,14 @@ const SelectionBar = observer(({ unsaved }) => {
         />
         <BsChevronRight />
         <Select
-          isDisabled={editDisabled}
+          isDisabled={editDisabled || !hasSelectedDescription}
           options={DESCRIPTION_ITEMS_OPTIONS}
           value={uiDescriptionStore.getSelectedItemTypeOption()}
           {...itemTypeActions}
         />
         <BsChevronRight />
         <EditableSelect
-          isDisabled={editDisabled}
+          isDisabled={editDisabled || !hasSelectedDescription}
           options={uiDescriptionStore.getItemOptions()}
           value={uiDescriptionStore.getSelectedItemOption()}
           {...itemActions}
