@@ -31,20 +31,20 @@ const MotorForm = () => {
         />
         <InputField
           as={Col}
-          controlId="formGroup"
+          controlId="formDescription"
           controlProps={{ type: "text" }}
-          label="Group"
-          name="group"
+          label="Description"
+          name="description"
           xs="6"
         />
       </Row>
       <Row>
         <InputField
           as={Col}
-          controlId="formDescription"
+          controlId="formGroup"
           controlProps={{ type: "text" }}
-          label="Description"
-          name="description"
+          label="Group"
+          name="group"
           xs="6"
         />
         <InputField
