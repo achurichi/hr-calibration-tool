@@ -23,7 +23,8 @@ function App() {
       if (status !== STATUS_TYPES.SUCCESS) {
         return;
       }
-
+      const head = await rosStore.getHead();
+      const body = await rosStore.getBody();
       // rosStore.publishTest();
       // rosStore.subscribeTest();
       // await rosStore.serviceTest();
@@ -33,8 +34,8 @@ function App() {
       // TODO: Get assembly ids from websockets
 
       await robotStore.fetchDescriptionNamesByAssembly({
-        body: "test_body_assembly",
-        head: "test_head_assembly",
+        body: body,
+        head: head,
       });
 
       setLoading(false);
