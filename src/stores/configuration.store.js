@@ -28,7 +28,7 @@ class ConfigurationStore {
       let item;
 
       if (configuration instanceof MotorsConfiguration) {
-        item = configuration.motors?.find((m) => m.motorId === id);
+        item = configuration.motors?.find((m) => m.descId === id);
       } else if (configuration instanceof AnimationsConfiguration) {
         item = configuration.animations?.find((a) => a.animationId === id);
       }
@@ -46,7 +46,7 @@ class ConfigurationStore {
 
     for (const configuration of this.configurations.values()) {
       if (configuration instanceof MotorsConfiguration) {
-        configuration.motors.forEach((m) => ids.push(m.motorId));
+        configuration.motors.forEach((m) => ids.push(m.descId));
       } else if (configuration instanceof AnimationsConfiguration) {
         configuration.animations.forEach((a) => ids.push(a.animationId));
       }
