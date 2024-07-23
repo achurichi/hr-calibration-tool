@@ -2,6 +2,22 @@ import { useEffect, useState } from "react";
 
 import rootStore from "stores/root.store";
 
+const sortFn = (a, b) => {
+  const aIsNumber = !isNaN(a.sort_no);
+  const bIsNumber = !isNaN(b.sort_no);
+
+  if (aIsNumber && bIsNumber) {
+    return Number(a.sort_no) - Number(b.sort_no);
+  }
+  if (aIsNumber) {
+    return -1;
+  }
+  if (bIsNumber) {
+    return 1;
+  }
+  return 0;
+};
+
 const useConfigurableItems = (descriptionType) => {
   const { configurationStore, descriptionStore, robotStore } = rootStore;
   const [descriptions, setDescriptions] = useState([]);
@@ -59,6 +75,9 @@ const useConfigurableItems = (descriptionType) => {
       allToConfigure.push(...toConfigure);
       allToAdd.push(...toAdd);
     });
+
+    allToConfigure.sort(sortFn);
+    allToAdd.sort(sortFn);
 
     setItems({ configure: allToConfigure, add: allToAdd });
     // eslint-disable-next-line react-hooks/exhaustive-deps
