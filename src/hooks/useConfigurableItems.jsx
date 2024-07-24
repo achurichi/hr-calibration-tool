@@ -66,8 +66,8 @@ const useConfigurableItems = (descriptionType) => {
             ? {
                 id: item.id,
                 name: item.name,
-                description: description.name,
-                group: description.group,
+                description: item.description,
+                group: item.group,
                 assembly: robotStore.getAssemblyByDescriptionName(
                   description.name,
                 ),

@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
 import Button from "components/Button/Button";
+import EmptyField from "components/Table/EmptyField/EmptyField";
 import Table from "components/Table/Table";
 
 import styles from "./AddMotorsModal.module.scss";
@@ -44,7 +45,7 @@ const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
   const rows = motors.map((motor) => ({
     add: renderCheckbox(motor),
     name: motor.name,
-    description: motor.description,
+    description: motor.description || <EmptyField text="No description" />,
     assembly: motor.assembly,
   }));
 
