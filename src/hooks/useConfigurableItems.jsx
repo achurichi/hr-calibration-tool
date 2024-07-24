@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 
+import { DESCRIPTION_TYPES } from "constants/descriptions";
+
 import rootStore from "stores/root.store";
 
 const sortFn = (a, b) => {
-  const aIsNumber = !isNaN(a.sort_no);
-  const bIsNumber = !isNaN(b.sort_no);
+  const aIsNumber = !isNaN(a.sortNo);
+  const bIsNumber = !isNaN(b.sortNo);
 
   if (aIsNumber && bIsNumber) {
-    return Number(a.sort_no) - Number(b.sort_no);
+    return Number(a.sortNo) - Number(b.sortNo);
   }
   if (aIsNumber) {
     return -1;
@@ -59,14 +61,31 @@ const useConfigurableItems = (descriptionType) => {
       const toAdd = [];
 
       description[descriptionType].forEach((item) => {
-        const itemWithAssembly = {
-          ...item,
-          assembly: robotStore.getAssemblyByDescriptionName(description.name),
-        };
+        const itemWithAssembly =
+          descriptionType === DESCRIPTION_TYPES.MOTORS
+            ? {
+                id: item.id,
+                name: item.name,
+                description: description.name,
+                group: description.group,
+                assembly: robotStore.getAssemblyByDescriptionName(
+                  description.name,
+                ),
+                sortNo: item.sort_no,
+              }
+            : {
+                id: item.id,
+                name: item.name,
+                type: item.type,
+              };
 
         // if the item is present in the configuration store, it is configurable, otherwise it is an option to add
-        if (configurationStore.getItem(item.id)) {
-          toConfigure.push(itemWithAssembly);
+        const configItem = configurationStore.getItem(item.id);
+        if (configItem) {
+          toConfigure.push({
+            ...itemWithAssembly,
+            sortNo: configItem.sort_no, // use the sort_no from the configuration that may have been changed
+          });
         } else {
           toAdd.push(itemWithAssembly);
         }
