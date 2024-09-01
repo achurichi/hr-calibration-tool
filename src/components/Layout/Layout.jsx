@@ -1,36 +1,42 @@
-import React, { createContext } from "react";
+import React, { createContext, forwardRef } from "react";
 
 import styles from "./Layout.module.scss";
 
 const LayoutContext = createContext();
 
-const Layout = ({ children }) => {
+const Layout = forwardRef(({ children }, ref) => {
   return (
     <LayoutContext.Provider value={{}}>
-      <div className={styles.layout}>{children}</div>
+      <div className={styles.layout} ref={ref}>
+        {children}
+      </div>
     </LayoutContext.Provider>
   );
-};
+});
 
-const Topbar = ({ children }) => {
+const Topbar = forwardRef(({ children }, ref) => {
   return (
-    <div className={styles.topbar}>
+    <div className={styles.topbar} ref={ref}>
       <div className={styles["topbar-internal"]}>{children}</div>
     </div>
   );
-};
+});
 
-const Main = ({ children }) => {
+const Main = forwardRef(({ children }, ref) => {
   return (
-    <div className={styles.main}>
+    <div className={styles.main} ref={ref}>
       <div className={styles["main-internal"]}>{children}</div>
     </div>
   );
-};
+});
 
-const Footer = ({ children }) => {
-  return <div className={styles.footer}>{children}</div>;
-};
+const Footer = forwardRef(({ children }, ref) => {
+  return (
+    <div className={styles.footer} ref={ref}>
+      {children}
+    </div>
+  );
+});
 
 Layout.Topbar = Topbar;
 Layout.Main = Main;

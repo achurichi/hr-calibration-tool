@@ -56,6 +56,10 @@ const ConfigurationControls = ({
 
   const onSetValue = () => {
     const numValue = inputValue === "" ? null : Number(inputValue);
+    if (value === numValue) {
+      setShowSetButton(false);
+      return;
+    }
     setValue(name, numValue, { shouldDirty: true });
     trigger();
     setShowSetButton(false);
@@ -150,7 +154,7 @@ const ConfigurationControls = ({
               }}
             />
             {showSetButton && (
-              <Button onClick={() => onSetValue()} ref={setButtonRef}>
+              <Button onClick={onSetValue} ref={setButtonRef}>
                 Set
               </Button>
             )}
