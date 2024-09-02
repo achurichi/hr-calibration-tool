@@ -64,7 +64,12 @@ const MotorConfiguration = observer(() => {
               value={selectedOption}
             />
           </Layout.Topbar>
-          <Layout.Main ref={mainRef}>
+          <Layout.Main
+            ref={mainRef}
+            className={
+              uiConfigurationStore.getFullscreen() ? styles.main : undefined
+            }
+          >
             <RenderWithLoader
               dependencies={[
                 FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
@@ -36,6 +36,12 @@ const AnimationConfiguration = observer(({ animationType }) => {
     methods,
   );
   const selectedOption = uiConfigurationStore.getSelectedOption();
+  const mainRef = useRef(null);
+
+  // scroll to top when animation changes
+  useEffect(() => {
+    mainRef?.current?.scrollTo(0, 0);
+  }, [animationId]);
 
   return (
     <>
@@ -65,7 +71,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
               />
             )}
           </Layout.Topbar>
-          <Layout.Main>
+          <Layout.Main ref={mainRef}>
             <RenderWithLoader
               dependencies={[
                 FUNCTIONS.ANIMATIONS_CONFIGURATION
