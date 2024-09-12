@@ -10,10 +10,8 @@ import Button from "components/Button/Button";
 import Slider from "components/Slider/Slider";
 import Tooltip from "components/Tooltip/Tooltip";
 
-import {
-  getLimitValue,
-  validateRange,
-} from "components/ConfigurationControls/utils";
+import { validateRange } from "components/ConfigurationControls/utils";
+import { getLimitValue } from "utils/numbers";
 import { getError } from "utils/forms";
 
 import styles from "./ConfigurationControls.module.scss";

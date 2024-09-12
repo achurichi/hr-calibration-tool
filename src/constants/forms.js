@@ -1,23 +1,23 @@
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
 
 export const DEFAULT_ADVANCED_FORM = {
-  sort_no: "",
-  motor_id: "",
+  motor_id: null,
+  sort_no: null,
+  speed: null,
+  acceleration: null,
+  torque: null,
   hardware: "",
   transmission: "",
-  speed: "",
-  acceleration: "",
-  torque: "",
   topic: "",
 };
 
 export const DEFAULT_ADVANCED_MAPPING_FORM = {
-  imax1: "",
-  imax2: "",
-  max1: "",
-  max2: "",
-  lin_max: "",
-  lin_min: "",
+  lin_min: null,
+  lin_max: null,
+  imax1: null,
+  max1: null,
+  imax2: null,
+  max2: null,
   parser: "",
   parser_param: "",
   function: "",
