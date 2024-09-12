@@ -34,6 +34,7 @@ const useConfigurationFormSetup = (
   const configurationKeysSignature = JSON.stringify(
     configurationStore.getConfigurationKeys(),
   );
+  const [nameChanged, setNameChanged] = useState(false);
 
   const submitForm = async (data) => {
     // not using itemId because it may be outdated for this function
@@ -61,47 +62,50 @@ const useConfigurationFormSetup = (
 
     if (success) {
       formMethods.reset(data);
+      loadOptions(); // reload options in case the configuration was saved with a new name
     }
+  };
+
+  const loadOptions = async () => {
+    await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
+    const items = descriptionStore.getAssemblyDescriptionItems(itemType);
+
+    if (!items.length) {
+      uiConfigurationStore.setOptions([]);
+      uiConfigurationStore.setSelectedOption(null);
+      return;
+    }
+
+    await configurationStore.getOrFetchAssemblyConfigurations(descriptionType);
+
+    const options = [];
+    items.forEach(({ description, id }) => {
+      const configItem = configurationStore.getItem(id);
+      // don't add items that don't have a configuration
+      if (!configItem) {
+        return;
+      }
+
+      const name = configItem[configurationStore.getNameProp(descriptionType)];
+      const descriptionLabel =
+        description && description !== "-" ? description : "";
+      options.push({
+        label: `${name}${descriptionLabel}`,
+        value: id,
+      });
+    });
+
+    let optionIndex = options.findIndex((o) => o.value === itemId);
+    if (optionIndex === -1) {
+      optionIndex = 0;
+    }
+
+    uiConfigurationStore.setOptions(options);
+    uiConfigurationStore.setSelectedOption(options[optionIndex]);
   };
 
   // load options on mount
   useEffect(() => {
-    const loadOptions = async () => {
-      await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
-      const items = descriptionStore.getAssemblyDescriptionItems(itemType);
-
-      if (!items.length) {
-        uiConfigurationStore.setOptions([]);
-        uiConfigurationStore.setSelectedOption(null);
-        return;
-      }
-
-      await configurationStore.getOrFetchAssemblyConfigurations(
-        descriptionType,
-      );
-
-      const options = [];
-      items.forEach(({ name, description, id }) => {
-        // don't add items that don't have a configuration
-        if (!configurationStore.getItem(id)) {
-          return;
-        }
-
-        options.push({
-          label: `${name}${description ? ` - ${description}` : ""}`,
-          value: id,
-        });
-      });
-
-      let optionIndex = options.findIndex((o) => o.value === itemId);
-      if (optionIndex === -1) {
-        optionIndex = 0;
-      }
-
-      uiConfigurationStore.setOptions(options);
-      uiConfigurationStore.setSelectedOption(options[optionIndex]);
-    };
-
     const setup = async () => {
       setIsLoading(true);
       await loadOptions();
@@ -140,6 +144,19 @@ const useConfigurationFormSetup = (
         formMethods.reset(
           buildDefaultConfigurationForm(configuredItem, descriptionType),
         );
+
+        const nameProp = configurationStore.getNameProp(descriptionType);
+        const configurationName = configuredItem[nameProp];
+        const descriptionName = description.name;
+
+        if (!!configurationName && descriptionName !== configurationName) {
+          formMethods.setValue(nameProp, descriptionName, {
+            shouldDirty: true,
+          });
+          setNameChanged(true); // adding a flag to check if the name was changed because isDirty is not being updated
+        } else {
+          setNameChanged(false);
+        }
       }
 
       let path;
@@ -155,12 +172,22 @@ const useConfigurationFormSetup = (
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOption, itemsDescriptionSignature, configurationKeysSignature]);
+  }, [
+    selectedOption,
+    itemsDescriptionSignature,
+    configurationKeysSignature,
+    formMethods,
+  ]);
 
   useEffect(() => {
-    uiConfigurationStore.checkSaveDisabled(isLoading, isDirty, isValid);
+    uiConfigurationStore.checkSaveDisabled(
+      isLoading,
+      isDirty,
+      isValid,
+      nameChanged,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, isDirty, isValid]);
+  }, [isLoading, isDirty, isValid, nameChanged]);
 
   useEffect(() => {
     uiConfigurationStore.setDirtyForm(isDirty);

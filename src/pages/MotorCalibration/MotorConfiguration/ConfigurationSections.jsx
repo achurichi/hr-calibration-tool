@@ -3,6 +3,8 @@ import { useFormContext } from "react-hook-form";
 import { observer } from "mobx-react";
 import classNames from "classnames";
 
+import Alert from "react-bootstrap/Alert";
+
 import AdvancedForm from "pages/components/Forms/AdvancedForm";
 import ConfigurationControls from "components/ConfigurationControls/ConfigurationControls";
 import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
@@ -15,7 +17,7 @@ import rootStore from "stores/root.store";
 import "./ConfigurationSections.scss";
 
 const ConfigurationSections = observer(({ description }) => {
-  const { uiStore } = rootStore;
+  const { configurationStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { watch } = useFormContext();
   const neutralPositionValue = watch("neutralPositionValue");
@@ -24,8 +26,21 @@ const ConfigurationSections = observer(({ description }) => {
     return null;
   }
 
+  const descriptionName = description.name;
+  const configurationName = configurationStore.getItem(
+    description.id,
+  )?.motorName;
+  const showNameAlert =
+    configurationName && descriptionName !== configurationName;
+
   return (
     <div className="motor-configuration-sections">
+      {showNameAlert && (
+        <Alert className="alert" variant="warning">
+          <b>{configurationName}</b> was renamed to <b>{descriptionName}</b>.
+          Please save to update the configuration.
+        </Alert>
+      )}
       {getSectionData(description, neutralPositionValue).map((position) => (
         <div key={position.prop}>
           <ConfigurationInstructions

@@ -55,6 +55,12 @@ class ConfigurationStore {
     return ids;
   }
 
+  getNameProp(descriptionType) {
+    return descriptionType === DESCRIPTION_TYPES.MOTORS
+      ? "motorName"
+      : "animationName";
+  }
+
   async fetchConfiguration(descriptionType, descriptionName, assembly) {
     const data = await this.rootStore.realmStore.callFunction(
       FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`]

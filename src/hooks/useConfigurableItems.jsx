@@ -23,6 +23,7 @@ const sortFn = (a, b) => {
 const useConfigurableItems = (descriptionType) => {
   const { configurationStore, descriptionStore, robotStore } = rootStore;
   const [descriptions, setDescriptions] = useState([]);
+  const [configurations, setConfigurations] = useState([]);
   const [items, setItems] = useState({ configure: [], add: [] });
   const missingConfigurations = robotStore.checkMissingConfigurations();
 
@@ -30,12 +31,14 @@ const useConfigurableItems = (descriptionType) => {
     const getItems = async () => {
       const descriptions =
         await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
-      await configurationStore.getOrFetchAssemblyConfigurations(
-        descriptionType,
-        true,
-      );
+      const configurations =
+        await configurationStore.getOrFetchAssemblyConfigurations(
+          descriptionType,
+          true,
+        );
 
       setDescriptions(descriptions);
+      setConfigurations(configurations);
     };
 
     if (!missingConfigurations) {
@@ -84,7 +87,9 @@ const useConfigurableItems = (descriptionType) => {
         if (configItem) {
           toConfigure.push({
             ...itemWithAssembly,
-            sortNo: configItem.sort_no, // use the sort_no from the configuration that may have been changed
+            // use name and sort_no from the actual configuration (in the description may have been changed)
+            name: configItem[configurationStore.getNameProp(descriptionType)],
+            sortNo: configItem.sort_no,
           });
         } else {
           toAdd.push(itemWithAssembly);
@@ -100,7 +105,12 @@ const useConfigurableItems = (descriptionType) => {
 
     setItems({ configure: allToConfigure, add: allToAdd });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [descriptions, JSON.stringify(configurationStore.getAllIds())]);
+  }, [
+    configurations,
+    descriptions,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(configurationStore.getAllIds()),
+  ]);
 
   return items;
 };

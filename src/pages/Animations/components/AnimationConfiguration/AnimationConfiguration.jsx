@@ -5,6 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 
 import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
 
+import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 
@@ -25,7 +26,7 @@ import rootStore from "stores/root.store";
 import "./AnimationConfiguration.scss";
 
 const AnimationConfiguration = observer(({ animationType }) => {
-  const { statusStore, uiStore } = rootStore;
+  const { configurationStore, statusStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { animationId } = useParams();
   const methods = useForm();
@@ -42,6 +43,15 @@ const AnimationConfiguration = observer(({ animationType }) => {
   useEffect(() => {
     mainRef?.current?.scrollTo(0, 0);
   }, [animationId]);
+
+  const descriptionName = selectedAnimationDescription?.name;
+  const configurationName = configurationStore.getItem(
+    selectedAnimationDescription?.id,
+  )?.animationName;
+  const showNameAlert =
+    descriptionName &&
+    configurationName &&
+    descriptionName !== configurationName;
 
   return (
     <>
@@ -62,6 +72,16 @@ const AnimationConfiguration = observer(({ animationType }) => {
               placeholder="Loading..."
               value={selectedOption}
             />
+            {showNameAlert && (
+              <Alert
+                className="animation-configuration-alert"
+                variant="warning"
+              >
+                <b>{configurationName}</b> was renamed to{" "}
+                <b>{descriptionName}</b>. Please save to update the
+                configuration.
+              </Alert>
+            )}
             {!!selectedAnimationDescription && (
               <ConfigurationInstructions
                 className={"animation-configuration-instructions"}

@@ -5,6 +5,10 @@ $modal-offset: 8.5rem;
   flex-direction: column;
   gap: 1.5rem;
 
+  .alert {
+    margin-bottom: 0;
+  }
+
   .fullscreen-controls {
     background: white;
     bottom: 0;

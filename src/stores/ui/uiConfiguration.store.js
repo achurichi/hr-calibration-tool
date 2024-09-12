@@ -144,11 +144,11 @@ class UiConfigurationStore {
     return currentIndex === -1 || currentIndex === this.options.length - 1;
   }
 
-  checkSaveDisabled(isLoading, isDirty, isValid) {
+  checkSaveDisabled(isLoading, isDirty, isValid, nameChanged) {
     let reason = null;
     if (isLoading) {
       reason = "Loading...";
-    } else if (!isDirty) {
+    } else if (!nameChanged && !isDirty) {
       reason = "Edit values to enable saving";
     } else if (!isValid) {
       reason = "Some fields are invalid";
