@@ -1,0 +1,67 @@
+exports = async function(motorsMap){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const descCollection  = db.collection("calibMotorsDescription");
+  const configCollection = db.collection("calibMotorsConfiguration");
+
+  for (const assembly in motorsMap) {
+    let description;
+    let configuration;
+    const motorIds = motorsMap[assembly]
+  
+    // Find description and configuration
+    try {
+      configuration = await configCollection.findOne({assembly});
+      description = await descCollection.findOne({name: configuration.descriptionName});
+    } catch(err) {
+      console.log("Error occurred while getting description and configuration:", err.message);
+      return { error: err.message };
+    }
+
+    const descMotorIds = description.motors?.map((m) => m.id) || []
+    if (motorIds.some((id) => !descMotorIds.includes(id))) {
+      return { error: 'Motor not found' };
+    }
+
+    const configMotorIds = configuration.motors?.map((m) => m.descId) || []
+    if(motorIds.some((m) => configMotorIds.includes(m.id))) {
+      return { error: 'Motor already added' };
+    }
+    
+    let motors = configuration.motors || []
+    motorIds.forEach((id) => {
+      const motor = description.motors?.find((m) => m.id === id)
+
+      if (!motor) {
+        return
+      }
+
+      motorProps = {
+        descId: motor.id,
+        motorName: motor.name,
+        neutralPositionValue: motor.neutralPosition.defaultValue,
+        maxPositionValue: motor.maxPosition.defaultValue,
+        minPositionValue: motor.minPosition.defaultValue,
+      }
+      
+      const advancedProps =  ["sort_no" ,"motor_id" ,"hardware" ,"transmission" ,"speed" ,"acceleration" ,"torque" ,"topic" ,"mapping"]
+      advancedProps.forEach((prop) => {
+        if (Object.hasOwn(motor, prop)) {
+          motorProps[prop] = motor[prop]
+        }
+      })
+      
+      motors.push(motorProps);
+    })
+    
+    // Save updated configuration
+    try {
+      await configCollection.updateOne({assembly}, {...configuration, motors});
+    } catch(err) {
+      console.log("Error occurred while updating motor:", err.message);
+      return { error: err.message };
+    }
+  }
+};

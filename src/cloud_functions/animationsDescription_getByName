@@ -1,0 +1,19 @@
+exports = async function(name){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibAnimationsDescription");
+
+  let description;
+  try {
+    description = await collection.findOne({name});
+    
+  } catch(err) {
+    console.log("Error occurred while getting description:", err.message);
+
+    return { error: err.message };
+  }
+
+  return { result: description };
+};

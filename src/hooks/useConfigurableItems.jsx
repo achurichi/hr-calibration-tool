@@ -48,56 +48,61 @@ const useConfigurableItems = (descriptionType) => {
   }, [missingConfigurations, JSON.stringify(robotStore.getAssemblyIds())]);
 
   useEffect(() => {
-    if (!descriptions.length) {
+    if (!configurations.length) {
       return;
     }
 
     const allToConfigure = [];
     const allToAdd = [];
 
-    descriptions.forEach((description) => {
-      if (!description?.[descriptionType]) {
+    console.log("configurations", configurations);
+    console.log("descriptions", descriptions);
+
+    configurations.forEach((configuration) => {
+      if (!configuration?.[descriptionType]) {
         return;
       }
 
-      const toConfigure = [];
-      const toAdd = [];
+      // const toConfigure = [];
+      // const toAdd = [];
 
-      description[descriptionType].forEach((item) => {
-        const itemWithAssembly =
-          descriptionType === DESCRIPTION_TYPES.MOTORS
-            ? {
-                id: item.id,
-                name: item.name,
-                description: item.description,
-                group: item.group,
-                assembly: robotStore.getAssemblyByDescriptionName(
-                  description.name,
-                ),
-                sortNo: item.sort_no,
-              }
-            : {
-                id: item.id,
-                name: item.name,
-                type: item.type,
-              };
+      const toConfigure = configuration[descriptionType].map((item) => {
+        return descriptionType === DESCRIPTION_TYPES.MOTORS
+          ? {
+              id: item.descId,
+              name: item.motorName,
+              motorId: item.motor_id,
+              min: item.minPositionValue,
+              max: item.maxPositionValue,
+              neutral: item.neutralPositionValue,
+              group: item.group, // check
+              assembly: robotStore.getAssemblyByDescriptionName(
+                configuration.descriptionName,
+              ),
+              sortNo: item.sort_no,
+            }
+          : {
+              id: item.animationId,
+              name: item.animationName,
+              type: item.type, // check
+            };
 
         // if the item is present in the configuration store, it is configurable, otherwise it is an option to add
-        const configItem = configurationStore.getItem(item.id);
-        if (configItem) {
-          toConfigure.push({
-            ...itemWithAssembly,
-            // use name and sort_no from the actual configuration (in the description may have been changed)
-            name: configItem[configurationStore.getNameProp(descriptionType)],
-            sortNo: configItem.sort_no,
-          });
-        } else {
-          toAdd.push(itemWithAssembly);
-        }
+        // const configItem = configurationStore.getItem(item.id);
+        // if (configItem) {
+        //   toConfigure.push({
+        //     ...itemWithAssembly,
+        //     // use name and sort_no from the actual configuration (in the description may have been changed)
+        //     name: configItem[configurationStore.getNameKey(descriptionType)],
+        //     sortNo: configItem.sort_no,
+        //   });
+        // } else {
+        //   toAdd.push(itemWithAssembly);
+        // }
       });
 
       allToConfigure.push(...toConfigure);
-      allToAdd.push(...toAdd);
+      // allToAdd.push(...toAdd);
     });
 
     allToConfigure.sort(sortFn);

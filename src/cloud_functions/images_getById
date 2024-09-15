@@ -1,0 +1,19 @@
+exports = async function(id){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibImage");
+
+  let image;
+  try {
+    image = await collection.findOne({
+      "_id":new BSON.ObjectId(id)
+    });
+  } catch(err) {
+    console.log("Error occurred while getting image:", err.message);
+    return { error: err.message };
+  }
+
+  return { result: image };
+};

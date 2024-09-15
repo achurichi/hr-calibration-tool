@@ -1,0 +1,49 @@
+exports = async function(descriptionName, animationId){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibAnimationsDescription");
+
+  let description;
+
+  // Find description
+  try {
+    description = await collection.findOne({name: descriptionName});
+  } catch(err) {
+    console.log("Error occurred while getting description:", err.message);
+    return { error: err.message };
+  }
+  
+  let animations = description.animations || []
+  animations = animations.filter(({id}) => id !== animationId )
+
+  // Save updated description
+  try {
+    await collection.updateOne({name: descriptionName}, {...description, animations});
+  } catch(err) {
+    console.log("Error occurred while deleting animation:", err.message);
+    return { error: err.message };
+  }
+
+  // Delete old images
+  try {
+    const animation = description.animations.find(({id}) => id === animationId)
+    const animationImages = animation?.images || []
+    if(animationImages.length) {
+      context.functions.execute('images_deleteOld', animationImages, [])
+    }
+  } catch(err) {
+    console.log("Error occurred while deleting old images:", err.message);
+  }
+
+  // Get updated description
+  try {
+    description = await collection.findOne({name: descriptionName});
+  } catch(err) {
+    console.log("Error occurred while getting description:", err.message);
+    return { error: err.message };
+  }
+
+  return { result: description };
+};

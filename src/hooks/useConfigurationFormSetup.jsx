@@ -86,7 +86,7 @@ const useConfigurationFormSetup = (
         return;
       }
 
-      const name = configItem[configurationStore.getNameProp(descriptionType)];
+      const name = configItem[configurationStore.getNameKey(descriptionType)];
       const descriptionLabel =
         description && description !== "-" ? description : "";
       options.push({
@@ -145,12 +145,12 @@ const useConfigurationFormSetup = (
           buildDefaultConfigurationForm(configuredItem, descriptionType),
         );
 
-        const nameProp = configurationStore.getNameProp(descriptionType);
-        const configurationName = configuredItem[nameProp];
+        const nameKey = configurationStore.getNameKey(descriptionType);
+        const configurationName = configuredItem[nameKey];
         const descriptionName = description.name;
 
         if (!!configurationName && descriptionName !== configurationName) {
-          formMethods.setValue(nameProp, descriptionName, {
+          formMethods.setValue(nameKey, descriptionName, {
             shouldDirty: true,
           });
           setNameChanged(true); // adding a flag to check if the name was changed because isDirty is not being updated

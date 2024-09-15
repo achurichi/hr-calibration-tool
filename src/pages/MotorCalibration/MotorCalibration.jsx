@@ -29,7 +29,10 @@ import styles from "./MotorCalibration.module.scss";
 
 const TABLE_HEADERS = [
   { key: "name", label: "Name", className: styles["id-column"] },
-  { key: "description", label: "Description" },
+  { key: "motorId", label: "Id" },
+  { key: "min", label: "Min" },
+  { key: "neutral", label: "Neutral" },
+  { key: "max", label: "Max" },
   { key: "group", label: "Group" },
   { key: "assembly", label: "Assembly" },
   { key: "action", label: "" },
@@ -107,10 +110,13 @@ const MotorCalibration = observer(() => {
   }
 
   const rows = motors.map((motor) => {
-    const { assembly, description, group, id, name } = motor;
+    const { assembly, motorId, group, id, name, min, max, neutral } = motor;
     return {
       name,
-      description: description || <EmptyField text="No description" />,
+      motorId: motorId,
+      min: min,
+      max: max,
+      neutral: neutral,
       group: group || <EmptyField text="No group" />,
       assembly: assembly,
       action: (

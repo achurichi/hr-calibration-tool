@@ -1,0 +1,36 @@
+exports = async function(name){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const motorsCollection = db.collection("calibMotorsDescription");
+  const animationsCollection = db.collection("calibAnimationsDescription");
+
+  let motorsNames;
+  let animationsNames;
+
+  // Find descriptions
+  try {
+    motorsNames = (await motorsCollection.find({}).toArray()).map(({name}) => name);
+    animationsNames = (await animationsCollection.find({}).toArray()).map(({name}) => name);
+  } catch(err) {
+    console.log("Error occurred while getting description names:", err.message);
+    return { error: err.message };
+  }
+  
+  // Check that the name is not repeated
+  if(motorsNames.some((motorName) => motorName === name) || animationsNames.some((animationName) => animationName === name)) {
+    return { error: 'Name already exists' };
+  }
+
+  // Save updated description
+  try {
+    await motorsCollection.insertOne({name, motors: [] });
+    await animationsCollection.insertOne({name, animations: [] });
+  } catch(err) {
+    console.log("Error occurred while creating descriptions:", err.message);
+    return { error: err.message };
+  }
+
+  return
+};

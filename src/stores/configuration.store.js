@@ -55,7 +55,13 @@ class ConfigurationStore {
     return ids;
   }
 
-  getNameProp(descriptionType) {
+  getIdKey(descriptionType) {
+    return descriptionType === DESCRIPTION_TYPES.MOTORS
+      ? "descId"
+      : "animationId";
+  }
+
+  getNameKey(descriptionType) {
     return descriptionType === DESCRIPTION_TYPES.MOTORS
       ? "motorName"
       : "animationName";

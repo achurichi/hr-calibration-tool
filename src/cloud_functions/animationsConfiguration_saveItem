@@ -1,0 +1,54 @@
+exports = async function(descriptionName, assembly, animation){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibAnimationsConfiguration");
+
+  let configuration;
+
+  // Find configuration
+  try {
+    configuration = await collection.findOne({descriptionName, assembly});
+  } catch(err) {
+    console.log("Error occurred while getting configuration:", err.message);
+    return { error: err.message };
+  }
+
+  // If the configuration object doesn't exist create a new one
+  if(!configuration) {
+    configuration = {
+      descriptionName,
+      assembly,
+      animations: [],
+    }
+  }
+  
+  let animations = configuration.animations || []
+  
+  // Update animations list
+  const index = animations.findIndex(({animationId}) => animationId === animation.animationId)
+  if(index === -1) {
+    animations.push(animation)  
+  } else {
+    animations[index] = animation  
+  }
+
+  // Save updated configuration
+  try {
+    await collection.updateOne({descriptionName, assembly}, {...configuration, animations}, { upsert: true });
+  } catch(err) {
+    console.log("Error occurred while updating animation:", err.message);
+    return { error: err.message };
+  }
+
+  // Get updated configuration
+  try {
+    configuration = await collection.findOne({descriptionName, assembly});
+  } catch(err) {
+    console.log("Error occurred while getting animation:", err.message);
+    return { error: err.message };
+  }
+
+  return { result: configuration };
+};

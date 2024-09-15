@@ -3,6 +3,7 @@ import AdvancedMapping from "../AdvancedMapping";
 class MotorConfiguration {
   descId;
   motorName;
+  group;
   neutralPositionValue;
   minPositionValue;
   maxPositionValue;
@@ -21,6 +22,7 @@ class MotorConfiguration {
   constructor(data) {
     this.descId = data.descId;
     this.motorName = data.motorName;
+    this.group = data.group;
     this.neutralPositionValue = data.neutralPositionValue;
     this.minPositionValue = data.minPositionValue;
     this.maxPositionValue = data.maxPositionValue;

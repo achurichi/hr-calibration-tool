@@ -1,0 +1,19 @@
+exports = async function(descriptionName, assembly){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibMotorsConfiguration");
+
+  let config;
+  try {
+    config = await collection.findOne({descriptionName, assembly});
+    
+  } catch(err) {
+    console.log("Error occurred while getting configuration:", err.message);
+
+    return { error: err.message };
+  }
+
+  return { result: config };
+};

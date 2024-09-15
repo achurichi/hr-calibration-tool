@@ -1,0 +1,26 @@
+exports = async function(base64){
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibImage");
+
+  let image
+  let insertResult
+  
+  try {
+    insertResult = await collection.insertOne({base64});
+  } catch(err) {
+    console.log("Error occurred while saving image:", err.message);
+    return { error: err.message };
+  }
+  
+  try {
+    image = await collection.findOne({_id: insertResult.insertedId});
+  } catch(err) {
+    console.log("Error occurred while getting image:", err.message);
+    return { error: err.message };
+  }
+
+  return { result: image };
+};

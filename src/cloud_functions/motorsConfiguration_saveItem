@@ -1,0 +1,58 @@
+exports = async function (descriptionName, assembly, motor) {
+  const serviceName = "mongodb-atlas";
+  const dbName = "HrDataDev";
+
+  const db = context.services.get(serviceName).db(dbName);
+  const collection = db.collection("calibMotorsConfiguration");
+
+  let configuration;
+
+  // Find configuration
+  try {
+    configuration = await collection.findOne({ descriptionName, assembly });
+  } catch (err) {
+    console.log("Error occurred while getting configuration:", err.message);
+    return { error: err.message };
+  }
+
+  // If the configuration object doesn't exist create a new one
+  if (!configuration) {
+    configuration = {
+      descriptionName,
+      assembly,
+      motors: [],
+    };
+  }
+
+  let motors = configuration.motors || [];
+
+  // Update motors list
+  const index = motors.findIndex(({ descId }) => descId === motor.descId);
+  if (index === -1) {
+    motors.push(motor);
+  } else {
+    motors[index] = motor;
+  }
+
+  // Save updated configuration
+  try {
+    await collection.updateOne(
+      { descriptionName, assembly },
+      { ...configuration, motors },
+      { upsert: true },
+    );
+  } catch (err) {
+    console.log("Error occurred while updating motor:", err.message);
+    return { error: err.message };
+  }
+
+  // Get updated configuration
+  try {
+    configuration = await collection.findOne({ descriptionName, assembly });
+  } catch (err) {
+    console.log("Error occurred while getting motor:", err.message);
+    return { error: err.message };
+  }
+
+  return { result: configuration };
+};
