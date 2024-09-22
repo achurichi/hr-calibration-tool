@@ -21,6 +21,8 @@ import Table from "components/Table/Table";
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
 import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 import { PATHS } from "constants/routes";
 
 import rootStore from "stores/root.store";
@@ -39,7 +41,7 @@ const TABLE_HEADERS = [
 ];
 
 const MotorCalibration = observer(() => {
-  const { configurationStore, filtersStore, robotStore, statusStore } =
+  const { configurationStore, filtersStore, robotStore, requestStore } =
     rootStore;
   const { configure: configurableMotors, add: addableMotors } =
     useConfigurableItems(DESCRIPTION_TYPES.MOTORS);
@@ -142,8 +144,8 @@ const MotorCalibration = observer(() => {
         <MotorsFilter motors={configurableMotors} />
         <RenderWithLoader
           dependencies={[
-            FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
-            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+            MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+            MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
           ]}
           loadingComponent={<Spinner className={styles.spinner} />}
         >
@@ -164,9 +166,9 @@ const MotorCalibration = observer(() => {
           </div>
         </RenderWithLoader>
         <AddMotorsModal
-          disabled={statusStore.isLoading([
+          disabled={requestStore.isLoading([
             FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
-            FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+            MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
           ])}
           motors={addableMotors}
           onCancel={() => setShowAddModal(false)}
@@ -176,7 +178,7 @@ const MotorCalibration = observer(() => {
         <ConfirmationModal
           confirmLabel="Delete"
           confirmVariant="danger"
-          disabled={statusStore.isLoading(
+          disabled={requestStore.isLoading(
             FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
           )}
           message={

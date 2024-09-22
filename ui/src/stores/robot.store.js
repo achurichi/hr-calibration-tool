@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-import { FUNCTIONS } from "constants/mongo";
-
 const DEFAULT_CONFIGURATION = {
   head: { assembly: null, descriptionName: null },
   body: { assembly: null, descriptionName: null },
@@ -92,10 +90,10 @@ class RobotStore {
       return;
     }
 
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES_BY_ASSEMBLY,
-      assemblyIds,
-    );
+    const data =
+      await this.rootStore.api.calibrationTool.descriptions.namesByAssembly(
+        assemblyIds,
+      );
 
     this._setConfiguration(assemblies, data);
   }

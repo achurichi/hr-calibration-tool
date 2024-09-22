@@ -1,20 +1,24 @@
 import { makeAutoObservable } from "mobx";
+import ConfigurationStore from "stores/configuration.store";
 import DescriptionStore from "stores/description.store";
 import FiltersStore from "stores/filters.store";
-import ConfigurationStore from "stores/configuration.store";
 import RealmStore from "stores/realm.store";
-import RobotStore from "./robot.store";
-import StatusStore from "stores/status.store";
+import RequestStore from "stores/request.store";
+import RobotStore from "stores/robot.store";
 import UiStore from "stores/ui/ui.store";
+import RootApi from "apis/api";
 
 class RootStore {
   static instance;
+
   configurationStore;
   filtersStore;
   realmStore;
+  requestStore;
   robotStore;
-  statusStore;
   uiStore;
+
+  api;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -23,9 +27,11 @@ class RootStore {
     this.descriptionStore = new DescriptionStore(this);
     this.filtersStore = new FiltersStore(this);
     this.realmStore = new RealmStore(this);
+    this.requestStore = new RequestStore(this);
     this.robotStore = new RobotStore(this);
-    this.statusStore = new StatusStore(this);
     this.uiStore = new UiStore(this);
+
+    this.api = new RootApi(this);
   }
 
   static getInstance() {

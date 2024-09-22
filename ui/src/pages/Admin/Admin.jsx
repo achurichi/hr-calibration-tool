@@ -17,6 +17,7 @@ import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
 import rootStore from "stores/root.store";
 
 import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 
 import styles from "./Admin.module.scss";
 
@@ -44,7 +45,7 @@ const Admin = observer(() => {
         <Layout.Main>
           <RenderWithLoader
             dependencies={[
-              FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
+              MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
               FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
               FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES,
             ]}

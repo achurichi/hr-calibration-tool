@@ -26,7 +26,7 @@ import rootStore from "stores/root.store";
 import "./AnimationConfiguration.scss";
 
 const AnimationConfiguration = observer(({ animationType }) => {
-  const { configurationStore, statusStore, uiStore } = rootStore;
+  const { configurationStore, requestStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { animationId } = useParams();
   const methods = useForm();
@@ -60,7 +60,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
           <Layout.Topbar>
             <Select
               className={"animation-configuration-select"}
-              isDisabled={statusStore.isLoading(
+              isDisabled={requestStore.isLoading(
                 FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
               )}
               onChange={(option) => {

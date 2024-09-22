@@ -58,24 +58,24 @@ class RealmStore {
   }
 
   async callFunction(functionName, ...args) {
-    const statusStore = this.rootStore.statusStore;
+    const requestStore = this.rootStore.requestStore;
 
-    statusStore.setStatus(functionName, STATUS_TYPES.LOADING);
+    requestStore.setStatus(functionName, STATUS_TYPES.IN_PROGRESS);
 
     let response;
     try {
       response = await this.app.currentUser.callFunction(functionName, ...args);
     } catch (error) {
-      statusStore.setStatus(functionName, STATUS_TYPES.ERROR, "API error");
+      requestStore.setStatus(functionName, STATUS_TYPES.ERROR, "API error");
       return null;
     }
 
     if (response?.error) {
-      statusStore.setStatus(functionName, STATUS_TYPES.ERROR, response.error);
+      requestStore.setStatus(functionName, STATUS_TYPES.ERROR, response.error);
       return null;
     }
 
-    statusStore.setStatus(functionName, STATUS_TYPES.SUCCESS);
+    requestStore.setStatus(functionName, STATUS_TYPES.SUCCESS);
     return response?.result
       ? JSON.parse(JSON.stringify(response.result))
       : null;

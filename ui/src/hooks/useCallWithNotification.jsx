@@ -5,7 +5,7 @@ import rootStore from "stores/root.store";
 import { STATUS_TYPES } from "constants/status";
 
 const useCallWithNotification = () => {
-  const { statusStore } = rootStore;
+  const { requestStore } = rootStore;
 
   const callWithNotification = async (
     fn,
@@ -14,7 +14,7 @@ const useCallWithNotification = () => {
     errorMessage,
   ) => {
     const result = { result: await fn() };
-    const status = statusStore.getStatus(statusId);
+    const status = requestStore.getStatus(statusId);
 
     if (status.type === STATUS_TYPES.SUCCESS) {
       result.success = true;

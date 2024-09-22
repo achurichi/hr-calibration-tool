@@ -20,13 +20,15 @@ import {
   DESCRIPTION_TYPES,
 } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 
 import rootStore from "stores/root.store";
 
 import styles from "./MotorConfiguration.module.scss";
 
 const MotorConfiguration = observer(() => {
-  const { statusStore, uiStore } = rootStore;
+  const { requestStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { motorId } = useParams();
   const methods = useForm();
@@ -51,7 +53,7 @@ const MotorConfiguration = observer(() => {
           <Layout.Topbar>
             <Select
               className={styles.select}
-              isDisabled={statusStore.isLoading(
+              isDisabled={requestStore.isLoading(
                 FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM,
               )}
               onChange={(option) => {
@@ -72,8 +74,8 @@ const MotorConfiguration = observer(() => {
           >
             <RenderWithLoader
               dependencies={[
-                FUNCTIONS.MOTORS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
-                FUNCTIONS.MOTORS_DESCRIPTION.GET_BY_NAME,
+                MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+                MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
               ]}
               loadingComponent={<Spinner className={styles.spinner} />}
             >

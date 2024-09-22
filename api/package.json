@@ -1,0 +1,22 @@
+{
+	"name": "hr-calibration-tool-api",
+	"version": "1.0.0",
+	"description": "HR Calibration Tool API",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "nodemon --env-file=.env src",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.21.0",
+		"http-status": "^1.7.4",
+		"mongodb": "^6.9.0"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.4"
+	}
+}

@@ -23,7 +23,7 @@ const TABLE_HEADERS = [
 ];
 
 const CreateConfiguration = observer(() => {
-  const { configurationStore, descriptionStore, robotStore, statusStore } =
+  const { configurationStore, descriptionStore, robotStore, requestStore } =
     rootStore;
   const callWithNotification = useCallWithNotification();
   const [options, setOptions] = useState([]);
@@ -106,7 +106,7 @@ const CreateConfiguration = observer(() => {
           disabled={
             isEmpty(selectedDescriptions) ||
             Object.values(selectedDescriptions).some((value) => !value) ||
-            statusStore.isLoading(FUNCTIONS.CONFIGURATIONS.CREATE_MANY)
+            requestStore.isLoading(FUNCTIONS.CONFIGURATIONS.CREATE_MANY)
           }
           onClick={createConfigurations}
         >

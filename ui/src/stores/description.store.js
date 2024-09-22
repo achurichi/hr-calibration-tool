@@ -116,10 +116,10 @@ class DescriptionStore {
   }
 
   async fetchDescription(type, descriptionName) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].GET_BY_NAME,
-      descriptionName,
-    );
+    const data =
+      await this.rootStore.api.calibrationTool.descriptions[type].getByName(
+        descriptionName,
+      );
     this._saveDescription(type, data);
     return this.getDescription(type, descriptionName);
   }
@@ -175,7 +175,7 @@ class DescriptionStore {
   setLoadingImage(id) {
     this.referenceImages.set(id, {
       base64: null,
-      status: STATUS_TYPES.LOADING,
+      status: STATUS_TYPES.IN_PROGRESS,
     });
   }
 

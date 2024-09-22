@@ -4,8 +4,8 @@ import rootStore from "stores/root.store";
 
 const RenderWithLoader = observer(
   ({ dependencies, loadingComponent, children }) => {
-    const { statusStore } = rootStore;
-    const isLoading = statusStore.isLoading(dependencies);
+    const { requestStore } = rootStore;
+    const isLoading = requestStore.isLoading(dependencies);
 
     if (isLoading) {
       return loadingComponent;

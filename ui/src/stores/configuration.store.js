@@ -68,12 +68,9 @@ class ConfigurationStore {
   }
 
   async fetchConfiguration(descriptionType, descriptionName, assembly) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`]
-        .GET_BY_DESCRIPTION_AND_ASSEMBLY,
-      descriptionName,
-      assembly,
-    );
+    const data = await this.rootStore.api.calibrationTool.configurations[
+      descriptionType
+    ].getByDescriptionAndAssembly(descriptionName, assembly);
     return this._saveConfiguration(descriptionType, data);
   }
 

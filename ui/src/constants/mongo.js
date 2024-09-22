@@ -5,20 +5,19 @@ export const FUNCTIONS = {
   DESCRIPTIONS: {
     CREATE: "descriptions_create",
     DELETE_BY_NAME: "descriptions_deleteByName",
-    GET_DESCRIPTION_NAMES_BY_ASSEMBLY:
-      "descriptions_getDescriptionNamesByAssembly",
+    // GET_NAMES_BY_ASSEMBLY: "descriptions_getDescriptionNamesByAssembly",
     GET_DESCRIPTION_NAMES: "descriptions_getDescriptionNames",
   },
   MOTORS_CONFIGURATION: {
     ADD_ITEMS: "motorsConfiguration_addItems",
     DELETE_ITEM: "motorsConfiguration_deleteItem",
-    GET_BY_DESCRIPTION_AND_ASSEMBLY:
-      "motorsConfiguration_getByDescriptionAndAssembly",
+    // GET_BY_DESCRIPTION_AND_ASSEMBLY:
+    // "motorsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "motorsConfiguration_saveItem",
   },
   MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescription_deleteItem",
-    GET_BY_NAME: "motorsDescription_getByName",
+    // GET_BY_NAME: "motorsDescription_getByName",
     SAVE_ITEM: "motorsDescription_saveItem",
   },
   ANIMATIONS_CONFIGURATION: {

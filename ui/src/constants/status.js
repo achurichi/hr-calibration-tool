@@ -1,6 +1,6 @@
 export const STATUS_TYPES = {
-  INITIAL: "initial",
-  LOADING: "loading",
-  SUCCESS: "success",
-  ERROR: "error",
+  INITIAL: "INITIAL",
+  IN_PROGRESS: "IN_PROGRESS",
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
 };

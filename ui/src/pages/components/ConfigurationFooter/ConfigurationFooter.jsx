@@ -14,10 +14,10 @@ import styles from "./ConfigurationFooter.module.scss";
 
 const ConfigurationFooter = observer(
   ({ checkboxProps, descriptionType, showMotorData }) => {
-    const { statusStore, uiStore } = rootStore;
+    const { requestStore, uiStore } = rootStore;
     const { uiConfigurationStore } = uiStore;
     const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
-    const saving = statusStore.isLoading(
+    const saving = requestStore.isLoading(
       FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
     );
 
