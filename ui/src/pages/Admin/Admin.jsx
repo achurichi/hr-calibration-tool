@@ -16,9 +16,9 @@ import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
 
 import rootStore from "stores/root.store";
 
-import { FUNCTIONS } from "constants/mongo";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
+import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/descriptionsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 
 import styles from "./Admin.module.scss";
 
@@ -47,8 +47,8 @@ const Admin = observer(() => {
           <RenderWithLoader
             dependencies={[
               ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
+              DESCRIPTIONS_REQUESTS.GET_ALL_DESCRIPTION_NAMES,
               MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
-              FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES,
             ]}
             loadingComponent={<Spinner className={styles.spinner} />}
           >

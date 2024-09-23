@@ -4,6 +4,7 @@ import AnimationsApi from "./animations/animationsApi";
 import MotorsApi from "./motors/motorsApi";
 
 export const REQUEST_IDS = {
+  GET_ALL_DESCRIPTION_NAMES: "GET_ALL_DESCRIPTION_NAMES",
   GET_NAMES_BY_ASSEMBLY: "GET_NAMES_BY_ASSEMBLY",
 };
 
@@ -18,6 +19,14 @@ class DescriptionsApi {
 
   get base() {
     return "/descriptions";
+  }
+
+  async getAllDescriptionNames() {
+    const { data } = await REQUESTS.get(
+      REQUEST_IDS.GET_ALL_DESCRIPTION_NAMES,
+      `${this.base}/allDescriptionNames`,
+    );
+    return data || null;
   }
 
   async namesByAssembly(assembliesIds) {

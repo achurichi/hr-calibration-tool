@@ -92,9 +92,8 @@ class DescriptionStore {
   }
 
   async fetchDescriptionNames() {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.DESCRIPTIONS.GET_DESCRIPTION_NAMES,
-    );
+    const data =
+      await this.rootStore.api.calibrationTool.descriptions.getAllDescriptionNames();
     if (data) {
       this._setDescriptionNames(data);
     }

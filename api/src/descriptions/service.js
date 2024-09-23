@@ -39,6 +39,27 @@ const namesByAssembly = async function (assemblies) {
 }
 
 /**
+ * Retrieves all description names.
+ *
+ * @returns {Promise<string[]>} A promise that resolves to an array of description names.
+ * @throws Will throw an error if there is an issue retrieving the descriptions.
+ */
+const allDescriptionNames = async function () {
+	const collection = await mongoDBClient.getCollection(
+		COLLECTIONS.MOTORS_DESCRIPTION
+	)
+
+	try {
+		return (await collection.find({}).toArray()).map(({ name }) => name)
+	} catch (err) {
+		logErrorAndThrow(
+			`Error occurred while getting descriptions: ${err.message}`,
+			`Could not get descriptions`
+		)
+	}
+}
+
+/**
  * Finds a document by its name in the specified collection.
  *
  * @param {string} name - The name of the document to find.
@@ -60,6 +81,7 @@ const findByName = async function (name, collectionName) {
 }
 
 export default {
+	allDescriptionNames,
 	findByName,
 	namesByAssembly,
 }

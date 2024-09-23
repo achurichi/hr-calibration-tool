@@ -8,6 +8,7 @@ const router = express.Router()
 router.use('/animations', animationsRouter)
 router.use('/motors', motorsRouter)
 
+router.get('/allDescriptionNames', handlers.allDescriptionNames)
 router.post('/namesByAssembly', handlers.namesByAssembly)
 
 export default router
