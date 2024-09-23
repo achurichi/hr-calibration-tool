@@ -21,7 +21,7 @@ const findByDescriptionAndAssembly = async (req, res) => {
 			await configurationsService.findByDescriptionAndAssembly(
 				descriptionName,
 				assembly,
-				COLLECTIONS.MOTORS_CONFIGURATION
+				COLLECTIONS.ANIMATIONS_CONFIGURATION
 			)
 		return res.status(httpStatus.OK).send(configuration)
 	} catch (err) {

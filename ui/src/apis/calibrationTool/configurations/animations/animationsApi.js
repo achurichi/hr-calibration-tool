@@ -5,13 +5,13 @@ export const REQUEST_IDS = {
     "GET_CONFIGURATION_BY_DESCRIPTION_AND_ASSEMBLY",
 };
 
-class MotorsApi {
+class AnimationsApi {
   constructor(parent) {
     this.parent = parent;
   }
 
   get base() {
-    return `${this.parent.base}/motors`;
+    return `${this.parent.base}/animations`;
   }
 
   async getByDescriptionAndAssembly(descriptionName, assembly) {
@@ -23,4 +23,4 @@ class MotorsApi {
   }
 }
 
-export default MotorsApi;
+export default AnimationsApi;

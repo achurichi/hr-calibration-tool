@@ -21,13 +21,13 @@ export const FUNCTIONS = {
     SAVE_ITEM: "motorsDescription_saveItem",
   },
   ANIMATIONS_CONFIGURATION: {
-    GET_BY_DESCRIPTION_AND_ASSEMBLY:
-      "animationsConfiguration_getByDescriptionAndAssembly",
+    // GET_BY_DESCRIPTION_AND_ASSEMBLY:
+    // "animationsConfiguration_getByDescriptionAndAssembly",
     SAVE_ITEM: "animationsConfiguration_saveItem",
   },
   ANIMATIONS_DESCRIPTION: {
     DELETE_ITEM: "animationsDescription_deleteItem",
-    GET_BY_NAME: "animationsDescription_getByName",
+    // GET_BY_NAME: "animationsDescription_getByName",
     SAVE_ITEM: "animationsDescription_saveItem",
   },
   IMAGES: {

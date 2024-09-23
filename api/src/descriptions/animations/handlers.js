@@ -14,7 +14,7 @@ const findByName = async (req, res) => {
 	try {
 		const description = await descriptionsService.findByName(
 			name,
-			COLLECTIONS.MOTORS_DESCRIPTION
+			COLLECTIONS.ANIMATIONS_DESCRIPTION
 		)
 		return res.status(httpStatus.OK).send(description)
 	} catch (err) {

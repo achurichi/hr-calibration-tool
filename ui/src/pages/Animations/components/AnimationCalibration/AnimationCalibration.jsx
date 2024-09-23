@@ -11,7 +11,8 @@ import Spinner from "components/Spinner/Spinner";
 import Table from "components/Table/Table";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/animations/animationsApi";
+import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
 
 import rootStore from "stores/root.store";
 
@@ -67,8 +68,8 @@ const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
         <SearchBar placeholder="Search by Name" onChange={setSearchInput} />
         <RenderWithLoader
           dependencies={[
-            FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
-            FUNCTIONS.ANIMATIONS_CONFIGURATION.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+            ANIMATIONS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+            ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
           ]}
           loadingComponent={<Spinner className={styles.spinner} />}
         >

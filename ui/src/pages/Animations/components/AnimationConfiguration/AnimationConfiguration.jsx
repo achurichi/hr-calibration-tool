@@ -19,6 +19,8 @@ import Spinner from "components/Spinner/Spinner";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/animations/animationsApi";
+import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
 
 import rootStore from "stores/root.store";
 
@@ -94,9 +96,8 @@ const AnimationConfiguration = observer(({ animationType }) => {
           <Layout.Main ref={mainRef}>
             <RenderWithLoader
               dependencies={[
-                FUNCTIONS.ANIMATIONS_CONFIGURATION
-                  .GET_BY_DESCRIPTION_AND_ASSEMBLY,
-                FUNCTIONS.ANIMATIONS_DESCRIPTION.GET_BY_NAME,
+                ANIMATIONS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
+                ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
               ]}
               loadingComponent={
                 <Spinner className={"animation-configuration-spinner"} />

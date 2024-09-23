@@ -1,5 +1,6 @@
 import { REQUESTS } from "apis/utils";
 
+import AnimationsApi from "./animations/animationsApi";
 import MotorsApi from "./motors/motorsApi";
 
 export const REQUEST_IDS = {
@@ -7,9 +8,11 @@ export const REQUEST_IDS = {
 };
 
 class DescriptionsApi {
+  animations;
   motors;
 
   constructor() {
+    this.animations = new AnimationsApi(this);
     this.motors = new MotorsApi(this);
   }
 
