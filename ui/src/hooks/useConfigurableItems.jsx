@@ -79,7 +79,7 @@ const useConfigurableItems = (descriptionType) => {
               sortNo: item.sort_no,
             }
           : {
-              id: item.animationId,
+              id: item.descId,
               name: item.animationName,
               type: item.animationType,
             };

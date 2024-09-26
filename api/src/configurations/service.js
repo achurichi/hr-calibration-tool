@@ -45,10 +45,6 @@ const save = async function (descriptionName, assembly, item, collectionName) {
 		collectionName === COLLECTIONS.MOTORS_CONFIGURATION
 			? 'motors'
 			: 'animations'
-	const idProp =
-		collectionName === COLLECTIONS.MOTORS_CONFIGURATION
-			? 'descId'
-			: 'animationId'
 
 	// If the configuration object doesn't exist create a new one
 	if (!configuration) {
@@ -62,7 +58,7 @@ const save = async function (descriptionName, assembly, item, collectionName) {
 	let items = configuration[listProp] || []
 
 	// Update configuration items list
-	const index = items.findIndex((i) => i[idProp] === item[idProp])
+	const index = items.findIndex((i) => i.descId === item.descId)
 	if (index === -1) {
 		items.push(item)
 	} else {

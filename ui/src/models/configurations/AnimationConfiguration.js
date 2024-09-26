@@ -1,13 +1,13 @@
 import Motion from "./Motion";
 
 class AnimationConfiguration {
-  animationId;
+  descId;
   animationName;
   animationType;
   motions;
 
   constructor(data) {
-    this.animationId = data.animationId;
+    this.descId = data.descId;
     this.animationName = data.animationName;
     this.animationType = data.animationType;
     this.motions = data.motions?.map((m) => new Motion(m)) || [];

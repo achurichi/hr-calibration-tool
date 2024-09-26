@@ -11,7 +11,6 @@ import Spinner from "components/Spinner/Spinner";
 import Table from "components/Table/Table";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/animations/animationsApi";
 import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
 
 import rootStore from "stores/root.store";
@@ -67,10 +66,7 @@ const AnimationCalibration = observer(({ actionLink, descriptionItemType }) => {
       <div className={styles["internal-container"]}>
         <SearchBar placeholder="Search by Name" onChange={setSearchInput} />
         <RenderWithLoader
-          dependencies={[
-            ANIMATIONS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
-            ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
-          ]}
+          dependencies={[ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME]}
           loadingComponent={<Spinner className={styles.spinner} />}
         >
           <Table headers={TABLE_HEADERS} hover rows={rows} />

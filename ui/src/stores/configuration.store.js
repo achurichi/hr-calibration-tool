@@ -25,14 +25,11 @@ class ConfigurationStore {
 
   getItem(id) {
     for (const configuration of this.configurations.values()) {
-      let item;
-
-      if (configuration instanceof MotorsConfiguration) {
-        item = configuration.motors?.find((m) => m.descId === id);
-      } else if (configuration instanceof AnimationsConfiguration) {
-        item = configuration.animations?.find((a) => a.animationId === id);
-      }
-
+      const items =
+        configuration instanceof MotorsConfiguration
+          ? configuration.motors
+          : configuration.animations;
+      const item = items?.find((i) => i.descId === id);
       if (item) {
         return item;
       }
@@ -45,20 +42,14 @@ class ConfigurationStore {
     const ids = [];
 
     for (const configuration of this.configurations.values()) {
-      if (configuration instanceof MotorsConfiguration) {
-        configuration.motors.forEach((m) => ids.push(m.descId));
-      } else if (configuration instanceof AnimationsConfiguration) {
-        configuration.animations.forEach((a) => ids.push(a.animationId));
-      }
+      const items =
+        configuration instanceof MotorsConfiguration
+          ? configuration.motors
+          : configuration.animations;
+      items?.forEach((i) => ids.push(i.descId));
     }
 
     return ids;
-  }
-
-  getIdKey(descriptionType) {
-    return descriptionType === DESCRIPTION_TYPES.MOTORS
-      ? "descId"
-      : "animationId";
   }
 
   getNameKey(descriptionType) {

@@ -143,10 +143,7 @@ const MotorCalibration = observer(() => {
       <div className={styles["internal-container"]}>
         <MotorsFilter motors={configurableMotors} />
         <RenderWithLoader
-          dependencies={[
-            MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
-            MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
-          ]}
+          dependencies={[MOTORS_DESCRIPTIONS_REQUESTS.GET_BY_NAME]}
           loadingComponent={<Spinner className={styles.spinner} />}
         >
           <Table headers={TABLE_HEADERS} hover rows={rows} />

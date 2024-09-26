@@ -1,10 +1,10 @@
 class Motion {
-  motionId;
+  descId;
   motionName;
   value;
 
   constructor(data) {
-    this.motionId = data.motionId;
+    this.descId = data.descId;
     this.motionName = data.motionName;
     this.value = data.value;
   }
