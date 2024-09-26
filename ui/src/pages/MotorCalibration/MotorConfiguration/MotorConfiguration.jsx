@@ -19,7 +19,6 @@ import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
 } from "constants/descriptions";
-import { FUNCTIONS } from "constants/mongo";
 import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
 import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 
@@ -54,7 +53,7 @@ const MotorConfiguration = observer(() => {
             <Select
               className={styles.select}
               isDisabled={requestStore.isLoading(
-                FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM,
+                MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM,
               )}
               onChange={(option) => {
                 uiConfigurationStore.confirmIfDirty(() =>
@@ -91,7 +90,6 @@ const MotorConfiguration = observer(() => {
                 label: "Enable torque",
                 onChange: uiConfigurationStore.setEnableTorque,
               }}
-              descriptionType={DESCRIPTION_TYPES.MOTORS}
               showMotorData
             />
           </Layout.Footer>

@@ -1,5 +1,6 @@
 import mongoDBClient from '../mongo/mongoDBClient.js'
 import { logErrorAndThrow } from '../utils/logging.js'
+import { COLLECTIONS } from '../constants/mongo.js'
 
 /**
  * Finds a document in the specified collection by description name and assembly.
@@ -21,12 +22,73 @@ const findByDescriptionAndAssembly = async function (
 		return await collection.findOne({ descriptionName, assembly })
 	} catch (err) {
 		logErrorAndThrow(
-			`Error occurred while getting configuration: ${err.message}`,
+			err.stack,
 			`Could not get configuration with descriptionName ${descriptionName} and assembly ${assembly}`
 		)
 	}
 }
 
+const save = async function (descriptionName, assembly, item, collectionName) {
+	const collection = await mongoDBClient.getCollection(collectionName)
+	let configuration
+
+	try {
+		configuration = await collection.findOne({ descriptionName, assembly })
+	} catch (err) {
+		logErrorAndThrow(
+			err.stack,
+			`Could not get configuration with descriptionName ${descriptionName} and assembly ${assembly}`
+		)
+	}
+
+	const listProp =
+		collectionName === COLLECTIONS.MOTORS_CONFIGURATION
+			? 'motors'
+			: 'animations'
+	const idProp =
+		collectionName === COLLECTIONS.MOTORS_CONFIGURATION
+			? 'descId'
+			: 'animationId'
+
+	// If the configuration object doesn't exist create a new one
+	if (!configuration) {
+		configuration = {
+			descriptionName,
+			assembly,
+			[listProp]: [],
+		}
+	}
+
+	let items = configuration[listProp] || []
+
+	// Update configuration items list
+	const index = items.findIndex((i) => i[idProp] === item[idProp])
+	if (index === -1) {
+		items.push(item)
+	} else {
+		items[index] = item
+	}
+
+	// Save updated configuration
+	try {
+		await collection.updateOne(
+			{ descriptionName, assembly },
+			{ $set: { ...configuration, [listProp]: items } },
+			{ upsert: true }
+		)
+	} catch (err) {
+		logErrorAndThrow(err.stack, `Error occurred while saving configuration`)
+	}
+
+	// Get updated configuration
+	try {
+		return await collection.findOne({ descriptionName, assembly })
+	} catch (err) {
+		logErrorAndThrow(err.stack, `Error occurred while retrieving configuration`)
+	}
+}
+
 export default {
 	findByDescriptionAndAssembly,
+	save,
 }

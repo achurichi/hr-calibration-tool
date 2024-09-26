@@ -8,7 +8,7 @@ import { buildDefaultConfigurationForm } from "utils/forms";
 import { clean, trimStrings } from "utils/object";
 
 import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
-import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
 import { PATHS } from "constants/routes";
 
 import rootStore from "stores/root.store";
@@ -54,9 +54,7 @@ const useConfigurationFormSetup = (
           assemblyId,
           preparedData,
         ),
-      itemType === DESCRIPTION_ITEM_TYPES.MOTOR
-        ? FUNCTIONS.MOTORS_CONFIGURATION.SAVE_ITEM
-        : FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
+      MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM, // is the same that ANIMATIONS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM
       "Configuration saved",
     );
 

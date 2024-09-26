@@ -38,19 +38,13 @@ class MongoDBClient {
 		try {
 			db = await this.getDB()
 		} catch (err) {
-			logErrorAndThrow(
-				`Error occurred while getting database: ${err.message}`,
-				throwMessageOnError
-			)
+			logErrorAndThrow(err.stack, throwMessageOnError)
 		}
 
 		try {
 			return db.collection(collectionName)
 		} catch (err) {
-			logErrorAndThrow(
-				`Error occurred while getting collection ${collectionName}: ${err.message}`,
-				throwMessageOnError
-			)
+			logErrorAndThrow(err.stack, throwMessageOnError)
 		}
 	}
 

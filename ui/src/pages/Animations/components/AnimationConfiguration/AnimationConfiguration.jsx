@@ -18,7 +18,6 @@ import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
 import Spinner from "components/Spinner/Spinner";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { FUNCTIONS } from "constants/mongo";
 import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/animations/animationsApi";
 import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
 
@@ -63,7 +62,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
             <Select
               className={"animation-configuration-select"}
               isDisabled={requestStore.isLoading(
-                FUNCTIONS.ANIMATIONS_CONFIGURATION.SAVE_ITEM,
+                ANIMATIONS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM,
               )}
               onChange={(option) => {
                 uiConfigurationStore.confirmIfDirty(() =>
@@ -115,7 +114,6 @@ const AnimationConfiguration = observer(({ animationType }) => {
                 label: "Preview on the robot",
                 onChange: uiConfigurationStore.setPreviewOnRobot,
               }}
-              descriptionType={DESCRIPTION_TYPES.ANIMATIONS}
               showMotorCurrentPositiom={false}
             />
           </Layout.Footer>

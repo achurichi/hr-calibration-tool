@@ -107,12 +107,9 @@ class ConfigurationStore {
     assembly,
     itemConfiguration,
   ) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${descriptionType.toUpperCase()}_CONFIGURATION`].SAVE_ITEM,
-      descriptionName,
-      assembly,
-      itemConfiguration,
-    );
+    const data = await this.rootStore.api.calibrationTool.configurations[
+      descriptionType
+    ].save(descriptionName, assembly, itemConfiguration);
     return this._saveConfiguration(descriptionType, data);
   }
 

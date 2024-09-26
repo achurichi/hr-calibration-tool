@@ -30,7 +30,7 @@ const namesByAssembly = async function (assemblies) {
 		})
 	} catch (err) {
 		logErrorAndThrow(
-			`Error occurred while getting configurations: ${err.message}`,
+			err.stack,
 			`Could not get description names for assemblies`
 		)
 	}
@@ -52,10 +52,7 @@ const allDescriptionNames = async function () {
 	try {
 		return (await collection.find({}).toArray()).map(({ name }) => name)
 	} catch (err) {
-		logErrorAndThrow(
-			`Error occurred while getting descriptions: ${err.message}`,
-			`Could not get descriptions`
-		)
+		logErrorAndThrow(err.stack, 'Could not get descriptions')
 	}
 }
 
@@ -73,10 +70,7 @@ const findByName = async function (name, collectionName) {
 	try {
 		return await collection.findOne({ name })
 	} catch (err) {
-		logErrorAndThrow(
-			`Error occurred while getting description: ${err.message}`,
-			`Could not get description ${name}`
-		)
+		logErrorAndThrow(err.stack, `Could not get description ${name}`)
 	}
 }
 

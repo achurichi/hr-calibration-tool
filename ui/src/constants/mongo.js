@@ -13,7 +13,7 @@ export const FUNCTIONS = {
     DELETE_ITEM: "motorsConfiguration_deleteItem",
     // GET_BY_DESCRIPTION_AND_ASSEMBLY:
     // "motorsConfiguration_getByDescriptionAndAssembly",
-    SAVE_ITEM: "motorsConfiguration_saveItem",
+    // SAVE_ITEM: "motorsConfiguration_saveItem",
   },
   MOTORS_DESCRIPTION: {
     DELETE_ITEM: "motorsDescription_deleteItem",
@@ -23,7 +23,7 @@ export const FUNCTIONS = {
   ANIMATIONS_CONFIGURATION: {
     // GET_BY_DESCRIPTION_AND_ASSEMBLY:
     // "animationsConfiguration_getByDescriptionAndAssembly",
-    SAVE_ITEM: "animationsConfiguration_saveItem",
+    // SAVE_ITEM: "animationsConfiguration_saveItem",
   },
   ANIMATIONS_DESCRIPTION: {
     DELETE_ITEM: "animationsDescription_deleteItem",
