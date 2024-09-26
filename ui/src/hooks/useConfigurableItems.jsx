@@ -55,9 +55,6 @@ const useConfigurableItems = (descriptionType) => {
     const allToConfigure = [];
     const allToAdd = [];
 
-    console.log("configurations", configurations);
-    console.log("descriptions", descriptions);
-
     configurations.forEach((configuration) => {
       if (!configuration?.[descriptionType]) {
         return;
@@ -84,7 +81,7 @@ const useConfigurableItems = (descriptionType) => {
           : {
               id: item.animationId,
               name: item.animationName,
-              type: item.type, // check
+              type: item.animationType,
             };
 
         // if the item is present in the configuration store, it is configurable, otherwise it is an option to add

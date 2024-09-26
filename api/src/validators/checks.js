@@ -11,3 +11,7 @@ export const assemblyCheck = check('assembly')
 export const motorCheck = check('motor')
 	.notEmpty()
 	.withMessage('motor is required')
+
+export const animationCheck = check('animation')
+	.notEmpty()
+	.withMessage('animation is required')

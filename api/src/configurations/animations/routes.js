@@ -1,8 +1,8 @@
 import express from 'express'
 import {
+	animationCheck,
 	assemblyCheck,
 	descriptionNameCheck,
-	motorCheck,
 } from '../../validators/checks.js'
 import validateRequest from '../../middlewares/validateRequest.js'
 import handlers from './handlers.js'
@@ -17,7 +17,7 @@ router.get(
 
 router.post(
 	'/',
-	[descriptionNameCheck, assemblyCheck, motorCheck, validateRequest],
+	[descriptionNameCheck, assemblyCheck, animationCheck, validateRequest],
 	handlers.save
 )
 
