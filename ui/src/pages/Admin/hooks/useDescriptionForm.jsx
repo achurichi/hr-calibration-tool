@@ -10,10 +10,9 @@ import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
 import { blobUrlToBase64String } from "utils/blob";
 import { clean, trimStrings } from "utils/object";
 
-import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 import {
   DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
   NEW_ITEM_OPTION,
 } from "constants/descriptions";
@@ -199,12 +198,12 @@ const useDescriptionForm = () => {
         preparedData,
       );
     };
-    const fnId =
-      descriptionType === DESCRIPTION_TYPES.MOTORS
-        ? FUNCTIONS.MOTORS_DESCRIPTION.SAVE_ITEM
-        : FUNCTIONS.ANIMATIONS_DESCRIPTION.SAVE_ITEM;
 
-    const { success } = await callWithNotification(saveFn, fnId, "Item saved");
+    const { success } = await callWithNotification(
+      saveFn,
+      MOTORS_DESCRIPTIONS_REQUESTS.SAVE_DESCRIPTION_ITEM, // ANIMATIONS_DESCRIPTIONS_REQUESTS.SAVE_DESCRIPTION_ITEM has the same value
+      "Item saved",
+    );
     uiDescriptionStore.setSelectedItemOptionByName(preparedData.name);
 
     if (success) {

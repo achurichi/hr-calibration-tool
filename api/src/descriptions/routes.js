@@ -1,4 +1,8 @@
 import express from 'express'
+import {
+	customBodyCheck,
+	validateRequest,
+} from '../middlewares/validateRequest.js'
 import animationsRouter from './animations/routes.js'
 import motorsRouter from './motors/routes.js'
 import handlers from './handlers.js'
@@ -9,6 +13,20 @@ router.use('/animations', animationsRouter)
 router.use('/motors', motorsRouter)
 
 router.get('/allDescriptionNames', handlers.allDescriptionNames)
-router.post('/namesByAssembly', handlers.namesByAssembly)
+
+const assembliesCheckFn = (assemblies) =>
+	Array.isArray(assemblies) && assemblies.every((a) => typeof a === 'string')
+router.post(
+	'/namesByAssembly',
+	[
+		customBodyCheck(
+			'assemblies',
+			assembliesCheckFn,
+			'assemblies is required and must be an array of strings'
+		),
+		validateRequest,
+	],
+	handlers.namesByAssembly
+)
 
 export default router

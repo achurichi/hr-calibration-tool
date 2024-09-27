@@ -20,11 +20,11 @@ const findByDescriptionAndAssembly = async (req, res) => {
 	}
 }
 
-const save = async (req, res) => {
+const saveItem = async (req, res) => {
 	const { descriptionName, assembly, motor } = req.body
 
 	try {
-		const configuration = await configurationsService.save(
+		const configuration = await configurationsService.saveItem(
 			descriptionName,
 			assembly,
 			motor,
@@ -38,5 +38,5 @@ const save = async (req, res) => {
 
 export default {
 	findByDescriptionAndAssembly,
-	save,
+	saveItem,
 }

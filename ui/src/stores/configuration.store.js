@@ -100,7 +100,7 @@ class ConfigurationStore {
   ) {
     const data = await this.rootStore.api.calibrationTool.configurations[
       descriptionType
-    ].save(descriptionName, assembly, itemConfiguration);
+    ].saveItem(descriptionName, assembly, itemConfiguration);
     return this._saveConfiguration(descriptionType, data);
   }
 

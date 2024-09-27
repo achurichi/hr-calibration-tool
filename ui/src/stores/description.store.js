@@ -136,11 +136,9 @@ class DescriptionStore {
   }
 
   async saveItem(type, descriptionName, item) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].SAVE_ITEM,
-      descriptionName,
-      item,
-    );
+    const data = await this.rootStore.api.calibrationTool.descriptions[
+      type
+    ].saveItem(descriptionName, item);
     this._saveDescription(type, data);
   }
 

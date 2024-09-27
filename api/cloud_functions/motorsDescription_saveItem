@@ -1,0 +1,93 @@
+exports = async function (descriptionName, motor) {
+	const serviceName = 'mongodb-atlas'
+	const dbName = 'HrDataDev'
+
+	const db = context.services.get(serviceName).db(dbName)
+	const collection = db.collection('calibMotorsDescription')
+
+	let description
+
+	// Find description
+	try {
+		description = await collection.findOne({ name: descriptionName })
+	} catch (err) {
+		console.log('Error occurred while getting motor:', err.message)
+		return { error: err.message }
+	}
+
+	let motors = description.motors || []
+	const oldMotor = motors.find(({ id }) => id === motor.id)
+
+	// Check that the motor name is not repeated
+	if (motors.some(({ name, id }) => name === motor.name && id !== motor.id)) {
+		return { error: 'Name already exists' }
+	}
+
+	// Update motors list
+	if (!motor.id) {
+		motors.push({ id: new BSON.ObjectId().toString(), ...motor })
+	} else {
+		const index = motors.findIndex(({ id }) => id === motor.id)
+		if (index === -1) {
+			motors.push(motor)
+		} else {
+			motors[index] = motor
+		}
+	}
+
+	// Save updated description
+	try {
+		await collection.updateOne(
+			{ name: descriptionName },
+			{ ...description, motors }
+		)
+	} catch (err) {
+		console.log('Error occurred while updating motor:', err.message)
+		return { error: err.message }
+	}
+
+	// Delete old images
+	try {
+		if (oldMotor) {
+			const oldNeutralPositionImages = oldMotor?.neutralPosition?.images || []
+			const neutralPositionImages = motor?.neutralPosition?.images || []
+			if (oldNeutralPositionImages.length) {
+				context.functions.execute(
+					'images_deleteOld',
+					oldNeutralPositionImages,
+					neutralPositionImages
+				)
+			}
+			const oldMinPositionImages = oldMotor?.minPosition?.images || []
+			const minPositionImages = motor?.minPosition?.images || []
+			if (oldMinPositionImages.length) {
+				context.functions.execute(
+					'images_deleteOld',
+					oldMinPositionImages,
+					minPositionImages
+				)
+			}
+			const oldMaxPositionImages = oldMotor?.maxPosition?.images || []
+			const maxPositionImages = motor?.maxPosition?.images || []
+			if (oldMaxPositionImages.length) {
+				context.functions.execute(
+					'images_deleteOld',
+					oldMaxPositionImages,
+					maxPositionImages
+				)
+			}
+		}
+	} catch (err) {
+		console.log('Error occurred while deleting old images:', err.message)
+	}
+
+	// Get updated description
+	try {
+		description = await collection.findOne({ name: descriptionName })
+	} catch (err) {
+		console.log('Error occurred while getting motor:', err.message)
+		return { error: err.message }
+	}
+
+	return { result: description }
+}

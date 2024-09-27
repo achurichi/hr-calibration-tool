@@ -23,7 +23,7 @@ class MotorsApi {
     return data || null;
   }
 
-  async save(descriptionName, assembly, motor) {
+  async saveItem(descriptionName, assembly, motor) {
     const { data } = await REQUESTS.post(
       REQUEST_IDS.SAVE_CONFIGURATION_ITEM,
       `${this.base}`,

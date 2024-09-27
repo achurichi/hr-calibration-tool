@@ -1,24 +1,32 @@
 import express from 'express'
 import {
-	assemblyCheck,
-	descriptionNameCheck,
-	motorCheck,
-} from '../../validators/checks.js'
-import validateRequest from '../../middlewares/validateRequest.js'
+	requiredBodyCheck,
+	requiredQueryCheck,
+	validateRequest,
+} from '../../middlewares/validateRequest.js'
 import handlers from './handlers.js'
 
 const router = express.Router()
 
 router.get(
 	'/',
-	[descriptionNameCheck, assemblyCheck, validateRequest],
+	[
+		requiredQueryCheck('descriptionName'),
+		requiredQueryCheck('assembly'),
+		validateRequest,
+	],
 	handlers.findByDescriptionAndAssembly
 )
 
 router.post(
 	'/',
-	[descriptionNameCheck, assemblyCheck, motorCheck, validateRequest],
-	handlers.save
+	[
+		requiredBodyCheck('descriptionName'),
+		requiredBodyCheck('assembly'),
+		requiredBodyCheck('motor'),
+		validateRequest,
+	],
+	handlers.saveItem
 )
 
 export default router

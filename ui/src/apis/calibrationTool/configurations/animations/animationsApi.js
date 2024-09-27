@@ -23,7 +23,7 @@ class AnimationsApi {
     return data || null;
   }
 
-  async save(descriptionName, assembly, animation) {
+  async saveItem(descriptionName, assembly, animation) {
     const { data } = await REQUESTS.post(
       REQUEST_IDS.SAVE_CONFIGURATION_ITEM,
       `${this.base}`,

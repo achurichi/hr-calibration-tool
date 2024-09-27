@@ -28,7 +28,12 @@ const findByDescriptionAndAssembly = async function (
 	}
 }
 
-const save = async function (descriptionName, assembly, item, collectionName) {
+const saveItem = async function (
+	descriptionName,
+	assembly,
+	item,
+	collectionName
+) {
 	const collection = await mongoDBClient.getCollection(collectionName)
 	let configuration
 
@@ -86,5 +91,5 @@ const save = async function (descriptionName, assembly, item, collectionName) {
 
 export default {
 	findByDescriptionAndAssembly,
-	save,
+	saveItem,
 }
