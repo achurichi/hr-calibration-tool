@@ -20,7 +20,6 @@ import Table from "components/Table/Table";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
 import { FILTER_IDS } from "constants/filters";
-import { FUNCTIONS } from "constants/mongo";
 import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
 import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 import { PATHS } from "constants/routes";
@@ -80,7 +79,7 @@ const MotorCalibration = observer(() => {
   const onAddMotors = async (motorsMap) => {
     const { success } = await callWithNotification(
       () => configurationStore.addMotors(motorsMap),
-      FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+      MOTORS_CONFIGURATIONS_REQUESTS.ADD_ITEMS,
       "Motors added",
     );
     if (success) {
@@ -99,7 +98,7 @@ const MotorCalibration = observer(() => {
           motorToDelete.assembly,
           motorToDelete.id,
         ),
-      FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
+      MOTORS_CONFIGURATIONS_REQUESTS.DELETE_ITEM,
       "Motor deleted",
     );
     if (success) {
@@ -164,7 +163,7 @@ const MotorCalibration = observer(() => {
         </RenderWithLoader>
         <AddMotorsModal
           disabled={requestStore.isLoading([
-            FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+            MOTORS_CONFIGURATIONS_REQUESTS.ADD_ITEMS,
             MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
           ])}
           motors={addableMotors}
@@ -176,7 +175,7 @@ const MotorCalibration = observer(() => {
           confirmLabel="Delete"
           confirmVariant="danger"
           disabled={requestStore.isLoading(
-            FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
+            MOTORS_CONFIGURATIONS_REQUESTS.DELETE_ITEM,
           )}
           message={
             <div>

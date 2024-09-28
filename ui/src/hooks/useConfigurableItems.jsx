@@ -60,9 +60,7 @@ const useConfigurableItems = (descriptionType) => {
         return;
       }
 
-      // const toConfigure = [];
-      // const toAdd = [];
-
+      // items to configure
       const toConfigure = configuration[descriptionType].map((item) => {
         return descriptionType === DESCRIPTION_TYPES.MOTORS
           ? {
@@ -72,10 +70,8 @@ const useConfigurableItems = (descriptionType) => {
               min: item.minPositionValue,
               max: item.maxPositionValue,
               neutral: item.neutralPositionValue,
-              group: item.group, // check
-              assembly: robotStore.getAssemblyByDescriptionName(
-                configuration.descriptionName,
-              ),
+              group: item.group,
+              assembly: configuration.assembly,
               sortNo: item.sort_no,
             }
           : {
@@ -83,23 +79,38 @@ const useConfigurableItems = (descriptionType) => {
               name: item.animationName,
               type: item.animationType,
             };
-
-        // if the item is present in the configuration store, it is configurable, otherwise it is an option to add
-        // const configItem = configurationStore.getItem(item.id);
-        // if (configItem) {
-        //   toConfigure.push({
-        //     ...itemWithAssembly,
-        //     // use name and sort_no from the actual configuration (in the description may have been changed)
-        //     name: configItem[configurationStore.getNameKey(descriptionType)],
-        //     sortNo: configItem.sort_no,
-        //   });
-        // } else {
-        //   toAdd.push(itemWithAssembly);
-        // }
       });
 
       allToConfigure.push(...toConfigure);
-      // allToAdd.push(...toAdd);
+
+      // only motors allow adding new items
+      if (descriptionType !== DESCRIPTION_TYPES.MOTORS) {
+        return;
+      }
+
+      // items to add
+      const description = descriptions.find(
+        (desc) => desc.name === configuration.descriptionName,
+      );
+
+      if (!description?.[descriptionType]) {
+        return;
+      }
+
+      const toAdd = [];
+      description[descriptionType].forEach((item) => {
+        if (toConfigure.some((conf) => conf.id === item.id)) {
+          return;
+        }
+        toAdd.push({
+          id: item.id,
+          name: item.name,
+          assembly: robotStore.getAssemblyByDescriptionName(description.name),
+          sortNo: item.sort_no,
+        });
+      });
+
+      allToAdd.push(...toAdd);
     });
 
     allToConfigure.sort(sortFn);

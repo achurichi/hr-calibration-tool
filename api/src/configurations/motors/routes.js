@@ -29,4 +29,20 @@ router.post(
 	handlers.saveItem
 )
 
+router.post(
+	'/addItems',
+	[requiredBodyCheck('motorsMap'), validateRequest],
+	handlers.addItems
+)
+
+router.delete(
+	'/',
+	[
+		requiredQueryCheck('assembly'),
+		requiredQueryCheck('motorId'),
+		validateRequest,
+	],
+	handlers.deleteItem
+)
+
 export default router

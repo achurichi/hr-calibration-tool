@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
 import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { FUNCTIONS } from "constants/mongo";
 
 import AnimationsConfiguration from "models/configurations/AnimationsConfiguration";
 import MotorsConfiguration from "models/configurations/MotorsConfiguration";
@@ -105,18 +104,17 @@ class ConfigurationStore {
   }
 
   async addMotors(motorsMap) {
-    await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.MOTORS_CONFIGURATION.ADD_ITEMS,
+    await this.rootStore.api.calibrationTool.configurations.motors.addItems(
       motorsMap,
     );
   }
 
   async deleteMotor(assembly, motorId) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.MOTORS_CONFIGURATION.DELETE_ITEM,
-      assembly,
-      motorId,
-    );
+    const data =
+      await this.rootStore.api.calibrationTool.configurations.motors.deleteItem(
+        assembly,
+        motorId,
+      );
     return this._saveConfiguration(DESCRIPTION_TYPES.MOTORS, data);
   }
 
