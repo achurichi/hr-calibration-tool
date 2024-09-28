@@ -142,12 +142,10 @@ class DescriptionStore {
     this._saveDescription(type, data);
   }
 
-  async deleteItem(type, descriptionName, item) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS[`${type.toUpperCase()}_DESCRIPTION`].DELETE_ITEM,
-      descriptionName,
-      item,
-    );
+  async deleteItem(type, descriptionName, itemId) {
+    const data = await this.rootStore.api.calibrationTool.descriptions[
+      type
+    ].deleteItem(descriptionName, itemId);
     this._saveDescription(type, data);
   }
 

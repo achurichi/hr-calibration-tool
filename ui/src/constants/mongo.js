@@ -16,7 +16,7 @@ export const FUNCTIONS = {
     // SAVE_ITEM: "motorsConfiguration_saveItem",
   },
   MOTORS_DESCRIPTION: {
-    DELETE_ITEM: "motorsDescription_deleteItem",
+    // DELETE_ITEM: "motorsDescription_deleteItem",
     // GET_BY_NAME: "motorsDescription_getByName",
     // SAVE_ITEM: "motorsDescription_saveItem",
   },
@@ -26,7 +26,7 @@ export const FUNCTIONS = {
     // SAVE_ITEM: "animationsConfiguration_saveItem",
   },
   ANIMATIONS_DESCRIPTION: {
-    DELETE_ITEM: "animationsDescription_deleteItem",
+    // DELETE_ITEM: "animationsDescription_deleteItem",
     // GET_BY_NAME: "animationsDescription_getByName",
     // SAVE_ITEM: "animationsDescription_saveItem",
   },

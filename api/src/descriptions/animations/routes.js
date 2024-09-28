@@ -24,4 +24,14 @@ router.post(
 	handlers.saveItem
 )
 
+router.delete(
+	'/',
+	[
+		requiredQueryCheck('descriptionName'),
+		requiredQueryCheck('animationId'),
+		validateRequest,
+	],
+	handlers.deleteItem
+)
+
 export default router

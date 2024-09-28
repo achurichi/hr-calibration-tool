@@ -33,7 +33,23 @@ const saveItem = async (req, res) => {
 	}
 }
 
+const deleteItem = async (req, res) => {
+	const { descriptionName, animationId } = req.query
+
+	try {
+		const description = await descriptionsService.deleteItem(
+			descriptionName,
+			animationId,
+			COLLECTIONS.ANIMATIONS_DESCRIPTION
+		)
+		return res.status(httpStatus.OK).send(description)
+	} catch (err) {
+		return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err.message)
+	}
+}
+
 export default {
+	deleteItem,
 	findByName,
 	saveItem,
 }

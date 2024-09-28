@@ -24,4 +24,14 @@ router.post(
 	handlers.saveItem
 )
 
+router.delete(
+	'/',
+	[
+		requiredQueryCheck('descriptionName'),
+		requiredQueryCheck('motorId'),
+		validateRequest,
+	],
+	handlers.deleteItem
+)
+
 export default router

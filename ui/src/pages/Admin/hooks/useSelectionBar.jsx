@@ -5,10 +5,8 @@ import rootStore from "stores/root.store";
 import useCallWithNotification from "hooks/useCallWithNotification";
 
 import { FUNCTIONS } from "constants/mongo";
-import {
-  DESCRIPTION_TYPES,
-  DESCRIPTION_TYPES_MAP,
-} from "constants/descriptions";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
+import { DESCRIPTION_TYPES_MAP } from "constants/descriptions";
 import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
 import {
   DESCRIPTION_ITEMS_OPTIONS,
@@ -267,10 +265,7 @@ const useSelectionBar = (unsaved) => {
         item.value,
       );
     };
-    const fnId =
-      descriptionType === DESCRIPTION_TYPES.MOTORS
-        ? FUNCTIONS.MOTORS_DESCRIPTION.DELETE_ITEM
-        : FUNCTIONS.ANIMATIONS_DESCRIPTION.DELETE_ITEM;
+    const fnId = MOTORS_DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTION_ITEM; // ANIMATIONS_DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTION_ITEM has the same value
 
     uiDescriptionStore.setEditDisabled(true);
     await callWithNotification(deleteFn, fnId, "Item deleted");

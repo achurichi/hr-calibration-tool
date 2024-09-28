@@ -64,40 +64,36 @@ const allDescriptionNames = async function () {
  * @param {string} name - The name of the document to find.
  * @param {string} collectionName - The name of the collection to search in.
  * @returns {Promise<Object|null>} - A promise that resolves to the found document or null if not found.
- * @throws {Error} - Throws an error if there is an issue with the database operation.
+ * @throws {Error} - Throws an error if there is an issue with the database operation or if the document is not found.
  */
 const findByName = async function (name, collectionName) {
-	const collection = await mongoDBClient.getCollection(collectionName)
-
-	try {
-		return await collection.findOne({ name })
-	} catch (err) {
-		logErrorAndThrow(err.stack, `Could not get description ${name}`)
-	}
-}
-
-/**
- * Saves an item to the specified collection and updates the description.
- *
- * @param {string} descriptionName - The name of the description to update.
- * @param {Object} item - The item to save.
- * @param {string} collectionName - The name of the collection to update.
- * @returns {Promise<Object>} The updated description.
- * @throws {Error} If the description is not found, the item name is repeated, the item has no motions (for animations), or if an error occurs during the save or retrieval process.
- */
-const saveItem = async function (descriptionName, item, collectionName) {
 	const collection = await mongoDBClient.getCollection(collectionName)
 	let description
 
 	try {
-		description = await collection.findOne({ name: descriptionName })
+		description = await collection.findOne({ name })
 	} catch (err) {
-		logErrorAndThrow(err.stack, `Could not get description ${descriptionName}`)
+		logErrorAndThrow(err.stack, `Could not get description ${name}`)
 	}
 
 	if (!description) {
-		throw new Error(`Description ${descriptionName} not found`)
+		throw new Error(`Description ${name} not found`)
 	}
+
+	return description
+}
+
+/**
+ * Saves an item in the specified description.
+ *
+ * @param {string} descriptionName - The name of the description to update.
+ * @param {Object} item - The item to save.
+ * @param {string} collectionName - The name of the collection containing the description.
+ * @returns {Promise<Object>} The updated description.
+ * @throws {Error} Will throw an error if the item name is repeated, the item has no motions (for animations), or if an error occurs during the save.
+ */
+const saveItem = async function (descriptionName, item, collectionName) {
+	const description = await findByName(descriptionName, collectionName)
 
 	const listProp =
 		collectionName === COLLECTIONS.MOTORS_DESCRIPTION ? 'motors' : 'animations'
@@ -141,6 +137,7 @@ const saveItem = async function (descriptionName, item, collectionName) {
 
 	// save updated description
 	try {
+		const collection = await mongoDBClient.getCollection(collectionName)
 		await collection.updateOne(
 			{ name: descriptionName },
 			{ $set: { ...description, [listProp]: items } }
@@ -177,12 +174,66 @@ const saveItem = async function (descriptionName, item, collectionName) {
 		console.error('Error occurred while deleting old images:', err.message)
 	}
 
-	// get updated configuration
+	// return updated description
+	return await findByName(descriptionName, collectionName)
+}
+
+/**
+ * Deletes an item from a specified description.
+ *
+ * @param {string} descriptionName - The name of the description to update.
+ * @param {string} itemId - The ID of the item to delete.
+ * @param {string} collectionName - The name of the collection containing the description.
+ * @returns {Promise<Object>} - The updated description.
+ * @throws Will throw an error if there is an issue saving the updated description.
+ */
+const deleteItem = async function (descriptionName, itemId, collectionName) {
+	const description = await findByName(descriptionName, collectionName)
+
+	const listProp =
+		collectionName === COLLECTIONS.MOTORS_DESCRIPTION ? 'motors' : 'animations'
+
+	let items = description[listProp] || []
+	items = items.filter(({ id }) => id !== itemId)
+
+	// save updated description
 	try {
-		return await collection.findOne({ name: descriptionName })
+		const collection = await mongoDBClient.getCollection(collectionName)
+		await collection.updateOne(
+			{ name: descriptionName },
+			{ $set: { ...description, [listProp]: items } }
+		)
 	} catch (err) {
-		logErrorAndThrow(err.stack, `Error occurred while retrieving description`)
+		logErrorAndThrow(err.stack, 'Error occurred while saving description')
 	}
+
+	// delete old images
+	try {
+		const item = description[listProp].find(({ id }) => id === itemId)
+		if (collectionName === COLLECTIONS.MOTORS_DESCRIPTION) {
+			const deleteFn = async (prop) => {
+				const images = item?.[prop]?.images || []
+				if (images.length) {
+					await deleteOldImages(images, [])
+				}
+			}
+			await Promise.all([
+				deleteFn('neutralPosition'),
+				deleteFn('minPosition'),
+				deleteFn('maxPosition'),
+			])
+		} else {
+			const images = item?.images || []
+			if (images.length) {
+				await deleteOldImages(images, [])
+			}
+		}
+	} catch (err) {
+		console.error('Error occurred while deleting images:', err.message)
+	}
+
+	// return updated description
+	return await findByName(descriptionName, collectionName)
 }
 
 /**
@@ -207,4 +258,5 @@ export default {
 	findByName,
 	namesByAssembly,
 	saveItem,
+	deleteItem,
 }
