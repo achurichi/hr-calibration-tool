@@ -184,18 +184,12 @@ class DescriptionStore {
   }
 
   async fetchImage(id) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.IMAGES.GET_BY_ID,
-      id,
-    );
+    const data = await this.rootStore.api.calibrationTool.images.getById(id);
     this._saveImage(data);
   }
 
   async saveImage(base64) {
-    const data = await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.IMAGES.SAVE,
-      base64,
-    );
+    const data = await this.rootStore.api.calibrationTool.images.save(base64);
     return this._saveImage(data);
   }
 

@@ -31,7 +31,7 @@ export const FUNCTIONS = {
     // SAVE_ITEM: "animationsDescription_saveItem",
   },
   IMAGES: {
-    GET_BY_ID: "images_getById",
-    SAVE: "images_save",
+    // GET_BY_ID: "images_getById",
+    // SAVE: "images_save",
   },
 };

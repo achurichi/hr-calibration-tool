@@ -1,6 +1,7 @@
 import { ObjectId } from 'bson'
 import mongoDBClient from '../mongo/mongoDBClient.js'
 import { logErrorAndThrow } from '../utils/logging.js'
+import imageService from '../images/service.js'
 
 import { COLLECTIONS } from '../constants/mongo.js'
 
@@ -145,30 +146,30 @@ const saveItem = async function (descriptionName, item, collectionName) {
 			{ $set: { ...description, [listProp]: items } }
 		)
 	} catch (err) {
-		logErrorAndThrow(err.stack, `Error occurred while saving description`)
+		logErrorAndThrow(err.stack, 'Error occurred while saving description')
 	}
 
 	// delete old images
 	try {
 		if (oldItem) {
 			if (collectionName === COLLECTIONS.MOTORS_DESCRIPTION) {
-				const deleteOldImages = async (prop) => {
+				const deleteFn = async (prop) => {
 					const oldImages = oldItem?.[prop]?.images || []
 					const images = item?.[prop]?.images || []
 					if (oldImages.length) {
-						// await context.functions.execute('images_deleteOld', oldImages, images)
+						await deleteOldImages(oldImages, images)
 					}
 				}
 				await Promise.all([
-					deleteOldImages('neutralPosition'),
-					deleteOldImages('minPosition'),
-					deleteOldImages('maxPosition'),
+					deleteFn('neutralPosition'),
+					deleteFn('minPosition'),
+					deleteFn('maxPosition'),
 				])
 			} else {
 				const oldImages = oldItem?.images || []
 				const images = item?.images || []
 				if (oldImages.length) {
-					// await context.functions.execute('images_deleteOld', oldImages, images)
+					await deleteOldImages(oldImages, images)
 				}
 			}
 		}
@@ -181,6 +182,23 @@ const saveItem = async function (descriptionName, item, collectionName) {
 		return await collection.findOne({ name: descriptionName })
 	} catch (err) {
 		logErrorAndThrow(err.stack, `Error occurred while retrieving description`)
+	}
+}
+
+/**
+ * Deletes old images that are not present in the new image IDs.
+ *
+ * @param {Array<string>} oldImageIds - An array of old image IDs.
+ * @param {Array<string>} newImageIds - An array of new image IDs.
+ * @returns {Promise<void>} A promise that resolves when the images have been deleted.
+ */
+const deleteOldImages = async function (oldImageIds, newImageIds) {
+	const idsToDelete = oldImageIds.filter(
+		(oldId) => !newImageIds.includes(oldId)
+	)
+
+	if (idsToDelete.length) {
+		await imageService.deleteMany(idsToDelete)
 	}
 }
 
