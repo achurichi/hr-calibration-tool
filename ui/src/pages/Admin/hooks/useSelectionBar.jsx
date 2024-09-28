@@ -4,7 +4,7 @@ import rootStore from "stores/root.store";
 
 import useCallWithNotification from "hooks/useCallWithNotification";
 
-import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/descriptionsApi";
 import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
 import { DESCRIPTION_TYPES_MAP } from "constants/descriptions";
 import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
@@ -135,7 +135,7 @@ const useSelectionBar = (unsaved) => {
 
     const { success } = await callWithNotification(
       () => descriptionStore.createDescriptions(name),
-      FUNCTIONS.DESCRIPTIONS.CREATE,
+      DESCRIPTIONS_REQUESTS.CREATE_DESCRIPTIONS,
       "New description created",
     );
 
@@ -186,7 +186,7 @@ const useSelectionBar = (unsaved) => {
         uiDescriptionStore.setEditDisabled(true);
         await callWithNotification(
           () => descriptionStore.deleteDescriptions(item.value),
-          FUNCTIONS.DESCRIPTIONS.DELETE_BY_NAME,
+          DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTIONS,
           "Description deleted",
         );
         await fetchDescriptionNames();

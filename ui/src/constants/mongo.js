@@ -3,8 +3,8 @@ export const FUNCTIONS = {
     CREATE_MANY: "configurations_createMany",
   },
   DESCRIPTIONS: {
-    CREATE: "descriptions_create",
-    DELETE_BY_NAME: "descriptions_deleteByName",
+    // CREATE: "descriptions_create",
+    // DELETE_BY_NAME: "descriptions_deleteByName",
     // GET_NAMES_BY_ASSEMBLY: "descriptions_getDescriptionNamesByAssembly",
     // GET_DESCRIPTION_NAMES: "descriptions_getDescriptionNames",
   },

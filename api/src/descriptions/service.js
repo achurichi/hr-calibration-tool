@@ -6,6 +6,103 @@ import imageService from '../images/service.js'
 import { COLLECTIONS } from '../constants/mongo.js'
 
 /**
+ * Creates new descriptions with the given name in both, motors and animations collections.
+ *
+ * @param {string} name - The name of the new descriptions to be created.
+ * @throws Will throw if the name already exists in either the motors or animations collections or if there are errors in database operations.
+ */
+const create = async function (name) {
+	const motorsCollection = await mongoDBClient.getCollection(
+		COLLECTIONS.MOTORS_DESCRIPTION
+	)
+	const animationsCollection = await mongoDBClient.getCollection(
+		COLLECTIONS.ANIMATIONS_DESCRIPTION
+	)
+	let motorsNames
+	let animationsNames
+
+	// find description names
+	try {
+		motorsNames = (await motorsCollection.find({}).toArray()).map(
+			({ name }) => name
+		)
+		animationsNames = (await animationsCollection.find({}).toArray()).map(
+			({ name }) => name
+		)
+	} catch (err) {
+		logErrorAndThrow(err.stack, 'Error occurred while creating descriptions')
+	}
+
+	// check that the name is not repeated
+	if (
+		motorsNames.some((motorName) => motorName === name) ||
+		animationsNames.some((animationName) => animationName === name)
+	) {
+		throw new Error('Name already exists')
+	}
+
+	// save new descriptions
+	try {
+		await motorsCollection.insertOne({ name, motors: [] })
+		await animationsCollection.insertOne({ name, animations: [] })
+	} catch (err) {
+		logErrorAndThrow(err.stack, 'Error occurred while creating descriptions')
+	}
+}
+
+/**
+ * Deletes descriptions and associated images by name.
+ *
+ * @param {string} name - The name of the descriptions to delete.
+ * @throws Will throw an error if there is an issue deleting the descriptions.
+ */
+const deleteByName = async function (name) {
+	const motorsDescription = await findByName(
+		name,
+		COLLECTIONS.MOTORS_DESCRIPTION
+	)
+	const animationsDescription = await findByName(
+		name,
+		COLLECTIONS.ANIMATIONS_DESCRIPTION
+	)
+
+	// delete images
+	try {
+		const idsToDelete = []
+		motorsDescription?.motors?.forEach((m) => {
+			const propsWithImages = ['neutralPosition', 'maxPosition', 'minPosition']
+			propsWithImages.forEach((prop) => {
+				if (m?.[prop]?.images) {
+					idsToDelete.push(...m[prop].images)
+				}
+			})
+		})
+		animationsDescription?.animations?.forEach((a) => {
+			if (a?.images) {
+				idsToDelete.push(...a.images)
+			}
+		})
+		await imageService.deleteMany(idsToDelete)
+	} catch (err) {
+		console.error('Error occurred while deleting images:', err.stack)
+	}
+
+	// delete descriptions
+	try {
+		const motorsCollection = await mongoDBClient.getCollection(
+			COLLECTIONS.MOTORS_DESCRIPTION
+		)
+		const animationsCollection = await mongoDBClient.getCollection(
+			COLLECTIONS.ANIMATIONS_DESCRIPTION
+		)
+		await motorsCollection.deleteOne({ name })
+		await animationsCollection.deleteOne({ name })
+	} catch (err) {
+		logErrorAndThrow(err.stack, 'Error occurred while deleting descriptions')
+	}
+}
+
+/**
  * Retrieves description names for the given assemblies.
  *
  * @param {Array<string>} assemblies - An array of assembly names.
@@ -171,7 +268,7 @@ const saveItem = async function (descriptionName, item, collectionName) {
 			}
 		}
 	} catch (err) {
-		console.error('Error occurred while deleting old images:', err.message)
+		console.error('Error occurred while deleting old images:', err.stack)
 	}
 
 	// return updated description
@@ -212,9 +309,8 @@ const deleteItem = async function (descriptionName, itemId, collectionName) {
 		const item = description[listProp].find(({ id }) => id === itemId)
 		if (collectionName === COLLECTIONS.MOTORS_DESCRIPTION) {
 			const deleteFn = async (prop) => {
-				const images = item?.[prop]?.images || []
-				if (images.length) {
-					await deleteOldImages(images, [])
+				if (item?.[prop]?.images) {
+					await imageService.deleteMany(item[prop].images)
 				}
 			}
 			await Promise.all([
@@ -223,13 +319,12 @@ const deleteItem = async function (descriptionName, itemId, collectionName) {
 				deleteFn('maxPosition'),
 			])
 		} else {
-			const images = item?.images || []
-			if (images.length) {
-				await deleteOldImages(images, [])
+			if (item?.images) {
+				await imageService.deleteMany(item.images)
 			}
 		}
 	} catch (err) {
-		console.error('Error occurred while deleting images:', err.message)
+		console.error('Error occurred while deleting images:', err.stack)
 	}
 
 	// return updated description
@@ -255,8 +350,10 @@ const deleteOldImages = async function (oldImageIds, newImageIds) {
 
 export default {
 	allDescriptionNames,
+	create,
+	deleteByName,
+	deleteItem,
 	findByName,
 	namesByAssembly,
 	saveItem,
-	deleteItem,
 }

@@ -2,6 +2,8 @@ import express from 'express'
 import {
 	customBodyCheck,
 	validateRequest,
+	requiredBodyCheck,
+	requiredQueryCheck,
 } from '../middlewares/validateRequest.js'
 import animationsRouter from './animations/routes.js'
 import motorsRouter from './motors/routes.js'
@@ -27,6 +29,14 @@ router.post(
 		validateRequest,
 	],
 	handlers.namesByAssembly
+)
+
+router.post('/', [requiredBodyCheck('name'), validateRequest], handlers.create)
+
+router.delete(
+	'/',
+	[requiredQueryCheck('name'), validateRequest],
+	handlers.deleteByName
 )
 
 export default router

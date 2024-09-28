@@ -4,6 +4,8 @@ import AnimationsApi from "./animations/animationsApi";
 import MotorsApi from "./motors/motorsApi";
 
 export const REQUEST_IDS = {
+  CREATE_DESCRIPTIONS: "CREATE_DESCRIPTIONS",
+  DELETE_DESCRIPTIONS: "DELETE_DESCRIPTIONS",
   GET_ALL_DESCRIPTION_NAMES: "GET_ALL_DESCRIPTION_NAMES",
   GET_NAMES_BY_ASSEMBLY: "GET_NAMES_BY_ASSEMBLY",
 };
@@ -19,6 +21,17 @@ class DescriptionsApi {
 
   get base() {
     return "/descriptions";
+  }
+
+  async create(name) {
+    await REQUESTS.post(REQUEST_IDS.CREATE_DESCRIPTIONS, this.base, { name });
+  }
+
+  async deleteByName(name) {
+    await REQUESTS.delete(
+      REQUEST_IDS.DELETE_DESCRIPTIONS,
+      `${this.base}?name=${name}`,
+    );
   }
 
   async getAllDescriptionNames() {

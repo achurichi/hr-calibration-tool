@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 
-import { FUNCTIONS } from "constants/mongo";
 import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
@@ -101,17 +100,11 @@ class DescriptionStore {
   }
 
   async createDescriptions(name) {
-    await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.DESCRIPTIONS.CREATE,
-      name,
-    );
+    await this.rootStore.api.calibrationTool.descriptions.create(name);
   }
 
   async deleteDescriptions(name) {
-    await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.DESCRIPTIONS.DELETE_BY_NAME,
-      name,
-    );
+    await this.rootStore.api.calibrationTool.descriptions.deleteByName(name);
   }
 
   async fetchDescription(type, descriptionName) {
