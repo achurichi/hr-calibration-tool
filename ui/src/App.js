@@ -11,13 +11,11 @@ import rootStore from "stores/root.store";
 import { BASE_PATH } from "constants/routes";
 
 function App() {
-  const { realmStore, robotStore } = rootStore;
+  const { robotStore } = rootStore;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
-      await realmStore.init();
-
       // TODO: Init websocket and get assembly ids
 
       await robotStore.fetchDescriptionNamesByAssembly({

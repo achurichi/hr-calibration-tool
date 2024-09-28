@@ -11,5 +11,4 @@ export const PATHS = {
   EXPRESSION_CONFIGURE: "/expressions/configuration",
   EXPRESSION_CONFIGURE_ID: "/expressions/configuration/:animationId",
   ADMIN: "/admin",
-  LOGIN: "/login",
 };

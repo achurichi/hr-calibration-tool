@@ -6,7 +6,6 @@ import { PATHS } from "constants/routes";
 import Admin from "pages/Admin/Admin";
 import ExpressionConfiguration from "pages/Animations/Expressions/ExpressionConfiguration/ExpressionConfiguration";
 import Expressions from "pages/Animations/Expressions/Expressions";
-import Login from "pages/Login/Login";
 import Main from "pages/Main";
 import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
 import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
@@ -81,11 +80,6 @@ const pagesData = [
         title: "admin",
       },
     ],
-  },
-  {
-    path: PATHS.LOGIN,
-    element: <Login />,
-    title: "login",
   },
 ];
 
