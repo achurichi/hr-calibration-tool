@@ -11,7 +11,7 @@ import Card from "react-bootstrap/Card";
 import Button from "components/Button/Button";
 import Table from "components/Table/Table";
 
-import { FUNCTIONS } from "constants/mongo";
+import { REQUEST_IDS as CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/configurationsApi";
 
 import rootStore from "stores/root.store";
 
@@ -63,7 +63,7 @@ const CreateConfiguration = observer(() => {
     const { success } = await callWithNotification(
       async () =>
         await configurationStore.createConfigurations(assemblyDescriptionMap),
-      FUNCTIONS.CONFIGURATIONS.CREATE_MANY,
+      CONFIGURATIONS_REQUESTS.CREATE_MANY,
       `${manyConfigurations ? "Configurations" : "Configuration"} created`,
     );
 
@@ -106,7 +106,7 @@ const CreateConfiguration = observer(() => {
           disabled={
             isEmpty(selectedDescriptions) ||
             Object.values(selectedDescriptions).some((value) => !value) ||
-            requestStore.isLoading(FUNCTIONS.CONFIGURATIONS.CREATE_MANY)
+            requestStore.isLoading(CONFIGURATIONS_REQUESTS.CREATE_MANY)
           }
           onClick={createConfigurations}
         >

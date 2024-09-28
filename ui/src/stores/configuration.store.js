@@ -121,8 +121,7 @@ class ConfigurationStore {
   }
 
   async createConfigurations(configurationDescriptionMap) {
-    await this.rootStore.realmStore.callFunction(
-      FUNCTIONS.CONFIGURATIONS.CREATE_MANY,
+    await this.rootStore.api.calibrationTool.configurations.createMany(
       configurationDescriptionMap,
     );
   }

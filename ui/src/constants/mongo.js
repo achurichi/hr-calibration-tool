@@ -1,6 +1,6 @@
 export const FUNCTIONS = {
   CONFIGURATIONS: {
-    CREATE_MANY: "configurations_createMany",
+    // CREATE_MANY: "configurations_createMany",
   },
   DESCRIPTIONS: {
     // CREATE: "descriptions_create",

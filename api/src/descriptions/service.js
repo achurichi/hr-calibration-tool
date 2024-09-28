@@ -1,7 +1,7 @@
 import { ObjectId } from 'bson'
 import mongoDBClient from '../mongo/mongoDBClient.js'
 import { logErrorAndThrow } from '../utils/logging.js'
-import imageService from '../images/service.js'
+import imagesService from '../images/service.js'
 
 import { COLLECTIONS } from '../constants/mongo.js'
 
@@ -82,7 +82,7 @@ const deleteByName = async function (name) {
 				idsToDelete.push(...a.images)
 			}
 		})
-		await imageService.deleteMany(idsToDelete)
+		await imagesService.deleteMany(idsToDelete)
 	} catch (err) {
 		console.error('Error occurred while deleting images:', err.stack)
 	}
@@ -310,7 +310,7 @@ const deleteItem = async function (descriptionName, itemId, collectionName) {
 		if (collectionName === COLLECTIONS.MOTORS_DESCRIPTION) {
 			const deleteFn = async (prop) => {
 				if (item?.[prop]?.images) {
-					await imageService.deleteMany(item[prop].images)
+					await imagesService.deleteMany(item[prop].images)
 				}
 			}
 			await Promise.all([
@@ -320,7 +320,7 @@ const deleteItem = async function (descriptionName, itemId, collectionName) {
 			])
 		} else {
 			if (item?.images) {
-				await imageService.deleteMany(item.images)
+				await imagesService.deleteMany(item.images)
 			}
 		}
 	} catch (err) {
@@ -344,7 +344,7 @@ const deleteOldImages = async function (oldImageIds, newImageIds) {
 	)
 
 	if (idsToDelete.length) {
-		await imageService.deleteMany(idsToDelete)
+		await imagesService.deleteMany(idsToDelete)
 	}
 }
 
