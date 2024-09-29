@@ -35,7 +35,7 @@ const MotorsFilter = observer(({ motors }) => {
   return (
     <div className={styles.filter}>
       <SearchBar
-        placeholder="Search by Name or Description"
+        placeholder="Search by Name or Id"
         onChange={(value) => {
           filtersStore.setFilter(FILTER_IDS.MOTOR_SEARCH, value);
         }}

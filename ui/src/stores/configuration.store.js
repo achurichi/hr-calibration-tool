@@ -76,6 +76,18 @@ class ConfigurationStore {
     );
   }
 
+  getAssemblyConfigurations() {
+    const assemblyEntries = this.rootStore.robotStore.getAssemblyEntries();
+    const configurations = [];
+    assemblyEntries.forEach(([, descriptionName]) => {
+      const configuration = this.configurations.get(descriptionName);
+      if (configuration) {
+        configurations.push(configuration);
+      }
+    });
+    return configurations;
+  }
+
   async getOrFetchAssemblyConfigurations(descriptionType, forceFetch = false) {
     const assemblyEntries = this.rootStore.robotStore.getAssemblyEntries();
     const configurationPromises = assemblyEntries.map(

@@ -121,6 +121,17 @@ class DescriptionStore {
     return description || (await this.fetchDescription(type, descriptionName));
   }
 
+  getAssemblyDescriptions(type) {
+    const descriptions = [];
+    this.rootStore.robotStore.getDescriptionNames().forEach((name) => {
+      const description = this.getDescription(type, name);
+      if (description) {
+        descriptions.push(description);
+      }
+    });
+    return descriptions;
+  }
+
   async getOrFetchAssemblyDescriptions(type) {
     const descriptionsPromises = this.rootStore.robotStore
       .getDescriptionNames()

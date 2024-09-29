@@ -58,9 +58,9 @@ const MotorCalibration = observer(() => {
 
     if (searchFilter) {
       motors = motors.filter(
-        ({ name, description }) =>
+        ({ name, motorId }) =>
           name.toLowerCase().includes(searchFilter.toLowerCase()) ||
-          description?.toLowerCase().includes(searchFilter.toLowerCase()),
+          (motorId && `${motorId}`.includes(searchFilter)),
       );
     }
 

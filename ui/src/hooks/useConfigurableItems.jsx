@@ -22,35 +22,28 @@ const sortFn = (a, b) => {
 
 const useConfigurableItems = (descriptionType) => {
   const { configurationStore, descriptionStore, robotStore } = rootStore;
-  const [descriptions, setDescriptions] = useState([]);
-  const [configurations, setConfigurations] = useState([]);
   const [items, setItems] = useState({ configure: [], add: [] });
   const missingConfigurations = robotStore.checkMissingConfigurations();
 
   useEffect(() => {
-    const getItems = async () => {
-      const descriptions =
-        await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
-      const configurations =
-        await configurationStore.getOrFetchAssemblyConfigurations(
-          descriptionType,
-          true,
-        );
-
-      setDescriptions(descriptions);
-      setConfigurations(configurations);
+    const fetchConfigurationsAndDescriptions = async () => {
+      await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
+      await configurationStore.getOrFetchAssemblyConfigurations(
+        descriptionType,
+        true,
+      );
     };
 
     if (!missingConfigurations) {
-      getItems();
+      fetchConfigurationsAndDescriptions();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [missingConfigurations, JSON.stringify(robotStore.getAssemblyIds())]);
 
   useEffect(() => {
-    if (!configurations.length) {
-      return;
-    }
+    const configurations = configurationStore.getAssemblyConfigurations();
+    const descriptions =
+      descriptionStore.getAssemblyDescriptions(descriptionType);
 
     const allToConfigure = [];
     const allToAdd = [];
@@ -83,8 +76,10 @@ const useConfigurableItems = (descriptionType) => {
 
       allToConfigure.push(...toConfigure);
 
-      // only motors allow adding new items
-      if (descriptionType !== DESCRIPTION_TYPES.MOTORS) {
+      if (
+        !descriptions.length ||
+        descriptionType !== DESCRIPTION_TYPES.MOTORS // only motors allow adding new items
+      ) {
         return;
       }
 
@@ -118,12 +113,7 @@ const useConfigurableItems = (descriptionType) => {
 
     setItems({ configure: allToConfigure, add: allToAdd });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    configurations,
-    descriptions,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(configurationStore.getAllIds()),
-  ]);
+  }, [JSON.stringify(configurationStore.getAllIds())]);
 
   return items;
 };
