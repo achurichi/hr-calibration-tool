@@ -22,7 +22,11 @@ Install all required packages by running:
 npm install
 ```
 
-### 4. Run the Project
+### 4. Configure environment variables
+
+Create `.env` files in the `/api` and `/ui` folders, and populate them with the necessary environment variables. Use the `.env-default` files as a template.
+
+### 5. Run the Project
 
 Start the project with the following command:
 
