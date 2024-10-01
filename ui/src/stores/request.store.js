@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { toast } from "react-toastify";
 
 import { STATUS_TYPES } from "constants/status";
 
@@ -29,7 +30,7 @@ class RequestStore {
     return this.getStatus(id).type === STATUS_TYPES.IN_PROGRESS;
   }
 
-  async request(id, requestFn, shouldThrow = false) {
+  async request(id, requestFn, shouldThrow = false, notifyError = true) {
     try {
       this.setStatus(id, STATUS_TYPES.IN_PROGRESS);
       const response = await requestFn();
@@ -37,11 +38,14 @@ class RequestStore {
       return response;
     } catch (err) {
       this.setStatus(id, STATUS_TYPES.ERROR);
+      if (notifyError) {
+        console.log(err);
+        toast.error(err.response?.data || "Request failed");
+      }
       if (shouldThrow) {
         throw err;
       }
-      console.log(err);
-      return err.response;
+      return { ...err.response, data: null };
     }
   }
 }

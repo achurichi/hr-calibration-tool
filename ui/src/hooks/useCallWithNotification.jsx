@@ -7,12 +7,7 @@ import { STATUS_TYPES } from "constants/status";
 const useCallWithNotification = () => {
   const { requestStore } = rootStore;
 
-  const callWithNotification = async (
-    fn,
-    statusId,
-    successMessage,
-    errorMessage,
-  ) => {
+  const callWithNotification = async (fn, statusId, successMessage) => {
     const result = { result: await fn() };
     const status = requestStore.getStatus(statusId);
 
@@ -21,14 +16,8 @@ const useCallWithNotification = () => {
       if (successMessage) {
         toast.success(successMessage);
       }
-    } else if (
-      status.type === STATUS_TYPES.ERROR &&
-      (errorMessage || status.message)
-    ) {
+    } else if (status.type === STATUS_TYPES.ERROR) {
       result.success = false;
-      if (errorMessage || status.message) {
-        toast.error(errorMessage || status.message);
-      }
     }
 
     return result;

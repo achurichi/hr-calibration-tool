@@ -4,33 +4,33 @@ import rootStore from "stores/root.store";
 const API_HOST = `${process.env.REACT_APP_API_URL}/api`;
 
 export const REQUESTS = {
-  get: (requestId, endpoint, data = undefined) => {
+  get: (requestId, endpoint, config) => {
     return rootStore.requestStore.request(requestId, () =>
-      axios.get(API_HOST + endpoint, data),
+      axios.get(`${API_HOST}${endpoint}`, config),
     );
   },
 
-  post: (requestId, endpoint, data, header) => {
+  post: (requestId, endpoint, data, config) => {
     return rootStore.requestStore.request(requestId, () =>
-      axios.post(API_HOST + endpoint, data, header),
+      axios.post(`${API_HOST}${endpoint}`, data, config),
     );
   },
 
-  put: (requestId, endpoint, data, header) => {
+  put: (requestId, endpoint, data, config) => {
     return rootStore.requestStore.request(requestId, () =>
-      axios.put(API_HOST + endpoint, data, header),
+      axios.put(`${API_HOST}${endpoint}`, data, config),
     );
   },
 
-  delete: (requestId, endpoint, header) => {
+  delete: (requestId, endpoint, config) => {
     return rootStore.requestStore.request(requestId, () =>
-      axios.delete(API_HOST + endpoint, header),
+      axios.delete(`${API_HOST}${endpoint}`, config),
     );
   },
 
-  patch: (requestId, endpoint, data, header) => {
+  patch: (requestId, endpoint, data, config) => {
     return rootStore.requestStore.request(requestId, () =>
-      axios.patch(API_HOST + endpoint, data, header),
+      axios.patch(`${API_HOST}${endpoint}`, data, config),
     );
   },
 };
