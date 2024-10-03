@@ -8,6 +8,15 @@ class RosStore {
   rootStore;
   ros = null;
   debug = true;
+  motor_states = {
+    motor_1: {
+      load: 0,
+      position: 2048,
+      torque_enabled: false,
+      errorCode: 0,
+      last_updated: new Date().getTime(),
+    },
+  };
 
   constructor(root) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -106,6 +115,34 @@ class RosStore {
   }
 
   // Get and set params
+
+  async getHead() {
+    const param = new ROSLIB.Param({
+      ros: this.ros,
+      name: "/hr/robot_name",
+    });
+
+    return new Promise((resolve) => {
+      param.get((value) => {
+        console.log(`${param.name}: ` + value);
+        resolve(value);
+      });
+    });
+  }
+
+  async getBody() {
+    const param = new ROSLIB.Param({
+      ros: this.ros,
+      name: "/hr/robot_body",
+    });
+
+    return new Promise((resolve) => {
+      param.get((value) => {
+        console.log(`${param.name}: ` + value);
+        resolve(value);
+      });
+    });
+  }
 
   async getParamTest() {
     const param = new ROSLIB.Param({
