@@ -9,14 +9,26 @@ import Spinner from "components/Spinner/Spinner";
 import rootStore from "stores/root.store";
 
 import { BASE_PATH } from "constants/routes";
+import { STATUS_TYPES } from "constants/status";
 
 function App() {
-  const { robotStore } = rootStore;
+  const { robotStore, rosStore } = rootStore;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
-      // TODO: Init websocket and get assembly ids
+      const { status } = await rosStore.init();
+      if (status !== STATUS_TYPES.SUCCESS) {
+        return;
+      }
+
+      // rosStore.publishTest();
+      // rosStore.subscribeTest();
+      // await rosStore.serviceTest();
+      // await rosStore.setParamTest();
+      // await rosStore.getParamTest();
+
+      // TODO: Get assembly ids from websockets
 
       await robotStore.fetchDescriptionNamesByAssembly({
         body: "test_body_assembly",
