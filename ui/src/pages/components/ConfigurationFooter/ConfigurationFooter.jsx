@@ -3,12 +3,12 @@ import { observer } from "mobx-react";
 
 import Form from "react-bootstrap/Form";
 
-import Footer from "components/Footer/Footer";
-import ProgressBar from "components/ProgressBar/ProgressBar";
+import Footer from "@/components/Footer/Footer";
+import ProgressBar from "@/components/ProgressBar/ProgressBar";
 
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./ConfigurationFooter.module.scss";
 

@@ -1,4 +1,4 @@
-import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
+import { DESCRIPTION_ITEM_TYPES } from "@/constants/descriptions";
 
 export const DEFAULT_ADVANCED_FORM = {
   motor_id: null,

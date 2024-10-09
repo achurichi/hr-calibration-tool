@@ -8,11 +8,11 @@ import {
   BsXCircleFill,
 } from "react-icons/bs";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import Dropzone from "components/Dropzone/Dropzone";
-import Spinner from "components/Spinner/Spinner";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import Dropzone from "@/components/Dropzone/Dropzone";
+import Spinner from "@/components/Spinner/Spinner";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./ImageFieldArray.module.scss";
 

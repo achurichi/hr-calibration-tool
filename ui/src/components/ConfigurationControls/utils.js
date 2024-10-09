@@ -2,7 +2,7 @@ import {
   isNumeric,
   minMaxBetweenRange,
   valueBetweenRange,
-} from "utils/numbers";
+} from "@/utils/numbers";
 
 /**
  * Validates a value against specified range criteria.

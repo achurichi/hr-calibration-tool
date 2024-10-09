@@ -7,10 +7,10 @@ import { BsEmojiLaughing, BsPersonCircle, BsWrench } from "react-icons/bs";
 import { MdOutlineMenu } from "react-icons/md";
 import { GiLips } from "react-icons/gi";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import Tooltip from "components/Tooltip/Tooltip";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
-import { PATHS } from "constants/routes";
+import { PATHS } from "@/constants/routes";
 
 import styles from "./Sidebar.module.scss";
 

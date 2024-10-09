@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import Select from "react-select";
 
-import { FILTER_IDS } from "constants/filters";
+import { FILTER_IDS } from "@/constants/filters";
 
-import SearchBar from "components/SearchBar/SearchBar";
+import SearchBar from "@/components/SearchBar/SearchBar";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./MotorsFilter.module.scss";
 

@@ -6,13 +6,13 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
-import Button from "components/Button/Button";
-import Slider from "components/Slider/Slider";
-import Tooltip from "components/Tooltip/Tooltip";
+import Button from "@/components/Button/Button";
+import Slider from "@/components/Slider/Slider";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
-import { validateRange } from "components/ConfigurationControls/utils";
-import { getLimitValue } from "utils/numbers";
-import { getError } from "utils/forms";
+import { validateRange } from "@/components/ConfigurationControls/utils";
+import { getLimitValue } from "@/utils/numbers";
+import { getError } from "@/utils/forms";
 
 import styles from "./ConfigurationControls.module.scss";
 

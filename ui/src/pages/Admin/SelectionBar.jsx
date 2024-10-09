@@ -4,15 +4,15 @@ import { observer } from "mobx-react";
 import { BsChevronRight } from "react-icons/bs";
 import Select from "react-select";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-import useSelectionBar from "pages/Admin/hooks/useSelectionBar";
+import useSelectionBar from "@/pages/Admin/hooks/useSelectionBar";
 
-import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import EditableSelect from "components/EditableSelect/EditableSelect";
-import NewDescriptionModal from "pages/Admin/NewDescriptionModal/NewDescriptionModal";
+import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import EditableSelect from "@/components/EditableSelect/EditableSelect";
+import NewDescriptionModal from "@/pages/Admin/NewDescriptionModal/NewDescriptionModal";
 
-import { DESCRIPTION_ITEMS_OPTIONS } from "constants/descriptions";
+import { DESCRIPTION_ITEMS_OPTIONS } from "@/constants/descriptions";
 
 import styles from "./SelectionBar.module.scss";
 

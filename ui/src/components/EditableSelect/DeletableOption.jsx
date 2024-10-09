@@ -3,7 +3,7 @@ import React from "react";
 import { BsTrash } from "react-icons/bs";
 import { components } from "react-select";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
 
 import styles from "./DeletableOption.module.scss";
 

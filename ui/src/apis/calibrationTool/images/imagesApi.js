@@ -1,4 +1,4 @@
-import { REQUESTS } from "apis/utils";
+import { REQUESTS } from "@/apis/utils";
 
 export const REQUEST_IDS = {
   GET_IMAGE_BY_ID: "GET_IMAGE_BY_ID",

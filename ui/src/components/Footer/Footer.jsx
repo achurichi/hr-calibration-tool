@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
-import Button from "components/Button/Button";
+import Button from "@/components/Button/Button";
 
 import styles from "./Footer.module.scss";
 

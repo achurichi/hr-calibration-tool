@@ -5,13 +5,13 @@ import classNames from "classnames";
 
 import Alert from "react-bootstrap/Alert";
 
-import AdvancedForm from "pages/components/Forms/AdvancedForm";
-import ConfigurationControls from "components/ConfigurationControls/ConfigurationControls";
-import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
+import AdvancedForm from "@/pages/components/Forms/AdvancedForm";
+import ConfigurationControls from "@/components/ConfigurationControls/ConfigurationControls";
+import ConfigurationInstructions from "@/components/ConfigurationInstructions/ConfigurationInstructions";
 
-import { getSectionData } from "pages/MotorCalibration/MotorConfiguration/utils";
+import { getSectionData } from "@/pages/MotorCalibration/MotorConfiguration/utils";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 // not using modules because we want to target the fullscreen carousel class
 import "./ConfigurationSections.scss";

@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cloneDeep from "lodash/cloneDeep";
 
-import useCallWithNotification from "hooks/useCallWithNotification";
+import useCallWithNotification from "@/hooks/useCallWithNotification";
 
-import { buildDefaultConfigurationForm } from "utils/forms";
-import { clean, trimStrings } from "utils/object";
+import { buildDefaultConfigurationForm } from "@/utils/forms";
+import { clean, trimStrings } from "@/utils/object";
 
-import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
-import { PATHS } from "constants/routes";
+import { DESCRIPTION_ITEM_TYPES } from "@/constants/descriptions";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
+import { PATHS } from "@/constants/routes";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 const useConfigurationFormSetup = (
   descriptionType,

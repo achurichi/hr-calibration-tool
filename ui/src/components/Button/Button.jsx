@@ -3,9 +3,9 @@ import classNames from "classnames";
 
 import ReactButton from "react-bootstrap/Button";
 
-import Tooltip from "components/Tooltip/Tooltip";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
-import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
+import { DEFAULT_TOOLTIP_PROPS } from "@/constants/tooltips";
 
 import styles from "./Button.module.scss";
 

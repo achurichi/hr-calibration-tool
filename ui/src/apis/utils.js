@@ -1,7 +1,7 @@
 import axios from "axios";
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-const API_HOST = `${process.env.REACT_APP_API_URL}/api`;
+const API_HOST = `${import.meta.env.VITE_API_URL}/api`;
 
 export const REQUESTS = {
   get: (requestId, endpoint, config) => {

@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import classNames from "classnames";
 
-import Carousel from "components/Carousel/Carousel";
-import Spinner from "components/Spinner/Spinner";
+import Carousel from "@/components/Carousel/Carousel";
+import Spinner from "@/components/Spinner/Spinner";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 // not using modules because we want to target the fullscreen carousel class
 import "./ConfigurationInstructions.scss";

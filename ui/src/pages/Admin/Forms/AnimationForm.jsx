@@ -3,9 +3,9 @@ import { useFormContext } from "react-hook-form";
 
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import InputField from "components/FormFields/InputField";
-import ImageFieldArray from "pages/Admin/Forms/ImageFieldArray";
-import MotionFieldArray from "pages/Admin/Forms/MotionFieldArray";
+import InputField from "@/components/FormFields/InputField";
+import ImageFieldArray from "@/pages/Admin/Forms/ImageFieldArray";
+import MotionFieldArray from "@/pages/Admin/Forms/MotionFieldArray";
 
 const AnimationForm = () => {
   const {

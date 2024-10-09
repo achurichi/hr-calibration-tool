@@ -4,7 +4,7 @@ import isEqual from "lodash/isEqual";
 import {
   DESCRIPTION_ITEMS_OPTIONS,
   NEW_ITEM_OPTION,
-} from "constants/descriptions";
+} from "@/constants/descriptions";
 
 class UiDescriptionStore {
   uiStore;

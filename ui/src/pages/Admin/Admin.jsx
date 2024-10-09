@@ -5,20 +5,20 @@ import isEmpty from "lodash/isEmpty";
 
 import Form from "react-bootstrap/Form";
 
-import DataForm from "pages/Admin/Forms/DataForm";
-import Footer from "components/Footer/Footer";
-import Layout from "components/Layout/Layout";
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import SelectionBar from "pages/Admin/SelectionBar";
-import Spinner from "components/Spinner/Spinner";
+import DataForm from "@/pages/Admin/Forms/DataForm";
+import Footer from "@/components/Footer/Footer";
+import Layout from "@/components/Layout/Layout";
+import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
+import SelectionBar from "@/pages/Admin/SelectionBar";
+import Spinner from "@/components/Spinner/Spinner";
 
-import useDescriptionForm from "pages/Admin/hooks/useDescriptionForm";
+import useDescriptionForm from "@/pages/Admin/hooks/useDescriptionForm";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
-import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/descriptionsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
+import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/animations/animationsApi";
+import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/descriptionsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
 
 import styles from "./Admin.module.scss";
 

@@ -8,12 +8,12 @@ import {
   BsPlusLg,
   BsXLg,
 } from "react-icons/bs";
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import Button from "components/Button/Button";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import Button from "@/components/Button/Button";
 
-import MotionForm from "pages/Admin/Forms/MotionForm";
+import MotionForm from "@/pages/Admin/Forms/MotionForm";
 
-import { DEFAULT_MOTION_FORM } from "constants/forms";
+import { DEFAULT_MOTION_FORM } from "@/constants/forms";
 
 import styles from "./MotionFieldArray.module.scss";
 

@@ -1,4 +1,4 @@
-import { REQUESTS } from "apis/utils";
+import { REQUESTS } from "@/apis/utils";
 
 import AnimationsApi from "./animations/animationsApi";
 import MotorsApi from "./motors/motorsApi";

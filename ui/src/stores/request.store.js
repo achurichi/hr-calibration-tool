@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { toast } from "react-toastify";
 
-import { STATUS_TYPES } from "constants/status";
+import { STATUS_TYPES } from "@/constants/status";
 
 class RequestStore {
   rootStore;

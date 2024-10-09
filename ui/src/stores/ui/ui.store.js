@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import UiDescriptionStore from "stores/ui/uiDescription.store";
-import UiConfigurationStore from "stores/ui/uiConfiguration.store";
+import UiDescriptionStore from "@/stores/ui/uiDescription.store";
+import UiConfigurationStore from "@/stores/ui/uiConfiguration.store";
 
 class UiStore {
   rootStore;

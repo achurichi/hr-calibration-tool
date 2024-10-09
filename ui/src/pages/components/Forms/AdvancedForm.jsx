@@ -5,8 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import InputField from "components/FormFields/InputField";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import InputField from "@/components/FormFields/InputField";
 
 import { getExtraProps } from "./utils";
 

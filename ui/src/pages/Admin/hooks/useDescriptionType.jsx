@@ -1,4 +1,4 @@
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 const useDescriptionType = (descriptionMap) => {
   const { uiStore } = rootStore;

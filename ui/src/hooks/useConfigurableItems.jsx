@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { DESCRIPTION_TYPES } from "constants/descriptions";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 const sortFn = (a, b) => {
   const aIsNumber = !isNaN(a.sortNo);

@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import isEmpty from "lodash/isEmpty";
 
-import useCallWithNotification from "hooks/useCallWithNotification";
+import useCallWithNotification from "@/hooks/useCallWithNotification";
 
 import Select from "react-select";
 import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
 
-import Button from "components/Button/Button";
-import Table from "components/Table/Table";
+import Button from "@/components/Button/Button";
+import Table from "@/components/Table/Table";
 
-import { REQUEST_IDS as CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/configurationsApi";
+import { REQUEST_IDS as CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/configurationsApi";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./CreateConfiguration.module.scss";
 

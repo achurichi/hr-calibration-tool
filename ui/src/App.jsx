@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter } from "react-router-dom";
-import Router from "./pages/Router";
+import { BrowserRouter } from "react-router-dom";
+import Router from "@/pages/Router";
 import { observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
 
-import Spinner from "components/Spinner/Spinner";
+import Spinner from "@/components/Spinner/Spinner";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-import { BASE_PATH } from "constants/routes";
-import { STATUS_TYPES } from "constants/status";
+import { STATUS_TYPES } from "@/constants/status";
 
 function App() {
   const { robotStore, rosStore } = rootStore;
@@ -51,9 +50,9 @@ function App() {
 
   return (
     <>
-      <HashRouter basename={BASE_PATH}>
+      <BrowserRouter basename={import.meta.env.VITE_BASE_PATH}>
         <Router />
-      </HashRouter>
+      </BrowserRouter>
       <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
     </>
   );

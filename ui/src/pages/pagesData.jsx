@@ -1,16 +1,16 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import { PATHS } from "constants/routes";
+import { PATHS } from "@/constants/routes";
 
-import Admin from "pages/Admin/Admin";
-import ExpressionConfiguration from "pages/Animations/Expressions/ExpressionConfiguration/ExpressionConfiguration";
-import Expressions from "pages/Animations/Expressions/Expressions";
-import Main from "pages/Main";
-import MotorCalibration from "pages/MotorCalibration/MotorCalibration";
-import MotorConfiguration from "pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
-import VisemeConfiguration from "pages/Animations/Visemes/VisemeConfiguration/VisemeConfiguration";
-import Visemes from "pages/Animations/Visemes/Visemes";
+import Admin from "@/pages/Admin/Admin";
+import ExpressionConfiguration from "@/pages/Animations/Expressions/ExpressionConfiguration/ExpressionConfiguration";
+import Expressions from "@/pages/Animations/Expressions/Expressions";
+import Main from "@/pages/Main";
+import MotorCalibration from "@/pages/MotorCalibration/MotorCalibration";
+import MotorConfiguration from "@/pages/MotorCalibration/MotorConfiguration/MotorConfiguration";
+import VisemeConfiguration from "@/pages/Animations/Visemes/VisemeConfiguration/VisemeConfiguration";
+import Visemes from "@/pages/Animations/Visemes/Visemes";
 
 const pagesData = [
   {

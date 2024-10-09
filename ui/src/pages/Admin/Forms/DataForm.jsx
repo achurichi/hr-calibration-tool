@@ -1,12 +1,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 
-import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
+import useDescriptionType from "@/pages/Admin/hooks/useDescriptionType";
 
-import { DESCRIPTION_ITEM_TYPES } from "constants/descriptions";
+import { DESCRIPTION_ITEM_TYPES } from "@/constants/descriptions";
 
-import MotorForm from "pages/Admin/Forms/MotorForm";
-import AnimationForm from "pages/Admin/Forms/AnimationForm";
+import MotorForm from "@/pages/Admin/Forms/MotorForm";
+import AnimationForm from "@/pages/Admin/Forms/AnimationForm";
 
 const DataForm = observer(() => {
   const Form = useDescriptionType({

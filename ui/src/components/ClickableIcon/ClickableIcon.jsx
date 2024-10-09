@@ -1,9 +1,9 @@
 import React from "react";
 import classNames from "classnames";
 
-import Tooltip from "components/Tooltip/Tooltip";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
-import { DEFAULT_TOOLTIP_PROPS } from "constants/tooltips";
+import { DEFAULT_TOOLTIP_PROPS } from "@/constants/tooltips";
 
 import styles from "./ClickableIcon.module.scss";
 

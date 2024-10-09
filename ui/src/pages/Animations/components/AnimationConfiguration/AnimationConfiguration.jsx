@@ -3,25 +3,25 @@ import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
 
-import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
+import useConfigurationFormSetup from "@/hooks/useConfigurationFormSetup";
 
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 
-import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
-import ConfigurationInstructions from "components/ConfigurationInstructions/ConfigurationInstructions";
-import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import Layout from "components/Layout/Layout";
-import MotionsControls from "pages/Animations/components/AnimationConfiguration/MotionsControls";
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import Spinner from "components/Spinner/Spinner";
+import ConfigurationFooter from "@/pages/components/ConfigurationFooter/ConfigurationFooter";
+import ConfigurationInstructions from "@/components/ConfigurationInstructions/ConfigurationInstructions";
+import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import Layout from "@/components/Layout/Layout";
+import MotionsControls from "@/pages/Animations/components/AnimationConfiguration/MotionsControls";
+import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
+import Spinner from "@/components/Spinner/Spinner";
 
-import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/animations/animationsApi";
-import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
+import { REQUEST_IDS as ANIMATIONS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/animations/animationsApi";
+import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/animations/animationsApi";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 // not using modules because we want to target the fullscreen carousel class
 import "./AnimationConfiguration.scss";

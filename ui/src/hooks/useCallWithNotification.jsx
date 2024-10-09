@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-import { STATUS_TYPES } from "constants/status";
+import { STATUS_TYPES } from "@/constants/status";
 
 const useCallWithNotification = () => {
   const { requestStore } = rootStore;

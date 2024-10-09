@@ -1,4 +1,4 @@
-import { DESCRIPTION_TYPES } from "constants/descriptions";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
 
 /**
  * Retrieves an error message from errors object.

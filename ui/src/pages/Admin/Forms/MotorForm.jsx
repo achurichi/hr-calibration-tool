@@ -4,10 +4,10 @@ import { useFormContext } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
-import AdvancedForm from "pages/components/Forms/AdvancedForm";
-import CheckboxField from "components/FormFields/CheckboxField";
-import InputField from "components/FormFields/InputField";
-import PositionConfigurationForm from "pages/Admin/Forms/PositionConfigurationForm";
+import AdvancedForm from "@/pages/components/Forms/AdvancedForm";
+import CheckboxField from "@/components/FormFields/CheckboxField";
+import InputField from "@/components/FormFields/InputField";
+import PositionConfigurationForm from "@/pages/Admin/Forms/PositionConfigurationForm";
 
 const MotorForm = () => {
   const {

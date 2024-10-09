@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
-import useCallWithNotification from "hooks/useCallWithNotification";
+import useCallWithNotification from "@/hooks/useCallWithNotification";
 
-import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/descriptionsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
-import { DESCRIPTION_TYPES_MAP } from "constants/descriptions";
-import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "constants/modals";
+import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/descriptionsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
+import { DESCRIPTION_TYPES_MAP } from "@/constants/descriptions";
+import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "@/constants/modals";
 import {
   DESCRIPTION_ITEMS_OPTIONS,
   NEW_ITEM_OPTION,
-} from "constants/descriptions";
+} from "@/constants/descriptions";
 
 const useSelectionBar = (unsaved) => {
   const { descriptionStore, uiStore } = rootStore;

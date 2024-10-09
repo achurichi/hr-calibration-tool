@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
-import useCallWithNotification from "hooks/useCallWithNotification";
-import useConfigurableItems from "hooks/useConfigurableItems";
+import useCallWithNotification from "@/hooks/useCallWithNotification";
+import useConfigurableItems from "@/hooks/useConfigurableItems";
 
 import { BsPlusLg, BsTrash } from "react-icons/bs";
 
-import AddMotorsModal from "pages/MotorCalibration/components/AddMotorsModal/AddMotorsModal";
-import Button from "components/Button/Button";
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
-import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
-import EditIconField from "components/Table/EditIconField/EditIconField";
-import EmptyField from "components/Table/EmptyField/EmptyField";
-import MotorsFilter from "pages/MotorCalibration/MotorsFilter";
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import Spinner from "components/Spinner/Spinner";
-import Table from "components/Table/Table";
+import AddMotorsModal from "@/pages/MotorCalibration/components/AddMotorsModal/AddMotorsModal";
+import Button from "@/components/Button/Button";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import CreateConfiguration from "@/pages/components/CreateConfiguration/CreateConfiguration";
+import EditIconField from "@/components/Table/EditIconField/EditIconField";
+import EmptyField from "@/components/Table/EmptyField/EmptyField";
+import MotorsFilter from "@/pages/MotorCalibration/MotorsFilter";
+import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
+import Spinner from "@/components/Spinner/Spinner";
+import Table from "@/components/Table/Table";
 
-import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { FILTER_IDS } from "constants/filters";
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
-import { PATHS } from "constants/routes";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
+import { FILTER_IDS } from "@/constants/filters";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
+import { PATHS } from "@/constants/routes";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./MotorCalibration.module.scss";
 

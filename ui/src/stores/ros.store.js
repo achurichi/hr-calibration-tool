@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 import ROSLIB from "roslib";
 
-import { STATUS_TYPES } from "constants/status";
+import { STATUS_TYPES } from "@/constants/status";
 
 class RosStore {
   rootStore;
@@ -32,7 +32,9 @@ class RosStore {
       }
 
       try {
-        this.ros = new ROSLIB.Ros({ url: process.env.REACT_APP_ROS_WS_URL });
+        this.ros = new ROSLIB.Ros({
+          url: import.meta.env.VITE_ROS_WS_URL,
+        });
 
         this.ros.on("connection", () => {
           // this.ros.on("error", (e) => console.log(e));

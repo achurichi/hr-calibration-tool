@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 
-import Button from "components/Button/Button";
+import Button from "@/components/Button/Button";
 
 const NewDescriptionModal = ({
   disabled,

@@ -3,26 +3,26 @@ import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { useForm, FormProvider } from "react-hook-form";
 
-import useConfigurationFormSetup from "hooks/useConfigurationFormSetup";
+import useConfigurationFormSetup from "@/hooks/useConfigurationFormSetup";
 
 import Form from "react-bootstrap/Form";
 import Select from "react-select";
 
-import ConfigurationFooter from "pages/components/ConfigurationFooter/ConfigurationFooter";
-import ConfigurationSections from "pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
-import ConfirmationModal from "components/ConfirmationModal/ConfirmationModal";
-import Layout from "components/Layout/Layout";
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import Spinner from "components/Spinner/Spinner";
+import ConfigurationFooter from "@/pages/components/ConfigurationFooter/ConfigurationFooter";
+import ConfigurationSections from "@/pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
+import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import Layout from "@/components/Layout/Layout";
+import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
+import Spinner from "@/components/Spinner/Spinner";
 
 import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
-} from "constants/descriptions";
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "apis/calibrationTool/configurations/motors/motorsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
+} from "@/constants/descriptions";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./MotorConfiguration.module.scss";
 

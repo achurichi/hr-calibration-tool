@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 
-import { UNSAVED_CHANGES_MODAL } from "constants/modals";
+import { UNSAVED_CHANGES_MODAL } from "@/constants/modals";
 
 class UiConfigurationStore {
   uiStore;

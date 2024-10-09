@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { observer } from "mobx-react";
-import pagesData from "pages/pagesData";
+import pagesData from "@/pages/pagesData";
 
 const Router = observer(() => {
   const getRoutes = (pagesData) => {

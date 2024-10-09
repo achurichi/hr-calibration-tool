@@ -3,9 +3,9 @@ import classNames from "classnames";
 import RcSlider from "rc-slider";
 import { BsDashCircleFill, BsPlusCircleFill } from "react-icons/bs";
 
-import { countDecimals } from "utils/numbers";
+import { countDecimals } from "@/utils/numbers";
 
-import ClickableIcon from "components/ClickableIcon/ClickableIcon";
+import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
 
 import "rc-slider/assets/index.css";
 import styles from "./Slider.module.scss";

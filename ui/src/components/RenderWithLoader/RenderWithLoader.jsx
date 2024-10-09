@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 const RenderWithLoader = observer(
   ({ dependencies, loadingComponent, children }) => {

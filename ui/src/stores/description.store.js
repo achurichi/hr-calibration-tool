@@ -4,11 +4,11 @@ import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES,
   DESCRIPTION_TYPES_MAP,
-} from "constants/descriptions";
-import { STATUS_TYPES } from "constants/status";
+} from "@/constants/descriptions";
+import { STATUS_TYPES } from "@/constants/status";
 
-import AnimationsDescription from "models/descriptions/AnimationsDescription";
-import MotorsDescription from "models/descriptions/MotorsDescription";
+import AnimationsDescription from "@/models/descriptions/AnimationsDescription";
+import MotorsDescription from "@/models/descriptions/MotorsDescription";
 
 class DescriptionStore {
   rootStore;

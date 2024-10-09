@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 
-import { DESCRIPTION_TYPES } from "constants/descriptions";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
 
-import AnimationsConfiguration from "models/configurations/AnimationsConfiguration";
-import MotorsConfiguration from "models/configurations/MotorsConfiguration";
+import AnimationsConfiguration from "@/models/configurations/AnimationsConfiguration";
+import MotorsConfiguration from "@/models/configurations/MotorsConfiguration";
 
 class ConfigurationStore {
   rootStore;

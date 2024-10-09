@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-import Button from "components/Button/Button";
-import EmptyField from "components/Table/EmptyField/EmptyField";
-import Table from "components/Table/Table";
+import Button from "@/components/Button/Button";
+import EmptyField from "@/components/Table/EmptyField/EmptyField";
+import Table from "@/components/Table/Table";
 
 import styles from "./AddMotorsModal.module.scss";
 

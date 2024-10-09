@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 
-import useConfigurableItems from "hooks/useConfigurableItems";
+import useConfigurableItems from "@/hooks/useConfigurableItems";
 
-import CreateConfiguration from "pages/components/CreateConfiguration/CreateConfiguration";
-import EditIconField from "components/Table/EditIconField/EditIconField";
-import RenderWithLoader from "components/RenderWithLoader/RenderWithLoader";
-import SearchBar from "components/SearchBar/SearchBar";
-import Spinner from "components/Spinner/Spinner";
-import Table from "components/Table/Table";
+import CreateConfiguration from "@/pages/components/CreateConfiguration/CreateConfiguration";
+import EditIconField from "@/components/Table/EditIconField/EditIconField";
+import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import Spinner from "@/components/Spinner/Spinner";
+import Table from "@/components/Table/Table";
 
-import { DESCRIPTION_TYPES } from "constants/descriptions";
-import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/animations/animationsApi";
+import { DESCRIPTION_TYPES } from "@/constants/descriptions";
+import { REQUEST_IDS as ANIMATIONS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/animations/animationsApi";
 
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 
 import styles from "./AnimationCalibration.module.scss";
 

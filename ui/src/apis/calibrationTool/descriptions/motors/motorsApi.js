@@ -1,4 +1,4 @@
-import { REQUESTS } from "apis/utils";
+import { REQUESTS } from "@/apis/utils";
 
 export const REQUEST_IDS = {
   GET_BY_NAME: "GET_MOTOR_DESCRIPTION_BY_NAME",

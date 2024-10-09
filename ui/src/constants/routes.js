@@ -1,5 +1,3 @@
-export const BASE_PATH = "/";
-
 export const PATHS = {
   MOTORS: "/motors",
   MOTOR_CONFIGURE: "/motors/calibration",

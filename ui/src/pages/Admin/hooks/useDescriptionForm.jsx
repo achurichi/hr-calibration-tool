@@ -1,27 +1,27 @@
 import { useEffect } from "react";
-import rootStore from "stores/root.store";
+import rootStore from "@/stores/root.store";
 import { toast } from "react-toastify";
 import cloneDeep from "lodash/cloneDeep";
 import { useForm } from "react-hook-form";
 
-import useCallWithNotification from "hooks/useCallWithNotification";
-import useDescriptionType from "pages/Admin/hooks/useDescriptionType";
+import useCallWithNotification from "@/hooks/useCallWithNotification";
+import useDescriptionType from "@/pages/Admin/hooks/useDescriptionType";
 
-import { blobUrlToBase64String } from "utils/blob";
-import { clean, trimStrings } from "utils/object";
+import { blobUrlToBase64String } from "@/utils/blob";
+import { clean, trimStrings } from "@/utils/object";
 
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "apis/calibrationTool/descriptions/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
 import {
   DESCRIPTION_ITEM_TYPES,
   DESCRIPTION_TYPES_MAP,
   NEW_ITEM_OPTION,
-} from "constants/descriptions";
+} from "@/constants/descriptions";
 import {
   DEFAULT_EXPRESSION_FORM,
   DEFAULT_MOTION_FORM,
   DEFAULT_MOTOR_FORM,
   DEFAULT_VISEME_FORM,
-} from "constants/forms";
+} from "@/constants/forms";
 
 const useDescriptionForm = () => {
   const { descriptionStore, uiStore } = rootStore;

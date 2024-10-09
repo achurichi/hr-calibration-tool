@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import Form from "react-bootstrap/Form";
 
-import { getError } from "utils/forms";
+import { getError } from "@/utils/forms";
 
 const InputField = ({ controlProps, label, name, registerProps, ...rest }) => {
   const {

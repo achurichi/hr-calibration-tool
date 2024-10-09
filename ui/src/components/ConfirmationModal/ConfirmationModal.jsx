@@ -2,7 +2,7 @@ import React from "react";
 
 import Modal from "react-bootstrap/Modal";
 
-import Button from "components/Button/Button";
+import Button from "@/components/Button/Button";
 
 const ConfirmationModal = ({
   cancelLabel = "Cancel",

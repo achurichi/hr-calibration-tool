@@ -3,7 +3,7 @@ import React from "react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ReactTooltip from "react-bootstrap/Tooltip";
 
-import { DEFAULT_TOOLTIP_DELAY } from "constants/tooltips";
+import { DEFAULT_TOOLTIP_DELAY } from "@/constants/tooltips";
 
 const Tooltip = ({
   children,

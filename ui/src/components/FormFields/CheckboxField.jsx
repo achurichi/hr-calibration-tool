@@ -3,9 +3,9 @@ import { useFormContext } from "react-hook-form";
 
 import Form from "react-bootstrap/Form";
 
-import Tooltip from "components/Tooltip/Tooltip";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
-import { getError } from "utils/forms";
+import { getError } from "@/utils/forms";
 
 const CheckboxField = ({
   controlProps,

@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 
 import Select from "react-select";
 
-import AddMenu from "components/EditableSelect/AddMenu";
-import DeletableOption from "components/EditableSelect/DeletableOption";
+import AddMenu from "@/components/EditableSelect/AddMenu";
+import DeletableOption from "@/components/EditableSelect/DeletableOption";
 
 const EditableSelect = ({
   onAdd,
