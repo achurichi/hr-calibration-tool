@@ -1,21 +1,22 @@
 {
-  "name": "hr-calibration-tool",
-  "version": "1.0.0",
-  "description": "HR Calibration Tool",
-  "main": "index.js",
-  "workspaces": [
-    "api",
-    "ui"
-  ],
-  "scripts": {
-    "start": "concurrently \"npm run start:api\" \"npm run start:ui\"",
-    "start:api": "cd api && npm start",
-    "start:ui": "cd ui && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^9.0.1"
-  }
+	"name": "hr-calibration-tool",
+	"version": "1.0.0",
+	"description": "HR Calibration Tool",
+	"main": "index.js",
+	"workspaces": [
+		"api",
+		"ui"
+	],
+	"scripts": {
+		"start": "concurrently \"npm run start:api\" \"npm run start:ui\"",
+		"start:api": "cd api && npm start",
+		"start:ui": "cd ui && npm start",
+		"build": "sh scripts/build.sh",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^9.0.1"
+	}
 }
