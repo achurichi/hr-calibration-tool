@@ -6,6 +6,6 @@
  * @throws {Error} Throws an error with the provided errorMessage
  */
 export const logErrorAndThrow = (log, errorMessage) => {
-	console.error(log)
-	throw new Error(errorMessage)
-}
+  console.error(log);
+  throw new Error(errorMessage);
+};

@@ -1,15 +1,11 @@
-import express from 'express'
-import {
-	requiredBodyCheck,
-	requiredQueryCheck,
-	validateRequest,
-} from '../middlewares/validateRequest.js'
-import handlers from './handlers.js'
+import express from 'express';
+import { requiredBodyCheck, requiredQueryCheck, validateRequest } from '../middlewares/validateRequest.js';
+import handlers from './handlers.js';
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', [requiredQueryCheck('id'), validateRequest], handlers.findById)
+router.get('/', [requiredQueryCheck('id'), validateRequest], handlers.findById);
 
-router.post('/', [requiredBodyCheck('base64'), validateRequest], handlers.save)
+router.post('/', [requiredBodyCheck('base64'), validateRequest], handlers.save);
 
-export default router
+export default router;
