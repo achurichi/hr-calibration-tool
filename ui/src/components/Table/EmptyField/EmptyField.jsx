@@ -1,8 +1,6 @@
-import React from "react";
+import styles from './EmptyField.module.scss';
 
-import styles from "./EmptyField.module.scss";
-
-const EmptyField = ({ text = "Empty" }) => {
+const EmptyField = ({ text = 'Empty' }) => {
   return <div className={styles.empty}>{text}</div>;
 };
 

@@ -1,11 +1,9 @@
-import React from "react";
+import { BsPlusLg } from 'react-icons/bs';
+import { components } from 'react-select';
 
-import { BsPlusLg } from "react-icons/bs";
-import { components } from "react-select";
+import Button from '@/components/Button/Button';
 
-import Button from "@/components/Button/Button";
-
-import styles from "./AddMenu.module.scss";
+import styles from './AddMenu.module.scss';
 
 const AddMenu = ({ selectRef, ...props }) => {
   return (

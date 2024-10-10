@@ -1,20 +1,17 @@
-import { REQUESTS } from "@/apis/utils";
+import { REQUESTS } from '@/apis/utils';
 
 export const REQUEST_IDS = {
-  GET_IMAGE_BY_ID: "GET_IMAGE_BY_ID",
-  SAVE_IMAGE: "SAVE_IMAGE",
+  GET_IMAGE_BY_ID: 'GET_IMAGE_BY_ID',
+  SAVE_IMAGE: 'SAVE_IMAGE',
 };
 
 class ImagesApi {
   get base() {
-    return "/images";
+    return '/images';
   }
 
   async getById(id) {
-    const { data } = await REQUESTS.get(
-      REQUEST_IDS.GET_IMAGE_BY_ID,
-      `${this.base}?id=${id}`,
-    );
+    const { data } = await REQUESTS.get(REQUEST_IDS.GET_IMAGE_BY_ID, `${this.base}?id=${id}`);
     return data || null;
   }
 

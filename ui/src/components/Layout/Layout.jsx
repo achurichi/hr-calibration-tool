@@ -1,7 +1,7 @@
-import React, { createContext, forwardRef } from "react";
-import classNames from "classnames";
+import { createContext, forwardRef } from 'react';
+import classNames from 'classnames';
 
-import styles from "./Layout.module.scss";
+import styles from './Layout.module.scss';
 
 const LayoutContext = createContext();
 
@@ -18,7 +18,7 @@ const Layout = forwardRef(({ children, className }, ref) => {
 const Topbar = forwardRef(({ children, className }, ref) => {
   return (
     <div className={classNames(styles.topbar, className)} ref={ref}>
-      <div className={styles["topbar-internal"]}>{children}</div>
+      <div className={styles['topbar-internal']}>{children}</div>
     </div>
   );
 });
@@ -26,7 +26,7 @@ const Topbar = forwardRef(({ children, className }, ref) => {
 const Main = forwardRef(({ children, className }, ref) => {
   return (
     <div className={classNames(styles.main, className)} ref={ref}>
-      <div className={styles["main-internal"]}>{children}</div>
+      <div className={styles['main-internal']}>{children}</div>
     </div>
   );
 });

@@ -1,12 +1,12 @@
-import { makeAutoObservable } from "mobx";
-import ConfigurationStore from "@/stores/configuration.store";
-import DescriptionStore from "@/stores/description.store";
-import FiltersStore from "@/stores/filters.store";
-import RequestStore from "@/stores/request.store";
-import RobotStore from "@/stores/robot.store";
-import RosStore from "@/stores/ros.store";
-import UiStore from "@/stores/ui/ui.store";
-import RootApi from "@/apis/api";
+import { makeAutoObservable } from 'mobx';
+import ConfigurationStore from '@/stores/configuration.store';
+import DescriptionStore from '@/stores/description.store';
+import FiltersStore from '@/stores/filters.store';
+import RequestStore from '@/stores/request.store';
+import RobotStore from '@/stores/robot.store';
+import RosStore from '@/stores/ros.store';
+import UiStore from '@/stores/ui/ui.store';
+import RootApi from '@/apis/api';
 
 class RootStore {
   static instance;

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import useCallWithNotification from "@/hooks/useCallWithNotification";
+import useCallWithNotification from '@/hooks/useCallWithNotification';
 
-import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/descriptionsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
-import { DESCRIPTION_TYPES_MAP } from "@/constants/descriptions";
-import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from "@/constants/modals";
-import {
-  DESCRIPTION_ITEMS_OPTIONS,
-  NEW_ITEM_OPTION,
-} from "@/constants/descriptions";
+import { REQUEST_IDS as DESCRIPTIONS_REQUESTS } from '@/apis/calibrationTool/descriptions/descriptionsApi';
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from '@/apis/calibrationTool/descriptions/motors/motorsApi';
+import { DESCRIPTION_TYPES_MAP } from '@/constants/descriptions';
+import { DELETE_MODAL, UNSAVED_CHANGES_MODAL } from '@/constants/modals';
+import { DESCRIPTION_ITEMS_OPTIONS, NEW_ITEM_OPTION } from '@/constants/descriptions';
 
 const useSelectionBar = (unsaved) => {
   const { descriptionStore, uiStore } = rootStore;
@@ -35,8 +32,7 @@ const useSelectionBar = (unsaved) => {
       return;
     }
 
-    const selectedValue =
-      uiDescriptionStore.getSelectedDescriptionOption()?.value;
+    const selectedValue = uiDescriptionStore.getSelectedDescriptionOption()?.value;
     if (!descriptionNames.includes(selectedValue)) {
       uiDescriptionStore.setSelectedDescriptionOption({
         label: descriptionNames[0],
@@ -64,14 +60,9 @@ const useSelectionBar = (unsaved) => {
       uiDescriptionStore.setEditDisabled(true);
 
       const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
-      await descriptionStore.getOrFetchDescription(
-        descriptionType,
-        selectedDescription,
-      );
+      await descriptionStore.getOrFetchDescription(descriptionType, selectedDescription);
 
-      uiDescriptionStore.setSelectedItemOption(
-        uiDescriptionStore.getItemOptions()[0],
-      );
+      uiDescriptionStore.setSelectedItemOption(uiDescriptionStore.getItemOptions()[0]);
 
       uiDescriptionStore.setEditDisabled(false);
     };
@@ -80,11 +71,9 @@ const useSelectionBar = (unsaved) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDescription, selectedItemType]);
 
-  const resetConfirmationModal = () =>
-    setConfirmationModalConfig({ show: false });
+  const resetConfirmationModal = () => setConfirmationModalConfig({ show: false });
 
-  const resetNewDescriptionModal = () =>
-    setNewDescriptionModalConfig({ show: false });
+  const resetNewDescriptionModal = () => setNewDescriptionModalConfig({ show: false });
 
   const setNewDescriptionError = (error) => {
     setNewDescriptionModalConfig((latest) => ({
@@ -121,13 +110,13 @@ const useSelectionBar = (unsaved) => {
 
   const addDescription = async (name) => {
     if (!name) {
-      setNewDescriptionError("Name is required");
+      setNewDescriptionError('Name is required');
       return;
     }
 
     const descriptionNames = descriptionStore.getDescriptionNames();
     if (descriptionNames.includes(name)) {
-      setNewDescriptionError("Name already exists");
+      setNewDescriptionError('Name already exists');
       return;
     }
 
@@ -136,7 +125,7 @@ const useSelectionBar = (unsaved) => {
     const { success } = await callWithNotification(
       () => descriptionStore.createDescriptions(name),
       DESCRIPTIONS_REQUESTS.CREATE_DESCRIPTIONS,
-      "New description created",
+      'New description created'
     );
 
     if (!success) {
@@ -158,14 +147,10 @@ const useSelectionBar = (unsaved) => {
   };
 
   const onChangeDescription = (option) => {
-    if (
-      option?.value !== uiDescriptionStore.getSelectedDescriptionOption()?.value
-    ) {
+    if (option?.value !== uiDescriptionStore.getSelectedDescriptionOption()?.value) {
       handleUnsavedChanges(() => {
         uiDescriptionStore.setSelectedDescriptionOption(option);
-        uiDescriptionStore.setSelectedItemTypeOption(
-          DESCRIPTION_ITEMS_OPTIONS[0],
-        );
+        uiDescriptionStore.setSelectedItemTypeOption(DESCRIPTION_ITEMS_OPTIONS[0]);
       });
     }
   };
@@ -177,8 +162,7 @@ const useSelectionBar = (unsaved) => {
         <div>
           Are you sure you want to delete <strong>{item.label}</strong>?
           <br />
-          This action will remove all associated default values, instructions
-          and images.
+          This action will remove all associated default values, instructions and images.
         </div>
       ),
       onCancel: resetConfirmationModal,
@@ -187,16 +171,14 @@ const useSelectionBar = (unsaved) => {
         await callWithNotification(
           () => descriptionStore.deleteDescriptions(item.value),
           DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTIONS,
-          "Description deleted",
+          'Description deleted'
         );
         await fetchDescriptionNames();
-        uiDescriptionStore.setSelectedItemTypeOption(
-          DESCRIPTION_ITEMS_OPTIONS[0],
-        );
+        uiDescriptionStore.setSelectedItemTypeOption(DESCRIPTION_ITEMS_OPTIONS[0]);
         uiDescriptionStore.setEditDisabled(false);
         resetConfirmationModal();
       },
-      title: "Delete Description",
+      title: 'Delete Description',
     });
   };
 
@@ -204,9 +186,7 @@ const useSelectionBar = (unsaved) => {
 
   const onItemTypeChange = (option) => {
     if (option?.value !== selectedItemType) {
-      handleUnsavedChanges(() =>
-        uiDescriptionStore.setSelectedItemTypeOption(option),
-      );
+      handleUnsavedChanges(() => uiDescriptionStore.setSelectedItemTypeOption(option));
     }
   };
 
@@ -220,9 +200,7 @@ const useSelectionBar = (unsaved) => {
 
   const onChangeItem = (option) => {
     if (option?.value !== selectedItem) {
-      handleUnsavedChanges(() =>
-        uiDescriptionStore.setSelectedItemOption(option),
-      );
+      handleUnsavedChanges(() => uiDescriptionStore.setSelectedItemOption(option));
     }
   };
 
@@ -242,7 +220,7 @@ const useSelectionBar = (unsaved) => {
           await deleteItem(item);
           resetConfirmationModal();
         },
-        title: "Delete Item",
+        title: 'Delete Item',
       });
     }
   };
@@ -251,31 +229,24 @@ const useSelectionBar = (unsaved) => {
     // if the element to delete is the new item, we only need to remove it from the store
     if (item.value === NEW_ITEM_OPTION.value) {
       uiDescriptionStore.setIsNewItem(false);
-      uiDescriptionStore.setSelectedItemOption(
-        uiDescriptionStore.getItemOptions()[0],
-      );
+      uiDescriptionStore.setSelectedItemOption(uiDescriptionStore.getItemOptions()[0]);
       return;
     }
 
     const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
     const deleteFn = async () => {
-      await descriptionStore.deleteItem(
-        descriptionType,
-        uiDescriptionStore.getSelectedDescription(),
-        item.value,
-      );
+      await descriptionStore.deleteItem(descriptionType, uiDescriptionStore.getSelectedDescription(), item.value);
     };
     const fnId = MOTORS_DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTION_ITEM; // ANIMATIONS_DESCRIPTIONS_REQUESTS.DELETE_DESCRIPTION_ITEM has the same value
 
     uiDescriptionStore.setEditDisabled(true);
-    await callWithNotification(deleteFn, fnId, "Item deleted");
+    await callWithNotification(deleteFn, fnId, 'Item deleted');
     uiDescriptionStore.setEditDisabled(false);
 
     let option = null;
     const options = uiDescriptionStore.getItemOptions();
     if (options?.length) {
-      option =
-        options.find((option) => option.value === selectedItem) || options[0];
+      option = options.find((option) => option.value === selectedItem) || options[0];
     }
 
     uiDescriptionStore.setSelectedItemOption(option);

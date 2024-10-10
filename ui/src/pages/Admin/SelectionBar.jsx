@@ -1,37 +1,29 @@
-import React from "react";
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 
-import { BsChevronRight } from "react-icons/bs";
-import Select from "react-select";
+import { BsChevronRight } from 'react-icons/bs';
+import Select from 'react-select';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import useSelectionBar from "@/pages/Admin/hooks/useSelectionBar";
+import useSelectionBar from '@/pages/Admin/hooks/useSelectionBar';
 
-import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import EditableSelect from "@/components/EditableSelect/EditableSelect";
-import NewDescriptionModal from "@/pages/Admin/NewDescriptionModal/NewDescriptionModal";
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import EditableSelect from '@/components/EditableSelect/EditableSelect';
+import NewDescriptionModal from '@/pages/Admin/NewDescriptionModal/NewDescriptionModal';
 
-import { DESCRIPTION_ITEMS_OPTIONS } from "@/constants/descriptions";
+import { DESCRIPTION_ITEMS_OPTIONS } from '@/constants/descriptions';
 
-import styles from "./SelectionBar.module.scss";
+import styles from './SelectionBar.module.scss';
 
 const SelectionBar = observer(({ unsaved }) => {
   const { descriptionStore, uiStore } = rootStore;
-  const {
-    confirmationModalConfig,
-    newDescriptionModalConfig,
-    descriptionActions,
-    itemTypeActions,
-    itemActions,
-  } = useSelectionBar(unsaved);
+  const { confirmationModalConfig, newDescriptionModalConfig, descriptionActions, itemTypeActions, itemActions } =
+    useSelectionBar(unsaved);
   const { uiDescriptionStore } = uiStore;
   const editDisabled = uiDescriptionStore.getEditDisabled();
   const hasSelectedDescription = !!uiDescriptionStore.getSelectedDescription();
 
-  const descriptionOptions = descriptionStore
-    .getDescriptionNames()
-    .map((name) => ({ label: name, value: name }));
+  const descriptionOptions = descriptionStore.getDescriptionNames().map((name) => ({ label: name, value: name }));
 
   return (
     <div>
@@ -57,10 +49,7 @@ const SelectionBar = observer(({ unsaved }) => {
           {...itemActions}
         />
       </div>
-      <NewDescriptionModal
-        disabled={editDisabled}
-        {...newDescriptionModalConfig}
-      />
+      <NewDescriptionModal disabled={editDisabled} {...newDescriptionModalConfig} />
       <ConfirmationModal disabled={editDisabled} {...confirmationModalConfig} />
     </div>
   );

@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import cloneDeep from "lodash/cloneDeep";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import cloneDeep from 'lodash/cloneDeep';
 
-import useCallWithNotification from "@/hooks/useCallWithNotification";
+import useCallWithNotification from '@/hooks/useCallWithNotification';
 
-import { buildDefaultConfigurationForm } from "@/utils/forms";
-import { clean, trimStrings } from "@/utils/object";
+import { buildDefaultConfigurationForm } from '@/utils/forms';
+import { clean, trimStrings } from '@/utils/object';
 
-import { DESCRIPTION_ITEM_TYPES } from "@/constants/descriptions";
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
-import { PATHS } from "@/constants/routes";
+import { DESCRIPTION_ITEM_TYPES } from '@/constants/descriptions';
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from '@/apis/calibrationTool/configurations/motors/motorsApi';
+import { PATHS } from '@/constants/routes';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-const useConfigurationFormSetup = (
-  descriptionType,
-  itemType,
-  itemId,
-  formMethods,
-) => {
-  const { configurationStore, descriptionStore, robotStore, uiStore } =
-    rootStore;
+const useConfigurationFormSetup = (descriptionType, itemType, itemId, formMethods) => {
+  const { configurationStore, descriptionStore, robotStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const callWithNotification = useCallWithNotification();
   const navigate = useNavigate();
@@ -28,34 +22,22 @@ const useConfigurationFormSetup = (
   const [selectedItemDescription, setSelectedItemDescription] = useState(null);
   const selectedOption = uiConfigurationStore.getSelectedOption();
   const { isDirty, isValid } = formMethods.formState;
-  const itemsDescription =
-    descriptionStore.getAssemblyDescriptionItems(itemType);
+  const itemsDescription = descriptionStore.getAssemblyDescriptionItems(itemType);
   const itemsDescriptionSignature = JSON.stringify(itemsDescription);
-  const configurationKeysSignature = JSON.stringify(
-    configurationStore.getConfigurationKeys(),
-  );
+  const configurationKeysSignature = JSON.stringify(configurationStore.getConfigurationKeys());
   const [nameChanged, setNameChanged] = useState(false);
 
   const submitForm = async (data) => {
     // not using itemId because it may be outdated for this function
     const selectedId = uiConfigurationStore.getSelectedOption().value;
-    const descriptionName = descriptionStore.getDescriptionNameByItemId(
-      selectedId,
-      descriptionType,
-    );
+    const descriptionName = descriptionStore.getDescriptionNameByItemId(selectedId, descriptionType);
     const assemblyId = robotStore.getAssemblyByDescriptionName(descriptionName);
     trimStrings(data);
     const preparedData = clean(cloneDeep(data));
     const { success } = await callWithNotification(
-      () =>
-        configurationStore.saveItem(
-          descriptionType,
-          descriptionName,
-          assemblyId,
-          preparedData,
-        ),
+      () => configurationStore.saveItem(descriptionType, descriptionName, assemblyId, preparedData),
       MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM, // is the same that ANIMATIONS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM
-      "Configuration saved",
+      'Configuration saved'
     );
 
     if (success) {
@@ -85,8 +67,7 @@ const useConfigurationFormSetup = (
       }
 
       const name = configItem[configurationStore.getNameKey(descriptionType)];
-      const descriptionLabel =
-        description && description !== "-" ? description : "";
+      const descriptionLabel = description && description !== '-' ? description : '';
       options.push({
         label: `${name}${descriptionLabel}`,
         value: id,
@@ -125,9 +106,7 @@ const useConfigurationFormSetup = (
 
   useEffect(() => {
     if (selectedOption && itemsDescription) {
-      const description = itemsDescription.find(
-        (i) => i.id === selectedOption.value,
-      );
+      const description = itemsDescription.find((i) => i.id === selectedOption.value);
 
       if (!description) {
         return;
@@ -139,9 +118,7 @@ const useConfigurationFormSetup = (
       formMethods.reset(); // reset with no arguments to clear values from previous item
 
       if (configuredItem) {
-        formMethods.reset(
-          buildDefaultConfigurationForm(configuredItem, descriptionType),
-        );
+        formMethods.reset(buildDefaultConfigurationForm(configuredItem, descriptionType));
 
         const nameKey = configurationStore.getNameKey(descriptionType);
         const configurationName = configuredItem[nameKey];
@@ -170,20 +147,10 @@ const useConfigurationFormSetup = (
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    selectedOption,
-    itemsDescriptionSignature,
-    configurationKeysSignature,
-    formMethods,
-  ]);
+  }, [selectedOption, itemsDescriptionSignature, configurationKeysSignature, formMethods]);
 
   useEffect(() => {
-    uiConfigurationStore.checkSaveDisabled(
-      isLoading,
-      isDirty,
-      isValid,
-      nameChanged,
-    );
+    uiConfigurationStore.checkSaveDisabled(isLoading, isDirty, isValid, nameChanged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isDirty, isValid, nameChanged]);
 

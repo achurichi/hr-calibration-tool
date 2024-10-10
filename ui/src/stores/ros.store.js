@@ -1,8 +1,8 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
-import ROSLIB from "roslib";
+import ROSLIB from 'roslib';
 
-import { STATUS_TYPES } from "@/constants/status";
+import { STATUS_TYPES } from '@/constants/status';
 
 class RosStore {
   rootStore;
@@ -26,7 +26,7 @@ class RosStore {
   async init() {
     return new Promise((resolve) => {
       if (this.ros) {
-        const message = "ROS already initialized";
+        const message = 'ROS already initialized';
         this.log(message);
         return resolve({ status: STATUS_TYPES.ERROR, message });
       }
@@ -36,22 +36,22 @@ class RosStore {
           url: import.meta.env.VITE_ROS_WS_URL,
         });
 
-        this.ros.on("connection", () => {
+        this.ros.on('connection', () => {
           // this.ros.on("error", (e) => console.log(e));
-          this.log("ROS connected");
+          this.log('ROS connected');
           resolve({ status: STATUS_TYPES.SUCCESS });
         });
 
-        this.ros.on("error", (e) => {
-          this.log("ROS error: ", e);
+        this.ros.on('error', (e) => {
+          this.log('ROS error: ', e);
           resolve({ status: STATUS_TYPES.ERROR, message: e });
         });
 
-        this.ros.on("close", () => {
+        this.ros.on('close', () => {
           this.ros = null;
         });
       } catch (e) {
-        this.log("Error starting ROS: ", e);
+        this.log('Error starting ROS: ', e);
         resolve({ status: STATUS_TYPES.ERROR, message: e });
       }
     });
@@ -68,8 +68,8 @@ class RosStore {
   publishTest() {
     const cmdVel = new ROSLIB.Topic({
       ros: this.ros,
-      name: "/cmd_vel",
-      messageType: "geometry_msgs/Twist",
+      name: '/cmd_vel',
+      messageType: 'geometry_msgs/Twist',
     });
 
     const twist = new ROSLIB.Message({
@@ -85,12 +85,12 @@ class RosStore {
   subscribeTest() {
     const listener = new ROSLIB.Topic({
       ros: this.ros,
-      name: "/listener",
-      messageType: "std_msgs/String",
+      name: '/listener',
+      messageType: 'std_msgs/String',
     });
 
     listener.subscribe((message) => {
-      console.log("Received message on " + listener.name + ": " + message.data);
+      console.log('Received message on ' + listener.name + ': ' + message.data);
       listener.unsubscribe();
     });
   }
@@ -100,17 +100,15 @@ class RosStore {
   async serviceTest() {
     const listNodesClient = new ROSLIB.Service({
       ros: this.ros,
-      name: "/rosapi/nodes",
-      serviceType: "rosapi/Nodes",
+      name: '/rosapi/nodes',
+      serviceType: 'rosapi/Nodes',
     });
 
     const request = new ROSLIB.ServiceRequest({});
 
     return new Promise((resolve) => {
       listNodesClient.callService(request, (result) => {
-        console.log(
-          `Result for service call on ${listNodesClient.name}: ${JSON.stringify(result.nodes)}`,
-        );
+        console.log(`Result for service call on ${listNodesClient.name}: ${JSON.stringify(result.nodes)}`);
         resolve(result.nodes);
       });
     });
@@ -121,7 +119,7 @@ class RosStore {
   async getHead() {
     const param = new ROSLIB.Param({
       ros: this.ros,
-      name: "/hr/robot_name",
+      name: '/hr/robot_name',
     });
 
     return new Promise((resolve) => {
@@ -135,7 +133,7 @@ class RosStore {
   async getBody() {
     const param = new ROSLIB.Param({
       ros: this.ros,
-      name: "/hr/robot_body",
+      name: '/hr/robot_body',
     });
 
     return new Promise((resolve) => {
@@ -149,7 +147,7 @@ class RosStore {
   async getParamTest() {
     const param = new ROSLIB.Param({
       ros: this.ros,
-      name: "test",
+      name: 'test',
     });
 
     return new Promise((resolve) => {
@@ -163,12 +161,12 @@ class RosStore {
   async setParamTest() {
     const param = new ROSLIB.Param({
       ros: this.ros,
-      name: "test",
+      name: 'test',
     });
 
     return new Promise((resolve) => {
       param.set(10, () => {
-        console.log("Param set");
+        console.log('Param set');
         resolve();
       });
     });

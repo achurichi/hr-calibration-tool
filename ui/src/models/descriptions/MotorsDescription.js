@@ -1,4 +1,4 @@
-import MotorDescription from "./MotorDescription";
+import MotorDescription from './MotorDescription';
 
 class MotorsDescription {
   name;

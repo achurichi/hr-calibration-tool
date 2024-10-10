@@ -1,9 +1,8 @@
-import React from "react";
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import Button from "@/components/Button/Button";
+import Button from '@/components/Button/Button';
 
-import styles from "./Footer.module.scss";
+import styles from './Footer.module.scss';
 
 const Footer = ({ children, buttons }) => {
   return (
@@ -12,10 +11,7 @@ const Footer = ({ children, buttons }) => {
       {buttons && (
         <div className={styles.navigation}>
           {buttons.map(({ label, separator, ...buttonProps }) => (
-            <div
-              className={classNames({ [styles.separator]: separator })}
-              key={label}
-            >
+            <div className={classNames({ [styles.separator]: separator })} key={label}>
               <Button {...buttonProps}>{label}</Button>
             </div>
           ))}

@@ -1,12 +1,11 @@
-import React from "react";
-import { observer } from "mobx-react";
-import classNames from "classnames";
+import { observer } from 'mobx-react';
+import classNames from 'classnames';
 
-import ConfigurationControls from "@/components/ConfigurationControls/ConfigurationControls";
+import ConfigurationControls from '@/components/ConfigurationControls/ConfigurationControls';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./MotionsControls.module.scss";
+import styles from './MotionsControls.module.scss';
 
 const MotionsControls = observer(({ description }) => {
   const { uiStore } = rootStore;

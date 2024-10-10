@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
 const DEFAULT_CONFIGURATION = {
   head: { assembly: null, descriptionName: null },
@@ -19,33 +19,24 @@ class RobotStore {
   }
 
   getAssemblyIds(filterEmpty = true) {
-    const assemblyIds = [
-      this.configuration.head.assembly,
-      this.configuration.body.assembly,
-    ];
+    const assemblyIds = [this.configuration.head.assembly, this.configuration.body.assembly];
     return filterEmpty ? assemblyIds.filter(Boolean) : assemblyIds;
   }
 
   getDescriptionNames(filterEmpty = true) {
-    const descriptionNames = [
-      this.configuration.head.descriptionName,
-      this.configuration.body.descriptionName,
-    ];
+    const descriptionNames = [this.configuration.head.descriptionName, this.configuration.body.descriptionName];
     return filterEmpty ? descriptionNames.filter(Boolean) : descriptionNames;
   }
 
   getAssemblyEntries(filterEmpty = true) {
-    const entries = Object.values(this.configuration).map((config) => [
-      config.assembly,
-      config.descriptionName,
-    ]);
+    const entries = Object.values(this.configuration).map((config) => [config.assembly, config.descriptionName]);
     return filterEmpty ? entries.filter(([a, d]) => a && d) : entries;
   }
 
   getAssembliesWithoutDescription() {
     return this.getAssemblyEntries(false)
       .filter(([assembly, descriptionName]) => assembly && !descriptionName)
-      .map(([assembly, _]) => assembly);
+      .map(([assembly]) => assembly);
   }
 
   checkMissingConfigurations() {
@@ -57,9 +48,7 @@ class RobotStore {
       return undefined;
     }
 
-    const config = Object.values(this.configuration).find(
-      (c) => c.descriptionName === descriptionName,
-    );
+    const config = Object.values(this.configuration).find((c) => c.descriptionName === descriptionName);
     return config?.assembly;
   }
 
@@ -90,10 +79,7 @@ class RobotStore {
       return;
     }
 
-    const data =
-      await this.rootStore.api.calibrationTool.descriptions.namesByAssembly(
-        assemblyIds,
-      );
+    const data = await this.rootStore.api.calibrationTool.descriptions.namesByAssembly(assemblyIds);
 
     this._setConfiguration(assemblies, data);
   }

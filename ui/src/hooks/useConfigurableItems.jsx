@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { DESCRIPTION_TYPES } from "@/constants/descriptions";
+import { DESCRIPTION_TYPES } from '@/constants/descriptions';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
 const sortFn = (a, b) => {
   const aIsNumber = !isNaN(a.sortNo);
@@ -28,10 +28,7 @@ const useConfigurableItems = (descriptionType) => {
   useEffect(() => {
     const fetchConfigurationsAndDescriptions = async () => {
       await descriptionStore.getOrFetchAssemblyDescriptions(descriptionType);
-      await configurationStore.getOrFetchAssemblyConfigurations(
-        descriptionType,
-        true,
-      );
+      await configurationStore.getOrFetchAssemblyConfigurations(descriptionType, true);
     };
 
     if (!missingConfigurations) {
@@ -42,8 +39,7 @@ const useConfigurableItems = (descriptionType) => {
 
   useEffect(() => {
     const configurations = configurationStore.getAssemblyConfigurations();
-    const descriptions =
-      descriptionStore.getAssemblyDescriptions(descriptionType);
+    const descriptions = descriptionStore.getAssemblyDescriptions(descriptionType);
 
     const allToConfigure = [];
     const allToAdd = [];
@@ -84,9 +80,7 @@ const useConfigurableItems = (descriptionType) => {
       }
 
       // items to add
-      const description = descriptions.find(
-        (desc) => desc.name === configuration.descriptionName,
-      );
+      const description = descriptions.find((desc) => desc.name === configuration.descriptionName);
 
       if (!description?.[descriptionType]) {
         return;

@@ -1,4 +1,4 @@
-import CalibrationToolApi from "./calibrationTool/calibrationToolApi";
+import CalibrationToolApi from './calibrationTool/calibrationToolApi';
 
 class Api {
   rootStore;

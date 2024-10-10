@@ -1,21 +1,15 @@
-import React from "react";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { useFormContext, useFieldArray } from 'react-hook-form';
 
-import Card from "react-bootstrap/Card";
-import {
-  BsArrowDownCircleFill,
-  BsArrowUpCircleFill,
-  BsPlusLg,
-  BsXLg,
-} from "react-icons/bs";
-import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
-import Button from "@/components/Button/Button";
+import Card from 'react-bootstrap/Card';
+import { BsArrowDownCircleFill, BsArrowUpCircleFill, BsPlusLg, BsXLg } from 'react-icons/bs';
+import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
+import Button from '@/components/Button/Button';
 
-import MotionForm from "@/pages/Admin/Forms/MotionForm";
+import MotionForm from '@/pages/Admin/Forms/MotionForm';
 
-import { DEFAULT_MOTION_FORM } from "@/constants/forms";
+import { DEFAULT_MOTION_FORM } from '@/constants/forms';
 
-import styles from "./MotionFieldArray.module.scss";
+import styles from './MotionFieldArray.module.scss';
 
 const MotionFieldArray = ({ name }) => {
   const { control } = useFormContext();
@@ -34,13 +28,13 @@ const MotionFieldArray = ({ name }) => {
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
           return (
-            <div className={styles["field-container"]} key={field.id}>
+            <div className={styles['field-container']} key={field.id}>
               <Card className={styles.card}>
                 <Card.Title className={styles.title}>
                   <div>{`Motion ${index + 1}`}</div>
                   <ClickableIcon
                     Icon={BsXLg}
-                    iconClassName={styles["remove-icon"]}
+                    iconClassName={styles['remove-icon']}
                     onClick={() => remove(index)}
                     size={20}
                     disabled={fields.length === 1}
@@ -68,11 +62,7 @@ const MotionFieldArray = ({ name }) => {
           );
         })}
         <div>
-          <Button
-            Icon={BsPlusLg}
-            onClick={() => append({ value: DEFAULT_MOTION_FORM })}
-            variant="outline-primary"
-          >
+          <Button Icon={BsPlusLg} onClick={() => append({ value: DEFAULT_MOTION_FORM })} variant="outline-primary">
             Add Motion
           </Button>
         </div>

@@ -1,14 +1,12 @@
-import React from "react";
+import Modal from 'react-bootstrap/Modal';
 
-import Modal from "react-bootstrap/Modal";
-
-import Button from "@/components/Button/Button";
+import Button from '@/components/Button/Button';
 
 const ConfirmationModal = ({
-  cancelLabel = "Cancel",
-  cancelVariant = "secondary",
-  confirmLabel = "Confirm",
-  confirmVariant = "primary",
+  cancelLabel = 'Cancel',
+  cancelVariant = 'secondary',
+  confirmLabel = 'Confirm',
+  confirmVariant = 'primary',
   disabled,
   message,
   onCancel,
@@ -26,11 +24,7 @@ const ConfirmationModal = ({
         <Button disabled={disabled} onClick={onCancel} variant={cancelVariant}>
           {cancelLabel}
         </Button>
-        <Button
-          disabled={disabled}
-          onClick={onConfirm}
-          variant={confirmVariant}
-        >
+        <Button disabled={disabled} onClick={onConfirm} variant={confirmVariant}>
           {confirmLabel}
         </Button>
       </Modal.Footer>

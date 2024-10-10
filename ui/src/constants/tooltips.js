@@ -4,5 +4,5 @@ export const DEFAULT_TOOLTIP_PROPS = {
   content: null,
   delay: DEFAULT_TOOLTIP_DELAY,
   id: null,
-  placement: "top",
+  placement: 'top',
 };

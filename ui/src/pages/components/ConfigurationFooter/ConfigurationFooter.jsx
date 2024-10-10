@@ -1,54 +1,47 @@
-import React from "react";
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 
-import Form from "react-bootstrap/Form";
+import Form from 'react-bootstrap/Form';
 
-import Footer from "@/components/Footer/Footer";
-import ProgressBar from "@/components/ProgressBar/ProgressBar";
+import Footer from '@/components/Footer/Footer';
+import ProgressBar from '@/components/ProgressBar/ProgressBar';
 
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from '@/apis/calibrationTool/configurations/motors/motorsApi';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./ConfigurationFooter.module.scss";
+import styles from './ConfigurationFooter.module.scss';
 
 const ConfigurationFooter = observer(({ checkboxProps, showMotorData }) => {
   const { requestStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
-  const saving = requestStore.isLoading(
-    MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM,
-  );
+  const saving = requestStore.isLoading(MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM);
 
   return (
     <Footer
       buttons={[
         {
           disabled: saveDisabledReason || saving,
-          label: "Save",
+          label: 'Save',
           onClick: uiConfigurationStore.saveConfiguration,
           separator: true,
           tooltipProps: {
             content: saveDisabledReason,
-            id: "save-configuration",
+            id: 'save-configuration',
           },
         },
         {
           disabled: uiConfigurationStore.prevDisabled() || saving,
-          label: "Previous",
+          label: 'Previous',
           onClick: () => {
-            uiConfigurationStore.confirmIfDirty(() =>
-              uiConfigurationStore.prevItem(),
-            );
+            uiConfigurationStore.confirmIfDirty(() => uiConfigurationStore.prevItem());
           },
         },
         {
           disabled: uiConfigurationStore.nextDisabled() || saving,
-          label: "Next",
+          label: 'Next',
           onClick: () => {
-            uiConfigurationStore.confirmIfDirty(() =>
-              uiConfigurationStore.nextItem(),
-            );
+            uiConfigurationStore.confirmIfDirty(() => uiConfigurationStore.nextItem());
           },
         },
       ]}
@@ -69,16 +62,12 @@ const ConfigurationFooter = observer(({ checkboxProps, showMotorData }) => {
       {showMotorData && (
         <>
           <ProgressBar
-            containerClassName={styles["current-position"]}
+            containerClassName={styles['current-position']}
             now={0}
             showCurrentValue
             topLabel="Motor current position"
           />
-          <ProgressBar
-            containerClassName={styles["motor-load"]}
-            now={0}
-            topLabel="Motor load"
-          />
+          <ProgressBar containerClassName={styles['motor-load']} now={0} topLabel="Motor load" />
         </>
       )}
     </Footer>

@@ -1,6 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
-import { UNSAVED_CHANGES_MODAL } from "@/constants/modals";
+import { UNSAVED_CHANGES_MODAL } from '@/constants/modals';
 
 class UiConfigurationStore {
   uiStore;
@@ -115,11 +115,7 @@ class UiConfigurationStore {
   _changeItem(step) {
     const currentIndex = this._getCurrentItemIndex();
 
-    if (
-      currentIndex === -1 ||
-      currentIndex + step < 0 ||
-      currentIndex + step >= this.options.length
-    ) {
+    if (currentIndex === -1 || currentIndex + step < 0 || currentIndex + step >= this.options.length) {
       return;
     }
 
@@ -147,11 +143,11 @@ class UiConfigurationStore {
   checkSaveDisabled(isLoading, isDirty, isValid, nameChanged) {
     let reason = null;
     if (isLoading) {
-      reason = "Loading...";
+      reason = 'Loading...';
     } else if (!nameChanged && !isDirty) {
-      reason = "Edit values to enable saving";
+      reason = 'Edit values to enable saving';
     } else if (!isValid) {
-      reason = "Some fields are invalid";
+      reason = 'Some fields are invalid';
     }
     this.saveDisabledReason = reason;
   }

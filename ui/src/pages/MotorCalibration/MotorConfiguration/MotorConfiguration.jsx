@@ -1,30 +1,27 @@
-import React, { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { observer } from "mobx-react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react';
+import { useForm, FormProvider } from 'react-hook-form';
 
-import useConfigurationFormSetup from "@/hooks/useConfigurationFormSetup";
+import useConfigurationFormSetup from '@/hooks/useConfigurationFormSetup';
 
-import Form from "react-bootstrap/Form";
-import Select from "react-select";
+import Form from 'react-bootstrap/Form';
+import Select from 'react-select';
 
-import ConfigurationFooter from "@/pages/components/ConfigurationFooter/ConfigurationFooter";
-import ConfigurationSections from "@/pages/MotorCalibration/MotorConfiguration/ConfigurationSections";
-import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import Layout from "@/components/Layout/Layout";
-import RenderWithLoader from "@/components/RenderWithLoader/RenderWithLoader";
-import Spinner from "@/components/Spinner/Spinner";
+import ConfigurationFooter from '@/pages/components/ConfigurationFooter/ConfigurationFooter';
+import ConfigurationSections from '@/pages/MotorCalibration/MotorConfiguration/ConfigurationSections';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import Layout from '@/components/Layout/Layout';
+import RenderWithLoader from '@/components/RenderWithLoader/RenderWithLoader';
+import Spinner from '@/components/Spinner/Spinner';
 
-import {
-  DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_TYPES,
-} from "@/constants/descriptions";
-import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/motors/motorsApi";
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
+import { DESCRIPTION_ITEM_TYPES, DESCRIPTION_TYPES } from '@/constants/descriptions';
+import { REQUEST_IDS as MOTORS_CONFIGURATIONS_REQUESTS } from '@/apis/calibrationTool/configurations/motors/motorsApi';
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from '@/apis/calibrationTool/descriptions/motors/motorsApi';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./MotorConfiguration.module.scss";
+import styles from './MotorConfiguration.module.scss';
 
 const MotorConfiguration = observer(() => {
   const { requestStore, uiStore } = rootStore;
@@ -35,7 +32,7 @@ const MotorConfiguration = observer(() => {
     DESCRIPTION_TYPES.MOTORS,
     DESCRIPTION_ITEM_TYPES.MOTOR,
     motorId,
-    methods,
+    methods
   );
   const selectedOption = uiConfigurationStore.getSelectedOption();
   const mainRef = useRef(null);
@@ -52,25 +49,16 @@ const MotorConfiguration = observer(() => {
           <Layout.Topbar>
             <Select
               className={styles.select}
-              isDisabled={requestStore.isLoading(
-                MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM,
-              )}
+              isDisabled={requestStore.isLoading(MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM)}
               onChange={(option) => {
-                uiConfigurationStore.confirmIfDirty(() =>
-                  uiConfigurationStore.setSelectedOption(option),
-                );
+                uiConfigurationStore.confirmIfDirty(() => uiConfigurationStore.setSelectedOption(option));
               }}
               options={uiConfigurationStore.getOptions()}
               placeholder="Loading..."
               value={selectedOption}
             />
           </Layout.Topbar>
-          <Layout.Main
-            ref={mainRef}
-            className={
-              uiConfigurationStore.getFullscreen() ? styles.main : undefined
-            }
-          >
+          <Layout.Main ref={mainRef} className={uiConfigurationStore.getFullscreen() ? styles.main : undefined}>
             <RenderWithLoader
               dependencies={[
                 MOTORS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
@@ -78,7 +66,7 @@ const MotorConfiguration = observer(() => {
               ]}
               loadingComponent={<Spinner className={styles.spinner} />}
             >
-              <Form className={styles["form-container"]}>
+              <Form className={styles['form-container']}>
                 <ConfigurationSections description={selectedMotorDescription} />
               </Form>
             </RenderWithLoader>
@@ -86,8 +74,8 @@ const MotorConfiguration = observer(() => {
           <Layout.Footer>
             <ConfigurationFooter
               checkboxProps={{
-                id: "enable-torque",
-                label: "Enable torque",
+                id: 'enable-torque',
+                label: 'Enable torque',
                 onChange: uiConfigurationStore.setEnableTorque,
               }}
               showMotorData

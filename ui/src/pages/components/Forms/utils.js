@@ -1,4 +1,4 @@
-import { isNumeric } from "@/utils/numbers";
+import { isNumeric } from '@/utils/numbers';
 
 /**
  * Retrieves extra props based on the control props.
@@ -8,7 +8,7 @@ import { isNumeric } from "@/utils/numbers";
  */
 export const getExtraProps = (controlProps) => {
   const extraProps = {};
-  if (controlProps.type === "number") {
+  if (controlProps.type === 'number') {
     extraProps.registerProps = {
       setValueAs: (value) => {
         return isNumeric(value) ? Number(value) : null;

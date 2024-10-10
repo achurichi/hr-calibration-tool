@@ -1,5 +1,5 @@
-import AdvancedMapping from "../AdvancedMapping";
-import PositionDescription from "./PositionDescription";
+import AdvancedMapping from '../AdvancedMapping';
+import PositionDescription from './PositionDescription';
 
 class MotorDescription {
   id;

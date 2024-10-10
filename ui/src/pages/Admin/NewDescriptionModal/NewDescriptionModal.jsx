@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import InputGroup from "react-bootstrap/InputGroup";
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import InputGroup from 'react-bootstrap/InputGroup';
 
-import Button from "@/components/Button/Button";
+import Button from '@/components/Button/Button';
 
-const NewDescriptionModal = ({
-  disabled,
-  errorMessage,
-  onCancel,
-  onConfirm,
-  show,
-}) => {
-  const [name, setName] = useState("");
+const NewDescriptionModal = ({ disabled, errorMessage, onCancel, onConfirm, show }) => {
+  const [name, setName] = useState('');
 
   useEffect(() => {
     if (show) {
-      setName("");
+      setName('');
     }
   }, [show]);
 
@@ -35,11 +29,7 @@ const NewDescriptionModal = ({
             }}
             placeholder="Name"
           />
-          {!!errorMessage && (
-            <Form.Control.Feedback type="invalid">
-              {errorMessage}
-            </Form.Control.Feedback>
-          )}
+          {!!errorMessage && <Form.Control.Feedback type="invalid">{errorMessage}</Form.Control.Feedback>}
         </InputGroup>
       </Modal.Body>
       <Modal.Footer>

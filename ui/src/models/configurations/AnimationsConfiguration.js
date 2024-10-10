@@ -1,4 +1,4 @@
-import AnimationConfiguration from "./AnimationConfiguration";
+import AnimationConfiguration from './AnimationConfiguration';
 
 class AnimationsConfiguration {
   descriptionName;
@@ -10,8 +10,7 @@ class AnimationsConfiguration {
     this.descriptionName = data.descriptionName;
     this.assembly = data.assembly;
     this.bodyName = data.bodyName;
-    this.animations =
-      data.animations?.map((a) => new AnimationConfiguration(a)) || [];
+    this.animations = data.animations?.map((a) => new AnimationConfiguration(a)) || [];
   }
 }
 

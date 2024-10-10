@@ -7,10 +7,10 @@
 export const blobUrlToBlobObject = (blobUrl) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.responseType = "blob";
+    xhr.responseType = 'blob';
     xhr.onload = () => resolve(xhr.response);
     xhr.onerror = (error) => reject(error);
-    xhr.open("GET", blobUrl);
+    xhr.open('GET', blobUrl);
     xhr.send();
   });
 };

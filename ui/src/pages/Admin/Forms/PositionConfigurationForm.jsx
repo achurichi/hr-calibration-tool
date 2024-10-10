@@ -1,12 +1,11 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext } from 'react-hook-form';
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import InputField from "@/components/FormFields/InputField";
-import ImageFieldArray from "@/pages/Admin/Forms/ImageFieldArray";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import InputField from '@/components/FormFields/InputField';
+import ImageFieldArray from '@/pages/Admin/Forms/ImageFieldArray';
 
-import styles from "./PositionConfigurationForm.module.scss";
+import styles from './PositionConfigurationForm.module.scss';
 
 const PositionConfigurationForm = ({ propName, title }) => {
   const {
@@ -24,13 +23,13 @@ const PositionConfigurationForm = ({ propName, title }) => {
           as={Col}
           controlId={`form-${defaultValueProp}`}
           controlProps={{
-            type: "number",
+            type: 'number',
             isInvalid: !!errors[propName]?.defaultValue,
           }}
           label="Default Value"
           name={defaultValueProp}
           registerProps={{
-            required: "Default Value is required",
+            required: 'Default Value is required',
             valueAsNumber: true,
           }}
           xs="3"
@@ -38,7 +37,7 @@ const PositionConfigurationForm = ({ propName, title }) => {
         <InputField
           as={Col}
           controlId={`form-${configInstructionsProp}`}
-          controlProps={{ as: "textarea" }}
+          controlProps={{ as: 'textarea' }}
           label="Configuration Instructions"
           name={configInstructionsProp}
           xs="12"

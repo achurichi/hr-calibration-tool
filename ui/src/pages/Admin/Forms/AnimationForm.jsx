@@ -1,11 +1,10 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext } from 'react-hook-form';
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import InputField from "@/components/FormFields/InputField";
-import ImageFieldArray from "@/pages/Admin/Forms/ImageFieldArray";
-import MotionFieldArray from "@/pages/Admin/Forms/MotionFieldArray";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import InputField from '@/components/FormFields/InputField';
+import ImageFieldArray from '@/pages/Admin/Forms/ImageFieldArray';
+import MotionFieldArray from '@/pages/Admin/Forms/MotionFieldArray';
 
 const AnimationForm = () => {
   const {
@@ -18,12 +17,12 @@ const AnimationForm = () => {
         <InputField
           as={Col}
           controlId="formName"
-          controlProps={{ type: "text", isInvalid: !!errors.name }}
+          controlProps={{ type: 'text', isInvalid: !!errors.name }}
           label="Name"
           name="name"
           registerProps={{
-            required: "Name is required",
-            validate: (value) => !!value.trim() || "Name is required",
+            required: 'Name is required',
+            validate: (value) => !!value.trim() || 'Name is required',
           }}
         />
       </Row>
@@ -31,7 +30,7 @@ const AnimationForm = () => {
         <InputField
           as={Col}
           controlId="formconfigInstructions"
-          controlProps={{ as: "textarea" }}
+          controlProps={{ as: 'textarea' }}
           label="Configuration Instructions"
           name="configInstructions"
         />

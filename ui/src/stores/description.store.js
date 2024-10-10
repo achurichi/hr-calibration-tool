@@ -1,14 +1,10 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable } from 'mobx';
 
-import {
-  DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_TYPES,
-  DESCRIPTION_TYPES_MAP,
-} from "@/constants/descriptions";
-import { STATUS_TYPES } from "@/constants/status";
+import { DESCRIPTION_ITEM_TYPES, DESCRIPTION_TYPES, DESCRIPTION_TYPES_MAP } from '@/constants/descriptions';
+import { STATUS_TYPES } from '@/constants/status';
 
-import AnimationsDescription from "@/models/descriptions/AnimationsDescription";
-import MotorsDescription from "@/models/descriptions/MotorsDescription";
+import AnimationsDescription from '@/models/descriptions/AnimationsDescription';
+import MotorsDescription from '@/models/descriptions/MotorsDescription';
 
 class DescriptionStore {
   rootStore;
@@ -54,9 +50,7 @@ class DescriptionStore {
     const description = this.getDescription(descriptionType, descriptionName);
     // inside the description object, there is a property with the same name as the description type (motors or animations) that contains the items
     const items = description?.[descriptionType] || [];
-    return itemType === DESCRIPTION_ITEM_TYPES.MOTOR
-      ? items
-      : items.filter((i) => i.type === itemType); // filter expressions or visemes
+    return itemType === DESCRIPTION_ITEM_TYPES.MOTOR ? items : items.filter((i) => i.type === itemType); // filter expressions or visemes
   }
 
   getAssemblyDescriptionItems(itemType) {
@@ -91,8 +85,7 @@ class DescriptionStore {
   }
 
   async fetchDescriptionNames() {
-    const data =
-      await this.rootStore.api.calibrationTool.descriptions.getAllDescriptionNames();
+    const data = await this.rootStore.api.calibrationTool.descriptions.getAllDescriptionNames();
     if (data) {
       this._setDescriptionNames(data);
     }
@@ -108,10 +101,7 @@ class DescriptionStore {
   }
 
   async fetchDescription(type, descriptionName) {
-    const data =
-      await this.rootStore.api.calibrationTool.descriptions[type].getByName(
-        descriptionName,
-      );
+    const data = await this.rootStore.api.calibrationTool.descriptions[type].getByName(descriptionName);
     this._saveDescription(type, data);
     return this.getDescription(type, descriptionName);
   }
@@ -140,16 +130,12 @@ class DescriptionStore {
   }
 
   async saveItem(type, descriptionName, item) {
-    const data = await this.rootStore.api.calibrationTool.descriptions[
-      type
-    ].saveItem(descriptionName, item);
+    const data = await this.rootStore.api.calibrationTool.descriptions[type].saveItem(descriptionName, item);
     this._saveDescription(type, data);
   }
 
   async deleteItem(type, descriptionName, itemId) {
-    const data = await this.rootStore.api.calibrationTool.descriptions[
-      type
-    ].deleteItem(descriptionName, itemId);
+    const data = await this.rootStore.api.calibrationTool.descriptions[type].deleteItem(descriptionName, itemId);
     this._saveDescription(type, data);
   }
 
@@ -158,10 +144,7 @@ class DescriptionStore {
       return;
     }
 
-    const DescriptionsClass =
-      type === DESCRIPTION_TYPES.MOTORS
-        ? MotorsDescription
-        : AnimationsDescription;
+    const DescriptionsClass = type === DESCRIPTION_TYPES.MOTORS ? MotorsDescription : AnimationsDescription;
     this.descriptions[type].set(data.name, new DescriptionsClass(data));
   }
 

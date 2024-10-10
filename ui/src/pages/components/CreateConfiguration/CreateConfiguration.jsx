@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import isEmpty from "lodash/isEmpty";
+import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import isEmpty from 'lodash/isEmpty';
 
-import useCallWithNotification from "@/hooks/useCallWithNotification";
+import useCallWithNotification from '@/hooks/useCallWithNotification';
 
-import Select from "react-select";
-import Alert from "react-bootstrap/Alert";
-import Card from "react-bootstrap/Card";
+import Select from 'react-select';
+import Alert from 'react-bootstrap/Alert';
+import Card from 'react-bootstrap/Card';
 
-import Button from "@/components/Button/Button";
-import Table from "@/components/Table/Table";
+import Button from '@/components/Button/Button';
+import Table from '@/components/Table/Table';
 
-import { REQUEST_IDS as CONFIGURATIONS_REQUESTS } from "@/apis/calibrationTool/configurations/configurationsApi";
+import { REQUEST_IDS as CONFIGURATIONS_REQUESTS } from '@/apis/calibrationTool/configurations/configurationsApi';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./CreateConfiguration.module.scss";
+import styles from './CreateConfiguration.module.scss';
 
 const TABLE_HEADERS = [
-  { key: "assembly", label: "Assembly" },
-  { key: "select", label: "Description", className: styles["select-column"] },
+  { key: 'assembly', label: 'Assembly' },
+  { key: 'select', label: 'Description', className: styles['select-column'] },
 ];
 
 const CreateConfiguration = observer(() => {
-  const { configurationStore, descriptionStore, robotStore, requestStore } =
-    rootStore;
+  const { configurationStore, descriptionStore, robotStore, requestStore } = rootStore;
   const callWithNotification = useCallWithNotification();
   const [options, setOptions] = useState([]);
   const [selectedDescriptions, setSelectedDescriptions] = useState({});
-  const assembliesWithoutDescription =
-    robotStore.getAssembliesWithoutDescription();
+  const assembliesWithoutDescription = robotStore.getAssembliesWithoutDescription();
   const manyConfigurations = assembliesWithoutDescription.length > 1;
 
   useEffect(() => {
@@ -45,26 +43,22 @@ const CreateConfiguration = observer(() => {
   useEffect(() => {
     const selectedDescriptions = assembliesWithoutDescription.reduce(
       (acc, assembly) => ({ ...acc, [assembly]: undefined }),
-      {},
+      {}
     );
     setSelectedDescriptions(selectedDescriptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, JSON.stringify(assembliesWithoutDescription)]);
 
   const createConfigurations = async () => {
-    const assemblyDescriptionMap = Object.entries(selectedDescriptions).reduce(
-      (acc, [assembly, description]) => {
-        acc[assembly] = description.value;
-        return acc;
-      },
-      {},
-    );
+    const assemblyDescriptionMap = Object.entries(selectedDescriptions).reduce((acc, [assembly, description]) => {
+      acc[assembly] = description.value;
+      return acc;
+    }, {});
 
     const { success } = await callWithNotification(
-      async () =>
-        await configurationStore.createConfigurations(assemblyDescriptionMap),
+      async () => await configurationStore.createConfigurations(assemblyDescriptionMap),
       CONFIGURATIONS_REQUESTS.CREATE_MANY,
-      `${manyConfigurations ? "Configurations" : "Configuration"} created`,
+      `${manyConfigurations ? 'Configurations' : 'Configuration'} created`
     );
 
     if (success) {
@@ -94,15 +88,9 @@ const CreateConfiguration = observer(() => {
         <Alert className={styles.alert} variant="warning">
           Please select a description for every assembly.
         </Alert>
-        <Table
-          bordered={false}
-          className={styles.table}
-          headers={TABLE_HEADERS}
-          rows={rows}
-          striped={false}
-        />
+        <Table bordered={false} className={styles.table} headers={TABLE_HEADERS} rows={rows} striped={false} />
         <Button
-          className={styles["create-button"]}
+          className={styles['create-button']}
           disabled={
             isEmpty(selectedDescriptions) ||
             Object.values(selectedDescriptions).some((value) => !value) ||
@@ -110,7 +98,7 @@ const CreateConfiguration = observer(() => {
           }
           onClick={createConfigurations}
         >
-          {`Create ${manyConfigurations ? "configurations" : "configuration"}`}
+          {`Create ${manyConfigurations ? 'configurations' : 'configuration'}`}
         </Button>
       </Card>
     </div>

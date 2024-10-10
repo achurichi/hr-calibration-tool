@@ -1,4 +1,4 @@
-import AdvancedMapping from "../AdvancedMapping";
+import AdvancedMapping from '../AdvancedMapping';
 
 class MotorConfiguration {
   descId;

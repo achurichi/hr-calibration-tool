@@ -1,11 +1,9 @@
-import React from "react";
+import { BsTrash } from 'react-icons/bs';
+import { components } from 'react-select';
 
-import { BsTrash } from "react-icons/bs";
-import { components } from "react-select";
+import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
 
-import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
-
-import styles from "./DeletableOption.module.scss";
+import styles from './DeletableOption.module.scss';
 
 const DeletableOption = (props) => {
   return (

@@ -1,8 +1,4 @@
-import {
-  isNumeric,
-  minMaxBetweenRange,
-  valueBetweenRange,
-} from "@/utils/numbers";
+import { isNumeric, minMaxBetweenRange, valueBetweenRange } from '@/utils/numbers';
 
 /**
  * Validates a value against specified range criteria.
@@ -15,18 +11,14 @@ import {
  * @returns {string|boolean} Error message if validation fails, otherwise true.
  */
 export const validateRange = (value, min, max, minAllowed, maxAllowed) => {
-  if (
-    value === null ||
-    value === undefined ||
-    (typeof value === "string" && value.trim() === "")
-  ) {
-    return "Value is required";
+  if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
+    return 'Value is required';
   }
   if (!isNumeric(value)) {
-    return "Value must be a number";
+    return 'Value must be a number';
   }
   if (!minMaxBetweenRange(min, max, minAllowed, maxAllowed)) {
-    return "Invalid range";
+    return 'Invalid range';
   }
   if (!valueBetweenRange(Number(value), min, max)) {
     return `Value must be between ${min} and ${max}`;

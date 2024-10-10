@@ -1,9 +1,8 @@
-import React from "react";
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import ReactSpinner from "react-bootstrap/Spinner";
+import ReactSpinner from 'react-bootstrap/Spinner';
 
-import styles from "./Spinner.module.scss";
+import styles from './Spinner.module.scss';
 
 const Spinner = ({ className, ...spinnerProps }) => {
   return (

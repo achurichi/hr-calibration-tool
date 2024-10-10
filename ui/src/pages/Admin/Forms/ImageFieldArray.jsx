@@ -1,20 +1,16 @@
-import React, { useEffect } from "react";
-import { observer } from "mobx-react";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useFormContext, useFieldArray } from 'react-hook-form';
 
-import {
-  BsArrowLeftCircleFill,
-  BsArrowRightCircleFill,
-  BsXCircleFill,
-} from "react-icons/bs";
+import { BsArrowLeftCircleFill, BsArrowRightCircleFill, BsXCircleFill } from 'react-icons/bs';
 
-import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
-import Dropzone from "@/components/Dropzone/Dropzone";
-import Spinner from "@/components/Spinner/Spinner";
+import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
+import Dropzone from '@/components/Dropzone/Dropzone';
+import Spinner from '@/components/Spinner/Spinner';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./ImageFieldArray.module.scss";
+import styles from './ImageFieldArray.module.scss';
 
 const ImageFieldArray = observer(({ name }) => {
   const { descriptionStore } = rootStore;
@@ -23,9 +19,7 @@ const ImageFieldArray = observer(({ name }) => {
     control,
     name,
   });
-  const fileIds = fields
-    .filter((field) => field.value.id)
-    .map((field) => field.value.id);
+  const fileIds = fields.filter((field) => field.value.id).map((field) => field.value.id);
 
   useEffect(() => {
     fields.forEach((field) => {
@@ -37,9 +31,7 @@ const ImageFieldArray = observer(({ name }) => {
   }, [fileIds]);
 
   const onAdd = (files) => {
-    files.forEach((file) =>
-      append({ value: { url: URL.createObjectURL(file) } }),
-    );
+    files.forEach((file) => append({ value: { url: URL.createObjectURL(file) } }));
   };
 
   return (
@@ -53,7 +45,7 @@ const ImageFieldArray = observer(({ name }) => {
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
           return (
-            <div className={styles["image-container"]} key={field.id}>
+            <div className={styles['image-container']} key={field.id}>
               {!url && <Spinner className={styles.spinner} />}
               {!!url && (
                 <>
@@ -63,12 +55,12 @@ const ImageFieldArray = observer(({ name }) => {
                     src={url}
                     {...register(`${name}.${index}.value.url`)}
                   />
-                  <div className={styles["hover-background"]}></div>
+                  <div className={styles['hover-background']}></div>
                   <ClickableIcon
                     Icon={BsArrowLeftCircleFill}
-                    className={styles["move-left"]}
+                    className={styles['move-left']}
                     disabled={isFirst}
-                    iconClassName={styles["move-icon"]}
+                    iconClassName={styles['move-icon']}
                     onClick={() => {
                       if (!isFirst) {
                         move(index, index - 1);
@@ -78,9 +70,9 @@ const ImageFieldArray = observer(({ name }) => {
                   />
                   <ClickableIcon
                     Icon={BsArrowRightCircleFill}
-                    className={styles["move-right"]}
+                    className={styles['move-right']}
                     disabled={isLast}
-                    iconClassName={styles["move-icon"]}
+                    iconClassName={styles['move-icon']}
                     onClick={() => {
                       if (!isLast) {
                         move(index, index + 1);
@@ -91,7 +83,7 @@ const ImageFieldArray = observer(({ name }) => {
                   <ClickableIcon
                     Icon={BsXCircleFill}
                     className={styles.remove}
-                    iconClassName={styles["remove-icon"]}
+                    iconClassName={styles['remove-icon']}
                     onClick={() => remove(index)}
                     size={23}
                   />
@@ -102,8 +94,8 @@ const ImageFieldArray = observer(({ name }) => {
         })}
         <Dropzone
           accept={{
-            "image/jpeg": [],
-            "image/png": [],
+            'image/jpeg': [],
+            'image/png': [],
           }}
           activeMessage="Drop the images here..."
           defaultMessage="Add images"

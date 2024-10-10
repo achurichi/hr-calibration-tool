@@ -1,4 +1,4 @@
-import { DESCRIPTION_TYPES } from "@/constants/descriptions";
+import { DESCRIPTION_TYPES } from '@/constants/descriptions';
 
 /**
  * Retrieves an error message from errors object.
@@ -9,7 +9,7 @@ import { DESCRIPTION_TYPES } from "@/constants/descriptions";
  */
 export const getError = (name, errors) => {
   // name prop may come from a nested object, so we need to split by dots
-  return name.split(".").reduce((obj, key) => obj?.[key], errors);
+  return name.split('.').reduce((obj, key) => obj?.[key], errors);
 };
 
 /**
@@ -19,10 +19,7 @@ export const getError = (name, errors) => {
  * @param {string} descriptionType - The type of the description.
  * @returns {Object} The default configuration form.
  */
-export const buildDefaultConfigurationForm = (
-  configuredItem,
-  descriptionType,
-) => {
+export const buildDefaultConfigurationForm = (configuredItem, descriptionType) => {
   if (descriptionType === DESCRIPTION_TYPES.MOTORS) {
     // if the class object is passed the form is not reset properly
     return {

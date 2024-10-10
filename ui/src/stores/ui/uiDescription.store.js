@@ -1,10 +1,7 @@
-import { makeAutoObservable } from "mobx";
-import isEqual from "lodash/isEqual";
+import { makeAutoObservable } from 'mobx';
+import isEqual from 'lodash/isEqual';
 
-import {
-  DESCRIPTION_ITEMS_OPTIONS,
-  NEW_ITEM_OPTION,
-} from "@/constants/descriptions";
+import { DESCRIPTION_ITEMS_OPTIONS, NEW_ITEM_OPTION } from '@/constants/descriptions';
 
 class UiDescriptionStore {
   uiStore;
@@ -80,10 +77,7 @@ class UiDescriptionStore {
   }
 
   getDescriptionItems() {
-    return this.descriptionStore.getDescriptionItems(
-      this.getSelectedItemType(),
-      this.getSelectedDescription(),
-    );
+    return this.descriptionStore.getDescriptionItems(this.getSelectedItemType(), this.getSelectedDescription());
   }
 
   /* Selected item */
@@ -97,11 +91,11 @@ class UiDescriptionStore {
   }
 
   setSelectedItemOptionById(id) {
-    this._setSelectedItemOptionByProp("id", id);
+    this._setSelectedItemOptionByProp('id', id);
   }
 
   setSelectedItemOptionByName(name) {
-    this._setSelectedItemOptionByProp("name", name);
+    this._setSelectedItemOptionByProp('name', name);
   }
 
   _setSelectedItemOptionByProp(prop, propValue) {
@@ -120,8 +114,7 @@ class UiDescriptionStore {
     }
 
     // Find the corresponding option based on item id
-    const option =
-      this.getItemOptions().find((option) => option.value === item.id) || null;
+    const option = this.getItemOptions().find((option) => option.value === item.id) || null;
     this.setSelectedItemOption(option);
   }
 
@@ -139,10 +132,7 @@ class UiDescriptionStore {
     this.isNewItem = isNewItem;
     if (isNewItem) {
       this.setSelectedItemOption(NEW_ITEM_OPTION);
-    } else if (
-      !isNewItem &&
-      isEqual(this.selectedItemOption, NEW_ITEM_OPTION)
-    ) {
+    } else if (!isNewItem && isEqual(this.selectedItemOption, NEW_ITEM_OPTION)) {
       this.setSelectedItemOption(null);
     }
   }

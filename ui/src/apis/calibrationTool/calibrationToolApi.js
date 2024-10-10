@@ -1,6 +1,6 @@
-import ConfigurationsApi from "./configurations/configurationsApi";
-import DescriptionsApi from "./descriptions/descriptionsApi";
-import ImagesApi from "./images/imagesApi";
+import ConfigurationsApi from './configurations/configurationsApi';
+import DescriptionsApi from './descriptions/descriptionsApi';
+import ImagesApi from './images/imagesApi';
 
 class CalibrationToolApi {
   configurations;

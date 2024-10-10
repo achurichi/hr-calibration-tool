@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
-import Button from "@/components/Button/Button";
-import EmptyField from "@/components/Table/EmptyField/EmptyField";
-import Table from "@/components/Table/Table";
+import Button from '@/components/Button/Button';
+import EmptyField from '@/components/Table/EmptyField/EmptyField';
+import Table from '@/components/Table/Table';
 
-import styles from "./AddMotorsModal.module.scss";
+import styles from './AddMotorsModal.module.scss';
 
 const TABLE_HEADERS = [
-  { key: "add" },
-  { key: "name", label: "Name" },
-  { key: "description", label: "Description" },
-  { key: "assembly", label: "Assembly" },
+  { key: 'add' },
+  { key: 'name', label: 'Name' },
+  { key: 'description', label: 'Description' },
+  { key: 'assembly', label: 'Assembly' },
 ];
 
 const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
@@ -33,9 +33,7 @@ const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
       label={motor.label}
       onChange={({ target }) => {
         setSelectedMotors(
-          target.checked
-            ? (prev) => [...prev, motor]
-            : (prev) => prev.filter((item) => item.id !== motor.id),
+          target.checked ? (prev) => [...prev, motor] : (prev) => prev.filter((item) => item.id !== motor.id)
         );
       }}
       type="checkbox"
@@ -54,9 +52,7 @@ const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
     assemblies = [...new Set(assemblies)];
     const motorsByAssembly = {};
     assemblies.forEach((assembly) => {
-      motors = selectedMotors
-        .filter((m) => m.assembly === assembly)
-        .map((m) => m.id);
+      motors = selectedMotors.filter((m) => m.assembly === assembly).map((m) => m.id);
       if (motors.length) {
         motorsByAssembly[assembly] = motors;
       }
@@ -80,10 +76,10 @@ const AddMotorsModal = ({ disabled, motors, onCancel, onConfirm, show }) => {
           disabled={disabled || !someSelected}
           onClick={onAddClick}
           tooltipProps={{
-            content: !someSelected && "Select at least one motor",
+            content: !someSelected && 'Select at least one motor',
           }}
         >
-          {someSelected ? `Add (${selectedMotors.length})` : "Add"}
+          {someSelected ? `Add (${selectedMotors.length})` : 'Add'}
         </Button>
       </Modal.Footer>
     </Modal>

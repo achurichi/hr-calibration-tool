@@ -5,7 +5,7 @@
  * @returns {number} The number of decimal places.
  */
 export const countDecimals = (num) => {
-  return (num.toString().split(".")[1] || "").length;
+  return (num.toString().split('.')[1] || '').length;
 };
 
 /**
@@ -40,10 +40,7 @@ export const valueBetweenRange = (value, minAllowed, maxAllowed) => {
  * @returns {boolean} True if both min and max are within the range, false otherwise.
  */
 export const minMaxBetweenRange = (min, max, minAllowed, maxAllowed) => {
-  return (
-    valueBetweenRange(min, minAllowed, maxAllowed) &&
-    valueBetweenRange(max, minAllowed, maxAllowed)
-  );
+  return valueBetweenRange(min, minAllowed, maxAllowed) && valueBetweenRange(max, minAllowed, maxAllowed);
 };
 
 /**
@@ -55,8 +52,5 @@ export const minMaxBetweenRange = (min, max, minAllowed, maxAllowed) => {
  * @returns {number|undefined} The value if within the range, otherwise undefined.
  */
 export const getLimitValue = (value, minAllowed, maxAllowed) => {
-  return Number.isNaN(value) ||
-    !valueBetweenRange(value, minAllowed, maxAllowed)
-    ? undefined
-    : value;
+  return Number.isNaN(value) || !valueBetweenRange(value, minAllowed, maxAllowed) ? undefined : value;
 };

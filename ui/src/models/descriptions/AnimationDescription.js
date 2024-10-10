@@ -1,4 +1,4 @@
-import MotionDescription from "./MotionDescription";
+import MotionDescription from './MotionDescription';
 
 class AnimationDescription {
   id;
@@ -14,8 +14,7 @@ class AnimationDescription {
     this.type = data.type;
     this.configInstructions = data.configInstructions;
     this.images = data.images || [];
-    this.motions =
-      data.motions?.map((motion) => new MotionDescription(motion)) || [];
+    this.motions = data.motions?.map((motion) => new MotionDescription(motion)) || [];
   }
 }
 

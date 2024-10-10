@@ -1,18 +1,16 @@
-import { observer } from "mobx-react";
+import { observer } from 'mobx-react';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-const RenderWithLoader = observer(
-  ({ dependencies, loadingComponent, children }) => {
-    const { requestStore } = rootStore;
-    const isLoading = requestStore.isLoading(dependencies);
+const RenderWithLoader = observer(({ dependencies, loadingComponent, children }) => {
+  const { requestStore } = rootStore;
+  const isLoading = requestStore.isLoading(dependencies);
 
-    if (isLoading) {
-      return loadingComponent;
-    }
+  if (isLoading) {
+    return loadingComponent;
+  }
 
-    return children;
-  },
-);
+  return children;
+});
 
 export default RenderWithLoader;

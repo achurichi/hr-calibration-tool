@@ -11,24 +11,20 @@ export const clean = (obj) => {
   const isEmpty = (v) => {
     return (
       v == null ||
-      v === "" ||
+      v === '' ||
       (Array.isArray(v) && v.length === 0) ||
-      (typeof v === "object" &&
-        !Array.isArray(v) &&
-        Object.keys(v).length === 0)
+      (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0)
     );
   };
 
   const cleanObject = (obj) => {
     if (Array.isArray(obj)) {
-      return obj
-        .map((v) => (typeof v === "object" ? cleanObject(v) : v))
-        .filter((v) => !isEmpty(v));
-    } else if (typeof obj === "object" && obj !== null) {
+      return obj.map((v) => (typeof v === 'object' ? cleanObject(v) : v)).filter((v) => !isEmpty(v));
+    } else if (typeof obj === 'object' && obj !== null) {
       return Object.fromEntries(
         Object.entries(obj)
-          .map(([k, v]) => [k, typeof v === "object" ? cleanObject(v) : v])
-          .filter(([_, v]) => !isEmpty(v)),
+          .map(([k, v]) => [k, typeof v === 'object' ? cleanObject(v) : v])
+          .filter(([, v]) => !isEmpty(v))
       );
     } else {
       return obj;
@@ -47,17 +43,17 @@ export const trimStrings = (obj) => {
   const trimStringsInObject = (obj) => {
     if (Array.isArray(obj)) {
       for (const [index, value] of obj.entries()) {
-        if (typeof value === "object") {
+        if (typeof value === 'object') {
           trimStringsInObject(value);
-        } else if (typeof value === "string") {
+        } else if (typeof value === 'string') {
           obj[index] = value.trim();
         }
       }
-    } else if (typeof obj === "object" && obj !== null) {
+    } else if (typeof obj === 'object' && obj !== null) {
       for (const [key, value] of Object.entries(obj)) {
-        if (typeof value === "object") {
+        if (typeof value === 'object') {
           trimStringsInObject(value);
-        } else if (typeof value === "string") {
+        } else if (typeof value === 'string') {
           obj[key] = value.trim();
         }
       }

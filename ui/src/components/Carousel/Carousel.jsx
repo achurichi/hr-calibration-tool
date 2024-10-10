@@ -1,8 +1,7 @@
-import React from "react";
-import ImageGallery from "react-image-gallery";
+import ImageGallery from 'react-image-gallery';
 
 // not using modules because we want to be able to target the nav arrows and image-carousel classes
-import "./Carousel.scss";
+import './Carousel.scss';
 
 const Carousel = ({ images, onScreenChange }) => {
   const items = images.map((url) => ({ original: url }));

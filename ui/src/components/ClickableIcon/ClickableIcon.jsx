@@ -1,15 +1,13 @@
-import React from "react";
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import Tooltip from "@/components/Tooltip/Tooltip";
+import Tooltip from '@/components/Tooltip/Tooltip';
 
-import { DEFAULT_TOOLTIP_PROPS } from "@/constants/tooltips";
+import { DEFAULT_TOOLTIP_PROPS } from '@/constants/tooltips';
 
-import styles from "./ClickableIcon.module.scss";
+import styles from './ClickableIcon.module.scss';
 
 const ClickableIcon = ({
   Icon,
-  children,
   className,
   disabled = false,
   iconClassName,
@@ -24,7 +22,7 @@ const ClickableIcon = ({
         {
           [styles.disabled]: disabled,
         },
-        iconClassName,
+        iconClassName
       )}
       {...rest}
     />

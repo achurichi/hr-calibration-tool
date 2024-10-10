@@ -1,13 +1,13 @@
-import { REQUESTS } from "@/apis/utils";
+import { REQUESTS } from '@/apis/utils';
 
-import AnimationsApi from "./animations/animationsApi";
-import MotorsApi from "./motors/motorsApi";
+import AnimationsApi from './animations/animationsApi';
+import MotorsApi from './motors/motorsApi';
 
 export const REQUEST_IDS = {
-  CREATE_DESCRIPTIONS: "CREATE_DESCRIPTIONS",
-  DELETE_DESCRIPTIONS: "DELETE_DESCRIPTIONS",
-  GET_ALL_DESCRIPTION_NAMES: "GET_ALL_DESCRIPTION_NAMES",
-  GET_NAMES_BY_ASSEMBLY: "GET_NAMES_BY_ASSEMBLY",
+  CREATE_DESCRIPTIONS: 'CREATE_DESCRIPTIONS',
+  DELETE_DESCRIPTIONS: 'DELETE_DESCRIPTIONS',
+  GET_ALL_DESCRIPTION_NAMES: 'GET_ALL_DESCRIPTION_NAMES',
+  GET_NAMES_BY_ASSEMBLY: 'GET_NAMES_BY_ASSEMBLY',
 };
 
 class DescriptionsApi {
@@ -20,7 +20,7 @@ class DescriptionsApi {
   }
 
   get base() {
-    return "/descriptions";
+    return '/descriptions';
   }
 
   async create(name) {
@@ -28,26 +28,18 @@ class DescriptionsApi {
   }
 
   async deleteByName(name) {
-    await REQUESTS.delete(
-      REQUEST_IDS.DELETE_DESCRIPTIONS,
-      `${this.base}?name=${name}`,
-    );
+    await REQUESTS.delete(REQUEST_IDS.DELETE_DESCRIPTIONS, `${this.base}?name=${name}`);
   }
 
   async getAllDescriptionNames() {
-    const { data } = await REQUESTS.get(
-      REQUEST_IDS.GET_ALL_DESCRIPTION_NAMES,
-      `${this.base}/allDescriptionNames`,
-    );
+    const { data } = await REQUESTS.get(REQUEST_IDS.GET_ALL_DESCRIPTION_NAMES, `${this.base}/allDescriptionNames`);
     return data || null;
   }
 
   async namesByAssembly(assembliesIds) {
-    const { data } = await REQUESTS.post(
-      REQUEST_IDS.GET_NAMES_BY_ASSEMBLY,
-      `${this.base}/namesByAssembly`,
-      { assemblies: assembliesIds },
-    );
+    const { data } = await REQUESTS.post(REQUEST_IDS.GET_NAMES_BY_ASSEMBLY, `${this.base}/namesByAssembly`, {
+      assemblies: assembliesIds,
+    });
     return data || null;
   }
 }

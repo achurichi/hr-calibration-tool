@@ -1,19 +1,11 @@
-import React from "react";
-import classNames from "classnames";
-import isEmpty from "lodash/isEmpty";
+import classNames from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 
-import ReactTable from "react-bootstrap/Table";
+import ReactTable from 'react-bootstrap/Table';
 
-import styles from "./Table.module.scss";
+import styles from './Table.module.scss';
 
-const Table = ({
-  bordered = true,
-  className,
-  headers = [],
-  rows = [],
-  striped = true,
-  ...props
-}) => {
+const Table = ({ bordered = true, className, headers = [], rows = [], striped = true, ...props }) => {
   const headerKeys = headers.map((header) => header.key);
   const headerCells = headers.map(({ key, label, ...props }) => {
     return (
@@ -36,11 +28,7 @@ const Table = ({
 
   return (
     <div className={classNames({ [styles.border]: bordered })}>
-      <ReactTable
-        className={classNames(styles.table, className)}
-        striped={hasRows && striped}
-        {...props}
-      >
+      <ReactTable className={classNames(styles.table, className)} striped={hasRows && striped} {...props}>
         <thead>
           <tr>{headerCells}</tr>
         </thead>

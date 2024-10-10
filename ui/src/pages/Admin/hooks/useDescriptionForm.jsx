@@ -1,27 +1,23 @@
-import { useEffect } from "react";
-import rootStore from "@/stores/root.store";
-import { toast } from "react-toastify";
-import cloneDeep from "lodash/cloneDeep";
-import { useForm } from "react-hook-form";
+import { useEffect } from 'react';
+import rootStore from '@/stores/root.store';
+import { toast } from 'react-toastify';
+import cloneDeep from 'lodash/cloneDeep';
+import { useForm } from 'react-hook-form';
 
-import useCallWithNotification from "@/hooks/useCallWithNotification";
-import useDescriptionType from "@/pages/Admin/hooks/useDescriptionType";
+import useCallWithNotification from '@/hooks/useCallWithNotification';
+import useDescriptionType from '@/pages/Admin/hooks/useDescriptionType';
 
-import { blobUrlToBase64String } from "@/utils/blob";
-import { clean, trimStrings } from "@/utils/object";
+import { blobUrlToBase64String } from '@/utils/blob';
+import { clean, trimStrings } from '@/utils/object';
 
-import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from "@/apis/calibrationTool/descriptions/motors/motorsApi";
-import {
-  DESCRIPTION_ITEM_TYPES,
-  DESCRIPTION_TYPES_MAP,
-  NEW_ITEM_OPTION,
-} from "@/constants/descriptions";
+import { REQUEST_IDS as MOTORS_DESCRIPTIONS_REQUESTS } from '@/apis/calibrationTool/descriptions/motors/motorsApi';
+import { DESCRIPTION_ITEM_TYPES, DESCRIPTION_TYPES_MAP, NEW_ITEM_OPTION } from '@/constants/descriptions';
 import {
   DEFAULT_EXPRESSION_FORM,
   DEFAULT_MOTION_FORM,
   DEFAULT_MOTOR_FORM,
   DEFAULT_VISEME_FORM,
-} from "@/constants/forms";
+} from '@/constants/forms';
 
 const useDescriptionForm = () => {
   const { descriptionStore, uiStore } = rootStore;
@@ -37,8 +33,7 @@ const useDescriptionForm = () => {
   const selectedItem = uiDescriptionStore.getSelectedItem();
   const isMotorDescription = selectedItemType === DESCRIPTION_ITEM_TYPES.MOTOR;
   const isAnimationDescription =
-    selectedItemType === DESCRIPTION_ITEM_TYPES.EXPRESSION ||
-    selectedItemType === DESCRIPTION_ITEM_TYPES.VISEME;
+    selectedItemType === DESCRIPTION_ITEM_TYPES.EXPRESSION || selectedItemType === DESCRIPTION_ITEM_TYPES.VISEME;
 
   useEffect(() => {
     if (!selectedItem || selectedItem === NEW_ITEM_OPTION.value) {
@@ -63,7 +58,7 @@ const useDescriptionForm = () => {
 
     // need to convert flat arrays to objects because useFieldArray from react-hook-form expects objects
     if (isMotorDescription) {
-      ["neutralPosition", "minPosition", "maxPosition"].forEach((position) => {
+      ['neutralPosition', 'minPosition', 'maxPosition'].forEach((position) => {
         form[position] = {
           ...defaultBaseForm[position],
           ...baseForm[position],
@@ -96,7 +91,7 @@ const useDescriptionForm = () => {
       const base64 = await blobUrlToBase64String(image.value.url);
       const id = await descriptionStore.saveImage(base64);
       if (!id) {
-        throw new Error("Failed to save image");
+        throw new Error('Failed to save image');
       }
       return id;
     });
@@ -105,10 +100,8 @@ const useDescriptionForm = () => {
 
   const processImages = async (images) => {
     const imageResults = await uploadImages(images);
-    const ids = imageResults
-      .filter((p) => p.status === "fulfilled")
-      .map((p) => p.value);
-    const failed = imageResults.filter((p) => p.status === "rejected").length;
+    const ids = imageResults.filter((p) => p.status === 'fulfilled').map((p) => p.value);
+    const failed = imageResults.filter((p) => p.status === 'rejected').length;
     return { ids, failed };
   };
 
@@ -117,40 +110,30 @@ const useDescriptionForm = () => {
 
     // check if the name already exists in another item
     const desriptionItems = uiDescriptionStore.getDescriptionItems();
-    const invalidName = desriptionItems.some(
-      (item) => item.name === clonedData.name && item.id !== clonedData.id,
-    );
+    const invalidName = desriptionItems.some((item) => item.name === clonedData.name && item.id !== clonedData.id);
     if (invalidName) {
-      throw new Error("Name already exists");
+      throw new Error('Name already exists');
     }
 
     if (isAnimationDescription && clonedData?.motions?.length) {
       // check that the motion names are unique
       const motionNames = clonedData.motions.map((m) => m.value.name);
       if (new Set(motionNames).size !== motionNames.length) {
-        throw new Error("Motion names must be unique");
+        throw new Error('Motion names must be unique');
       }
 
       // check that the motion descriptions are unique
-      const motionDescriptions = clonedData.motions.map(
-        (m) => m.value.description,
-      );
+      const motionDescriptions = clonedData.motions.map((m) => m.value.description);
       if (new Set(motionDescriptions).size !== motionDescriptions.length) {
-        throw new Error("Motion descriptions must be unique");
+        throw new Error('Motion descriptions must be unique');
       }
     }
 
     let failed = 0;
     if (isMotorDescription) {
       let showInfoMessage = false;
-      const positionPromises = [
-        "neutralPosition",
-        "minPosition",
-        "maxPosition",
-      ].map(async (item) => {
-        showInfoMessage =
-          showInfoMessage ||
-          !!clonedData[item].images.some(({ value }) => !value.id);
+      const positionPromises = ['neutralPosition', 'minPosition', 'maxPosition'].map(async (item) => {
+        showInfoMessage = showInfoMessage || !!clonedData[item].images.some(({ value }) => !value.id);
         const processedImages = await processImages(clonedData[item].images);
         clonedData[item].images = processedImages.ids;
         failed += processedImages.failed;
@@ -192,17 +175,13 @@ const useDescriptionForm = () => {
 
     const descriptionType = DESCRIPTION_TYPES_MAP[selectedItemType];
     const saveFn = async () => {
-      await descriptionStore.saveItem(
-        descriptionType,
-        uiDescriptionStore.getSelectedDescription(),
-        preparedData,
-      );
+      await descriptionStore.saveItem(descriptionType, uiDescriptionStore.getSelectedDescription(), preparedData);
     };
 
     const { success } = await callWithNotification(
       saveFn,
       MOTORS_DESCRIPTIONS_REQUESTS.SAVE_DESCRIPTION_ITEM, // ANIMATIONS_DESCRIPTIONS_REQUESTS.SAVE_DESCRIPTION_ITEM has the same value
-      "Item saved",
+      'Item saved'
     );
     uiDescriptionStore.setSelectedItemOptionByName(preparedData.name);
 

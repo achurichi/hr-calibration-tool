@@ -1,4 +1,4 @@
-import { DESCRIPTION_ITEM_TYPES } from "@/constants/descriptions";
+import { DESCRIPTION_ITEM_TYPES } from '@/constants/descriptions';
 
 export const DEFAULT_ADVANCED_FORM = {
   motor_id: null,
@@ -6,9 +6,9 @@ export const DEFAULT_ADVANCED_FORM = {
   speed: null,
   acceleration: null,
   torque: null,
-  hardware: "",
-  transmission: "",
-  topic: "",
+  hardware: '',
+  transmission: '',
+  topic: '',
 };
 
 export const DEFAULT_ADVANCED_MAPPING_FORM = {
@@ -18,31 +18,31 @@ export const DEFAULT_ADVANCED_MAPPING_FORM = {
   max1: null,
   imax2: null,
   max2: null,
-  parser: "",
-  parser_param: "",
-  function: "",
-  other_func: "",
+  parser: '',
+  parser_param: '',
+  function: '',
+  other_func: '',
 };
 
 export const DEFAULT_MOTOR_FORM = {
-  name: "",
-  group: "",
-  description: "",
+  name: '',
+  group: '',
+  description: '',
   minValue: 0,
   maxValue: 4095,
   neutralPosition: {
     defaultValue: 2048,
-    configInstructions: "",
+    configInstructions: '',
     images: [],
   },
   minPosition: {
     defaultValue: 0,
-    configInstructions: "",
+    configInstructions: '',
     images: [],
   },
   maxPosition: {
     defaultValue: 4095,
-    configInstructions: "",
+    configInstructions: '',
     images: [],
   },
   defaultShow: true,
@@ -51,16 +51,16 @@ export const DEFAULT_MOTOR_FORM = {
 };
 
 export const DEFAULT_MOTION_FORM = {
-  name: "",
-  description: "",
+  name: '',
+  description: '',
   defaultValue: 0,
   maxValue: 1,
   minValue: -1,
 };
 
 const DEFAULT_ANIMATION_FORM = {
-  name: "",
-  configInstructions: "",
+  name: '',
+  configInstructions: '',
   images: [],
   motions: [DEFAULT_MOTION_FORM],
 };

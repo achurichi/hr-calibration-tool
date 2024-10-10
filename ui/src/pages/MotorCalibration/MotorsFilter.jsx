@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import Select from "react-select";
+import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import Select from 'react-select';
 
-import { FILTER_IDS } from "@/constants/filters";
+import { FILTER_IDS } from '@/constants/filters';
 
-import SearchBar from "@/components/SearchBar/SearchBar";
+import SearchBar from '@/components/SearchBar/SearchBar';
 
-import rootStore from "@/stores/root.store";
+import rootStore from '@/stores/root.store';
 
-import styles from "./MotorsFilter.module.scss";
+import styles from './MotorsFilter.module.scss';
 
 const MotorsFilter = observer(({ motors }) => {
   const { filtersStore, robotStore } = rootStore;
@@ -25,9 +25,7 @@ const MotorsFilter = observer(({ motors }) => {
       .map((group) => ({ value: group, label: group }));
     setGroupOptions(groupOptions);
 
-    const assemblyOptions = robotStore
-      .getAssemblyIds()
-      .map((id) => ({ value: id, label: id }));
+    const assemblyOptions = robotStore.getAssemblyIds().map((id) => ({ value: id, label: id }));
     setAssemblyOptions(assemblyOptions);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [motors]);
@@ -45,10 +43,7 @@ const MotorsFilter = observer(({ motors }) => {
         options={groupOptions}
         placeholder="Group"
         onChange={(selectedOption) => {
-          filtersStore.setFilter(
-            FILTER_IDS.SELECTED_GROUP,
-            selectedOption?.value || null,
-          );
+          filtersStore.setFilter(FILTER_IDS.SELECTED_GROUP, selectedOption?.value || null);
         }}
       />
       <Select
@@ -56,10 +51,7 @@ const MotorsFilter = observer(({ motors }) => {
         options={assemblyOptions}
         placeholder="Assembly"
         onChange={(selectedOption) => {
-          filtersStore.setFilter(
-            FILTER_IDS.SELECTED_ASSEMBLY,
-            selectedOption?.value || null,
-          );
+          filtersStore.setFilter(FILTER_IDS.SELECTED_ASSEMBLY, selectedOption?.value || null);
         }}
       />
     </div>

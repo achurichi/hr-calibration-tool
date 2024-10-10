@@ -1,7 +1,7 @@
-import { makeAutoObservable } from "mobx";
-import { toast } from "react-toastify";
+import { makeAutoObservable } from 'mobx';
+import { toast } from 'react-toastify';
 
-import { STATUS_TYPES } from "@/constants/status";
+import { STATUS_TYPES } from '@/constants/status';
 
 class RequestStore {
   rootStore;
@@ -40,7 +40,7 @@ class RequestStore {
       this.setStatus(id, STATUS_TYPES.ERROR);
       if (notifyError) {
         console.log(err);
-        toast.error(err.response?.data || "Request failed");
+        toast.error(err.response?.data || 'Request failed');
       }
       if (shouldThrow) {
         throw err;

@@ -1,58 +1,50 @@
-import React, { useEffect, useState } from "react";
-import classNames from "classnames";
-import RcSlider from "rc-slider";
-import { BsDashCircleFill, BsPlusCircleFill } from "react-icons/bs";
+import { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import RcSlider from 'rc-slider';
+import { BsDashCircleFill, BsPlusCircleFill } from 'react-icons/bs';
 
-import { countDecimals } from "@/utils/numbers";
+import { countDecimals } from '@/utils/numbers';
 
-import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
+import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
 
-import "rc-slider/assets/index.css";
-import styles from "./Slider.module.scss";
+import 'rc-slider/assets/index.css';
+import styles from './Slider.module.scss';
 
 const sliderStyles = {
   handle: {
-    backgroundColor: "white",
-    borderColor: "var(--primary)",
-    boxShadow: "none",
+    backgroundColor: 'white',
+    borderColor: 'var(--primary)',
+    boxShadow: 'none',
     height: 20,
     marginTop: -8,
     opacity: 1,
     width: 20,
   },
   track: {
-    backgroundColor: "var(--primary)",
+    backgroundColor: 'var(--primary)',
   },
 };
 
 const dotStyle = {
-  borderColor: "var(--gray-300)",
+  borderColor: 'var(--gray-300)',
   height: 12,
   width: 12,
   bottom: -4,
 };
 
 const activeDotStyle = {
-  borderColor: "var(--primary)",
+  borderColor: 'var(--primary)',
 };
 
 const markStyle = {
-  MozUserSelect: "none",
-  WebkitUserSelect: "none",
-  msUserSelect: "none",
-  pointerEvents: "none",
-  userSelect: "none",
+  MozUserSelect: 'none',
+  WebkitUserSelect: 'none',
+  msUserSelect: 'none',
+  pointerEvents: 'none',
+  userSelect: 'none',
 };
 
-const Slider = ({
-  className,
-  max,
-  min,
-  onChange,
-  step = 1,
-  value,
-  ...sliderProps
-}) => {
+const Slider = ({ className, max, min, onChange, step = 1, value, ...sliderProps }) => {
   const [internalValue, setInternalValue] = useState(value);
 
   useEffect(() => {
@@ -71,7 +63,7 @@ const Slider = ({
     <div className={classNames(styles.container, className)}>
       <ClickableIcon
         Icon={BsDashCircleFill}
-        className={styles["clickable-button"]}
+        className={styles['clickable-button']}
         color="var(--primary)"
         onClick={() => internalOnChange(internalValue - step)}
         size={20}
@@ -94,7 +86,7 @@ const Slider = ({
       />
       <ClickableIcon
         Icon={BsPlusCircleFill}
-        className={styles["clickable-button"]}
+        className={styles['clickable-button']}
         color="var(--primary)"
         onClick={() => internalOnChange(internalValue + step)}
         size={20}

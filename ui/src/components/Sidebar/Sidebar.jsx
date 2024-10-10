@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import classNames from "classnames";
-import Nav from "react-bootstrap/Nav";
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+import Nav from 'react-bootstrap/Nav';
 
-import { BsEmojiLaughing, BsPersonCircle, BsWrench } from "react-icons/bs";
-import { MdOutlineMenu } from "react-icons/md";
-import { GiLips } from "react-icons/gi";
+import { BsEmojiLaughing, BsPersonCircle, BsWrench } from 'react-icons/bs';
+import { MdOutlineMenu } from 'react-icons/md';
+import { GiLips } from 'react-icons/gi';
 
-import ClickableIcon from "@/components/ClickableIcon/ClickableIcon";
-import Tooltip from "@/components/Tooltip/Tooltip";
+import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
+import Tooltip from '@/components/Tooltip/Tooltip';
 
-import { PATHS } from "@/constants/routes";
+import { PATHS } from '@/constants/routes';
 
-import styles from "./Sidebar.module.scss";
+import styles from './Sidebar.module.scss';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -30,26 +30,26 @@ const Sidebar = () => {
   const options = [
     {
       Icon: BsWrench,
-      name: "Motors calibration",
+      name: 'Motors calibration',
       route: PATHS.MOTORS,
       selected: selected.motorsCalibration,
     },
     {
       Icon: GiLips,
-      name: "Visemes calibration",
+      name: 'Visemes calibration',
       route: PATHS.VISEMES,
       selected: selected.visemesCalibration,
     },
     {
       Icon: BsEmojiLaughing,
-      name: "Expressions calibration",
+      name: 'Expressions calibration',
       route: PATHS.EXPRESSIONS,
       selected: selected.expressionsCalibration,
     },
     {
       Icon: BsPersonCircle,
       bottom: true,
-      name: "Admin",
+      name: 'Admin',
       route: PATHS.ADMIN,
       selected: selected.admin,
     },
@@ -64,19 +64,14 @@ const Sidebar = () => {
         [styles.selected]: selected,
       })}
     >
-      <Tooltip
-        content={name}
-        id={`tooltip-${name}`}
-        placement="right"
-        show={isCollapsed ? undefined : false}
-      >
+      <Tooltip content={name} id={`tooltip-${name}`} placement="right" show={isCollapsed ? undefined : false}>
         <Nav.Link
           className={classNames(styles.link, {
             [styles.collapsed]: isCollapsed,
           })}
           eventKey={route}
         >
-          <div className={styles["icon-container"]}>
+          <div className={styles['icon-container']}>
             <Icon className={styles.icon} />
           </div>
           <div
@@ -98,11 +93,11 @@ const Sidebar = () => {
       })}
       onSelect={(route) => navigate(route)}
     >
-      <div className={styles["top-options"]}>
-        <div className={styles["collapse-button-container"]}>
+      <div className={styles['top-options']}>
+        <div className={styles['collapse-button-container']}>
           <ClickableIcon
             Icon={MdOutlineMenu}
-            className={styles["collapse-button"]}
+            className={styles['collapse-button']}
             onClick={() => setIsCollapsed(!isCollapsed)}
             size={18}
           />

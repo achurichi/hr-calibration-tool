@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import classNames from "classnames";
+import { useEffect, useRef, useState } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+import classNames from 'classnames';
 
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
-import Button from "@/components/Button/Button";
-import Slider from "@/components/Slider/Slider";
-import Tooltip from "@/components/Tooltip/Tooltip";
+import Button from '@/components/Button/Button';
+import Slider from '@/components/Slider/Slider';
+import Tooltip from '@/components/Tooltip/Tooltip';
 
-import { validateRange } from "@/components/ConfigurationControls/utils";
-import { getLimitValue } from "@/utils/numbers";
-import { getError } from "@/utils/forms";
+import { validateRange } from '@/components/ConfigurationControls/utils';
+import { getLimitValue } from '@/utils/numbers';
+import { getError } from '@/utils/forms';
 
-import styles from "./ConfigurationControls.module.scss";
+import styles from './ConfigurationControls.module.scss';
 
 const ConfigurationControls = ({
   className,
@@ -53,7 +53,7 @@ const ConfigurationControls = ({
   }, [value, configurationId, min, max, minAllowed, maxAllowed]);
 
   const onSetValue = () => {
-    const numValue = inputValue === "" ? null : Number(inputValue);
+    const numValue = inputValue === '' ? null : Number(inputValue);
     if (value === numValue) {
       setShowSetButton(false);
       return;
@@ -64,17 +64,11 @@ const ConfigurationControls = ({
   };
 
   return (
-    <div
-      className={classNames(
-        styles.container,
-        { [styles["container-inline"]]: inline },
-        className,
-      )}
-    >
+    <div className={classNames(styles.container, { [styles['container-inline']]: inline }, className)}>
       {title && (
         <div
           className={classNames(styles.title, {
-            [styles["title-inline"]]: inline,
+            [styles['title-inline']]: inline,
           })}
         >
           {title}
@@ -82,7 +76,7 @@ const ConfigurationControls = ({
       )}
       <Slider
         className={classNames(styles.slider, {
-          [styles["slider-inline"]]: inline,
+          [styles['slider-inline']]: inline,
         })}
         value={sliderValue}
         max={getLimitValue(max, minAllowed, maxAllowed)}
@@ -98,20 +92,13 @@ const ConfigurationControls = ({
         step={step}
       />
       <div className={styles.configuration}>
-        <Form.Group
-          as={Col}
-          className={styles["form-group"]}
-          controlId={`form-${name}`}
-        >
-          <InputGroup className={styles["input-group"]}>
+        <Form.Group as={Col} className={styles['form-group']} controlId={`form-${name}`}>
+          <InputGroup className={styles['input-group']}>
             <Controller
               control={control}
               name={name}
               render={({ field }) => (
-                <Tooltip
-                  content={inline && error?.message}
-                  id={`tooltip-input-${name}`}
-                >
+                <Tooltip content={inline && error?.message} id={`tooltip-input-${name}`}>
                   <Form.Control
                     {...field}
                     className={styles.input}
@@ -119,10 +106,7 @@ const ConfigurationControls = ({
                     onBlur={(e) => {
                       field.onBlur(e);
                       // if the set button was clicked or enter was pressed, don't reset the value
-                      if (
-                        setButtonRef.current?.contains(e.relatedTarget) ||
-                        enterKeyPressed.current
-                      ) {
+                      if (setButtonRef.current?.contains(e.relatedTarget) || enterKeyPressed.current) {
                         enterKeyPressed.current = false;
                         return;
                       }
@@ -132,7 +116,7 @@ const ConfigurationControls = ({
                     onChange={(e) => setInputValue(e.target.value)}
                     onFocus={() => setShowSetButton(true)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                      if (e.key === 'Enter') {
                         onSetValue();
                         enterKeyPressed.current = true;
                         e.target.blur();
@@ -145,9 +129,8 @@ const ConfigurationControls = ({
                 </Tooltip>
               )}
               rules={{
-                required: "Value is required",
-                validate: (value) =>
-                  validateRange(value, min, max, minAllowed, maxAllowed),
+                required: 'Value is required',
+                validate: (value) => validateRange(value, min, max, minAllowed, maxAllowed),
                 valueAsNumber: true,
               }}
             />
@@ -165,9 +148,7 @@ const ConfigurationControls = ({
             ))}
         </Form.Group>
         {!!error?.message && !inline && (
-          <div className={classNames("text-danger", styles.feedback)}>
-            {error.message}
-          </div>
+          <div className={classNames('text-danger', styles.feedback)}>{error.message}</div>
         )}
       </div>
     </div>
