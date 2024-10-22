@@ -4,6 +4,11 @@ import ROSLIB from 'roslib';
 
 import { STATUS_TYPES } from '@/constants/status';
 
+const ROS_URL =
+  window.location.protocol === 'https:'
+    ? `wss://${window.location.host}/wss`
+    : `ws://${window.location.hostname}:${import.meta.env.VITE_ROS_PORT}`;
+
 class RosStore {
   rootStore;
   ros = null;
@@ -32,9 +37,7 @@ class RosStore {
       }
 
       try {
-        this.ros = new ROSLIB.Ros({
-          url: import.meta.env.VITE_ROS_WS_URL,
-        });
+        this.ros = new ROSLIB.Ros({ url: ROS_URL });
 
         this.ros.on('connection', () => {
           // this.ros.on("error", (e) => console.log(e));

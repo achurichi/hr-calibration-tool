@@ -50,7 +50,7 @@ const App = observer(() => {
 
   return (
     <>
-      <BrowserRouter basename={import.meta.env.VITE_BASE_PATH}>
+      <BrowserRouter>
         <Router />
       </BrowserRouter>
       <ToastContainer position="bottom-left" autoClose={3000} theme="colored" />
