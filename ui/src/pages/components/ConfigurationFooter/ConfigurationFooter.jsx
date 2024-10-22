@@ -12,10 +12,13 @@ import rootStore from '@/stores/root.store';
 import styles from './ConfigurationFooter.module.scss';
 
 const ConfigurationFooter = observer(({ checkboxProps, showMotorData }) => {
-  const { requestStore, uiStore } = rootStore;
+  const { requestStore, rosStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const saveDisabledReason = uiConfigurationStore.getSaveDisabledReason();
   const saving = requestStore.isLoading(MOTORS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM);
+  const motorId = uiConfigurationStore.getMotorIdForSelectedOption();
+  const motorPosition = rosStore.getMotorPosition(motorId);
+  const motorLoad = rosStore.getMotorLoad(motorId);
 
   return (
     <Footer
@@ -50,12 +53,8 @@ const ConfigurationFooter = observer(({ checkboxProps, showMotorData }) => {
         <Form className={styles.form}>
           <Form.Check
             disabled={!uiConfigurationStore.getSelectedOption() || saving}
-            id={checkboxProps.id}
-            label={checkboxProps.label}
-            onChange={({ target }) => {
-              checkboxProps.onChange(target.checked);
-            }}
             type="checkbox"
+            {...checkboxProps}
           />
         </Form>
       )}
@@ -63,11 +62,11 @@ const ConfigurationFooter = observer(({ checkboxProps, showMotorData }) => {
         <>
           <ProgressBar
             containerClassName={styles['current-position']}
-            now={0}
+            now={motorPosition}
             showCurrentValue
             topLabel="Motor current position"
           />
-          <ProgressBar containerClassName={styles['motor-load']} now={0} topLabel="Motor load" />
+          <ProgressBar containerClassName={styles['motor-load']} now={motorLoad} topLabel="Motor load" />
         </>
       )}
     </Footer>

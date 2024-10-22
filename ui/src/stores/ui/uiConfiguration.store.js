@@ -9,7 +9,6 @@ class UiConfigurationStore {
   saveDisabledReason = null;
   saveConfiguration = () => {};
   fullscreen = false;
-  enableTorque = false;
   previewOnRobot = false;
   unsavedModalConfig = { show: false };
   dirtyForm = false;
@@ -25,7 +24,6 @@ class UiConfigurationStore {
     this.saveDisabledReason = null;
     this.saveConfiguration = () => {};
     this.fullscreen = false;
-    this.enableTorque = false;
     this.previewOnRobot = false;
     this.unsavedModalConfig = { show: false };
     this.dirtyForm = false;
@@ -63,12 +61,27 @@ class UiConfigurationStore {
     return this.fullscreen;
   }
 
+  getMotorIdForSelectedOption() {
+    const descriptionId = this.getSelectedOption()?.value;
+    if (!descriptionId) {
+      return null;
+    }
+    return this.uiStore.rootStore.configurationStore.getItem(descriptionId)?.motor_id || null;
+  }
+
   setEnableTorque(enableTorque) {
-    this.enableTorque = enableTorque;
+    const motorId = this.getMotorIdForSelectedOption();
+    if (motorId) {
+      this.uiStore.rootStore.rosStore.setEnableTorque(motorId, enableTorque);
+    }
   }
 
   getEnableTorque() {
-    return this.enableTorque;
+    const motorId = this.getMotorIdForSelectedOption();
+    if (motorId) {
+      return this.uiStore.rootStore.rosStore.getEnableTorque(motorId);
+    }
+    return false;
   }
 
   setPreviewOnRobot(previewOnRobot) {

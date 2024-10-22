@@ -10,7 +10,7 @@ const ProgressBar = ({ className, containerClassName, showCurrentValue, topLabel
       <div>{topLabel}</div>
       <div className={styles['progress-wrapper']}>
         <ReactProgressBar className={classNames(styles.progress, className)} {...props} />
-        {showCurrentValue && <div className={styles.value}>0</div>}
+        {showCurrentValue && <div className={styles.value}>{props.now}</div>}
       </div>
     </div>
   );

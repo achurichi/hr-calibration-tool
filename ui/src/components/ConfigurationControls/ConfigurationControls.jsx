@@ -45,9 +45,9 @@ const ConfigurationControls = ({
   const error = getError(name, errors);
 
   useEffect(() => {
+    setInputValue(value);
     if (validateRange(value, min, max, minAllowed, maxAllowed) === true) {
       // only update input and slider if the value is valid
-      setInputValue(value);
       setSliderValue(value);
     }
   }, [value, configurationId, min, max, minAllowed, maxAllowed]);

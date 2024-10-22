@@ -74,9 +74,12 @@ const MotorConfiguration = observer(() => {
           <Layout.Footer>
             <ConfigurationFooter
               checkboxProps={{
+                checked: uiConfigurationStore.getEnableTorque(),
                 id: 'enable-torque',
                 label: 'Enable torque',
-                onChange: uiConfigurationStore.setEnableTorque,
+                onChange: ({ target }) => {
+                  uiConfigurationStore.setEnableTorque(target.checked);
+                },
               }}
               showMotorData
             />

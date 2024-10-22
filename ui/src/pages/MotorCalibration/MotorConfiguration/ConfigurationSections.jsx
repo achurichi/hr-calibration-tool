@@ -16,10 +16,11 @@ import rootStore from '@/stores/root.store';
 import './ConfigurationSections.scss';
 
 const ConfigurationSections = observer(({ description }) => {
-  const { configurationStore, uiStore } = rootStore;
+  const { configurationStore, uiStore, rosStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
-  const { watch } = useFormContext();
+  const { watch, setValue, trigger } = useFormContext();
   const neutralPositionValue = watch('neutralPositionValue');
+  const motorId = uiConfigurationStore.getMotorIdForSelectedOption();
 
   if (!description) {
     return null;
@@ -54,7 +55,13 @@ const ConfigurationSections = observer(({ description }) => {
             extraButtons={[
               {
                 label: 'Read',
-                onClick: () => {}, // TODO: implement read motor current position and disable when the motor is not connected
+                onClick: () => {
+                  if (motorId) {
+                    const positionValue = rosStore.getMotorPosition(motorId);
+                    setValue(position.prop, positionValue, { shouldDirty: true });
+                    trigger();
+                  }
+                },
                 tooltipProps: {
                   content: 'Read motor current position',
                   id: 'read-configuration',

@@ -68,54 +68,54 @@ class RosStore {
 
   // Publish
 
-  publishTest() {
-    const cmdVel = new ROSLIB.Topic({
-      ros: this.ros,
-      name: '/cmd_vel',
-      messageType: 'geometry_msgs/Twist',
-    });
+  // publishTest() {
+  //   const cmdVel = new ROSLIB.Topic({
+  //     ros: this.ros,
+  //     name: '/cmd_vel',
+  //     messageType: 'geometry_msgs/Twist',
+  //   });
 
-    const twist = new ROSLIB.Message({
-      linear: { x: 0.1, y: 0.2, z: 0.3 },
-      angular: { x: -0.1, y: -0.2, z: -0.3 },
-    });
+  //   const twist = new ROSLIB.Message({
+  //     linear: { x: 0.1, y: 0.2, z: 0.3 },
+  //     angular: { x: -0.1, y: -0.2, z: -0.3 },
+  //   });
 
-    cmdVel.publish(twist);
-  }
+  //   cmdVel.publish(twist);
+  // }
 
   // Subscribe
 
-  subscribeTest() {
-    const listener = new ROSLIB.Topic({
-      ros: this.ros,
-      name: '/listener',
-      messageType: 'std_msgs/String',
-    });
+  // subscribeTest() {
+  //   const listener = new ROSLIB.Topic({
+  //     ros: this.ros,
+  //     name: '/listener',
+  //     messageType: 'std_msgs/String',
+  //   });
 
-    listener.subscribe((message) => {
-      console.log('Received message on ' + listener.name + ': ' + message.data);
-      listener.unsubscribe();
-    });
-  }
+  //   listener.subscribe((message) => {
+  //     console.log('Received message on ' + listener.name + ': ' + message.data);
+  //     listener.unsubscribe();
+  //   });
+  // }
 
   // Call services
 
-  async serviceTest() {
-    const listNodesClient = new ROSLIB.Service({
-      ros: this.ros,
-      name: '/rosapi/nodes',
-      serviceType: 'rosapi/Nodes',
-    });
+  // async serviceTest() {
+  //   const listNodesClient = new ROSLIB.Service({
+  //     ros: this.ros,
+  //     name: '/rosapi/nodes',
+  //     serviceType: 'rosapi/Nodes',
+  //   });
 
-    const request = new ROSLIB.ServiceRequest({});
+  //   const request = new ROSLIB.ServiceRequest({});
 
-    return new Promise((resolve) => {
-      listNodesClient.callService(request, (result) => {
-        console.log(`Result for service call on ${listNodesClient.name}: ${JSON.stringify(result.nodes)}`);
-        resolve(result.nodes);
-      });
-    });
-  }
+  //   return new Promise((resolve) => {
+  //     listNodesClient.callService(request, (result) => {
+  //       console.log(`Result for service call on ${listNodesClient.name}: ${JSON.stringify(result.nodes)}`);
+  //       resolve(result.nodes);
+  //     });
+  //   });
+  // }
 
   // Get and set params
 
@@ -147,32 +147,90 @@ class RosStore {
     });
   }
 
-  async getParamTest() {
-    const param = new ROSLIB.Param({
-      ros: this.ros,
-      name: 'test',
-    });
+  // async getParamTest() {
+  //   const param = new ROSLIB.Param({
+  //     ros: this.ros,
+  //     name: 'test',
+  //   });
 
-    return new Promise((resolve) => {
-      param.get((value) => {
-        console.log(`${param.name}: ` + value);
-        resolve(value);
-      });
-    });
+  //   return new Promise((resolve) => {
+  //     param.get((value) => {
+  //       console.log(`${param.name}: ` + value);
+  //       resolve(value);
+  //     });
+  //   });
+  // }
+
+  // async setParamTest() {
+  //   const param = new ROSLIB.Param({
+  //     ros: this.ros,
+  //     name: 'test',
+  //   });
+
+  //   return new Promise((resolve) => {
+  //     param.set(10, () => {
+  //       console.log('Param set');
+  //       resolve();
+  //     });
+  //   });
+  // }
+
+  /**
+   * Gets the motor position for the given motor ID.
+   * If the ID is not provided, returns 0.
+   *
+   * @param {number} id - The ID of the motor.
+   * @returns {number} - The current motor position or 0 if no ID is provided.
+   */
+  getMotorPosition(id) {
+    if (!id) {
+      return 0;
+    }
+    // TODO: return motor position
   }
 
-  async setParamTest() {
-    const param = new ROSLIB.Param({
-      ros: this.ros,
-      name: 'test',
-    });
+  /**
+   * Sets the motor position for the given motor ID.
+   *
+   * @param {number} id - The ID of the motor.
+   * @param {number} position - The new position to set for the motor.
+   */
+  setMotorPosition(id, position) {
+    // TODO: set motor position
+  }
 
-    return new Promise((resolve) => {
-      param.set(10, () => {
-        console.log('Param set');
-        resolve();
-      });
-    });
+  /**
+   * Gets the motor load for the given motor ID.
+   * If the ID is not provided, returns 0.
+   *
+   * @param {number} id - The ID of the motor.
+   * @returns {number} - The current motor load or 0 if no ID is provided.
+   */
+  getMotorLoad(id) {
+    if (!id) {
+      return 0;
+    }
+    // TODO: return motor load
+  }
+
+  /**
+   * Gets whether the motor torque is enabled for the given motor ID.
+   *
+   * @param {number} id - The ID of the motor.
+   * @returns {boolean} - The current state of the motor's torque (enabled or not).
+   */
+  getEnableTorque(id) {
+    // TODO: return motor torque state
+  }
+
+  /**
+   * Sets whether the motor torque is enabled for the given motor ID.
+   *
+   * @param {number} id - The ID of the motor.
+   * @param {boolean} enable - A flag indicating whether to enable or disable the torque.
+   */
+  setEnableTorque(id, enable) {
+    // TODO: set motor torque state
   }
 }
 
