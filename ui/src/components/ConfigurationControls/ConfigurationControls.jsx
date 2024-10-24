@@ -26,6 +26,7 @@ const ConfigurationControls = ({
   min,
   minAllowed,
   name,
+  onValueChange = () => {},
   step = 1,
   title,
 }) => {
@@ -51,6 +52,11 @@ const ConfigurationControls = ({
       setSliderValue(value);
     }
   }, [value, configurationId, min, max, minAllowed, maxAllowed]);
+
+  useEffect(() => {
+    onValueChange(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   const onSetValue = () => {
     const numValue = inputValue === '' ? null : Number(inputValue);

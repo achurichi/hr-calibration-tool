@@ -9,6 +9,7 @@ import ConfigurationControls from '@/components/ConfigurationControls/Configurat
 import ConfigurationInstructions from '@/components/ConfigurationInstructions/ConfigurationInstructions';
 
 import { getSectionData } from '@/pages/MotorCalibration/MotorConfiguration/utils';
+import { validateRange } from '@/components/ConfigurationControls/utils';
 
 import rootStore from '@/stores/root.store';
 
@@ -73,6 +74,20 @@ const ConfigurationSections = observer(({ description }) => {
             min={position.minValue}
             minAllowed={description.minValue}
             name={position.prop}
+            onValueChange={(value) => {
+              if (
+                motorId &&
+                validateRange(
+                  value,
+                  position.minValue,
+                  position.maxValue,
+                  description.minValue,
+                  description.maxValue
+                ) === true
+              ) {
+                rosStore.setMotorPosition(motorId, value);
+              }
+            }}
           />
         </div>
       ))}
