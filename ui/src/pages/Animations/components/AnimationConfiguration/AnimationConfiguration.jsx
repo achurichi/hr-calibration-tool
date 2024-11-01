@@ -55,7 +55,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
         <Layout>
           <Layout.Topbar>
             <Select
-              className={'animation-configuration-select'}
+              className="animation-configuration-select"
               isDisabled={requestStore.isLoading(ANIMATIONS_CONFIGURATIONS_REQUESTS.SAVE_CONFIGURATION_ITEM)}
               onChange={(option) => {
                 uiConfigurationStore.confirmIfDirty(() => uiConfigurationStore.setSelectedOption(option));
@@ -72,7 +72,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
             )}
             {!!selectedAnimationDescription && (
               <ConfigurationInstructions
-                className={'animation-configuration-instructions'}
+                className="animation-configuration-instructions"
                 description={selectedAnimationDescription.configInstructions}
                 images={selectedAnimationDescription.images}
                 onScreenChange={uiConfigurationStore.setFullscreen}
@@ -85,7 +85,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
                 ANIMATIONS_CONFIGURATIONS_REQUESTS.GET_BY_DESCRIPTION_AND_ASSEMBLY,
                 ANIMATIONS_DESCRIPTIONS_REQUESTS.GET_BY_NAME,
               ]}
-              loadingComponent={<Spinner className={'animation-configuration-spinner'} />}
+              loadingComponent={<Spinner className="animation-configuration-spinner" />}
             >
               <Form>
                 <MotionsControls description={selectedAnimationDescription} />
@@ -97,7 +97,11 @@ const AnimationConfiguration = observer(({ animationType }) => {
               checkboxProps={{
                 id: 'preview-robot',
                 label: 'Preview on the robot',
-                onChange: uiConfigurationStore.setPreviewOnRobot,
+                onChange: ({ target }) => {
+                  uiConfigurationStore.setPreviewOnRobot(target.checked);
+                  const animation = methods.getValues();
+                  uiConfigurationStore.setPositionsForAnimation(animation);
+                },
               }}
               showMotorCurrentPositiom={false}
             />

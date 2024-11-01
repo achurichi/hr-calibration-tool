@@ -8,7 +8,7 @@ import rootStore from '@/stores/root.store';
 import styles from './MotionsControls.module.scss';
 
 const MotionsControls = observer(({ description }) => {
-  const { uiStore } = rootStore;
+  const { uiStore, rosStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const fullscreen = uiConfigurationStore.getFullscreen();
 
@@ -20,6 +20,7 @@ const MotionsControls = observer(({ description }) => {
     title: motion.description,
     maxValue: motion.maxValue,
     minValue: motion.minValue,
+    name: motion.name,
     id: motion.id,
     prop: `motions.${index}.value`,
   }));
@@ -40,6 +41,11 @@ const MotionsControls = observer(({ description }) => {
           min={motion.minValue}
           minAllowed={motion.minValue}
           name={motion.prop}
+          onValueChange={(value) => {
+            if (uiConfigurationStore.getPreviewOnRobot() && value >= motion.minValue && value <= motion.maxValue) {
+              rosStore.setMotionPosition(description.name, motion.name, value);
+            }
+          }}
           step={0.01}
           title={motion.title}
         />

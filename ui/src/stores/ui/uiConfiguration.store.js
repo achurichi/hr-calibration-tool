@@ -92,6 +92,19 @@ class UiConfigurationStore {
     return this.previewOnRobot;
   }
 
+  setPositionsForAnimation(animation) {
+    // only set positions if preview on robot is true
+    if (!this.previewOnRobot || !animation?.animationName || !animation?.motions?.length) {
+      return;
+    }
+
+    const { animationName, motions } = animation;
+    const { rosStore } = this.uiStore.rootStore;
+    motions.forEach((m) => {
+      rosStore.setMotionPosition(animationName, m.motionName, m.value);
+    });
+  }
+
   getUnsavedModalConfig() {
     return this.unsavedModalConfig;
   }

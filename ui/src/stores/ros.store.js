@@ -177,7 +177,7 @@ class RosStore {
 
   /**
    * Gets the motor position for the given motor ID.
-   * If the ID is not provided, returns 0.
+   * If the ID is not provided, the function returns 0.
    *
    * @param {number} id - The ID of the motor.
    * @returns {number} - The current motor position or 0 if no ID is provided.
@@ -201,7 +201,7 @@ class RosStore {
 
   /**
    * Gets the motor load for the given motor ID.
-   * If the ID is not provided, returns 0.
+   * If the ID is not provided, the function returns 0.
    *
    * @param {number} id - The ID of the motor.
    * @returns {number} - The current motor load or 0 if no ID is provided.
@@ -231,6 +231,17 @@ class RosStore {
    */
   setEnableTorque(id, enable) {
     // TODO: set motor torque state
+  }
+
+  /**
+   * Sets the position of a motion within an animation.
+   *
+   * @param {string} animationId - The ID of the animation.
+   * @param {string} motionId - The ID of the motion.
+   * @param {number} position - The position to set for the motion.
+   */
+  setMotionPosition(animationId, motionId, position) {
+    // TODO: set motion position
   }
 }
 
