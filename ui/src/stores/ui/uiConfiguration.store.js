@@ -9,7 +9,6 @@ class UiConfigurationStore {
   saveDisabledReason = null;
   saveConfiguration = () => {};
   fullscreen = false;
-  previewOnRobot = false;
   unsavedModalConfig = { show: false };
   dirtyForm = false;
 
@@ -24,7 +23,6 @@ class UiConfigurationStore {
     this.saveDisabledReason = null;
     this.saveConfiguration = () => {};
     this.fullscreen = false;
-    this.previewOnRobot = false;
     this.unsavedModalConfig = { show: false };
     this.dirtyForm = false;
   }
@@ -84,22 +82,15 @@ class UiConfigurationStore {
     return false;
   }
 
-  setPreviewOnRobot(previewOnRobot) {
-    this.previewOnRobot = previewOnRobot;
-  }
-
-  getPreviewOnRobot() {
-    return this.previewOnRobot;
-  }
-
   setPositionsForAnimation(animation) {
+    const { rosStore } = this.uiStore.rootStore;
+
     // only set positions if preview on robot is true
-    if (!this.previewOnRobot || !animation?.animationName || !animation?.motions?.length) {
+    if (!rosStore.getPreviewOnRobot() || !animation?.animationName || !animation?.motions?.length) {
       return;
     }
 
     const { animationName, motions } = animation;
-    const { rosStore } = this.uiStore.rootStore;
     motions.forEach((m) => {
       rosStore.setMotionPosition(animationName, m.motionName, m.value);
     });

@@ -42,7 +42,7 @@ const MotionsControls = observer(({ description }) => {
           minAllowed={motion.minValue}
           name={motion.prop}
           onValueChange={(value) => {
-            if (uiConfigurationStore.getPreviewOnRobot() && value >= motion.minValue && value <= motion.maxValue) {
+            if (rosStore.getPreviewOnRobot() && value >= motion.minValue && value <= motion.maxValue) {
               rosStore.setMotionPosition(description.name, motion.name, value);
             }
           }}

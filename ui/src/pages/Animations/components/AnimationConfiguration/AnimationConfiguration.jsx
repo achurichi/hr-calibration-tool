@@ -27,7 +27,7 @@ import rootStore from '@/stores/root.store';
 import './AnimationConfiguration.scss';
 
 const AnimationConfiguration = observer(({ animationType }) => {
-  const { configurationStore, requestStore, uiStore } = rootStore;
+  const { configurationStore, requestStore, rosStore, uiStore } = rootStore;
   const { uiConfigurationStore } = uiStore;
   const { animationId } = useParams();
   const methods = useForm();
@@ -98,7 +98,7 @@ const AnimationConfiguration = observer(({ animationType }) => {
                 id: 'preview-robot',
                 label: 'Preview on the robot',
                 onChange: ({ target }) => {
-                  uiConfigurationStore.setPreviewOnRobot(target.checked);
+                  rosStore.setPreviewOnRobot(target.checked);
                   const animation = methods.getValues();
                   uiConfigurationStore.setPositionsForAnimation(animation);
                 },

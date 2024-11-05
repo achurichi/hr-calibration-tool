@@ -177,7 +177,7 @@ class RosStore {
 
   /**
    * Gets the motor position for the given motor ID.
-   * If the ID is not provided, the function returns 0.
+   * If the ID is not provided, returns 0.
    *
    * @param {number} id - The ID of the motor.
    * @returns {number} - The current motor position or 0 if no ID is provided.
@@ -201,7 +201,7 @@ class RosStore {
 
   /**
    * Gets the motor load for the given motor ID.
-   * If the ID is not provided, the function returns 0.
+   * If the ID is not provided, returns 0.
    *
    * @param {number} id - The ID of the motor.
    * @returns {number} - The current motor load or 0 if no ID is provided.
@@ -231,6 +231,24 @@ class RosStore {
    */
   setEnableTorque(id, enable) {
     // TODO: set motor torque state
+  }
+
+  /**
+   * Gets whether the preview is enabled on the robot.
+   *
+   * @returns - The current state of the preview flag (enabled or not).
+   */
+  getPreviewOnRobot() {
+    // TODO: get preview on robot
+  }
+
+  /**
+   * Sets whether the preview is enabled on the robot.
+   *
+   * @param {boolean} previewOnRobot - A flag indicating whether to enable or disable the preview.
+   */
+  setPreviewOnRobot(previewOnRobot) {
+    // TODO: set preview on robot
   }
 
   /**
