@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 import { PATHS } from '@/constants/routes';
+import { isAdmin } from '@/utils/roles';
 
 import Admin from '@/pages/Admin/Admin';
 import ExpressionConfiguration from '@/pages/Animations/Expressions/ExpressionConfiguration/ExpressionConfiguration';
@@ -73,11 +74,15 @@ const pagesData = [
           },
         ],
       },
-      {
-        path: PATHS.ADMIN,
-        element: <Admin />,
-        title: 'admin',
-      },
+      ...(isAdmin()
+        ? [
+            {
+              path: PATHS.ADMIN,
+              element: <Admin />,
+              title: 'admin',
+            },
+          ]
+        : []),
     ],
   },
 ];

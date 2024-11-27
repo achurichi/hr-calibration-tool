@@ -11,6 +11,7 @@ import ClickableIcon from '@/components/ClickableIcon/ClickableIcon';
 import Tooltip from '@/components/Tooltip/Tooltip';
 
 import { PATHS } from '@/constants/routes';
+import { isAdmin } from '@/utils/roles';
 
 import styles from './Sidebar.module.scss';
 
@@ -46,14 +47,16 @@ const Sidebar = () => {
       route: PATHS.EXPRESSIONS,
       selected: selected.expressionsCalibration,
     },
-    {
+  ];
+  if (isAdmin()) {
+    options.push({
       Icon: BsPersonCircle,
       bottom: true,
       name: 'Admin',
       route: PATHS.ADMIN,
       selected: selected.admin,
-    },
-  ];
+    });
+  }
   const topOptions = options.filter(({ bottom }) => !bottom);
   const bottomOptions = options.filter(({ bottom }) => bottom);
 
